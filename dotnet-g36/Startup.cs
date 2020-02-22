@@ -12,8 +12,6 @@ using dotnet_g36.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using dotnet_g36.Models.Domain;
-using dotnet_g36.Data.Repositories;
 
 namespace dotnet_g36
 {

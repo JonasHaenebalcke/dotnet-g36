@@ -8,8 +8,8 @@ namespace dotnet_g36
     {
         Sessie Sessie { get; set; }
 
-        System.Collections.Generic.IEnumerable<dotnet_g36.Sessie> GetAll();
-        IsessieRepository GetByID(int sessieID);
+        IEnumerable<Sessie> GetAll();
+        ISessieRepository GetByID(int sessieID);
         IEnumerable<Sessie> GetByMonth();
         void GetToekomstige();
         void SaveChanges();
