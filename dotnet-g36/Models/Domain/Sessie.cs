@@ -139,7 +139,7 @@ namespace dotnet_g36
             }
         }
 
-        public Months Months
+        public Month Months
         {
             get => default;
             set
