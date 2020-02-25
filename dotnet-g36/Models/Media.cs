@@ -4,7 +4,7 @@ using System.Text;
 
 namespace dotnet_g36
 {
-    public class Deelnemer : User
+    public class Media
     {
     }
 }

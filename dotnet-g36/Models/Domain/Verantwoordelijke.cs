@@ -10,5 +10,10 @@ namespace dotnet_g36
         {
             throw new System.NotImplementedException();
         }
+
+        public void SessieSluiten(int sessieID)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

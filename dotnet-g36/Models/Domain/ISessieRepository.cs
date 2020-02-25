@@ -6,7 +6,6 @@ namespace dotnet_g36
 {
     public interface ISessieRepository
     {
-        Sessie Sessie { get; set; }
 
         IEnumerable<Sessie> GetAll();
         ISessieRepository GetByID(int sessieID);
