@@ -4,9 +4,9 @@ using System.Text;
 
 namespace dotnet_g36
 {
-    public class User
+    public class UserSessie
     {
-        public Sessie ingeschreven
+        public Sessie Sessie
         {
             get => default;
             set
@@ -14,15 +14,7 @@ namespace dotnet_g36
             }
         }
 
-        public string Voornaam
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string Familienaam
+        public User User
         {
             get => default;
             set

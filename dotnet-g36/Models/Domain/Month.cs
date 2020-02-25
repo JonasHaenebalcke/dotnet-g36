@@ -4,7 +4,7 @@ using System.Text;
 
 namespace dotnet_g36
 {
-    public enum Months
+    public enum Month
     {
         Januari = 1,
         Februari = 2,

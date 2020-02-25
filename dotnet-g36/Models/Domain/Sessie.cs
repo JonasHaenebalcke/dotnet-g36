@@ -11,14 +11,6 @@ namespace dotnet_g36
             throw new System.NotImplementedException();
         }
 
-        public User aanwezig
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public int SessieID
         {
             get => default;
@@ -99,22 +91,6 @@ namespace dotnet_g36
             }
         }
 
-        public bool Aanwezigheid
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public List<User> Aanwezigen
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public List<User> Ingeschrevenen
         {
             get => default;
@@ -123,7 +99,7 @@ namespace dotnet_g36
             }
         }
 
-        public string Beschrijving
+        public String Beschrijving
         {
             get => default;
             set
@@ -131,7 +107,7 @@ namespace dotnet_g36
             }
         }
 
-        public List<string> Media
+        public System.Collections.Generic.List<Media> Media
         {
             get => default;
             set
@@ -155,12 +131,20 @@ namespace dotnet_g36
             }
         }
 
-        public void MeldAanwezig(int sessieID)
+        public List<User> Aanwezigen
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public bool MeldAanwezig(int sessieID)
         {
             throw new System.NotImplementedException();
         }
 
-        public void SchrijfIn(int sessieID)
+        public bool SchrijfIn(int sessieID)
         {
             throw new System.NotImplementedException();
         }
@@ -170,7 +154,7 @@ namespace dotnet_g36
             throw new System.NotImplementedException();
         }
 
-        public void SchrijfUit()
+        public bool SchrijfUit(int sessieID)
         {
             throw new System.NotImplementedException();
         }
