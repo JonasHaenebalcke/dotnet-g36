@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace dotnet_g36
 {
-    public class User
+    public class User : object
     {
-        public Sessie ingeschreven
+
+        public String Voornaam
         {
             get => default;
             set
@@ -14,7 +16,7 @@ namespace dotnet_g36
             }
         }
 
-        public string Voornaam
+        public String Familienaam
         {
             get => default;
             set
@@ -22,7 +24,31 @@ namespace dotnet_g36
             }
         }
 
-        public string Familienaam
+        public List<UserSessie> UserSessie
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public int UserID
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public String GebruikersNaam
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public String Wachtwoord
         {
             get => default;
             set
