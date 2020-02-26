@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Sessie>
+
+@{ ViewData["Title"] = "Sessiekalender"; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <!--Dropdown voor keuze van maand,
+        moet nog code bij komen zodat de knoppen werken-->
+    <select>
+        <option>-- Selecteer maand --</option>
+        <!--  Html.DropDownList("DropDownList")-->
+    </select>
+
+    <h4>Afgelopen sessie</h4>
+    <table class="table table-striped">
+        <tr>
+            <th class="text-center">Verantwoordelijke</th>
+            <th class="text-center">Titel</th>
+            <th class="text-center">Startdatum</th>
+            <th class="text-center">Startuur</th>
+            <th class="text-center">Einddatum</th>
+            <th class="text-center">Einduur</th>
+            <th class="text-center">Open plaatsen</th>
+            <th class="text-center">Aanwezige gebruikers</th>
+        </tr>
+        <!-- loop die door de lijst van sessies gaat -->
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Verantwoordelijke.GebruikersNaam</td>
+                <td>@item.Titel</td>
+                <td class="text-center">@item.StartDatum</td>
+                <td class="text-center">@item.StartUur</td>
+                <td class="text-center">@item.EindDatum</td>
+                <td class="text-center">@item.EindUur</td>
+                <td class="text-center">@item.AantalOpenPlaatsen</td>
+            </tr>
+        }
+    </table>
+
+    <h4>Geplande sessie</h4>
+    <table class="table table-striped">
+        <tr>
+            <th class="text-center">Verantwoordelijke</th>
+            <th class="text-center">Titel</th>
+            <th class="text-center">Startdatum</th>
+            <th class="text-center">Startuur</th>
+            <th class="text-center">Einddatum</th>
+            <th class="text-center">Einduur</th>
+            <th class="text-center">Open plaatsen</th>
+            <th class="text-center">Ingeschreven</th>
+        </tr>
+        <!-- loop die door de lijst van sessies gaat -->
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Hoofdverantwoordelijke.GebruikersNaam</td>
+                <td>@item.Titel</td>
+                <td class="text-center">@item.StartDatum</td>
+                <td class="text-center">@item.StartUur</td>
+                <td class="text-center">@item.EindDatum</td>
+                <td class="text-center">@item.EindUur</td>
+                <td class="text-center">@item.AantalOpenPlaatsen</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
