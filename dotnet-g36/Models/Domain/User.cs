@@ -55,5 +55,13 @@ namespace dotnet_g36
             {
             }
         }
+
+        public Models.Domain.StatusGebruiker StatusGebruiker
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

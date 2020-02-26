@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace dotnet_g36.Models.Domain
+namespace dotnet_g36
 {
     public class Feedback
     {
-        //Nodig voor db, kan eventueel later weg
-        public int FeedbackID
+        public string tekst { get; set; }
+        public DateTime timeWritten { get; set; }
+
+        public User User
         {
             get => default;
             set

@@ -1,84 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="dotnet_g36.Sessie">
-    <Position X="8.75" Y="0.5" Width="3" />
+    <Position X="7" Y="0.5" Width="3" />
+    <AssociationLine Name="aanwezig" Type="dotnet_g36.User">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="0.068" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AQAAAAABRAAKAAgAAgGCEAAgAGgAAAAEAqAAAAEQAAQ=</HashCode>
-      <FileName>Models\Domain\Sessie.cs</FileName>
+      <HashCode>AQAAAAAJRAACAEgAAgGCEAAgACgAAAAEAiAAAAEQAAU=</HashCode>
+      <FileName>Models\Sessie.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="aanwezig" />
+      <Property Name="Months" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="dotnet_g36.User">
-    <Position X="1" Y="0.5" Width="3" />
+    <Position X="1.75" Y="0.5" Width="2.5" />
+    <AssociationLine Name="ingeschreven" Type="dotnet_g36.Sessie" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="1.434" />
+        <Point X="4.875" Y="1.434" />
+        <Point X="4.875" Y="1.552" />
+        <Point X="7" Y="1.552" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.003" Y="-0.306" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAgAAgAAQAAAAAAAAgAEEAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\User.cs</FileName>
+      <HashCode>AAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ingeschreven" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="dotnet_g36.Deelnemer">
-    <Position X="0.5" Y="3.25" Width="1.75" />
+  <Class Name="dotnet_g36.Gebruiker">
+    <Position X="0.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Deelnemer.cs</FileName>
+      <FileName>Models\Gebruiker.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Hoofdverantwoordelijke">
-    <Position X="3.5" Y="3" Width="2.75" />
+    <Position X="4.5" Y="2.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Hoofdverantwoordelijke.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Hoofdverantwoordelijke.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Verantwoordelijke">
-    <Position X="1.25" Y="4.75" Width="2.75" />
+    <Position X="2.25" Y="3.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Verantwoordelijke.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="dotnet_g36.UserSessie">
-    <Position X="5.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAAAAAAAAAhAAAAAAAAAACAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\UserSessie.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="User" />
-      <Property Name="Sessie" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="dotnet_g36.Media">
-    <Position X="5.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Media.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="dotnet_g36.Pdf">
-    <Position X="4.25" Y="6.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Pdf.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="dotnet_g36.Powerpoint">
-    <Position X="6.25" Y="6.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Domain\Powerpoint.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Verantwoordelijke.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="dotnet_g36.ISessieRepository">
-    <Position X="12.75" Y="4" Width="3" />
+    <Position X="11.25" Y="3.75" Width="3" />
     <TypeIdentifier>
-      <HashCode>gAIAAAAAAABEAAAAAAAAAAAAAAEAAAAAAgAAgAAAAAA=</HashCode>
-      <FileName>Models\Domain\ISessieRepository.cs</FileName>
+      <HashCode>gAIAAAAAAABEAAAAAAAAAABAAAEAAAAAAgAAgAAAAAA=</HashCode>
+      <FileName>Models\ISessieRepository.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sessie" />
+    </ShowAsAssociation>
   </Interface>
-  <Enum Name="dotnet_g36.Month">
-    <Position X="13" Y="0.5" Width="1.5" />
+  <Enum Name="dotnet_g36.Months">
+    <Position X="11.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAQAAAAJAABAAAQAAAEAAAQAAAAAIAAAAAEAAA=</HashCode>
-      <FileName>Models\Domain\Month.cs</FileName>
+      <FileName>Models\Months.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
