@@ -89,6 +89,13 @@ namespace dotnet_g36
             // als gebruiker nog is ingeschreven dan gebruiker uitschrijven
             throw new System.NotImplementedException();
         }
+        public Feedback Feedback1
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
         public void FeedbackGeven()
         {
