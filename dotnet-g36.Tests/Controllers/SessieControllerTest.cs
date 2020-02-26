@@ -65,5 +65,11 @@ namespace dotnet_g36.Tests.Controllers
             //Assert.Equal(0, sessies.Count());
             Assert.Null(actionResult.Model);
         }
+
+        [Fact]
+        public void KiesSessieTest()
+        {
+
+        }
     }
 }
