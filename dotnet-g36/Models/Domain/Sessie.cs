@@ -115,14 +115,6 @@ namespace dotnet_g36
             }
         }
 
-        public Months Months
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public List<string> Feedback
         {
             get => default;
@@ -132,6 +124,14 @@ namespace dotnet_g36
         }
 
         public List<User> Aanwezigen
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Feedback Feedback1
         {
             get => default;
             set

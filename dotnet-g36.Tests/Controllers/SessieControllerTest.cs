@@ -6,6 +6,7 @@ using Moq;
 using dotnet_g36.Tests.Data;
 using dotnet_g36.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using dotnet_g36.Controllers;
 
 namespace dotnet_g36.Tests.Controllers
 {
@@ -13,13 +14,13 @@ namespace dotnet_g36.Tests.Controllers
     {
         private readonly SessieController _controller;
         private readonly DummyDbContext _context;
-        private readonly Mock<SessieRepository> _sessieRepo;
+        private readonly Mock<ISessieRepository> _sessieRepo;
         //private readonly SessieViewModel model;
 
         public SessieControllerTest()
         {
             _context = new DummyDbContext();
-            _sessieRepo = new Mock<SessieRepository>();
+            _sessieRepo = new Mock<ISessieRepository>();
             _controller = new SessieController(_sessieRepo.Object){
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -31,7 +32,7 @@ namespace dotnet_g36.Tests.Controllers
 
         //[Fact] //opt 1
         [Theory] //opt 2
-        [InlineData(3, null)]
+        //[InlineData(3, null)]
         [InlineData(3, Month.Februari)]
         [InlineData(2, Month.December)]
         public void SessieKalender_Maand_GeeftModelMetAlleMaandSessieDoorAanDefaultView(int aantalSessies, Month maand) //opt 2
