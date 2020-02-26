@@ -6,7 +6,7 @@ namespace dotnet_g36
 {
     public class Hoofdverantwoordelijke : User
     {
-        public List<Sessie> Sessies
+        public List<Sessie> AlleSessies
         {
             get => default;
             set

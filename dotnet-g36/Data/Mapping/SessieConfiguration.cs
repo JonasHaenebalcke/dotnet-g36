@@ -15,11 +15,11 @@ namespace dotnet_g36.Data.Mapping
 
             builder.HasKey(s => s.SessieID);
             builder.HasOne(s => s.Verantwoordelijke)
-                .WithMany(s => s.Sessies)
+                .WithMany(s => s.GeorganiseerdeSessies)
                 .IsRequired(false);
 
             builder.HasOne(s => s.Hoofdverantwoordelijke)
-                .WithMany(s => s.Sessies)
+                .WithMany(s => s.AlleSessies)
                 .IsRequired(false);
 
 

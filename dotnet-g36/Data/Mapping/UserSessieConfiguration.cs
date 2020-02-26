@@ -18,11 +18,17 @@ namespace dotnet_g36.Data.Mapping
             builder.HasOne(u => u.User)
                  .WithMany(us => us.IngeschrevenSessies)
                  .HasForeignKey(us => us.UserID);
+            builder.HasOne(u => u.User)
+                 .WithMany(us => us.AanwezigeSessies)
+                 .HasForeignKey(us => us.UserID);
 
             builder.HasOne(s => s.Sessie)
-                .WithMany(us => us.UserSessie)
+                .WithMany(us => us.Aanwezigen)
                 .HasForeignKey(us => us.SessieID);
-               
+            builder.HasOne(s => s.Sessie)
+                .WithMany(us => us.Ingeschreven)
+                .HasForeignKey(us => us.SessieID);
+
         }
     }
 }

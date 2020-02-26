@@ -8,12 +8,13 @@ namespace dotnet_g36
     public class Sessie
     {
         #region Constructors
-        public Sessie(int sessieID, string naamVerantwoordelijke, string titel, string gastspreker, string lokaal,
+        public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke, string titel, string gastspreker, string lokaal,
             DateTime startDatum, DateTime startUur, DateTime eindDatum, DateTime eindUur, int aantalOpenPlaatsen,
-            string beschrijving, Month month, List<User> ingeschrevenen = null, List<Media> media = null, List<string> feedback = null, List<User> aanwezigen = null)   
+            string beschrijving, Month month, List<UserSessie> ingeschreven = null, List<Media> media = null, List<Feedback> feedback = null, List<UserSessie> aanwezigen = null)   
         {
+            this.Verantwoordelijke = verantwoordelijke;
+            this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
             this.SessieID= sessieID;
-            this.NaamVerantwoordelijke = naamVerantwoordelijke;
             this.Titel = titel;
             this.Gastspreker = gastspreker;
             this.Lokaal = lokaal;
@@ -24,16 +25,15 @@ namespace dotnet_g36
             this.AantalOpenPlaatsen = aantalOpenPlaatsen;
             this.Beschrijving = beschrijving;
             this.Month = month;
-            this.Ingeschrevenen = ingeschrevenen;
+            this.Ingeschreven = ingeschreven;
             this.Media = media;
-            this.Feedback = feedback;
+            this.FeedbackList = feedback;
             this.Aanwezigen = aanwezigen;
         } 
         #endregion
 
         #region Properties
         public int SessieID { get; set; }
-        public string NaamVerantwoordelijke { get; set; }
         public string Titel { get; set; }
         public string Gastspreker { get; set; }
         public string Lokaal { get; set; }
@@ -42,33 +42,47 @@ namespace dotnet_g36
         public DateTime EindDatum { get; set; }
         public DateTime EindUur { get; set; }
         public int AantalOpenPlaatsen { get; set; }
-        public List<User> Ingeschrevenen { get; set; }
         public string Beschrijving { get; set; }
         public List<Media> Media { get; set; }
         public Month Month { get; set; }
-        public List<string> Feedback { get; set; }
-        public List<User> Aanwezigen { get; set; }
+        public List<Feedback> FeedbackList { get; set; }
         #endregion
 
-        public HashSet<UserSessie> UserSessies { get; set; }
-        //public HashSet<User> Users { get; set; }
+        public List<UserSessie> Aanwezigen { get; set; }
+        public List<UserSessie> Ingeschreven { get; set; }
 
-        // Gebruiker ophalen
-        User user;
+        public Hoofdverantwoordelijke Hoofdverantwoordelijke
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Verantwoordelijke Verantwoordelijke
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        //public HashSet<User> Users { get; set; }
 
         #region Methods
         public bool MeldAanwezig(int sessieID ,int userID)
         {
 
-            user = (User) UserSessies.Select(s => s.User).Where(s => s.UserID.Equals(userID));
+            //user = (User) UserSessies.Select(s => s.User).Where(s => s.UserID.Equals(userID));
 
-            // Als gebruiker is ingeschreven en niet in de lijst van aanwezigen zit, steek in lijst aanwezigen en return true;
-            if (Ingeschrevenen.Contains(user) && !(Aanwezigen.Contains(user)))
-            {
-                Aanwezigen.Add(user);
-                return true;
-            }
-            else return false;
+            //// Als gebruiker is ingeschreven en niet in de lijst van aanwezigen zit, steek in lijst aanwezigen en return true;
+            //if (Ingeschrevenen.Contains(user) && !(Aanwezigen.Contains(user)))
+            //{
+            //    Aanwezigen.Add(user);
+            //    return true;
+            //}
+            //else 
+            return false;
             //throw new System.NotImplementedException();
         }
 

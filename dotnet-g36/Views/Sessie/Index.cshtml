@@ -1,4 +1,4 @@
-﻿@model IEnumerable<dotnet_g36.Models.Domain.Sessie>
+﻿@model IEnumerable<Sessie>
 
 @{ ViewData["Title"] = "Sessiekalender"; }
 
@@ -33,14 +33,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.NaamVerantwoordelijke</td>
+                <td>@item.Verantwoordelijke.GebruikersNaam</td>
                 <td>@item.Titel</td>
                 <td class="text-center">@item.StartDatum</td>
                 <td class="text-center">@item.StartUur</td>
                 <td class="text-center">@item.EindDatum</td>
                 <td class="text-center">@item.EindUur</td>
                 <td class="text-center">@item.AantalOpenPlaatsen</td>
-                <td class="text-center">@item.Aanwezigheid</td>
             </tr>
         }
     </table>
@@ -61,14 +60,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.NaamVerantwoordelijke</td>
+                <td>@item.Hoofdverantwoordelijke.GebruikersNaam</td>
                 <td>@item.Titel</td>
                 <td class="text-center">@item.StartDatum</td>
                 <td class="text-center">@item.StartUur</td>
                 <td class="text-center">@item.EindDatum</td>
                 <td class="text-center">@item.EindUur</td>
                 <td class="text-center">@item.AantalOpenPlaatsen</td>
-                <td class="text-center">@item.Aanwezigheid</td>
             </tr>
         }
     </table>

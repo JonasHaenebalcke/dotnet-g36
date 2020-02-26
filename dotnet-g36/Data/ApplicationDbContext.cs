@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using dotnet_g36.Data.Mapping;
+using dotnet_g36.Models.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

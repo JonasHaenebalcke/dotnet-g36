@@ -6,7 +6,7 @@ namespace dotnet_g36
 {
     public class Verantwoordelijke : User
     {
-        public List<Sessie> Sessies
+        public List<Sessie> GeorganiseerdeSessies
         {
             get => default;
             set
