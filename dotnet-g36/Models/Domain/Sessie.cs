@@ -8,6 +8,7 @@ namespace dotnet_g36
     public class Sessie
     {
         #region Constructors
+        public Sessie() { }
         public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke, string titel, string gastspreker, string lokaal,
             DateTime startDatum, DateTime startUur, DateTime eindDatum, DateTime eindUur, int aantalOpenPlaatsen,
             string beschrijving, Month month, List<UserSessie> ingeschreven = null, List<Media> media = null, List<Feedback> feedback = null, List<UserSessie> aanwezigen = null)   

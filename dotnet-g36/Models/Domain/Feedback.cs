@@ -6,8 +6,9 @@ namespace dotnet_g36
 {
     public class Feedback
     {
-        public string tekst { get; set; }
-        public DateTime timeWritten { get; set; }
+        public int FeedbackID { get; set; }
+        public string Tekst { get; set; }
+        public DateTime TimeWritten { get; set; }
 
         public User User
         {
