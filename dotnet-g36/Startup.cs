@@ -12,6 +12,7 @@ using dotnet_g36.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using dotnet_g36.Data.Repositories;
 
 namespace dotnet_g36
 {
@@ -35,8 +36,9 @@ namespace dotnet_g36
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<ItLabDataInitializer>();
+            services.AddScoped<ISessieRepository, SessieRepository>();
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +67,7 @@ namespace dotnet_g36
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Sessie}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 
