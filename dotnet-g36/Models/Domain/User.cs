@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dotnet_g36.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,12 +8,17 @@ namespace dotnet_g36
 {
     public class User
     {
+        private string _familieNaam;
+        private string _voorNaam;
 
         public String Voornaam
         {
             get => default;
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("must have a name");
+                _voorNaam = value;
             }
         }
 
@@ -21,6 +27,9 @@ namespace dotnet_g36
             get => default;
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("must have a name");
+                _familieNaam = value;
             }
         }
 
@@ -56,7 +65,7 @@ namespace dotnet_g36
             }
         }
 
-        public Models.Domain.StatusGebruiker StatusGebruiker
+        public StatusGebruiker StatusGebruiker
         {
             get => default;
             set
@@ -64,12 +73,13 @@ namespace dotnet_g36
             }
         }
 
-        public System.Collections.Generic.List<dotnet_g36.UserSessie> AanwezigeSessies
+        public List<UserSessie> AanwezigeSessies
         {
             get => default;
             set
             {
             }
         }
+
     }
 }
