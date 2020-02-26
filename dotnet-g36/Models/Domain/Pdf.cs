@@ -1,10 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace dotnet_g36
+namespace dotnet_g36.Models.Domain
 {
-    public class Pdf : Media
+    public class Gebruiker
     {
+        private String _naam;
+        public String Status { get; set; }
+
+        public string Naam
+        {
+            get
+            {
+                return _naam;
+            }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("must have a name");
+                _naam = value;
+            }
+        }
+
+        public Gebruiker(String naam)
+        {
+            Naam = naam;
+        }
     }
 }
+
