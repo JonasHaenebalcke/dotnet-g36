@@ -16,11 +16,12 @@ namespace dotnet_g36.Data
             optionsBuilder.UseSqlServer(connectionString);
         }
 
-        public DbSet<Gebruiker> Gebruikers { get; set;  }
+        public DbSet<Deelnemer> Deelnemers { get; set; }
         public DbSet<Hoofdverantwoordelijke> Hoofdverantwoordelijken { get; set; }
         public DbSet<Sessie> Sessies { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Verantwoordelijke> Verantwoordelijken { get; set; }
+        public DbSet<UserSessie> UserSessies { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -31,12 +32,10 @@ namespace dotnet_g36.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new GebruikerConfiguration());
-            modelBuilder.ApplyConfiguration(new HoofdverantwoordelijkeConfiguration());
             modelBuilder.ApplyConfiguration(new SessieConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new VerantwoordelijkeConfiguration());
-            modelBuilder.Entity<Gebruiker>().HasBaseType<User>();
+            modelBuilder.ApplyConfiguration(new UserSessieConfiguration());
+            modelBuilder.Entity<Deelnemer>().HasBaseType<User>();
             modelBuilder.Entity<Hoofdverantwoordelijke>().HasBaseType<User>();
             modelBuilder.Entity<Verantwoordelijke>().HasBaseType<User>();
 

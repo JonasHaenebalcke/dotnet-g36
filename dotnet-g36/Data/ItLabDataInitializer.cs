@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dotnet_g36.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,8 @@ namespace dotnet_g36.Data
             //Als er nog geen sessie bestaan
             if (_context.Database.EnsureCreated())
             {
-               //Er is nog geen constructor
+                //is shitty niet gebruiken
+             //   Sessie sessie = new Sessie(1, new Verantwoordelijke(), new Hoofdverantwoordelijke(), "titel", "gastspreker", "lokaal", new DateTime(), new DateTime(), new DateTime(), new DateTime(), 10, new User(), "beschrijving", new Media(), Month.April, new Feedback(), new User(),)
             }
         }
     }

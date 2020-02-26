@@ -12,13 +12,14 @@ namespace dotnet_g36.Data.Mapping
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("User");
+            builder.HasKey(u => u.UserID);
 
             //Dit is voor de overevering, er hoort nu
             //een extra kolom 'type' te komen met gepaste waarde in
             builder.HasDiscriminator<String>("Type")
-                .HasValue("Gebuiker")
-                .HasValue("Verantwoordelijke")
-                .HasValue("Hoofdverantwoordelijke");
+                .HasValue<Deelnemer>("Deelnemer")
+                .HasValue<Verantwoordelijke>("Verantwoordelijke")
+                .HasValue<Hoofdverantwoordelijke>("Hoofdverantwoordelijke");
         }
     }
 }
