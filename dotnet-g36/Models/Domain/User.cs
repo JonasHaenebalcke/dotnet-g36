@@ -5,7 +5,7 @@ using System.Text;
 
 namespace dotnet_g36
 {
-    public class User : object
+    public class User
     {
 
         public String Voornaam
@@ -24,7 +24,7 @@ namespace dotnet_g36
             }
         }
 
-        public List<UserSessie> UserSessie
+        public List<UserSessie> IngeschrevenSessies
         {
             get => default;
             set
@@ -57,6 +57,14 @@ namespace dotnet_g36
         }
 
         public Models.Domain.StatusGebruiker StatusGebruiker
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public System.Collections.Generic.List<dotnet_g36.UserSessie> AanwezigeSessies
         {
             get => default;
             set

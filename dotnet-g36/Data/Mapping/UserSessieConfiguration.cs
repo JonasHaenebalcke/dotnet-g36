@@ -16,7 +16,7 @@ namespace dotnet_g36.Data.Mapping
             builder.HasKey(us => new { us.SessieID, us.UserID });
                 
             builder.HasOne(u => u.User)
-                 .WithMany(us => us.UserSessie)
+                 .WithMany(us => us.IngeschrevenSessies)
                  .HasForeignKey(us => us.UserID);
 
             builder.HasOne(s => s.Sessie)

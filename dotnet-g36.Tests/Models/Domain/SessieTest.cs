@@ -6,7 +6,7 @@ using Xunit;
 
 namespace dotnet_g36.Tests.Models.Domain
 {
-    class SessieTest
+    public class SessieTest
     {
         private User _gebruiker;
         private Sessie _sessie;
