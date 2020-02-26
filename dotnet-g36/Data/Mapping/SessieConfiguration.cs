@@ -13,13 +13,15 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("Sessie");
 
-            //Moet veranderd worden naar verantwoordelijke object
-            builder.HasOne(s => s.NaamVerantwoordelijke)
-                .WithMany(s => s.sessie);//Verantwoordelijke heeft een sessie
+            builder.HasKey(s => s.SessieID);
+            builder.HasOne(s => s.Verantwoordelijke)
+                .WithMany(s => s.Sessies)
+                .IsRequired(false);
 
-            //Een sessie kan verantwoordelijke of hoofdverantwoordelijke hebben
-            builder.HasOne(s => s.NaamVerantwoordelijke)
-                .WithMany(s => s.sessie);
+            builder.HasOne(s => s.Hoofdverantwoordelijke)
+                .WithMany(s => s.Sessies)
+                .IsRequired(false);
+
 
 
         }

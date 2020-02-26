@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace dotnet_g36.Data.Mapping
 {
-    public class GebruikerConfiguration : IEntityTypeConfiguration<Deelnemer>
+    public class MediaConfiguration : IEntityTypeConfiguration<Media>
     {
-        public void Configure(EntityTypeBuilder<Deelnemer> builder)
+        public void Configure(EntityTypeBuilder<Media> builder)
         {
-            builder.ToTable("Deelnemer");
+            builder.ToTable("Media");
+            builder.HasKey(m => m.MediaID);
         }
+
+       
     }
 }

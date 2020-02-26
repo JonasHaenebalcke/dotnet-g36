@@ -6,20 +6,10 @@ namespace dotnet_g36
 {
     public class UserSessie
     {
-        public Sessie Sessie
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int UserID { get; set; }
+        public User User { get; set; }
 
-        public User User
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int SessieID { get; set; }
+        public Sessie Sessie { get; set; }
     }
 }
