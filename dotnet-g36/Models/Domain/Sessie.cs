@@ -115,7 +115,7 @@ namespace dotnet_g36
             }
         }
 
-        public Months Months
+        public Month Months
         {
             get => default;
             set
@@ -139,12 +139,12 @@ namespace dotnet_g36
             }
         }
 
-        public bool MeldAanwezig(int sessieID)
+        public bool MeldAanwezig(int sessieID, int UserID)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool SchrijfIn(int sessieID)
+        public bool SchrijfIn(int sessieID, int UserId)
         {
             throw new System.NotImplementedException();
         }
@@ -154,7 +154,7 @@ namespace dotnet_g36
             throw new System.NotImplementedException();
         }
 
-        public bool SchrijfUit(int sessieID)
+        public bool SchrijfUit(int sessieID, int UserId)
         {
             throw new System.NotImplementedException();
         }

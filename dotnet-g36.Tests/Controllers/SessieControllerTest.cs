@@ -6,6 +6,7 @@ using Moq;
 using dotnet_g36.Tests.Data;
 using dotnet_g36.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using dotnet_g36.Controllers;
 
 namespace dotnet_g36.Tests.Controllers
 {
@@ -13,13 +14,13 @@ namespace dotnet_g36.Tests.Controllers
     {
         private readonly SessieController _controller;
         private readonly DummyDbContext _context;
-        private readonly Mock<SessieRepository> _sessieRepo;
+        private readonly Mock<ISessieRepository> _sessieRepo;
         //private readonly SessieViewModel model;
 
         public SessieControllerTest()
         {
             _context = new DummyDbContext();
-            _sessieRepo = new Mock<SessieRepository>();
+            _sessieRepo = new Mock<ISessieRepository>();
             _controller = new SessieController(_sessieRepo.Object){
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -63,6 +64,12 @@ namespace dotnet_g36.Tests.Controllers
             //var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
             //Assert.Equal(0, sessies.Count());
             Assert.Null(actionResult.Model);
+        }
+
+        [Fact]
+        public void KiesSessieTest()
+        {
+
         }
     }
 }
