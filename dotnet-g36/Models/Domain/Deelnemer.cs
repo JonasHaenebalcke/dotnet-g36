@@ -1,9 +1,8 @@
 ﻿using System;
 namespace dotnet_g36.Models.Domain
 {
-    public class Gebruiker
+    public class Gebruiker : User
     {
-        private String _naam;
         public String Status { get; set; }
 
         public string Naam
