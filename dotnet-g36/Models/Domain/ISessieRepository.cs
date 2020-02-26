@@ -12,7 +12,7 @@ namespace dotnet_g36
         IEnumerable<Sessie> GetByMonth();
         void GetToekomstige();
         void SaveChanges();
-        void Add(Sessie sessie);
-        void Delete(string sessie);
+        //void Add(Sessie sessie);
+        //void Delete(string sessie);
     }
 }

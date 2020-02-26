@@ -32,7 +32,7 @@ namespace dotnet_g36.Tests.Controllers
 
         //[Fact] //opt 1
         [Theory] //opt 2
-        [InlineData(3, null)]
+        //[InlineData(3, null)]
         [InlineData(3, Month.Februari)]
         [InlineData(2, Month.December)]
         public void SessieKalender_Maand_GeeftModelMetAlleMaandSessieDoorAanDefaultView(int aantalSessies, Month maand) //opt 2
