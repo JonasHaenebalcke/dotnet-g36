@@ -6,6 +6,9 @@ using Moq;
 using dotnet_g36.Tests.Data;
 using dotnet_g36.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using dotnet_g36.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace dotnet_g36.Tests.Controllers
 {

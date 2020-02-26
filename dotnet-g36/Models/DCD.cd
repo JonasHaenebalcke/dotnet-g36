@@ -1,51 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="dotnet_g36.Sessie">
-    <Position X="8.75" Y="0.5" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AQAAAAAJRAACAAgAAgGCEAAgACgAAAAEAiAAAAEQAAQ=</HashCode>
-      <FileName>Models\Sessie.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Months" />
-    </ShowAsAssociation>
-  </Class>
   <Class Name="dotnet_g36.User">
     <Position X="1" Y="0.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAgAAQAAAAAAAAgAEEAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\User.cs</FileName>
+      <FileName>Models\Domain\User.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Deelnemer">
     <Position X="0.5" Y="3.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Gebruiker.cs</FileName>
+      <FileName>Models\Domain\Gebruiker.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Hoofdverantwoordelijke">
     <Position X="3.5" Y="3" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Models\Hoofdverantwoordelijke.cs</FileName>
+      <FileName>Models\Domain\Hoofdverantwoordelijke.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Verantwoordelijke">
     <Position X="1.25" Y="4.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Models\Verantwoordelijke.cs</FileName>
+      <FileName>Models\Domain\Verantwoordelijke.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.UserSessie">
-    <Position X="5.5" Y="0.5" Width="1.5" />
+    <Position X="5.25" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>UserSessie.cs</FileName>
+      <FileName>Models\Domain\UserSessie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Sessie" />
       <Property Name="User" />
     </ShowAsAssociation>
   </Class>
@@ -53,35 +42,45 @@
     <Position X="5.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Media.cs</FileName>
+      <FileName>Models\Domain\Media.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Pdf">
     <Position X="4.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pdf.cs</FileName>
+      <FileName>Models\Domain\Pdf.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Powerpoint">
     <Position X="6.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ppt.cs</FileName>
+      <FileName>Models\Domain\Powerpoint.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="dotnet_g36.Sessie">
+    <Position X="8.75" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAJRAACAAgAAgGCEAAgACgAAAAEAiAAAAEQAQQ=</HashCode>
+      <FileName>Models\Domain\Sessie.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Month" />
+    </ShowAsAssociation>
   </Class>
   <Interface Name="dotnet_g36.ISessieRepository">
     <Position X="12.75" Y="4" Width="3" />
     <TypeIdentifier>
       <HashCode>gAIAAAAAAABEAAAAAAAAAAAAAAEAAAAAAgAAgAAAAAA=</HashCode>
-      <FileName>Models\ISessieRepository.cs</FileName>
+      <FileName>Models\Domain\ISessieRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="dotnet_g36.Months">
+  <Enum Name="dotnet_g36.Month">
     <Position X="13" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAQAAAAJAABAAAQAAAEAAAQAAAAAIAAAAAEAAA=</HashCode>
-      <FileName>Models\Months.cs</FileName>
+      <FileName>Models\Domain\Month.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
