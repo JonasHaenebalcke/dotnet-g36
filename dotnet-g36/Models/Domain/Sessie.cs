@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dotnet_g36.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,9 +7,28 @@ namespace dotnet_g36
 {
     public class Sessie
     {
-        public Sessie()
+
+        public Sessie() { }
+        public Sessie(int sessieID, Verantwoordelijke verantwoordelijke, Hoofdverantwoordelijke hoofdverantwoordelijke, string titel, string gastspreker, string lokaal, DateTime startDatum, DateTime eindDatum, DateTime startUur, DateTime eindUur, int aantalOpenPlaatsen, List<User> ingeschrevenen, string beschrijving, List<Media> media, Month month, List<Feedback> feedback, List<User> aanwezigen, List<UserSessie> userSessie)
         {
-            throw new System.NotImplementedException();
+            SessieID = sessieID;
+            Verantwoordelijke = verantwoordelijke;
+            Hoofdverantwoordelijke = hoofdverantwoordelijke;
+            Titel = titel;
+            Gastspreker = gastspreker;
+            Lokaal = lokaal;
+            StartDatum = startDatum;
+            EindDatum = eindDatum;
+            StartUur = startUur;
+            EindUur = eindUur;
+            AantalOpenPlaatsen = aantalOpenPlaatsen;
+            Ingeschrevenen = ingeschrevenen;
+            Beschrijving = beschrijving;
+            Media = media;
+            Month = month;
+            Feedback = feedback;
+            Aanwezigen = aanwezigen;
+            UserSessie = userSessie;
         }
 
         public int SessieID
@@ -19,7 +39,15 @@ namespace dotnet_g36
             }
         }
 
-        public string NaamVerantwoordelijke
+        public Verantwoordelijke Verantwoordelijke
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Hoofdverantwoordelijke Hoofdverantwoordelijke
         {
             get => default;
             set
@@ -91,7 +119,7 @@ namespace dotnet_g36
             }
         }
 
-        public System.Collections.Generic.List<dotnet_g36.UserSessie> Ingeschrevenen
+        public List<User> Ingeschrevenen
         {
             get => default;
             set
@@ -107,7 +135,7 @@ namespace dotnet_g36
             }
         }
 
-        public System.Collections.Generic.List<Media> Media
+        public List<Media> Media
         {
             get => default;
             set
@@ -115,7 +143,7 @@ namespace dotnet_g36
             }
         }
 
-        public System.Collections.Generic.List<dotnet_g36.UserSessie> Aanwezigen
+        public Month Month
         {
             get => default;
             set
@@ -123,7 +151,23 @@ namespace dotnet_g36
             }
         }
 
-        public Feedback Feedback
+        public List<Feedback> Feedback
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public List<User> Aanwezigen
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public List<UserSessie> UserSessie
         {
             get => default;
             set
