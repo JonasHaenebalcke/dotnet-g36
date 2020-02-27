@@ -7,18 +7,19 @@ namespace dotnet_g36
 {
     public class Hoofdverantwoordelijke : User
     {
-        public Hoofdverantwoordelijke(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker) : base(voornaam, familienaam, userID, statusGebruiker)
-        {
-        }
+        #region Properties
+        public IEnumerable<Sessie> AlleSessies { get; set; }
+        #endregion
 
-        public List<Sessie> AlleSessies
+        #region Constructors
+        public Hoofdverantwoordelijke(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
+          : base(voornaam, familienaam, userID, statusGebruiker)
         {
-            get => default;
-            set
-            {
-            }
-        }
 
+        }
+        #endregion
+
+        #region Methods
         public void SessieOpenZetten(int sessieID)
         {
             throw new System.NotImplementedException();
@@ -27,6 +28,7 @@ namespace dotnet_g36
         public void SessieSluiten(int sessieID)
         {
             throw new System.NotImplementedException();
-        }
+        } 
+        #endregion
     }
 }
