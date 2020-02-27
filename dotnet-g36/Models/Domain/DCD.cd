@@ -4,10 +4,8 @@
     <Position X="12.75" Y="4.75" Width="3" />
     <AssociationLine Name="Hoofdverantwoordelijke" Type="dotnet_g36.Hoofdverantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="12.75" Y="6.615" />
-        <Point X="10.583" Y="6.615" Type="JumpStart" />
-        <Point X="10.417" Y="6.615" Type="JumpEnd" />
-        <Point X="8.992" Y="6.615" />
+        <Point X="12.75" Y="7.062" />
+        <Point X="8.992" Y="7.062" />
         <Point X="8.992" Y="8.5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -17,8 +15,6 @@
     <AssociationLine Name="Verantwoordelijke" Type="dotnet_g36.Verantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="12.75" Y="6.284" />
-        <Point X="10.583" Y="6.284" Type="JumpStart" />
-        <Point X="10.417" Y="6.284" Type="JumpEnd" />
         <Point X="5.875" Y="6.284" />
         <Point X="5.875" Y="8.5" />
       </Path>
@@ -27,12 +23,14 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AQAAAAABQAAKAAAAAgECAAAgACgAAAAAAqAAAAEQAAQ=</HashCode>
+      <HashCode>AQAAAAABQAAKAAAAAgFCAAAgACgAAAAEAqAAAAEQAAQ=</HashCode>
       <FileName>Models\Domain\Sessie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Hoofdverantwoordelijke" />
       <Property Name="Verantwoordelijke" />
+      <Property Name="StatusSessie" />
+      <Property Name="Month" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Media" />
@@ -55,18 +53,10 @@
   </Class>
   <Class Name="dotnet_g36.Hoofdverantwoordelijke">
     <Position X="6.5" Y="8.5" Width="2.75" />
-    <AssociationLine Name="AlleSessies" Type="dotnet_g36.Sessie">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.104" Y="0.111" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAI=</HashCode>
       <FileName>Models\Domain\Hoofdverantwoordelijke.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="AlleSessies" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="dotnet_g36.Verantwoordelijke">
     <Position X="3.25" Y="8.5" Width="2.75" />
@@ -129,11 +119,12 @@
         <Point X="5.75" Y="6.137" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="Sessie" Type="dotnet_g36.Sessie" FixedFromPoint="true">
+    <AssociationLine Name="Sessie" Type="dotnet_g36.Sessie" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="10.5" Y="6.182" />
-        <Point X="10.5" Y="7.269" />
-        <Point X="12.75" Y="7.269" />
+        <Point X="10.5" Y="6.062" />
+        <Point X="10.875" Y="6.062" />
+        <Point X="10.875" Y="6.063" />
+        <Point X="12.75" Y="6.063" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -171,6 +162,13 @@
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAABAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\StatusGebruiker.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="dotnet_g36.StatusSessie">
+    <Position X="16.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>StatusSessie.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

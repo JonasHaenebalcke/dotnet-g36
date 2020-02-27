@@ -17,19 +17,21 @@ namespace dotnet_g36
         public DateTime EindDatum { get; set; }
         public int AantalOpenPlaatsen { get; set; }
         public string Beschrijving { get; set; }
-        public List<Media> Media { get; set; }
-        public List<Feedback> FeedbackList { get; set; }
-        public List<UserSessie> UserSessies { get; set; }
+        public IEnumerable<Media> Media { get; set; }
+        public IEnumerable<Feedback> FeedbackList { get; set; }
+        public IEnumerable<UserSessie> UserSessies { get; set; }
         public Hoofdverantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
+        public StatusSessie StatusSessie { get; set; }
+        public Month Month { get; set; }
         #endregion
 
         #region Constructors
         public Sessie() { }
 
         public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
-            string titel, string gastspreker, string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen,
-            string beschrijving, List<Media> media = null)   
+            string titel , string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen,
+            string beschrijving = "", string gastspreker= "")   
         {
             this.Verantwoordelijke = verantwoordelijke;
             this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
@@ -41,7 +43,8 @@ namespace dotnet_g36
             this.EindDatum = eindDatum;
             this.AantalOpenPlaatsen = aantalOpenPlaatsen;
             this.Beschrijving = beschrijving;
-            this.Media = media;
+            
+ 
         } 
         #endregion
 
