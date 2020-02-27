@@ -11,9 +11,15 @@ namespace dotnet_g36.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Sessie> builder)
         {
+            //Autogenerate ID nummer? UserSessies van kolom naam veranderen?
             builder.ToTable("Sessie");
-
             builder.HasKey(s => s.SessieID);
+            builder.Property(s => s.Lokaal).IsRequired();
+            builder.Property(s => s.StartDatum).IsRequired();
+            builder.Property(s => s.EindDatum).IsRequired();
+            builder.Property(s => s.Titel).IsRequired();
+
+
             builder.HasOne(s => s.Verantwoordelijke)
                 .WithMany(s => s.GeorganiseerdeSessies)
                 .IsRequired(false);
@@ -22,6 +28,8 @@ namespace dotnet_g36.Data.Mapping
                 .WithMany(s => s.AlleSessies)
                 .IsRequired(false);
 
+            builder.HasMany(s => s.FeedbackList)
+                .WithOne();
 
 
         }

@@ -30,11 +30,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Models\SessieViewModels\" />
-  </ItemGroup>
-
   <ItemGroup>
     <None Remove="Models\DCD.cd" />
   </ItemGroup>

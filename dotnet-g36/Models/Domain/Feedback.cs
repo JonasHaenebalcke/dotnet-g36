@@ -6,6 +6,7 @@ namespace dotnet_g36
 {
     public class Feedback
     {
+        #region properties
         public int FeedbackID { get; set; }
         public string Tekst { get; set; }
         public DateTime TimeWritten { get; set; }
@@ -17,5 +18,6 @@ namespace dotnet_g36
             {
             }
         }
+        #endregion
     }
 }

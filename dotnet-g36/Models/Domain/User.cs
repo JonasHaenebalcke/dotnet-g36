@@ -6,10 +6,20 @@ using System.Text;
 
 namespace dotnet_g36
 {
-    public class User
+    public abstract class User
     {
+        #region fields
         private string _familieNaam;
         private string _voorNaam;
+        #endregion
+
+        #region properties
+        protected User()
+        {
+            _voorNaam = "tester";
+            _familieNaam = "not yet given";
+            StatusGebruiker = StatusGebruiker.Actief;
+        }
 
         public User(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
         {
@@ -40,7 +50,7 @@ namespace dotnet_g36
             }
         }
 
-        public List<UserSessie> IngeschrevenSessies { get; set; }
+        public List<UserSessie> UserSessies { get; set; }
 
         public int UserID { get; set; }
 
@@ -49,8 +59,9 @@ namespace dotnet_g36
         public String Wachtwoord { get; set; }
 
         public StatusGebruiker StatusGebruiker { get; set; }
-
-        public List<UserSessie> AanwezigeSessies { get; set; }
+        
+        public List<Feedback> FeedbackList { get; set; }
+        #endregion  
 
     }
 }

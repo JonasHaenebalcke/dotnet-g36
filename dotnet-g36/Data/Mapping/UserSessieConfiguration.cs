@@ -15,20 +15,14 @@ namespace dotnet_g36.Data.Mapping
 
             builder.HasKey(us => new { us.SessieID, us.UserID });
                 
-      /*      builder.HasOne(u => u.User)
-                 .WithMany(us => us.IngeschrevenSessies)
-                 .HasForeignKey(us => us.UserID);*/
-            builder.HasOne(u => u.User)
-                 .WithMany(us => us.AanwezigeSessies)
-                 .HasForeignKey(us => us.UserID);
-
+    
             builder.HasOne(s => s.Sessie)
-                .WithMany(us => us.Aanwezigen)
+                .WithMany(s => s.UserSessies)
                 .HasForeignKey(us => us.SessieID);
-      /*      builder.HasOne(s => s.Sessie)
-                .WithMany(us => us.Ingeschreven)
-                .HasForeignKey(us => us.SessieID);
-*/
+
+            builder.HasOne(s => s.User)
+                .WithMany(s => s.UserSessies)
+                .HasForeignKey(us => us.UserID);
         }
     }
 }

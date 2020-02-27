@@ -7,33 +7,6 @@ namespace dotnet_g36
 {
     public class Sessie
     {
-        #region Constructors
-        public Sessie() { }
-        public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke, string titel, string gastspreker, string lokaal,
-            DateTime startDatum, DateTime startUur, DateTime eindDatum, DateTime eindUur, int aantalOpenPlaatsen,
-            string beschrijving, Month month, List<UserSessie> ingeschreven = null, List<Media> media = null, List<Feedback> feedback = null, List<UserSessie> aanwezigen = null)   
-        {
-            //Month month => afleiden uit startdatum?
-            //datum en uur? uur bevat op dit moment ook datum
-            this.Verantwoordelijke = verantwoordelijke;
-            this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
-            this.SessieID= sessieID;
-            this.Titel = titel;
-            this.Gastspreker = gastspreker;
-            this.Lokaal = lokaal;
-            this.StartDatum = startDatum;
-            this.StartUur = startUur;
-            this.EindDatum = eindDatum;
-            this.EindUur = eindUur;
-            this.AantalOpenPlaatsen = aantalOpenPlaatsen;
-            this.Beschrijving = beschrijving;
-            this.Month = month;
-            this.Ingeschreven = ingeschreven;
-            this.Media = media;
-            this.FeedbackList = feedback;
-            this.Aanwezigen = aanwezigen;
-        } 
-        #endregion
 
         #region Properties
         public int SessieID { get; set; }
@@ -41,50 +14,47 @@ namespace dotnet_g36
         public string Gastspreker { get; set; }
         public string Lokaal { get; set; }
         public DateTime StartDatum { get; set; }
-        public DateTime StartUur { get; set; }
         public DateTime EindDatum { get; set; }
-        public DateTime EindUur { get; set; }
         public int AantalOpenPlaatsen { get; set; }
         public string Beschrijving { get; set; }
-        public List<Media> Media { get; set; }
+        public IEnumerable<Media> Media { get; set; }
+        public IEnumerable<Feedback> FeedbackList { get; set; }
+        public IEnumerable<UserSessie> UserSessies { get; set; }
+        public Hoofdverantwoordelijke Hoofdverantwoordelijke { get; set; }
+        public Verantwoordelijke Verantwoordelijke { get; set; }
+        public StatusSessie StatusSessie { get; set; }
         public Month Month { get; set; }
-        public List<Feedback> FeedbackList { get; set; }
         #endregion
 
-        public List<UserSessie> Aanwezigen { get; set; }
-        public List<UserSessie> Ingeschreven { get; set; }
+        #region Constructors
+        public Sessie() { }
 
-        public Hoofdverantwoordelijke Hoofdverantwoordelijke
+        public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
+            string titel , string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen,
+            string beschrijving = "", string gastspreker= "")   
         {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Verantwoordelijke Verantwoordelijke
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        //public HashSet<User> Users { get; set; }
+            this.Verantwoordelijke = verantwoordelijke;
+            this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
+            this.SessieID = sessieID;
+            this.Titel = titel;
+            this.Gastspreker = gastspreker;
+            this.Lokaal = lokaal;
+            this.StartDatum = startDatum;
+            this.EindDatum = eindDatum;
+            this.AantalOpenPlaatsen = aantalOpenPlaatsen;
+            this.Beschrijving = beschrijving;
+            
+ 
+        } 
+        #endregion
 
         #region Methods
         public bool MeldAanwezig(int sessieID ,int userID)
         {
-
-            //user = (User) UserSessies.Select(s => s.User).Where(s => s.UserID.Equals(userID));
-
+       //     Boolean us = UserSessies.Where(s => s.UserID.Equals(userID)).FirstOrDefault().Ingeschreven();
+            
             //// Als gebruiker is ingeschreven en niet in de lijst van aanwezigen zit, steek in lijst aanwezigen en return true;
-            //if (Ingeschrevenen.Contains(user) && !(Aanwezigen.Contains(user)))
-            //{
-            //    Aanwezigen.Add(user);
-            //    return true;
-            //}
-            //else 
+            
             return false;
             //throw new System.NotImplementedException();
         }

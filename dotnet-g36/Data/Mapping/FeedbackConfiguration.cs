@@ -13,6 +13,9 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("Feedback");
             builder.HasKey(f => f.FeedbackID);
+
+            builder.HasOne(f => f.User)
+                .WithMany(u => u.FeedbackList);
         }
     }
 }
