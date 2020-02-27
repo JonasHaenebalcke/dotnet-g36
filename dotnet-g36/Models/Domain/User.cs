@@ -11,11 +11,18 @@ namespace dotnet_g36
         private string _familieNaam;
         private string _voorNaam;
 
-        public String Voornaam
+        public User(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
         {
-            get => default;
-            set
-            {
+            this.Voornaam = voornaam;
+            this.Familienaam = familienaam;
+            this.UserID = userID;
+            this.StatusGebruiker = statusGebruiker;
+        }
+
+        public String Voornaam
+        { 
+            get => default; 
+            set {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("must have a name");
                 _voorNaam = value;
@@ -33,53 +40,17 @@ namespace dotnet_g36
             }
         }
 
-        public List<UserSessie> IngeschrevenSessies
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public List<UserSessie> IngeschrevenSessies { get; set; }
 
-        public int UserID
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int UserID { get; set; }
 
-        public String GebruikersNaam
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public String GebruikersNaam { get; set; }
 
-        public String Wachtwoord
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public String Wachtwoord { get; set; }
 
-        public StatusGebruiker StatusGebruiker
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public StatusGebruiker StatusGebruiker { get; set; }
 
-        public List<UserSessie> AanwezigeSessies
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public List<UserSessie> AanwezigeSessies { get; set; }
 
     }
 }

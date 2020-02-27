@@ -13,6 +13,8 @@ namespace dotnet_g36
             DateTime startDatum, DateTime startUur, DateTime eindDatum, DateTime eindUur, int aantalOpenPlaatsen,
             string beschrijving, Month month, List<UserSessie> ingeschreven = null, List<Media> media = null, List<Feedback> feedback = null, List<UserSessie> aanwezigen = null)   
         {
+            //Month month => afleiden uit startdatum?
+            //datum en uur? uur bevat op dit moment ook datum
             this.Verantwoordelijke = verantwoordelijke;
             this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
             this.SessieID= sessieID;
