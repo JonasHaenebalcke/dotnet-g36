@@ -48,7 +48,6 @@ namespace dotnet_g36
         } 
         #endregion
 
-      
         #region Methods
         public bool MeldAanwezig(int sessieID ,int userID)
         {

@@ -18,7 +18,6 @@ namespace dotnet_g36.Tests.Controllers
         private readonly SessieController _controller;
         private readonly DummyDbContext _context;
         private readonly Mock<ISessieRepository> _sessieRepo;
-        //private readonly SessieViewModel model;
 
         public SessieControllerTest()
         {
@@ -28,54 +27,41 @@ namespace dotnet_g36.Tests.Controllers
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
-            /*model = new SessieViewModel()
-            {
-
-            };*/
-        }
-
-        [Fact] //opt 1
-        //[Theory] //opt 2
-        //[InlineData(3, null)]
-        //[InlineData(3, Month.Februari)]
-        //[InlineData(2, Month.December)]
-        //public void SessieKalender_Maand_GeeftModelMetAlleMaandSessieDoorAanDefaultView(int aantalSessies, Month maand) //opt 2
-        public void SessieKalender_HuidigeMaand_GeeftModelMetAlle3HuidigeMaandSessieDoorAanDefaultView() //opt 1
-        {
-            //var contextsessie = _context.GetByMonth(maand); //opt2
-            //_sessieRepo.Setup(s => s.GetByMonth(maand)).Returns(contextsessie); //opt 2
-            _sessieRepo.Setup(s => s.GetByMonth(Month.Februari)).Returns(_context.Februari); //opt 1
-            //var actionResult = Assert.IsType<ViewResult>(_controller.SessieKalender(Month.Februari));
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index(Month.Februari));
-
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            //Assert.Equal(aantalSessies, sessies.Count()); //opt 2
-            Assert.Equal(3, sessies.Count()); //opt 1
-        }
-
-        [Fact] //opt1
-        public void SessieKalender_veranderDecemberMaandMet2Sessies_GeeftModelMet2DecemberSessiesDoorAanDefaultView()
-        {
-            _sessieRepo.Setup(s => s.GetByMonth(Month.December)).Returns(_context.December);
-            //var actionResult = Assert.IsType<ViewResult>(_controller.SessieKalender(Month.December));
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index(Month.December));
-
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            Assert.Equal(2, sessies.Count());
-        }
-
-        [Fact] //ook in theorie ? => neen? want foutmelding?
-        public void SessieKalender_veranderJanuariMaandZonderSessies_GeeftMeldingenGeenSessiesWeer()
-        {
-            _sessieRepo.Setup(s => s.GetByMonth(Month.Januari)).Throws<GeenSessiesException>(); //Custom Exception? //(_context.huidigeMaandSessies);
-            //var actionResult = Assert.IsType<ViewResult>(_controller.SessieKalender(Month.Januari));
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index(Month.Januari));
-            //var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            //Assert.Equal(0, sessies.Count());
-            Assert.Null(actionResult.Model);
         }
 
         [Fact]
+        public void SessieKalender_HuidigeMaand_GeeftModelMetAlle3HuidigeMaandSessieDoorAanDefaultView()
+        {
+            Month maand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
+            _sessieRepo.Setup(s => s.GetByMonth(maand)).Returns(_context.HuidigeMaand);
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index());
+
+            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
+            Assert.Equal(3, sessies.Count());
+            Assert.Equal("Sessie 3D Printing", sessies.First().Titel);
+        }
+
+        [Fact]
+        public void SessieKalender_veranderDecemberMaandMet2Sessies_GeeftModelMet2DecemberSessiesDoorAanDefaultView()
+        {
+            _sessieRepo.Setup(s => s.GetByMonth(Month.December)).Returns(_context.December);
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index((int)Month.December));
+
+            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
+            Assert.Equal(2, sessies.Count());
+            Assert.Equal("Sessie 3D Printing", sessies.First().Titel);
+        }
+
+        [Fact]
+        public void SessieKalender_veranderJanuariMaandZonderSessies_GeeftMeldingenGeenSessiesWeer()
+        {
+            _sessieRepo.Setup(s => s.GetByMonth(Month.Januari)).Throws<ArgumentNullException>(); //Custom Exception? //(_context.huidigeMaandSessies);
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index((int)Month.Januari));
+            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
+            Assert.Empty(sessies);
+        }
+
+        [Fact] //geschreven door Rein, doel vd test?
         public void KiesSessieTest()
         {
 

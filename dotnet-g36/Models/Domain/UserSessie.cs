@@ -6,6 +6,7 @@ namespace dotnet_g36
 {
     public class UserSessie
     {
+        #region properties
         public int UserID { get; set; }
         public User User { get; set; }
 
@@ -27,5 +28,6 @@ namespace dotnet_g36
             {
             }
         }
+        #endregion
     }
 }

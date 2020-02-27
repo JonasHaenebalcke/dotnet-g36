@@ -10,7 +10,7 @@ namespace dotnet_g36.Tests.Data
     {
         public IEnumerable<Sessie> December;
         public IEnumerable<Sessie> Januari;
-        public IEnumerable<Sessie> Februari;
+        public IEnumerable<Sessie> HuidigeMaand;
         public Sessie SessieHoofd;
 
         public DummyDbContext()
@@ -41,36 +41,26 @@ namespace dotnet_g36.Tests.Data
             Sessie sessie1 = new Sessie(1, admin, organizer, "Sessie 3D Printing",  "B1.027",
                new DateTime(2020, 2, 24, 7, 30, 0), new DateTime(2020, 2, 24, 9, 30, 0),
                 25, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
-                //, List<User> /*INSERT USERS HERE*/, List<Media> /*INSERT MEDIA*/,
-                //List<Feedback> /*INSERT FEEDBACK HERE*/, List<UserSessie> /*INSERT AANWEZIGEN HIER*/);
                 );
 
             Sessie sessie2 = new Sessie(2, admin, organizer, "Sessie Netflix",  "BCON",
                  new DateTime(2020, 2, 27, 12, 30, 0), new DateTime(2020, 2, 3, 13, 30, 0),
                 150, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"
-                //, List<User> /*INSERT USERS HERE*/, List<Media> /*INSERT MEDIA*/,
-                //List<Feedback> /*INSERT FEEDBACK HERE*/, List<UserSessie> /*INSERT AANWEZIGEN HIER*/);
                 );
 
             Sessie sessie3 = new Sessie(3, admin, organizer, "Omgaan met frustratie problemen",  "B4.012",
                 new DateTime(2020, 2, 20, 12, 30, 0),  new DateTime(2020, 2, 20, 13, 30, 0),
                 25, "Lucas legt in deze lezing uit hoe je moet omgaan met frustratie's uit het dagelijkse leven", "Lucas Van De Haegen"
-                //, List<User> /*INSERT USERS HERE*/, List<Media> /*INSERT MEDIA*/,
-                //List<Feedback> /*INSERT FEEDBACK HERE*/, List<UserSessie> /*INSERT AANWEZIGEN HIER*/);
                 );
 
             Sessie sessie4 = new Sessie(1, admin, organizer, "Sessie 3D Printing", "B1.027",
                  new DateTime(2019, 12, 24, 7, 30, 0),  new DateTime(2019, 12, 24, 9, 30, 0),
                 25, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
-                //, List<User> /*INSERT USERS HERE*/, List<Media> /*INSERT MEDIA*/,
-                //List<Feedback> /*INSERT FEEDBACK HERE*/, List<UserSessie> /*INSERT AANWEZIGEN HIER*/);
                 );
 
             Sessie sessie5 = new Sessie(2, admin, organizer, "Sessie Netflix",  "BCON",
                  new DateTime(2019, 12, 27, 12, 30, 0),  new DateTime(2019, 12, 3, 13, 30, 0),
                 150, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"
-                //, List<User> /*INSERT USERS HERE*/, List<Media> /*INSERT MEDIA*/,
-                //List<Feedback> /*INSERT FEEDBACK HERE*/, List<UserSessie> /*INSERT AANWEZIGEN HIER*/);
                 );
 
             SessieHoofd = sessie1;
@@ -83,7 +73,7 @@ namespace dotnet_g36.Tests.Data
 
             Januari = new List<Sessie>();
 
-            Februari = new List<Sessie>
+            HuidigeMaand = new List<Sessie>
             {
                 sessie1,
                 sessie2,

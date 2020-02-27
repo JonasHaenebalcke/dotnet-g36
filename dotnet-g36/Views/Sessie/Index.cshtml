@@ -10,17 +10,24 @@
     <title>@ViewData["Title"]</title>
 </head>
 <body>
-    <!--Dropdown voor keuze van maand,
-        moet nog code bij komen zodat de knoppen werken-->
-    @*<select>*@
-    @*<option>-- Selecteer maand --</option>*@
-    <!--  Html.DropDownList("DropDownList")-->
-    @*</select>*@
-    @*<select asp-for="Month" asp-items=@(ViewData["months"] as SelectList) class="form-control">
-              <option value="0">--selecteer catering--</option>
-      </select>*@
+    <!--Dropdown voor keuze van maand-->
+    @*<form asp-controller="Sessie" asp-action="Index" method="post">
+            <label for="maandId"></label>
+            <select id="maandId" name="maandId" asp-items=@(ViewData["maanden"] as SelectList) class="form-control">
+            </select>
+        </form>*@
 
-    @Html.DropDownList("months")
+    <form>
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="maandId"></label>
+                <select id="maandId" name="maandId" asp-items="@(ViewData["maanden"] as SelectList)" class="form-control">
+                    <option value="">-- huidige maand --</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-secondary ml-1">Ingeven</button>
+        </div>
+    </form>
 
     <h4>Afgelopen sessie</h4>
     <table class="table table-striped">
@@ -41,7 +48,6 @@
                 <td>@item.Verantwoordelijke.GebruikersNaam</td>
                 <td>@item.Titel</td>
                 <td class="text-center">@item.StartDatum</td>
-                <td class="text-center">@item.EindDatum</td>
                 <td class="text-center">@item.AantalOpenPlaatsen</td>
             </tr>
         }
@@ -53,9 +59,6 @@
             <th class="text-center">Verantwoordelijke</th>
             <th class="text-center">Titel</th>
             <th class="text-center">Startdatum</th>
-            <th class="text-center">Startuur</th>
-            <th class="text-center">Einddatum</th>
-            <th class="text-center">Einduur</th>
             <th class="text-center">Open plaatsen</th>
             <th class="text-center">Ingeschreven</th>
         </tr>
@@ -66,7 +69,6 @@
                 <td>@item.Hoofdverantwoordelijke.GebruikersNaam</td>
                 <td>@item.Titel</td>
                 <td class="text-center">@item.StartDatum</td>
-                <td class="text-center">@item.EindDatum</td>
                 <td class="text-center">@item.AantalOpenPlaatsen</td>
             </tr>
         }

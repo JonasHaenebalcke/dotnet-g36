@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -14,41 +15,37 @@ namespace dotnet_g36.Controllers
         public SessieController(ISessieRepository sessieRepository)
         {
             _sessieRepository = sessieRepository;
-
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int maandId = 0) //get & post
         {
-            //IEnumerable<Sessie> sessies = _sessieRepository.GetAll();
+            try
+            {                
+                Month huidigeMaand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
+                
+                if (maandId == 0)
+                {
+                    maandId = (int)huidigeMaand;
+                }
+                ViewData["maanden"] = GetMaandSelectList(maandId);
 
-            IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth((Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString()));
+                IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth((Month) maandId);
 
-            IEnumerable<Month> values = Enum.GetValues(typeof(Month)).Cast<Month>();
+                return View(sessies);
+            } catch (ArgumentNullException e)
+            {
+                ViewData["Error"] = "Er zijn geen sessies voor de gekozen maand. Kies een andere periode.";
 
-            IEnumerable<SelectListItem> items =
-                from value in values
-                select new SelectListItem {
-                    Text = value.ToString(),
-                    Value = value.ToString(),
-                    Selected = value == (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString())
-                };
+                return View(new List<Sessie>());
+            }
 
-            ViewBag.months = items;
-            //ViewData["months"] = new SelectList(Enum.GetValues(typeof(Month)), , Enum.GetName());
-            //    ViewBag.DropDownList = EnumHelper.SelectListFor(EnumHelper);
-            return View(sessies);
         }
 
-        [HttpPost]
-        public IActionResult Index(Month month)
+        private SelectList GetMaandSelectList(int maandId = 0)
         {
-            //IEnumerable<Sessie> sessies = _sessieRepository.GetAll();
-            
-            IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(month);
-            //    ViewBag.DropDownList = EnumHelper.SelectListFor(EnumHelper);
-            return View(sessies);
+            var maanden = from Month m in Enum.GetValues(typeof(Month)) select new { ID = (int)m, Name = m.ToString() };
+            return new SelectList(maanden, "ID", "Name", maandId);
         }
-
     }
 
 }
