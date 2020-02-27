@@ -54,7 +54,7 @@ namespace dotnet_g36.Data.Repositories
 
         IEnumerable<Sessie> ISessieRepository.GetByMonth(Month month)
         {
-            return _sessies.Where(s => s.Month == month).ToList();
+            return _sessies.Where(s => (Month) Enum.Parse(typeof(Month), s.StartDatum.Month.ToString()) == month).ToList();
             //throw new NotImplementedException();
         }
     }

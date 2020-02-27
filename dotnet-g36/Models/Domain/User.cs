@@ -40,7 +40,7 @@ namespace dotnet_g36
             }
         }
 
-        public List<UserSessie> IngeschrevenSessies { get; set; }
+        public List<UserSessie> UserSessies { get; set; }
 
         public int UserID { get; set; }
 
@@ -49,8 +49,6 @@ namespace dotnet_g36
         public String Wachtwoord { get; set; }
 
         public StatusGebruiker StatusGebruiker { get; set; }
-
-        public List<UserSessie> AanwezigeSessies { get; set; }
 
     }
 }
