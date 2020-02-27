@@ -41,7 +41,7 @@
   <Class Name="dotnet_g36.User">
     <Position X="3.25" Y="4.25" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAACCgAAgAAQAAAAAAAAgAEAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAAACCgAAgAAQAAAAACAAgAEAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\User.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

@@ -50,5 +50,7 @@ namespace dotnet_g36
 
         public StatusGebruiker StatusGebruiker { get; set; }
 
+        public List<Feedback> FeedbackList { get; set; }
+
     }
 }
