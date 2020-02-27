@@ -4,8 +4,8 @@
     <Position X="12.75" Y="4.75" Width="3" />
     <AssociationLine Name="Hoofdverantwoordelijke" Type="dotnet_g36.Hoofdverantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="12.75" Y="7.604" />
-        <Point X="8.992" Y="7.604" />
+        <Point X="12.75" Y="7.057" />
+        <Point X="8.992" Y="7.057" />
         <Point X="8.992" Y="8.5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -14,8 +14,8 @@
     </AssociationLine>
     <AssociationLine Name="Verantwoordelijke" Type="dotnet_g36.Verantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="12.75" Y="7.098" />
-        <Point X="5.875" Y="7.098" />
+        <Point X="12.75" Y="6.648" />
+        <Point X="5.875" Y="6.648" />
         <Point X="5.875" Y="8.5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -53,7 +53,7 @@
     <Position X="6.5" Y="8.5" Width="2.75" />
     <AssociationLine Name="AlleSessies" Type="dotnet_g36.Sessie">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.104" Y="0.111" />
+        <Position X="0.111" Y="0.104" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -121,14 +121,14 @@
     <Position X="8" Y="4.5" Width="2.5" />
     <AssociationLine Name="User" Type="dotnet_g36.User" FixedFromPoint="true">
       <Path>
-        <Point X="8" Y="5.473" />
-        <Point X="5.75" Y="5.473" />
+        <Point X="8" Y="5.762" />
+        <Point X="5.75" Y="5.762" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="Sessie" Type="dotnet_g36.Sessie" FixedFromPoint="true">
       <Path>
-        <Point X="10.5" Y="5.5" />
-        <Point X="12.75" Y="5.5" />
+        <Point X="10.5" Y="5.797" />
+        <Point X="12.75" Y="5.797" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
