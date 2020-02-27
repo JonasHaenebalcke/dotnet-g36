@@ -12,6 +12,9 @@ namespace dotnet_g36.Data.Mapping
         public void Configure(EntityTypeBuilder<Hoofdverantwoordelijke> builder)
         {
             builder.ToTable("Hoofdverantwoordelijke");
+
+            builder.HasMany(v => v.AlleSessies)
+                .WithOne(v => v.Hoofdverantwoordelijke);
         }
     }
 }

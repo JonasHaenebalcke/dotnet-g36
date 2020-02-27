@@ -13,6 +13,7 @@ namespace dotnet_g36.Data.Mapping
         public void Configure(EntityTypeBuilder<Deelnemer> builder)
         {
             builder.ToTable("Deelnemer");
+            builder.HasKey(g => g.UserID);
         }
     }
 }
