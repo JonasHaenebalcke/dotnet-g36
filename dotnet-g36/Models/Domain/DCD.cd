@@ -4,8 +4,8 @@
     <Position X="11" Y="4.75" Width="3" />
     <AssociationLine Name="Hoofdverantwoordelijke" Type="dotnet_g36.Hoofdverantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="11" Y="8.016" />
-        <Point X="7.562" Y="8.016" />
+        <Point X="11" Y="8.164" />
+        <Point X="7.562" Y="8.164" />
         <Point X="7.562" Y="8.5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -14,8 +14,8 @@
     </AssociationLine>
     <AssociationLine Name="Verantwoordelijke" Type="dotnet_g36.Verantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="11" Y="7.437" />
-        <Point X="5.375" Y="7.437" />
+        <Point X="11" Y="7.559" />
+        <Point X="5.375" Y="7.559" />
         <Point X="5.375" Y="8.5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -54,12 +54,7 @@
   </Class>
   <Class Name="dotnet_g36.Hoofdverantwoordelijke">
     <Position X="5.75" Y="8.5" Width="2" />
-    <AssociationLine Name="AlleSessies" Type="dotnet_g36.Sessie" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="7.75" Y="9.688" />
-        <Point X="11.375" Y="9.688" />
-        <Point X="11.375" Y="9.189" />
-      </Path>
+    <AssociationLine Name="AlleSessies" Type="dotnet_g36.Sessie">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.091" Y="0.412" />
       </MemberNameLabel>
@@ -129,14 +124,14 @@
     <Position X="7.25" Y="4.5" Width="1.5" />
     <AssociationLine Name="User" Type="dotnet_g36.User" FixedFromPoint="true">
       <Path>
-        <Point X="7.25" Y="5.078" />
-        <Point X="5.25" Y="5.078" />
+        <Point X="7.25" Y="4.946" />
+        <Point X="5.25" Y="4.946" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="Sessie" Type="dotnet_g36.Sessie" FixedFromPoint="true">
       <Path>
-        <Point X="8.75" Y="5.078" />
-        <Point X="11" Y="5.078" />
+        <Point X="8.75" Y="4.946" />
+        <Point X="11" Y="4.946" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
