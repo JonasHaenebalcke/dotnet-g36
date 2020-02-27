@@ -12,10 +12,15 @@
 <body>
     <!--Dropdown voor keuze van maand,
         moet nog code bij komen zodat de knoppen werken-->
-    <select>
-        <option>-- Selecteer maand --</option>
-        <!--  Html.DropDownList("DropDownList")-->
-    </select>
+    @*<select>*@
+    @*<option>-- Selecteer maand --</option>*@
+    <!--  Html.DropDownList("DropDownList")-->
+    @*</select>*@
+    @*<select asp-for="Month" asp-items=@(ViewData["months"] as SelectList) class="form-control">
+              <option value="0">--selecteer catering--</option>
+      </select>*@
+
+    @Html.DropDownList("months")
 
     <h4>Afgelopen sessie</h4>
     <table class="table table-striped">

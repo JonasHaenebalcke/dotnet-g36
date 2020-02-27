@@ -36,10 +36,11 @@ namespace dotnet_g36.Data.Repositories
         {
             throw new NotImplementedException();
         }
-        public ISessieRepository GetByMonth()
-        {
-            throw new NotImplementedException();
-        }
+        //public List<Sessie> GetByMonth(Month month) //(Month) Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
+        //{
+        //    return _sessies.Where(s => s.Month == month).ToList();
+        //    //throw new NotImplementedException();
+        //}
 
         public void GetToekomstige()
         {
@@ -51,9 +52,10 @@ namespace dotnet_g36.Data.Repositories
             _dbContext.SaveChanges();
         }
 
-        IEnumerable<Sessie> ISessieRepository.GetByMonth()
+        IEnumerable<Sessie> ISessieRepository.GetByMonth(Month month)
         {
-            throw new NotImplementedException();
+            return _sessies.Where(s => s.Month == month).ToList();
+            //throw new NotImplementedException();
         }
     }
 

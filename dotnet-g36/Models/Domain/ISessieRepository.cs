@@ -9,7 +9,7 @@ namespace dotnet_g36
 
         IEnumerable<Sessie> GetAll();
         ISessieRepository GetByID(int sessieID);
-        IEnumerable<Sessie> GetByMonth();
+        IEnumerable<Sessie> GetByMonth(Month month);
         void GetToekomstige();
         void SaveChanges();
         //void Add(Sessie sessie);
