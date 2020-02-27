@@ -4,8 +4,8 @@
     <Position X="11" Y="4.75" Width="3" />
     <AssociationLine Name="Hoofdverantwoordelijke" Type="dotnet_g36.Hoofdverantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="11" Y="7.875" />
-        <Point X="7.562" Y="7.875" />
+        <Point X="11" Y="8.016" />
+        <Point X="7.562" Y="8.016" />
         <Point X="7.562" Y="8.5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -14,8 +14,8 @@
     </AssociationLine>
     <AssociationLine Name="Verantwoordelijke" Type="dotnet_g36.Verantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="11" Y="7.321" />
-        <Point X="5.375" Y="7.321" />
+        <Point X="11" Y="7.437" />
+        <Point X="5.375" Y="7.437" />
         <Point X="5.375" Y="8.5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -27,13 +27,13 @@
       <FileName>Models\Domain\Sessie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Month" />
       <Property Name="Hoofdverantwoordelijke" />
       <Property Name="Verantwoordelijke" />
+      <Property Name="Month" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="FeedbackList" />
       <Property Name="Media" />
+      <Property Name="FeedbackList" />
       <Property Name="Aanwezigen" />
       <Property Name="Ingeschreven" />
     </ShowAsCollectionAssociation>
@@ -48,8 +48,8 @@
       <Property Name="StatusGebruiker" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="AanwezigeSessies" />
       <Property Name="IngeschrevenSessies" />
+      <Property Name="AanwezigeSessies" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="dotnet_g36.Hoofdverantwoordelijke">
@@ -58,7 +58,7 @@
       <Path>
         <Point X="7.75" Y="9.688" />
         <Point X="11.375" Y="9.688" />
-        <Point X="11.375" Y="8.997" />
+        <Point X="11.375" Y="9.189" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.091" Y="0.412" />
@@ -74,13 +74,7 @@
   </Class>
   <Class Name="dotnet_g36.Verantwoordelijke">
     <Position X="2.75" Y="8.5" Width="2.75" />
-    <AssociationLine Name="GeorganiseerdeSessies" Type="dotnet_g36.Sessie" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5.25" Y="9.935" />
-        <Point X="5.25" Y="10.31" />
-        <Point X="11.938" Y="10.31" />
-        <Point X="11.938" Y="8.997" />
-      </Path>
+    <AssociationLine Name="GeorganiseerdeSessies" Type="dotnet_g36.Sessie">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.107" Y="1.443" />
       </MemberNameLabel>
@@ -103,7 +97,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAAAAAAABAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAAAAAAAAAgAAAAAAAAAAAQAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Feedback.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -135,14 +129,14 @@
     <Position X="7.25" Y="4.5" Width="1.5" />
     <AssociationLine Name="User" Type="dotnet_g36.User" FixedFromPoint="true">
       <Path>
-        <Point X="7.25" Y="5.25" />
-        <Point X="5.25" Y="5.25" />
+        <Point X="7.25" Y="5.078" />
+        <Point X="5.25" Y="5.078" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="Sessie" Type="dotnet_g36.Sessie" FixedFromPoint="true">
       <Path>
-        <Point X="8.75" Y="5.25" />
-        <Point X="11" Y="5.25" />
+        <Point X="8.75" Y="5.078" />
+        <Point X="11" Y="5.078" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
