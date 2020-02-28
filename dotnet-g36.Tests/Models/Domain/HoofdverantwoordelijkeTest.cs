@@ -1,4 +1,5 @@
-﻿using dotnet_g36.Tests.Data;
+﻿using dotnet_g36.Models.Domain;
+using dotnet_g36.Tests.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;

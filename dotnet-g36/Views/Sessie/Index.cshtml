@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Sessie>
+﻿@model IEnumerable<dotnet_g36.Models.Domain.Sessie>
 
 @{ ViewData["Title"] = "Sessiekalender"; }
 
@@ -10,6 +10,18 @@
     <title>@ViewData["Title"]</title>
 </head>
 <body>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-warning">@TempData["error"]</div>
+            }
+        </main>
+    </div>
     <!--Dropdown voor keuze van maand-->
     @*<form asp-controller="Sessie" asp-action="Index" method="post">
             <label for="maandId"></label>
@@ -29,36 +41,12 @@
         </div>
     </form>
 
-    <h4>Afgelopen sessie</h4>
-    <table class="table table-striped">
-        <tr>
-            <th class="text-center">Verantwoordelijke</th>
-            <th class="text-center">Titel</th>
-            <th class="text-center">Startdatum</th>
-            <th class="text-center">Startuur</th>
-            <th class="text-center">Einddatum</th>
-            <th class="text-center">Einduur</th>
-            <th class="text-center">Open plaatsen</th>
-            <th class="text-center">Aanwezige gebruikers</th>
-        </tr>
-        <!-- loop die door de lijst van sessies gaat -->
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Verantwoordelijke.GebruikersNaam</td>
-                <td>@item.Titel</td>
-                <td class="text-center">@item.StartDatum</td>
-                <td class="text-center">@item.AantalOpenPlaatsen</td>
-            </tr>
-        }
-    </table>
-
     <h4>Geplande sessie</h4>
     <table class="table table-striped">
         <tr>
-            <th class="text-center">Verantwoordelijke</th>
+            <th class="text-center">Gastspreker</th>
             <th class="text-center">Titel</th>
-            <th class="text-center">Startdatum</th>
+            <th class="text-center">Startdatum @($"&") uur</th>
             <th class="text-center">Open plaatsen</th>
             <th class="text-center">Ingeschreven</th>
         </tr>
@@ -66,12 +54,33 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Hoofdverantwoordelijke.GebruikersNaam</td>
-                <td>@item.Titel</td>
-                <td class="text-center">@item.StartDatum</td>
+                <td class="text-center">@item.Gastspreker</td>
+                <td class="text-center">@item.Titel</td>
+                <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
                 <td class="text-center">@item.AantalOpenPlaatsen</td>
+                <td class="text-center">..</td>
             </tr>
         }
     </table>
+
+    <h4>Afgelopen sessie</h4>
+    <table class="table table-striped">
+        <tr>
+            <th class="text-center">Gastspreker</th>
+            <th class="text-center">Titel</th>
+            <th class="text-center">Startdatum @($"&") uur</th>
+        </tr>
+        <!-- loop die door de lijst van sessies gaat -->
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">@item.Gastspreker</td>
+                <td class="text-center">@item.Titel</td>
+                <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString() </td>
+            </tr>
+        }
+    </table>
+
+
 </body>
 </html>
