@@ -50,17 +50,17 @@ namespace dotnet_g36
             }
         }
 
-        public List<UserSessie> UserSessies { get; set; }
+        public IEnumerable<UserSessie> UserSessies { get; set; }
 
         public int UserID { get; set; }
 
-        public String GebruikersNaam { get; set; }
+        public string GebruikersNaam { get; set; }
 
-        public String Wachtwoord { get; set; }
+        public string Wachtwoord { get; set; }
 
         public StatusGebruiker StatusGebruiker { get; set; }
         
-        public List<Feedback> FeedbackList { get; set; }
+        public IEnumerable<Feedback> FeedbackList { get; set; }
         #endregion  
 
     }
