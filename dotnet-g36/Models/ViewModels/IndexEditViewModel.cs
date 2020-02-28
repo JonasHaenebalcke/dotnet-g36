@@ -1,4 +1,5 @@
 ﻿using dotnet_g36.Data.Repositories;
+using dotnet_g36.Models.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

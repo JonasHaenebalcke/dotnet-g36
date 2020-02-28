@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_g36.Models.Domain;
+using dotnet_g36.Models.Exceptions;
 using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,12 +32,21 @@ namespace dotnet_g36.Controllers
                 ViewData["maanden"] = GetMaandSelectList(maandId);
 
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth((Month) maandId);
-
-                return View(sessies);
-            } catch (ArgumentNullException e)
+                if (sessies.Count().Equals(0))
+                {
+                    // Deze throw werkt nu niet meer voor effe
+                    throw new GeenSessiesException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
+                }
+                else
+                {
+                    TempData["message"] = "Er zijn sessies";
+                    return View(sessies);
+                }
+            } //catch (ArgumentNullException e)
+            catch(GeenSessiesException gse)
             {
-                ViewData["Error"] = "Er zijn geen sessies voor de gekozen maand. Kies een andere periode.";
-
+               // // ViewData["error"] = "Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
+                TempData["error"] = gse.Message;
                 return View(new List<Sessie>());
             }
 

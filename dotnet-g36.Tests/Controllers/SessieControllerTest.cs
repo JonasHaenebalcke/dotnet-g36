@@ -10,6 +10,7 @@ using dotnet_g36.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using dotnet_g36.Models.Exceptions;
+using dotnet_g36.Models.Domain;
 
 namespace dotnet_g36.Tests.Controllers
 {

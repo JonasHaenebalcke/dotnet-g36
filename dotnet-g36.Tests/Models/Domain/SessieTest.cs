@@ -18,7 +18,7 @@ namespace dotnet_g36.Tests.Models.Domain
             SessieTestInitilise();
         }
 
-        // beter in constructor
+        // beter in constructor van test maken
         public void SessieTestInitilise()
         {
             _gebruiker = new Deelnemer();
