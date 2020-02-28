@@ -1,36 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="dotnet_g36.Sessie">
-    <Position X="12.75" Y="4.75" Width="3" />
+    <Position X="15" Y="4.75" Width="3" />
     <AssociationLine Name="Hoofdverantwoordelijke" Type="dotnet_g36.Hoofdverantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="12.75" Y="7.062" />
-        <Point X="8.992" Y="7.062" />
-        <Point X="8.992" Y="8.5" />
+        <Point X="15" Y="6.952" />
+        <Point X="11.422" Y="6.952" />
+        <Point X="11.422" Y="9" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.742" Y="0.329" />
+        <Position X="-1.78" Y="0.063" />
       </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="Verantwoordelijke" Type="dotnet_g36.Verantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="12.75" Y="6.284" />
-        <Point X="5.875" Y="6.284" />
-        <Point X="5.875" Y="8.5" />
+        <Point X="15" Y="6.625" />
+        <Point X="7.364" Y="6.625" />
+        <Point X="7.364" Y="9" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-1.275" Y="1.248" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AQAAAAABQAAKAAAAAgFCAAAgACgAAAAEAqAAAAEQAAQ=</HashCode>
+      <HashCode>AQAAAAABQAAKAAAAAgFCAAAgACAAAAAAAqAAAAEQAAQ=</HashCode>
       <FileName>Models\Domain\Sessie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Hoofdverantwoordelijke" />
       <Property Name="Verantwoordelijke" />
       <Property Name="StatusSessie" />
-      <Property Name="Month" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Media" />
@@ -39,7 +38,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="dotnet_g36.User">
-    <Position X="3.25" Y="4.25" Width="2.5" />
+    <Position X="4" Y="4.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAACCgAAgAAQAAAAACAAgAEAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\User.cs</FileName>
@@ -52,17 +51,17 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="dotnet_g36.Hoofdverantwoordelijke">
-    <Position X="6.5" Y="8.5" Width="2.75" />
+    <Position X="8.25" Y="9" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAI=</HashCode>
       <FileName>Models\Domain\Hoofdverantwoordelijke.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Verantwoordelijke">
-    <Position X="3.25" Y="8.5" Width="2.75" />
+    <Position X="4.5" Y="9" Width="3" />
     <AssociationLine Name="GeorganiseerdeSessies" Type="dotnet_g36.Sessie">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.25" Y="0.053" />
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.163" Y="0.199" Height="0.182" Width="2.959" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -74,12 +73,12 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="dotnet_g36.Feedback">
-    <Position X="7.75" Y="2.25" Width="2.75" />
+    <Position X="9.5" Y="2.25" Width="2.75" />
     <AssociationLine Name="User" Type="dotnet_g36.User" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="7.75" Y="2.75" />
-        <Point X="4.75" Y="2.75" />
-        <Point X="4.75" Y="4.25" />
+        <Point X="9.5" Y="2.75" />
+        <Point X="5.5" Y="2.75" />
+        <Point X="5.5" Y="4.25" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -91,40 +90,38 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="dotnet_g36.Models.Domain.Pdf">
-    <Position X="10.5" Y="11.75" Width="1.5" />
+    <Position X="12.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Pdf.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Media">
-    <Position X="11.75" Y="10.25" Width="2" />
+    <Position X="13.5" Y="9.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Media.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.Powerpoint">
-    <Position X="13.25" Y="11.75" Width="1.5" />
+    <Position X="15" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Powerpoint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="dotnet_g36.UserSessie">
-    <Position X="8" Y="4.5" Width="2.5" />
+    <Position X="9.5" Y="4.5" Width="2.5" />
     <AssociationLine Name="User" Type="dotnet_g36.User" FixedFromPoint="true">
       <Path>
-        <Point X="8" Y="6.137" />
-        <Point X="5.75" Y="6.137" />
+        <Point X="9.5" Y="5.75" />
+        <Point X="6.5" Y="5.75" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="Sessie" Type="dotnet_g36.Sessie" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="Sessie" Type="dotnet_g36.Sessie" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="10.5" Y="6.062" />
-        <Point X="10.875" Y="6.062" />
-        <Point X="10.875" Y="6.063" />
-        <Point X="12.75" Y="6.063" />
+        <Point X="12" Y="5.688" />
+        <Point X="15" Y="5.688" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -137,21 +134,21 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="dotnet_g36.Models.Domain.Deelnemer">
-    <Position X="0.5" Y="8.5" Width="2" />
+    <Position X="0.5" Y="8.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Deelnemer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="dotnet_g36.ISessieRepository">
-    <Position X="16" Y="8.25" Width="3" />
+    <Position X="17.5" Y="9" Width="3" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAAgAAgAAAAAA=</HashCode>
       <FileName>Models\Domain\ISessieRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="dotnet_g36.Month">
-    <Position X="17.25" Y="4.75" Width="1.5" />
+    <Position X="19" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAQAAAAJAABAAAQAAAEAAAQAAAAAIAAAAAEAAA=</HashCode>
       <FileName>Models\Domain\Month.cs</FileName>
@@ -165,9 +162,9 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="dotnet_g36.StatusSessie">
-    <Position X="16.25" Y="2.75" Width="1.5" />
+    <Position X="18" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAQAAIAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>StatusSessie.cs</FileName>
     </TypeIdentifier>
   </Enum>

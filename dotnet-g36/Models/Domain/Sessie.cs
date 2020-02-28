@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace dotnet_g36
+namespace dotnet_g36.Models.Domain 
 {
     public class Sessie
     {
@@ -23,27 +23,27 @@ namespace dotnet_g36
         public Hoofdverantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }
-        public Month Month { get; set; }
+
         #endregion
 
         #region Constructors
         public Sessie() { }
 
         public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
-            string titel , string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen,
+            string titel , string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie =  StatusSessie.NietOpen,
             string beschrijving = "", string gastspreker= "")   
         {
+            this.SessieID = sessieID;
             this.Verantwoordelijke = verantwoordelijke;
             this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
-            this.SessieID = sessieID;
             this.Titel = titel;
-            this.Gastspreker = gastspreker;
             this.Lokaal = lokaal;
             this.StartDatum = startDatum;
             this.EindDatum = eindDatum;
             this.AantalOpenPlaatsen = aantalOpenPlaatsen;
+            this.StatusSessie = statusSessie;
             this.Beschrijving = beschrijving;
-            
+            this.Gastspreker = gastspreker;
  
         } 
         #endregion
@@ -63,11 +63,6 @@ namespace dotnet_g36
         {
             // als gebruiker nog niet is ingeschreven dan gebruiker ingeschrijven
            // if(Ingeschrevenen.Contains() )
-            throw new System.NotImplementedException();
-        }
-
-        public void OpenZetten()
-        {
             throw new System.NotImplementedException();
         }
 

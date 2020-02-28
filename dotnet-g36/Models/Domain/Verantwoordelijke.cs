@@ -8,19 +8,14 @@ namespace dotnet_g36
     public class Verantwoordelijke : User
     {
         #region constructors
-        public Verantwoordelijke(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker) : base(voornaam, familienaam, userID, statusGebruiker)
+        public Verantwoordelijke(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
+            : base(voornaam, familienaam, userID, statusGebruiker)
         {
         }
         #endregion
 
         #region properties
-        public List<Sessie> GeorganiseerdeSessies
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public IEnumerable<Sessie> GeorganiseerdeSessies { get; set; }
         #endregion
 
         #region methods
