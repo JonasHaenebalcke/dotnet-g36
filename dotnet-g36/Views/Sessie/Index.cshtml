@@ -49,17 +49,19 @@
             <th class="text-center">Startdatum @($"&") uur</th>
             <th class="text-center">Open plaatsen</th>
             <th class="text-center">Ingeschreven</th>
+            <th class="text-center">Details</th>
         </tr>
         <!-- loop die door de lijst van sessies gaat -->
         @foreach (var item in Model)
         {
-            <tr>
-                <td class="text-center">@item.Gastspreker</td>
-                <td class="text-center">@item.Titel</td>
-                <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
-                <td class="text-center">@item.AantalOpenPlaatsen</td>
-                <td class="text-center">..</td>
-            </tr>
+    <tr>
+        <td class="text-center">@item.Gastspreker</td>
+        <td class="text-center">@item.Titel</td>
+        <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
+        <td class="text-center">@item.AantalOpenPlaatsen</td>
+        <td class="text-center">..</td>
+        <td class="text-center">..</td>
+    </tr>
         }
     </table>
 
@@ -80,7 +82,6 @@
             </tr>
         }
     </table>
-
 
 </body>
 </html>

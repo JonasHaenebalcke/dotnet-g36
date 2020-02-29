@@ -7,24 +7,26 @@ namespace dotnet_g36
 {
     public class Verantwoordelijke : User
     {
-        #region constructors
-        public Verantwoordelijke(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
-            : base(voornaam, familienaam, userID, statusGebruiker)
-        {
-        }
-        #endregion
-
         #region properties
         public IEnumerable<Sessie> GeorganiseerdeSessies { get; set; }
         #endregion
 
+        #region constructors
+        public Verantwoordelijke(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
+            : base(voornaam, familienaam, userID, statusGebruiker)
+        {
+
+        }
+        #endregion
+
+        
         #region methods
-        public void SessieOpenZetten(int sessieID)
+        public bool SessieOpenZetten(int sessieID)
         {
             throw new System.NotImplementedException();
         }
 
-        public void SessieSluiten(int sessieID)
+        public bool SessieSluiten(int sessieID)
         {
             throw new System.NotImplementedException();
         }
