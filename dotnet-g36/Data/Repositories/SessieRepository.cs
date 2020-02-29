@@ -66,17 +66,29 @@ namespace dotnet_g36.Data.Repositories
 
             if (month == Month.Februari)
             {
-                return new List<Sessie>() { new Sessie(2, admin, organizer, "Sessie Netflix", "BCON",
-                new DateTime(2019, 12, 27, 12, 30, 0), new DateTime(2019, 12, 3, 13, 30, 0),
-                150, StatusSessie.NietOpen, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke")
-            };
-            }
+
+                return new List<Sessie>()
+                {
+                    new Sessie(2, admin, organizer, "Sessie Netflix", "BCON",
+                new DateTime(2019, 1, 27, 12, 30, 0), new DateTime(2019, 1, 17, 13, 30, 0),
+                150, StatusSessie.NietOpen, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"),
+                    new Sessie(2, admin, organizer, "Sessie TDD", "B4.012",
+                     new DateTime(2016, 1, 17, 12, 30, 0), new DateTime(2016, 1, 17, 13, 30, 0),
+                     150, StatusSessie.NietOpen, "Een lezing over TDD,", "Tom Tomsens") };
+                }
+        
+
             else if (month == Month.December)
             {
                 return new List<Sessie>() { new Sessie(1, admin, organizer, "Sessie 3D Printing", "B1.027",
                 new DateTime(2019, 12, 24, 7, 30, 0), new DateTime(2019, 12, 24, 9, 30, 0),
+                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock",  "Stefaan De Cock"),
+
+
+                 new Sessie(1, admin, organizer, "Sessie 3D Printing", "B1.027",
+                new DateTime(2016, 12, 24, 7, 30, 0), new DateTime(2016, 12, 24, 9, 30, 0),
                 25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock",  "Stefaan De Cock")
-                };
+               };
             }
             else
                 throw new GeenSessiesException("Er zijn geen sessies.");
