@@ -13,7 +13,7 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("Hoofdverantwoordelijke");
 
-            builder.HasMany(v => v.AlleSessies)
+            builder.HasMany(v => v.OpenTeZettenSessies)
                 .WithOne(v => v.Hoofdverantwoordelijke);
         }
     }

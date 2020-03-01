@@ -8,7 +8,7 @@ namespace dotnet_g36
     public class Hoofdverantwoordelijke : User
     {
         #region Properties
-        public IEnumerable<Sessie> AlleSessies { get; set; }
+        public IEnumerable<Sessie> OpenTeZettenSessies { get; set; }
         #endregion
 
         #region Constructors
@@ -17,7 +17,7 @@ namespace dotnet_g36
         {
             // denk niet dat dit zo moet, er gaan sessies in DB zitten
             // maar voor nu heb ik het zo gedaan.
-            AlleSessies = new List<Sessie>();
+            OpenTeZettenSessies = new List<Sessie>();
         }
         #endregion
 

@@ -11,123 +11,126 @@ namespace dotnet_g36.Tests.Models.Domain
     {
         private readonly Hoofdverantwoordelijke _hoofdverantwoordelijke;
         private readonly DummyDbContext _context;
-        private readonly Verantwoordelijke _organizer;
-
-        private readonly List<Sessie> _alleSessiesLijst;
+        private readonly List<Sessie> _alleSessiesLijst; // sessies worden toegevoegd
+        private readonly List<Sessie> _sessieLijst; // sessies worden bekeken.
+        private readonly List<Sessie> _verledenSessieLijst; // sessies worden bekeken.
 
         // constructorTest
         public HoofdverantwoordelijkeTest()
         {
-            _hoofdverantwoordelijke = new Hoofdverantwoordelijke("Sven", "Stevens", 16, StatusGebruiker.Actief);
             _context = new DummyDbContext();
             _alleSessiesLijst = new List<Sessie>();
-            _organizer = new Verantwoordelijke("Organiser", "De SubAdmin", 1, StatusGebruiker.Actief);
-
+            _sessieLijst = (List<Sessie>) _context.HuidigeMaand;
+            _verledenSessieLijst = (List<Sessie>)_context.December;
         }
+        // sessies hier instaan aanpassen
 
         // Er is toch een verschil tussen "Er zijn geen sessies" -> 0 sessies in lijst  en 
         // "er zijn geen sessies meer die je kan open zetten" -> er staan sessies in de lijst, maar geen één die je kan open zetten
         [Fact]
-        public void SessieOpenZetten_geenSessiesOmOpenTeZetten_melding()
+        public void SessieOpenzetten_geenSessiesOmOpenTeZetten_melding()
         {
-          Assert.Equal(_alleSessiesLijst, _hoofdverantwoordelijke.AlleSessies) ;
-           // Assert.Throws<ArgumentException>(() => { return "Er zijn geen sessies om open te zetten"; });
+            Assert.Empty(_hoofdverantwoordelijke.OpenTeZettenSessies);
+            Assert.Throws<ArgumentNullException>(() => { return "Er zijn geen sessies om open te zetten"; });
         }
 
-        [Fact (Skip =" ")]
-        public void SessieOpenZetten_1SessieOpenZetten_gelukt()
+        [Fact ]
+        public void SessieOpenzetten_1SessieOpenZetten_gelukt()
         {
-            //  _alleSessiesLijst.Add(_context.SessieHoofd); // Sessie toevoegen aan lijst
-            //   _context.SessieHoofd.StatusSessie = StatusSessie.Open; // Sessie openzetten
-           
-            Assert.True(_hoofdverantwoordelijke.SessieOpenZetten(_context.SessieHoofd.SessieID));
+            _alleSessiesLijst.Add(_sessieLijst.Find(s => s.SessieID.Equals(2))); // Sessie toevoegen aan lijst
+            Assert.True(_hoofdverantwoordelijke.SessieOpenZetten(_sessieLijst.Find(s => s.SessieID.Equals(2)).SessieID));
+            Assert.Equal(StatusSessie.Open, _sessieLijst.Find(s => s.SessieID.Equals(2)).StatusSessie);
+        }
+
+        [Fact]
+        public void SessieOpenzetten_DieAlOpenStaat_melding()
+        {
+            Sessie openSessie = _sessieLijst.Find(s => s.SessieID.Equals(6));
+            _alleSessiesLijst.Add(openSessie);
+            Assert.False(_hoofdverantwoordelijke.SessieOpenZetten(openSessie.SessieID));
+            Assert.Throws<ArgumentException>(() => { return "Je kan geen sessie openzetten die al open staat."; });
+        }
+
+        [Fact] 
+        public void SessieOpenzetten_dieGeslotenIs_melding()
+        {
+            Sessie geslotenSessie = _sessieLijst.Find(s => s.SessieID.Equals(3));
+            _alleSessiesLijst.Add(geslotenSessie);// sessie toevoegen aan lijst.
+            Assert.False(_hoofdverantwoordelijke.SessieOpenZetten(geslotenSessie.SessieID));
+           Assert.Throws<ArgumentException>(() => { return "Gesloten sessies kan je niet terug openzetten."; });
+        }
+
+        [Fact]
+        public void SessieOpenzetten_dieInHetVerledenLigt_melding()
+        {
+            Sessie sessieVerleden = _verledenSessieLijst.Find(s => s.SessieID.Equals(4));
+            _alleSessiesLijst.Add(sessieVerleden);
+            Assert.NotEqual(DateTime.Now.Year, sessieVerleden.StartDatum.Year);
+            Assert.False(_hoofdverantwoordelijke.SessieOpenZetten(sessieVerleden.SessieID));
+            Assert.Throws<ArgumentException>(() => { return "Sessie in het verleden kan je niet terug openzetten."; });
         }
 
 
-        //klopt nog niet volledig
-        [Fact(Skip = " ")]
-        public void SessieOpenZetten_DieAlOpenStaat_melding()
+       //[Fact]
+        [Theory]
+        [MemberData(nameof(TestCase.DatumIndex), MemberType= typeof(TestCase))]
+        // public void SessieOpenzetten_net1uurVoorStart_gelukt()  
+        public void SessieOpenzetten_MinutenVoorStart_gelukt(int i)
         {
-            Sessie sessie = new Sessie(8, _hoofdverantwoordelijke, _organizer, "Java", "B3.15", new DateTime(2020, 3, 14, 12, 30, 00), 
-                new DateTime(2020, 3, 14, 13, 30, 00), 24, StatusSessie.Open);
-            Assert.False(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
-            //Assert.Throws<ArgumentException>(() => { return "Sessie is al open."; });
-        }
-
-
-        //klopt nog niet volledig
-        [Fact (Skip = " ")] 
-        public void SessieOpenZetten_dieGeslotenIs_melding()
-        {
-            Sessie sessie = new Sessie(8, _hoofdverantwoordelijke, _organizer , "Java", "B3.15", new DateTime(2020, 3, 14, 12, 30, 00), 
-                new DateTime(2020, 3, 14, 13, 30, 00), 24, StatusSessie.Gesloten);
-            Assert.False(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
-          //  Assert.NotEqual(StatusSessie.Open, sessie.StatusSessie);
-           Assert.Throws<ArgumentException>(() => { return "Gesloten sessie kan je niet terug open zetten."; });
-        }
-
-        //klopt nog niet volledig
-        [Fact (Skip =" ")]
-        public void SessieOpenZetten_dieInHetVerledenLigt_melding()
-        {
-            Sessie sessie = new Sessie(8, _hoofdverantwoordelijke, _organizer, "Java", "B3.15", new DateTime(2016, 3, 14, 12, 30, 00), 
-                new DateTime(2016, 3, 14, 13, 30, 00), 24, StatusSessie.Gesloten);
-            Assert.NotEqual(DateTime.Now.Year, sessie.StartDatum.Year);
-            Assert.False(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
-            //  Assert.Throws<ArgumentException>(() => { return "Gesloten sessie kan je niet trg open zetten."; });
-        }
-        [Fact(Skip = " ")]
-        public void SessieOpenZetten_net1uurVoorStart_gelukt()
-        {
-            Sessie sessie = new Sessie(8, _hoofdverantwoordelijke, _organizer, "Java", "B3.15", new DateTime(2020, 3, 14, 12, 30, 00),
-                new DateTime(2020, 3, 14, 13, 30, 00), 24, StatusSessie.NietOpen);
-            DateTime openZettenUur = (new DateTime(2020, 3, 14, 11, 30, 00));
-            Assert.Equal(openZettenUur.Hour, (sessie.StartDatum.Hour - 1));
+            var a = TestCase.DataTest[i];
+            DateTime dt = (DateTime)a[0];
+            int min = (int) a[1];
+            Sessie sessie = _sessieLijst.Find(s => s.SessieID.Equals(1));
+            Assert.Equal(dt, (sessie.StartDatum.AddMinutes(- min)));
+            _alleSessiesLijst.Add(sessie); // sessie nog toevoegen aan lijst
             Assert.True(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
+            Assert.Equal(StatusSessie.Open, sessie.StatusSessie);
 
-            //sessie.StatusSessie = StatusSessie.Open;
-            //Assert.Equal(StatusSessie.Open, sessie.StatusSessie);
-
-        }
-        [Fact(Skip = " ")]
-        public void SessieOpenZetten_5minVoorStart_gelukt()
-        {
-            Sessie sessie = new Sessie(8, _hoofdverantwoordelijke, _organizer, "Java", "B3.15", new DateTime(2020, 3, 14, 12, 30, 00), 
-                new DateTime(2020, 3, 14, 13, 30, 00), 24, StatusSessie.NietOpen);
-            DateTime openZettenUur = (new DateTime(2020, 3, 14, 12, 25, 00));
-            Assert.Equal(openZettenUur.Hour, (sessie.StartDatum.Hour));
-            Assert.Equal(openZettenUur.Minute, (sessie.StartDatum.Minute - 5));
-            // sessie.StatusSessie = StatusSessie.Open;
+          /*  Sessie sessie = _sessieLijst.Find(s => s.SessieID.Equals(1));
+            DateTime openZettenUur = (new DateTime(2020, 3, 14, 6, 30, 00));
+            Assert.Equal(openZettenUur, (sessie.StartDatum.AddMinutes(-60)));
+            _alleSessiesLijst.Add(sessie); // sessie nog toevoegen aan lijst
             Assert.True(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
-           // Assert.Equal(StatusSessie.Open, sessie.StatusSessie);
-
+            Assert.Equal(StatusSessie.Open, sessie.StatusSessie);
+*/
         }
-        [Fact(Skip = " ")]
-        public void SessieOpenZetten_50minVoorStart_gelukt()
+        /*[Fact]
+        public void SessieOpenzetten_5minVoorStart_gelukt() // NOG AANPASSEN
         {
-            Sessie sessie = new Sessie(8, _hoofdverantwoordelijke, _organizer, "Java", "B3.15", new DateTime(2020, 3, 14, 12, 30, 00),
-                new DateTime(2020, 3, 14, 13, 30, 00), 24, StatusSessie.NietOpen);
-            DateTime openZettenUur = (new DateTime(2020, 3, 14, 11, 40, 00));
-            Assert.Equal(openZettenUur.Hour, (sessie.StartDatum.Hour-1));
-            Assert.Equal(openZettenUur.Minute, (sessie.StartDatum.Minute - 10));
-            sessie.StatusSessie = StatusSessie.Open;
+            Sessie sessie = _sessieLijst.Find(s => s.SessieID.Equals(1));
+            DateTime openZettenUur = (new DateTime(2020, 3, 14, 7, 25, 00));
+            Assert.Equal(openZettenUur, (sessie.StartDatum.AddMinutes(-5)));
+            _alleSessiesLijst.Add(sessie); // sessie nog toevoegen aan lijst
+            Assert.True(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
             Assert.Equal(StatusSessie.Open, sessie.StatusSessie);
 
         }
-        //klopt nog niet volledig
-        [Fact (Skip =" ")]
-        public void SessieOpenZetten_1uur10minVoorStart_melding()
+        [Fact]
+        public void SessieOpenzetten_50minVoorStart_gelukt() // NOG AANPASSEN
         {
-            Sessie sessie = new Sessie(8, _hoofdverantwoordelijke, _organizer, "Java", "B3.15", new DateTime(2020, 3, 14, 12, 30, 00), 
-                new DateTime(2020, 3, 14, 13, 30, 00), 24, StatusSessie.NietOpen);
-            DateTime openZettenUur = (new DateTime(2020, 3, 14, 11, 20, 00));
-            Assert.Equal(openZettenUur.Hour, (sessie.StartDatum.Hour - 1));
-            Assert.NotEqual(openZettenUur.Minute, (sessie.StartDatum.Minute));
+            Sessie sessie = _sessieLijst.Find(s => s.SessieID.Equals(1));
+            DateTime openZettenUur = (new DateTime(2020, 3, 14, 6, 40, 00));
+            Assert.Equal(openZettenUur, (sessie.StartDatum.AddMinutes(-50)));
+            Assert.Equal(openZettenUur, (sessie.StartDatum.AddHours(-1)));
+            _alleSessiesLijst.Add(sessie); // sessie toevoegen aan lijst
+            Assert.True(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
+            Assert.Equal(StatusSessie.Open, sessie.StatusSessie);
+
+        }*/
+
+        [Fact ]
+        public void SessieOpenzetten_1uur10minVoorStart_melding()
+        {
+            Sessie sessie = _sessieLijst.Find(s => s.SessieID.Equals(2));
+            DateTime openZettenUur = (new DateTime(2020, 3, 27, 11, 20, 00));
+            _alleSessiesLijst.Add(sessie); // toevoegen sessie
+            Assert.NotEqual(openZettenUur, (sessie.StartDatum.AddMinutes(-70)));
             Assert.False(_hoofdverantwoordelijke.SessieOpenZetten(sessie.SessieID));
-          //  Assert.Throws<ArgumentException>(() => { return "Sessie mag pas open gezet worden 1 uur voor start van sessie"; });
+           Assert.Throws<ArgumentException>(() => { return "Sessie mag pas open gezet worden 1 uur voor start van sessie"; });
 
         }
 
+       
 
     }
 }
