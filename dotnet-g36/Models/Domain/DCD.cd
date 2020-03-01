@@ -52,7 +52,7 @@
   </Class>
   <Class Name="dotnet_g36.Hoofdverantwoordelijke">
     <Position X="8.25" Y="9" Width="3.5" />
-    <AssociationLine Name="AlleSessies" Type="dotnet_g36.Models.Domain.Sessie" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="OpenTeZettenSessies" Type="dotnet_g36.Models.Domain.Sessie" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="8.844" Y="9" />
         <Point X="8.844" Y="8.125" />
@@ -60,11 +60,11 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAI=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAAEAAAAA=</HashCode>
       <FileName>Models\Domain\Hoofdverantwoordelijke.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="AlleSessies" />
+      <Property Name="OpenTeZettenSessies" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="dotnet_g36.Verantwoordelijke">

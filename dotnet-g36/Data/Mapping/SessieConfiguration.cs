@@ -26,7 +26,7 @@ namespace dotnet_g36.Data.Mapping
                 .IsRequired(false);
 
             builder.HasOne(s => s.Hoofdverantwoordelijke)
-                .WithMany(s => s.AlleSessies)
+                .WithMany(s => s.OpenTeZettenSessies)
                 .IsRequired(false);
 
             builder.HasMany(s => s.FeedbackList)
