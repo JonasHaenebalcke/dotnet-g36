@@ -81,7 +81,7 @@ namespace dotnet_g36.Data
                     );
 
                 Sessie sessie7 = new Sessie(admin, null, "Infosessie Visual Studio", "B1.012", 
-                    new DateTime(2019, 3, 15, 12, 30, 0), new DateTime(2019, 3, 15, 13, 30, 0), 150,
+                    new DateTime(2019, 2, 15, 12, 30, 0), new DateTime(2019, 3, 15, 13, 30, 0), 150,
                     StatusSessie.NietOpen, "Alle nodige info over Visual Studio voor dit semster", "Stefaan De Cock");
 
                 _context.Sessies.AddRange(new Sessie[]
