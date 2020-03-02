@@ -24,6 +24,8 @@ namespace dotnet_g36.Controllers
         {
             try
             {                
+               
+                //ViewData["aanwezigen"] = _sessieRepository.GetByID()
                 //Month huidigeMaand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
                 int huidigeMaandInt = DateTime.Now.Month;
                 
