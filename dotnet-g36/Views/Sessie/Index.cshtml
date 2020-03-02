@@ -23,21 +23,14 @@
         </main>
     </div>
     <!--Dropdown voor keuze van maand-->
-    @*<form asp-controller="Sessie" asp-action="Index" method="post">
-            <label for="maandId"></label>
-            <select id="maandId" name="maandId" asp-items=@(ViewData["maanden"] as SelectList) class="form-control">
-            </select>
-        </form>*@
 
     <form>
         <div class="form-inline">
             <div class="form-group">
                 <label for="maandId"></label>
-                <select id="maandId" name="maandId" asp-items="@(ViewData["maanden"] as SelectList)" class="form-control">
-                    <option value="">-- huidige maand --</option>
+                <select onchange= "this.form.submit()" id="maandId" name="maandId" asp-items="@(ViewData["maanden"] as SelectList)" class="form-control">
                 </select>
             </div>
-            <button type="submit" class="btn btn-secondary ml-1">Ingeven</button>
         </div>
     </form>
 
@@ -54,14 +47,14 @@
         <!-- loop die door de lijst van sessies gaat -->
         @foreach (var item in Model)
         {
-    <tr>
-        <td class="text-center">@item.Gastspreker</td>
-        <td class="text-center">@item.Titel</td>
-        <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
-        <td class="text-center">@item.AantalOpenPlaatsen</td>
-        <td class="text-center">..</td>
-        <td class="text-center">..</td>
-    </tr>
+            <tr>
+                <td class="text-center">@item.Gastspreker</td>
+                <td class="text-center">@item.Titel</td>
+                <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
+                <td class="text-center">@item.AantalOpenPlaatsen</td>
+                <td class="text-center">..</td>
+                <td class="text-center">..</td>
+            </tr>
         }
     </table>
 

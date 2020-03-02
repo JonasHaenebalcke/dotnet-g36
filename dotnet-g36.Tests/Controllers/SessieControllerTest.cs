@@ -19,9 +19,13 @@ namespace dotnet_g36.Tests.Controllers
         private readonly SessieController _controller;
         private readonly DummyDbContext _context;
         private readonly Mock<ISessieRepository> _sessieRepo;
+        //private readonly Month huidigeMaand;
+        private readonly int huidigeMaand;
 
         public SessieControllerTest()
         {
+            //huidigeMaand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
+            huidigeMaand = DateTime.Now.Month;
             _context = new DummyDbContext();
             _sessieRepo = new Mock<ISessieRepository>();
             _controller = new SessieController(_sessieRepo.Object)
@@ -33,8 +37,9 @@ namespace dotnet_g36.Tests.Controllers
         [Fact]
         public void SessieKalender_HuidigeMaand_GeeftModelMetAlle3HuidigeMaandSessieDoorAanDefaultView()
         {
-            Month maand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
-            _sessieRepo.Setup(s => s.GetByMonth(maand)).Returns(_context.HuidigeMaand);
+            //Month maand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
+            //_sessieRepo.Setup(s => s.GetByMonth(maand)).Returns(_context.HuidigeMaand);
+            _sessieRepo.Setup(s => s.GetByMonth(huidigeMaand)).Returns(_context.HuidigeMaand);
             var actionResult = Assert.IsType<ViewResult>(_controller.Index());
 
             var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
@@ -45,7 +50,8 @@ namespace dotnet_g36.Tests.Controllers
         [Fact]
         public void SessieKalender_veranderDecemberMaandMet2Sessies_GeeftModelMet2DecemberSessiesDoorAanDefaultView()
         {
-            _sessieRepo.Setup(s => s.GetByMonth(Month.December)).Returns(_context.December);
+            //_sessieRepo.Setup(s => s.GetByMonth(Month.December)).Returns(_context.December);
+            _sessieRepo.Setup(s => s.GetByMonth(12)).Returns(_context.December);
             var actionResult = Assert.IsType<ViewResult>(_controller.Index((int)Month.December));
 
             var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
@@ -56,8 +62,10 @@ namespace dotnet_g36.Tests.Controllers
         [Fact]
         public void SessieKalender_veranderJanuariMaandZonderSessies_GeeftMeldingenGeenSessiesWeer()
         {
-            _sessieRepo.Setup(s => s.GetByMonth(Month.Januari)).Throws<ArgumentNullException>(); //Custom Exception? //(_context.huidigeMaandSessies);
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index((int)Month.Januari));
+            //_sessieRepo.Setup(s => s.GetByMonth(Month.Januari)).Throws<ArgumentNullException>(); //Custom Exception? //(_context.huidigeMaandSessies);
+            _sessieRepo.Setup(s => s.GetByMonth(01)).Throws<ArgumentNullException>(); //Custom Exception? //(_context.huidigeMaandSessies);
+            //var actionResult = Assert.IsType<ViewResult>(_controller.Index((int)Month.Januari));
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index(01));
             var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
             Assert.Empty(sessies);
         }
