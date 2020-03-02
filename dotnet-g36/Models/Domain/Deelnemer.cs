@@ -8,7 +8,7 @@ namespace dotnet_g36.Models.Domain
         {
         }
 
-        public Deelnemer(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker) : base(voornaam, familienaam, userID, statusGebruiker)
+        public Deelnemer(string voornaam, string familienaam, /*int userID,*/ StatusGebruiker statusGebruiker) : base(voornaam, familienaam,/* userID,*/ statusGebruiker)
         {
         }
         #endregion

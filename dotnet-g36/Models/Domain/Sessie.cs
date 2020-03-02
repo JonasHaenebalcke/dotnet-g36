@@ -29,11 +29,10 @@ namespace dotnet_g36.Models.Domain
         #region Constructors
         public Sessie() { }
 
-        public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
+        public Sessie(Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
             string titel , string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie =  StatusSessie.NietOpen,
             string beschrijving = "", string gastspreker= "")   
         {
-            this.SessieID = sessieID;
             this.Verantwoordelijke = verantwoordelijke;
             this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
             this.Titel = titel;
