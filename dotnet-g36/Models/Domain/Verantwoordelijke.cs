@@ -12,8 +12,8 @@ namespace dotnet_g36
         #endregion
 
         #region constructors
-        public Verantwoordelijke(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
-            : base(voornaam, familienaam, userID, statusGebruiker)
+        public Verantwoordelijke(string voornaam, string familienaam, /*int userID,*/ StatusGebruiker statusGebruiker)
+            : base(voornaam, familienaam,/* userID,*/ statusGebruiker)
         {
             GeorganiseerdeSessies = new List<Sessie>();
         }

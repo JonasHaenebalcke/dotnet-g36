@@ -13,21 +13,9 @@ namespace dotnet_g36
         private string _voorNaam;
         #endregion
 
-        #region properties
-        protected User()
-        {
-            _voorNaam = "tester";
-            _familieNaam = "not yet given";
-            StatusGebruiker = StatusGebruiker.Actief;
-        }
 
-        public User(string voornaam, string familienaam, int userID, StatusGebruiker statusGebruiker)
-        {
-            this.Voornaam = voornaam;
-            this.Familienaam = familienaam;
-            this.UserID = userID;
-            this.StatusGebruiker = statusGebruiker;
-        }
+        #region properties
+
 
         public String Voornaam
         { 
@@ -61,7 +49,24 @@ namespace dotnet_g36
         public StatusGebruiker StatusGebruiker { get; set; }
         
         public IEnumerable<Feedback> FeedbackList { get; set; }
-        #endregion  
+        #endregion
 
+        #region Constructors
+        protected User()
+        {
+            _voorNaam = "tester";
+            _familieNaam = "not yet given";
+            StatusGebruiker = StatusGebruiker.Actief;
+        }
+
+
+        public User(string voornaam, string familienaam, /*int userID,*/ StatusGebruiker statusGebruiker)
+        {
+            this.Voornaam = voornaam;
+            this.Familienaam = familienaam;
+          //  this.UserID = userID;
+            this.StatusGebruiker = statusGebruiker;
+        }
+        #endregion
     }
 }
