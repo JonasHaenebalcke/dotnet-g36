@@ -59,7 +59,7 @@ namespace dotnet_g36.Data.Repositories
 
         IEnumerable<Sessie> ISessieRepository.GetByMonth(Month month)
         {
-            return _sessies.Where(s => s.StartDatum.Month == (int)month).ToList(); // throws argumentnullexception //beter?
+            return _sessies.Where(s => s.StartDatum.Month == (int)month).OrderBy(m => m.StartDatum); // throws argumentnullexception //beter?
             /*
             //return _sessies.Where(s => (Month)Enum.Parse(typeof(Month), s.StartDatum.Month.ToString()) == month).ToList(); // throws argumentnullexception //delete?
           
