@@ -59,11 +59,13 @@ namespace dotnet_g36.Data.Repositories
 
         IEnumerable<Sessie> ISessieRepository.GetByMonth(Month month)
         {
+            return _sessies.Where(s => s.StartDatum.Month == (int)month).ToList(); // throws argumentnullexception //beter?
+            /*
             //return _sessies.Where(s => (Month)Enum.Parse(typeof(Month), s.StartDatum.Month.ToString()) == month).ToList(); // throws argumentnullexception //delete?
-            //  return _sessies.Where(s => s.StartDatum.Month == (int)month).ToList(); // throws argumentnullexception //beter?
+          
             Hoofdverantwoordelijke admin = new Hoofdverantwoordelijke("Admin", "De Padwin", 0, StatusGebruiker.Actief);
             Verantwoordelijke organizer = new Verantwoordelijke("Organiser", "De SubAdmin", 1, StatusGebruiker.Actief);
-
+            
             if (month == Month.Februari)
             {
 
@@ -92,9 +94,10 @@ namespace dotnet_g36.Data.Repositories
             }
             else
                 throw new GeenSessiesException("Er zijn geen sessies.");
+        }*/
         }
-        #endregion
-    }
+            #endregion
+        }
 
-}
+    }
 
