@@ -4,8 +4,8 @@
     <Position X="15" Y="4.75" Width="3" />
     <AssociationLine Name="Hoofdverantwoordelijke" Type="dotnet_g36.Hoofdverantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="15" Y="8.5" />
-        <Point X="11.422" Y="8.5" />
+        <Point X="15" Y="7.753" />
+        <Point X="11.422" Y="7.753" />
         <Point X="11.422" Y="9" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -14,8 +14,8 @@
     </AssociationLine>
     <AssociationLine Name="Verantwoordelijke" Type="dotnet_g36.Verantwoordelijke" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="15" Y="6.536" />
-        <Point X="7.114" Y="6.536" />
+        <Point X="15" Y="6.18" />
+        <Point X="7.114" Y="6.18" />
         <Point X="7.114" Y="9" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -23,7 +23,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AQAAAAABQAAKAAAAAgFCAAAgACAAAAAAAqAAAAEQAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAKAAAAAgFCAAAAACAAAAAAAqAAAAEQAAQ=</HashCode>
       <FileName>Models\Domain\Sessie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -55,8 +55,8 @@
     <AssociationLine Name="OpenTeZettenSessies" Type="dotnet_g36.Models.Domain.Sessie" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="8.844" Y="9" />
-        <Point X="8.844" Y="8.125" />
-        <Point X="15" Y="8.125" />
+        <Point X="8.844" Y="7.453" />
+        <Point X="15" Y="7.453" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -72,10 +72,10 @@
     <AssociationLine Name="GeorganiseerdeSessies" Type="dotnet_g36.Models.Domain.Sessie" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="6.682" Y="9" />
-        <Point X="6.682" Y="7.5" />
-        <Point X="7.031" Y="7.5" Type="JumpStart" />
-        <Point X="7.197" Y="7.5" Type="JumpEnd" />
-        <Point X="15" Y="7.5" />
+        <Point X="6.682" Y="6.952" />
+        <Point X="7.031" Y="6.952" Type="JumpStart" />
+        <Point X="7.197" Y="6.952" Type="JumpEnd" />
+        <Point X="15" Y="6.952" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="0.074" Y="0.047" Height="0.182" Width="2.959" />
@@ -132,8 +132,8 @@
       <Path>
         <Point X="12" Y="5.688" />
         <Point X="13.5" Y="5.688" />
-        <Point X="13.5" Y="5.644" />
-        <Point X="15" Y="5.644" />
+        <Point X="13.5" Y="5.466" />
+        <Point X="15" Y="5.466" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -148,7 +148,7 @@
   <Class Name="dotnet_g36.Models.Domain.Deelnemer">
     <Position X="0.5" Y="8.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AQAAAAABQAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Deelnemer.cs</FileName>
     </TypeIdentifier>
   </Class>

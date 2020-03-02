@@ -12,8 +12,8 @@ namespace dotnet_g36
         #endregion
 
         #region Constructors
-        public Hoofdverantwoordelijke(string voornaam, string familienaam,/* int userID, */StatusGebruiker statusGebruiker)
-          : base(voornaam, familienaam, /*userID, */statusGebruiker)
+        public Hoofdverantwoordelijke(string voornaam, string familienaam,StatusGebruiker statusGebruiker)
+          : base(voornaam, familienaam, statusGebruiker)
         {
             // denk niet dat dit zo moet, er gaan sessies in DB zitten
             // maar voor nu heb ik het zo gedaan.
