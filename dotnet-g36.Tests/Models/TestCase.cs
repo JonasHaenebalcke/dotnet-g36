@@ -8,9 +8,9 @@ namespace dotnet_g36.Tests.Models
     {
         public static readonly List<Object[]> DataTest = new List<object[]>
         {
-            new object[]{ new DateTime(2020, 3, 14, 6, 30, 00), 60 },
-            new object[]{ new DateTime(2020, 3, 14, 7, 25, 00), 5 },
-            new object[]{new DateTime(2020, 3, 14, 6, 40, 00), 50 }
+            new object[]{ new DateTime(2020, 3, 27, 11, 30, 00), 60 },
+            new object[]{ new DateTime(2020, 3, 27, 12, 25, 00), 5 },
+            new object[]{new DateTime(2020, 3, 27, 11, 40, 00), 50 }
 
         };
         public static IEnumerable<Object[]> DatumIndex

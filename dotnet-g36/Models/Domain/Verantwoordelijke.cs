@@ -21,12 +21,12 @@ namespace dotnet_g36
 
         
         #region methods
-        public bool SessieOpenZetten(int sessieID)
+        public void SessieOpenZetten(int sessieID)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool SessieSluiten(int sessieID)
+        public void SessieSluiten(int sessieID)
         {
             throw new System.NotImplementedException();
         }

@@ -12,7 +12,10 @@ namespace dotnet_g36.Tests.Data
         public IEnumerable<Sessie> Januari;
         public IEnumerable<Sessie> HuidigeMaand;
         public Hoofdverantwoordelijke admin;
-       public  Verantwoordelijke organizer1, organizer2;
+        public  Verantwoordelijke organizer1, organizer2;
+        public Sessie verledenSessie;
+        public Sessie hedenSessie;
+
         public DummyDbContext()
         {
             // Er is maar 1 hfdverantwoordelijke
@@ -69,7 +72,8 @@ namespace dotnet_g36.Tests.Data
                  new DateTime(2020, 03, 1, 12, 30, 0), new DateTime(2019, 03, 1, 13, 30, 0),
                 150, StatusSessie.Open, " ", " "
                 );
-
+            verledenSessie = sessie4;
+            hedenSessie = sessie2;
 
             December = new List<Sessie>
             {
