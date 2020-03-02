@@ -43,6 +43,7 @@ namespace dotnet_g36.Models.Domain
             this.StatusSessie = statusSessie;
             this.Beschrijving = beschrijving;
             this.Gastspreker = gastspreker;
+            this.UserSessies = new List<UserSessie>();
  
         } 
         #endregion
