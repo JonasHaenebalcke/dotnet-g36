@@ -19,7 +19,7 @@ namespace dotnet_g36.Models.Domain
         public string Beschrijving { get; set; }
         public IEnumerable<Media> Media { get; set; }
         public IEnumerable<Feedback> FeedbackList { get; set; }
-        public IEnumerable<UserSessie> UserSessies { get; set; }
+        public ICollection<UserSessie> UserSessies { get; set; }
         public Hoofdverantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }

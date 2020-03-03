@@ -8,10 +8,7 @@ namespace dotnet_g36.Models.Exceptions
     public class GeenSessiesException : Exception
     {
         public GeenSessiesException() { }
-        public GeenSessiesException(string message):base(message) {
-         
-       
-        }
+        public GeenSessiesException(string message):base(message) { }
 
     }
 }
