@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using dotnet_g36.Models.Domain;
 
 namespace dotnet_g36
 {
@@ -11,7 +12,7 @@ namespace dotnet_g36
         public Sessie() { }
         public Sessie(int sessieID, Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke, string titel, string gastspreker, string lokaal,
             DateTime startDatum, DateTime startUur, DateTime eindDatum, DateTime eindUur, int aantalOpenPlaatsen,
-            string beschrijving, Month month, List<UserSessie> ingeschreven = null, List<Media> media = null, List<Feedback> feedback = null, List<UserSessie> aanwezigen = null)   
+            string beschrijving, Month month, List<UserSessie> ingeschreven = null, List < Media> media = null, List<Feedback> feedback = null, List<UserSessie> aanwezigen = null)   
         {
             //Month month => afleiden uit startdatum?
             //datum en uur? uur bevat op dit moment ook datum
@@ -32,6 +33,7 @@ namespace dotnet_g36
             this.Media = media;
             this.FeedbackList = feedback;
             this.Aanwezigen = aanwezigen;
+            
         } 
         #endregion
 
@@ -73,27 +75,51 @@ namespace dotnet_g36
         //public HashSet<User> Users { get; set; }
 
         #region Methods
-        public bool MeldAanwezig(int sessieID ,int userID)
+        public bool MeldAanwezig(int sessieID ,UserSessie userID)
         {
 
             //user = (User) UserSessies.Select(s => s.User).Where(s => s.UserID.Equals(userID));
 
             //// Als gebruiker is ingeschreven en niet in de lijst van aanwezigen zit, steek in lijst aanwezigen en return true;
-            //if (Ingeschrevenen.Contains(user) && !(Aanwezigen.Contains(user)))
-            //{
-            //    Aanwezigen.Add(user);
-            //    return true;
-            //}
-            //else 
+            if (Ingeschreven.Contains(userID) && !(Aanwezigen.Contains(userID)))
+            {
+                Aanwezigen.Add(userID);
+                return true;
+            }
+            else 
             return false;
-            //throw new System.NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
-        public bool SchrijfIn(int sessieID, int userID)
+        public bool SchrijfIn(int sessieID, UserSessie userSessie)
         {
             // als gebruiker nog niet is ingeschreven dan gebruiker ingeschrijven
-           // if(Ingeschrevenen.Contains() )
-            throw new System.NotImplementedException();
+            if (!Ingeschreven.Contains(userSessie) && userSessie.User.StatusGebruiker.Equals(StatusGebruiker.Actief))
+            {
+                Ingeschreven.Add(userSessie);
+                return true;
+            }
+            else
+            {
+                return false;
+                throw new System.ArgumentException();
+            }
+            /*Boolean succes = true;
+            Ingeschreven.ForEach(UserSessie =>
+            {
+                if (UserSessie.UserID.Equals(userID))
+                {
+                    succes = false;
+                    throw new System.ArgumentException();
+                    
+                }
+            });
+            if (succes)
+            {
+                Ingeschreven.Add();
+            }
+            */
+            
         }
 
         public void OpenZetten()
@@ -101,10 +127,21 @@ namespace dotnet_g36
             throw new System.NotImplementedException();
         }
 
-        public bool SchrijfUit(int sessieID, int userID)
+        public bool SchrijfUit(int sessieID, UserSessie userSessie)
         {
             // als gebruiker nog is ingeschreven dan gebruiker uitschrijven
-            throw new System.NotImplementedException();
+
+            Boolean succes = true;
+            if (Ingeschreven.Contains(userSessie))
+            {
+                Ingeschreven.Remove(userSessie);
+            }
+            else
+            {
+                succes = false;
+                throw new System.ArgumentException();
+            }
+            return succes;
         }
 
         public void FeedbackGeven()
