@@ -38,7 +38,7 @@ namespace dotnet_g36
             }
         }
 
-        public IEnumerable<UserSessie> UserSessies { get; set; }
+        public ICollection<UserSessie> UserSessies { get; set; }
 
         public int UserID { get; set; }
 
@@ -62,6 +62,13 @@ namespace dotnet_g36
             this.StatusGebruiker = statusGebruiker;
             this.FeedbackList = new List<Feedback>();
             this.UserSessies = new List<UserSessie>();
+        }
+        #endregion
+        #region
+        public void FeedbackGeven()
+        {
+            // kan alleen als ingeschreven en aanwezig was
+            throw new System.NotImplementedException();
         }
         #endregion
     }
