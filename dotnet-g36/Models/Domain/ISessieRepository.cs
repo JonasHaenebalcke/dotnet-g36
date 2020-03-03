@@ -9,7 +9,7 @@ namespace dotnet_g36.Models.Domain
 
         IEnumerable<Sessie> GetAll();
         //ISessieRepository GetByID(int sessieID); //delete?
-        IEnumerable<Sessie> GetByID(int sessieID);
+        Sessie GetByID(int sessieID);
         //IEnumerable<Sessie> GetByMonth(Month month);
         IEnumerable<Sessie> GetByMonth(int month);
         IEnumerable<Sessie> GetToekomstige();

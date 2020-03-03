@@ -56,6 +56,16 @@ namespace dotnet_g36.Controllers
             }
 
         }
+
+        
+
+        public IActionResult Detail(int id)
+        {
+            Sessie sessie = _sessieRepository.GetByID(id);
+            return View(new SessieDetailsViewModel(sessie));
+
+        }
+
         /// <summary>
         /// retourneert selectlist van alle sessies in de opgegeven maand
         /// </summary>
@@ -68,5 +78,7 @@ namespace dotnet_g36.Controllers
             return result;
         }
     }
+
+    
 
 }

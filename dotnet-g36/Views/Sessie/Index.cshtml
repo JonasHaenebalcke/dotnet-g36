@@ -67,7 +67,9 @@
         }
         }*@
         <!-- Hier moet een link komen naar de details van de sessie -->
-        <td class="text-center">..</td>
+    <td>
+        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
+    </td>
     </tr>
                 }
         }
@@ -93,7 +95,9 @@
         <!-- Hier moet komen of gebruiker aanwezig was -->
         <td class="text-center">-</td>
         <!-- Hier moet een link komen naar de details van de sessie -->
-        <td class="text-center">..</td>
+        <td class="text-center">
+            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
+        </td>
     </tr>
             }
     }
