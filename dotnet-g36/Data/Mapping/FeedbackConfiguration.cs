@@ -16,7 +16,8 @@ namespace dotnet_g36.Data.Mapping
             builder.HasKey(f => f.FeedbackID);
 
             builder.HasOne(f => f.User)
-                .WithMany(u => u.FeedbackList);
+                .WithMany(u => u.FeedbackList)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
