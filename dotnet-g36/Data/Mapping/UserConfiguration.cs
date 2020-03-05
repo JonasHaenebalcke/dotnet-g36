@@ -19,8 +19,7 @@ namespace dotnet_g36.Data.Mapping
             //een extra kolom 'type' te komen met gepaste waarde in
             builder.HasDiscriminator<String>("Type")
                 .HasValue<Deelnemer>("Deelnemer")
-                .HasValue<Verantwoordelijke>("Verantwoordelijke")
-                .HasValue<Hoofdverantwoordelijke>("Hoofdverantwoordelijke");
+                .HasValue<Verantwoordelijke>("Verantwoordelijke");
         }
     }
 }

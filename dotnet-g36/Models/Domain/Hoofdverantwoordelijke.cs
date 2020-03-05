@@ -1,8 +1,5 @@
-﻿using System;
+﻿using dotnet_g36.Models.Domain;
 using System.Collections.Generic;
-using System.Text;
-using dotnet_g36.Models.Domain;
-using dotnet_g36.Models.Exceptions;
 
 namespace dotnet_g36
 {
@@ -12,7 +9,8 @@ namespace dotnet_g36
         #endregion
 
         #region Constructors
-        public Hoofdverantwoordelijke(string voornaam, string familienaam,StatusGebruiker statusGebruiker, List<Sessie> sessies)
+        public Hoofdverantwoordelijke() : base() { }
+        public Hoofdverantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker, List<Sessie> sessies)
           : base(voornaam, familienaam, statusGebruiker, sessies)
         {
         }

@@ -37,7 +37,7 @@ namespace dotnet_g36.Data
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserSessieConfiguration());
             modelBuilder.Entity<Deelnemer>().HasBaseType<User>();
-            modelBuilder.Entity<Hoofdverantwoordelijke>().HasBaseType<User>();
+            modelBuilder.Entity<Hoofdverantwoordelijke>().HasBaseType<Verantwoordelijke>();
             modelBuilder.Entity<Verantwoordelijke>().HasBaseType<User>();
 
 

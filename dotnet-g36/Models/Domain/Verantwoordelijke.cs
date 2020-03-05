@@ -13,6 +13,7 @@ namespace dotnet_g36
         #endregion
 
         #region constructors
+        public Verantwoordelijke() : base() { }
         public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker, List<Sessie> sessies)
             : base(voornaam, familienaam, statusGebruiker)
         {
