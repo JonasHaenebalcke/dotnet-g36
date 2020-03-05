@@ -47,8 +47,6 @@ namespace dotnet_g36
         public string Wachtwoord { get; set; }
 
         public StatusGebruiker StatusGebruiker { get; set; }
-        
-        public IEnumerable<Feedback> FeedbackList { get; set; }
         #endregion
 
         #region Constructors
