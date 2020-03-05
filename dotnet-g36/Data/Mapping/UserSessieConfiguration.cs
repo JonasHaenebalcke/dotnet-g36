@@ -19,11 +19,13 @@ namespace dotnet_g36.Data.Mapping
     
             builder.HasOne(s => s.Sessie)
                 .WithMany(s => s.UserSessies)
-                .HasForeignKey(us => us.SessieID);
+                .HasForeignKey(us => us.SessieID)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(s => s.User)
                 .WithMany(s => s.UserSessies)
-                .HasForeignKey(us => us.UserID);
+                .HasForeignKey(us => us.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

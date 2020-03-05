@@ -14,7 +14,8 @@ namespace dotnet_g36.Data.Mapping
             builder.ToTable("Hoofdverantwoordelijke");
 
             builder.HasMany(v => v.OpenTeZettenSessies)
-                .WithOne(v => v.Hoofdverantwoordelijke);
+                .WithOne(v => v.Hoofdverantwoordelijke)
+              .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
