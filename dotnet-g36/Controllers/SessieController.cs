@@ -58,13 +58,79 @@ namespace dotnet_g36.Controllers
         }
 
         
-
+        /// <summary>
+        /// Geeft de details van een sessie weer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>View naar nieuwe pagina</returns>
         public IActionResult Detail(int id)
         {
             Sessie sessie = _sessieRepository.GetByID(id);
-            return View(new SessieDetailsViewModel(sessie));
 
+            if (sessie.Media != null)
+            {
+                ViewData["hasMedia"] = true;
+            }
+            else
+            {
+                ViewData["hasMedia"] = false;
+            }
+
+            if (sessie.FeedbackList != null)
+            {
+                ViewData["hasFeedback"] = true;
+            }
+            else
+            {
+                ViewData["hasFeedback"] = false;
+            }
+
+            //if(user is ingeschreven) {
+           // ViewData["isIngeschreven"] = true;
+            //}else {
+            ViewData["isIngeschreven"] = false; 
+
+            return View(new SessieDetailsViewModel(sessie));
         }
+
+
+
+        /// <summary>
+        /// De post van Detail Action als de gebruiker zich inschrijft
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sessieDetailsViewModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult DetailInschrijvenUitschrijven(int id, SessieDetailsViewModel sessieDetailsViewModel)
+        {
+            Sessie sessie = _sessieRepository.GetByID(id);
+
+
+            //UserID opvragen
+            //Als user ingeschreven is, schrijf user uit
+            //anders schrijf user in
+            _sessieRepository.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        /// <summary>
+        /// De post van Detail Action als de gebruiker feedback geeft
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sessieDetailsViewModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult DetailFeedbackGeven(int id, SessieDetailsViewModel sessieDetailsViewModel)
+        {
+            Sessie sessie = _sessieRepository.GetByID(id);
+            
+
+           // _sessieRepository.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
 
         /// <summary>
         /// retourneert selectlist van alle sessies in de opgegeven maand
