@@ -1,7 +1,9 @@
 ﻿using dotnet_g36.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace dotnet_g36.Data
@@ -9,10 +11,12 @@ namespace dotnet_g36.Data
     public class ItLabDataInitializer
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ItLabDataInitializer(ApplicationDbContext context)
+        public ItLabDataInitializer(ApplicationDbContext context,UserManager<IdentityUser> userManager )
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public void initializeData() {
@@ -64,21 +68,21 @@ namespace dotnet_g36.Data
                 // Dec
                 Sessie sessie4 = new Sessie(admin, organizer2, "Sessie over slechte Java", "B4.015",
                      new DateTime(2019, 12, 24, 7, 30, 0), new DateTime(2019, 12, 24, 9, 30, 0),
-                    25, StatusSessie.NietOpen, "Een sessie over wat slechte Java is",  " "
+                    25, StatusSessie.NietOpen, "Een sessie over wat slechte Java is", " "
                     );
                 //Dec
                 Sessie sessie5 = new Sessie(admin, organizer1, "Sessie Java", "BCON",
                      new DateTime(2019, 12, 27, 12, 30, 0), new DateTime(2019, 12, 27, 13, 30, 0),
-                    150, StatusSessie.Gesloten, "Een lezing over Java" , "Ruben Ruby"
+                    150, StatusSessie.Gesloten, "Een lezing over Java", "Ruben Ruby"
                     );
                 // Jan
                 Sessie sessie6 = new Sessie(admin, organizer1, "Sessie DotNet", "BCON",
                      new DateTime(2020, 3, 1, 12, 30, 0), new DateTime(2019, 03, 1, 13, 30, 0),
                     150, StatusSessie.Open, " ", " "
                     );
-              
+
                 // Feb
-                Sessie sessie7 = new Sessie(admin, null, "Infosessie Visual Studio", "B1.012", 
+                Sessie sessie7 = new Sessie(admin, null, "Infosessie Visual Studio", "B1.012",
                     new DateTime(2019, 2, 12, 12, 30, 0), new DateTime(2019, 3, 12, 13, 30, 0), 150,
                     StatusSessie.NietOpen, "Alle nodige info over Visual Studio voor dit semster", "Stefaan De Cock");
                 // Feb
@@ -106,8 +110,21 @@ namespace dotnet_g36.Data
 
                 //sessie7.SchrijfIn(sessie7.SessieID, user1.UserID);
 
-
             }
         }
+        private async Task InitializeDeelnemersEnVerantwoordelijke()
+        {
+            string eMailAddress = "Hoofdverantwoordelijke@hogent.be";
+            IdentityUser user = new IdentityUser { UserName = "Hfdverantwoordelijke", Email = eMailAddress };
+            await _userManager.CreateAsync(user, "1234");
+            await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
+        
+
+         eMailAddress = "Student1@hogent.be";
+         user = new IdentityUser { UserName = "student1", Email = eMailAddress };
+        await _userManager.CreateAsync(user, "1234");
+        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Deelnemer"));
+        }
     }
-}
+    }
+
