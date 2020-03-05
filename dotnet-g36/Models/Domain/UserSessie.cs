@@ -33,6 +33,12 @@ namespace dotnet_g36.Models.Domain
         #endregion
 
         #region
+
+        public UserSessie()
+        {
+
+        }
+
         public UserSessie(Sessie sessie, User user)
         {
             this.SessieID = sessie.SessieID;
