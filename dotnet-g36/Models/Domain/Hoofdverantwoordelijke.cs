@@ -2,38 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using dotnet_g36.Models.Domain;
+using dotnet_g36.Models.Exceptions;
 
 namespace dotnet_g36
 {
-    public class Hoofdverantwoordelijke : User
+    public class Hoofdverantwoordelijke : Verantwoordelijke
     {
         #region Properties
-        public IEnumerable<Sessie> OpenTeZettenSessies { get; set; }
         #endregion
 
         #region Constructors
-        public Hoofdverantwoordelijke(string voornaam, string familienaam,StatusGebruiker statusGebruiker)
-          : base(voornaam, familienaam, statusGebruiker)
+        public Hoofdverantwoordelijke(string voornaam, string familienaam,StatusGebruiker statusGebruiker, List<Sessie> sessies)
+          : base(voornaam, familienaam, statusGebruiker, sessies)
         {
-            // denk niet dat dit zo moet, er gaan sessies in DB zitten
-            // maar voor nu heb ik het zo gedaan.
-            OpenTeZettenSessies = new List<Sessie>();
         }
         #endregion
 
         #region Methods
-        // public bool SessieOpenZetten(int sessieID)
-        public void SessieOpenZetten(int sessieID)
-        {
 
-            throw new System.NotImplementedException();
-        }
-
-        // public bool SessieSluiten(int sessieID)
-        public void SessieSluiten(int sessieID)
-        {
-            throw new System.NotImplementedException();
-        }
         #endregion
     }
 }

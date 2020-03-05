@@ -12,13 +12,7 @@ namespace dotnet_g36.Models.Domain
         public string Tekst { get; set; }
         public DateTime TimeWritten { get; set; }
 
-        public User User
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public User Auteur { get; set; }
         #endregion
     }
 }
