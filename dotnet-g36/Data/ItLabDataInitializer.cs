@@ -20,17 +20,13 @@ namespace dotnet_g36.Data
 
             if (_context.Database.EnsureCreated())
             {
-                
-                //MOMENTEEL KRIJGT USER EEN ID MEE IN CONSTRUCTOR IK DENK DAT DIT WEG MOET
-       
-
                 // Hoofdverantwoordelijke
-                Hoofdverantwoordelijke admin = new Hoofdverantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief);
+                Hoofdverantwoordelijke admin = new Hoofdverantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>());
                 _context.Hoofdverantwoordelijken.Add(admin);
                 _context.SaveChanges();
-                //erantwoordelijke
-                Verantwoordelijke organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief);
-                Verantwoordelijke organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief);
+                //verantwoordelijke
+                Verantwoordelijke organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief, new List<Sessie>());
+                Verantwoordelijke organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief, new List<Sessie>());
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 _context.SaveChanges();
@@ -98,8 +94,9 @@ namespace dotnet_g36.Data
                  new DateTime(2020, 5, 5, 12, 30, 0), new DateTime(2020, 5, 5, 13, 30, 0), 50,
                  StatusSessie.NietOpen, "Sessie over MySQL", " ");
 
-
-
+                admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10 };
+                organizer1.OpenTeZettenSessies = new List<Sessie>() { };
+                organizer1.OpenTeZettenSessies = new List<Sessie>() { };
 
                 _context.Sessies.AddRange(new Sessie[]
               {

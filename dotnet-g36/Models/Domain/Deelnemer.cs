@@ -17,14 +17,9 @@ namespace dotnet_g36.Models.Domain
         /// <param name="sessie">Sessie Object</param>
         public void MeldAanwezig(Sessie sessie)
         {
-            //Boolean us = UserSessies.Where(s => s.UserID.Equals(userID)).FirstOrDefault().Ingeschreven();
-            //user = (User) UserSessies.Select(s => s.User).Where(s => s.UserID.Equals(userID));
-
-            //// Als gebruiker is ingeschreven en niet in de lijst van aanwezigen zit, steek in lijst aanwezigen en return true;
-
             foreach (UserSessie userSessie in UserSessies)
             {
-                if (userSessie.SessieID == sessie.SessieID && userSessie.Ingeschreven)
+                if (userSessie.SessieID == sessie.SessieID)
                 {
                     userSessie.Aanwezig = true;
                 }
@@ -45,20 +40,7 @@ namespace dotnet_g36.Models.Domain
             foreach (UserSessie userSessie in sessie.UserSessies)
             {
                 if (userSessie.UserID == UserID)
-                {
-                    if (!userSessie.Ingeschreven)
-                    {
-                        if (StatusGebruiker == StatusGebruiker.Actief)
-                        {
-                            userSessie.Ingeschreven = true;
-                        }
-                        else
-                        {
-                            throw new GeenActieveGebruikerException("U kan zich niet inschrijven omdat u bent geen actieve gebruiker. Glieve contact op te nemen met de hoofdverantwoordelijk.");
-                        }
-                    } else
-                        throw new AlIngeschrevenException("U bent al ingeschreven voor deze sessie.");
-                }
+                        throw new AlIngeschrevenException("U bent al ingeschreven voor deze sessie.");                
                 else
                 {
                     if (StatusGebruiker == StatusGebruiker.Actief)
@@ -66,6 +48,7 @@ namespace dotnet_g36.Models.Domain
                         UserSessie usersessie = new UserSessie(sessie, this);
                         sessie.UserSessies.Add(usersessie);
                         UserSessies.Add(usersessie);
+                        break;
                     }
                     else
                     {
@@ -81,13 +64,19 @@ namespace dotnet_g36.Models.Domain
         /// <param name="sessie">sessie object</param>
         public void SchrijfUit(Sessie sessie)
         {
-            foreach (UserSessie userSessie in UserSessies)
-            {
-                if (userSessie.SessieID == sessie.SessieID &&userSessie.Ingeschreven)
+            bool succes = false;
+                foreach (UserSessie userSessie in UserSessies)
                 {
-                    userSessie.Ingeschreven = false;
+                    if (userSessie.SessieID == sessie.SessieID)
+                    {
+                        sessie.UserSessies.Remove(userSessie);
+                        UserSessies.Remove(userSessie);
+                    succes = true;
+                        break;
+                    }
                 }
-            }
+            if (!succes)
+                throw new NietIngeschrevenException("Deelnemer kon niet worden uitegeschreven.");
         }
 
         #endregion

@@ -22,14 +22,6 @@ namespace dotnet_g36.Models.Domain
             {
             }
         }
-
-        public bool Ingeschreven
-        {
-            get => default;
-            set
-            {
-            }
-        }
         #endregion
 
         #region

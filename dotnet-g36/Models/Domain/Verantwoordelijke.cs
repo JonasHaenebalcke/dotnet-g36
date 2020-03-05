@@ -2,33 +2,47 @@
 using System.Collections.Generic;
 using System.Text;
 using dotnet_g36.Models.Domain;
+using dotnet_g36.Models.Exceptions;
 
 namespace dotnet_g36
 {
     public class Verantwoordelijke : User
     {
         #region properties
-        public IEnumerable<Sessie> GeorganiseerdeSessies { get; set; }
+        public ICollection<Sessie> OpenTeZettenSessies { get; set; }
         #endregion
 
         #region constructors
-        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker)
+        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker, List<Sessie> sessies)
             : base(voornaam, familienaam, statusGebruiker)
         {
-            GeorganiseerdeSessies = new List<Sessie>();
+            OpenTeZettenSessies = sessies;
         }
         #endregion
 
-        
         #region methods
-        public void SessieOpenZetten(int sessieID)
+        public void SessieOpenZetten(Sessie sessie)
         {
-            throw new System.NotImplementedException();
+            if (OpenTeZettenSessies.Contains(sessie) && sessie.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= sessie.StartDatum.AddHours(-1))
+            {
+                sessie.StatusSessie = StatusSessie.Open;
+            }
+            else
+            {
+                throw new GeenSessiesException("Sessie kan niet worden opengezet.");
+            }
         }
 
-        public void SessieSluiten(int sessieID)
+        public void SessieSluiten(Sessie sessie)
         {
-            throw new System.NotImplementedException();
+            if (OpenTeZettenSessies.Contains(sessie) && sessie.StatusSessie.Equals(StatusSessie.Open))
+            {
+                sessie.StatusSessie = StatusSessie.Gesloten;
+            }
+            else
+            {
+                throw new GeenSessiesException("Sessie kan niet gesloten worden.");
+            }
         }
         #endregion
     }
