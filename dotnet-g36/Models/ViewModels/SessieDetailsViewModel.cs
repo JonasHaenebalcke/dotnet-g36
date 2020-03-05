@@ -19,6 +19,8 @@ namespace dotnet_g36.Models.ViewModels
         public bool DeelnemerIngeschreven { get; set; }
         public IEnumerable<Media> ListMedia { get; set; }
 
+        public SessieDetailsViewModel(){ }
+
         public SessieDetailsViewModel(Sessie sessie)
         {
             this.Titel = sessie.Titel;
