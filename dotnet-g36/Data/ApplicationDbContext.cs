@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_g36.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

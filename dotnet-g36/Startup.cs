@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using dotnet_g36.Data.Repositories;
 using dotnet_g36.Models.Domain;
+using System.Security.Claims;
 
 namespace dotnet_g36
 {
@@ -34,6 +35,14 @@ namespace dotnet_g36
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Hoofdverantwoordelijke", policy => policy.RequireClaim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
+                options.AddPolicy("Verantwoordelijk", policy => policy.RequireClaim(ClaimTypes.Role, "Verantwoordelijke"));
+                options.AddPolicy("Deelnemer", policy => policy.RequireClaim(ClaimTypes.Role, "Deelnemer"));
+
+            });
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<ItLabDataInitializer>();
