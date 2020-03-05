@@ -1,0 +1,158 @@
+﻿@model dotnet_g36.Models.ViewModels.SessieDetailsViewModel
+@{
+    ViewData["Title"] = "Sessie Details";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+
+<body>
+    <h3>@Model.Titel</h3>
+    @*<div class="border border-dark container">
+            <p>@Model.Beschrijving</p>
+        </div>*@
+    <div class="col px-md-5"><div class="p-3 border bg-light">@Model.Beschrijving</div></div>
+
+    <h6>Datum en uur</h6>
+    @*<div class="border border-dark">@Model.StartDatum</div> - <div class="border border-dark">
+            @Model.EindDatum
+        </div>*@
+    @*SOURCE https://getbootstrap.com/docs/4.4/utilities/spacing/*@
+    <div class="row mx-md-n5">
+        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.StartDatum</div></div>
+        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.EindDatum</div></div>
+    </div>
+
+
+
+    <h6>Lokaal</h6>
+    @*<div class="border border-dark container">
+            @Model.Lokaal
+        </div>*@
+    <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.Lokaal</div></div>
+
+
+    @*OPEN PLAATSEN OF AANTAL AANWEZIGEN WEERGEVEN*@
+    @if (Model.StartDatum > DateTime.Now)
+    {//HEDEN
+        <h6>Open plaatsen</h6>
+        @*<div class="border border-dark container">
+                @Model.OpenPlaatsen
+            </div>*@
+        <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.OpenPlaatsen</div></div>
+
+
+        <h6>Ingeschreven?</h6>
+        @if (Model.DeelnemerIngeschreven)
+        {
+            @*<div class="border border-dark container">
+                    <input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" />
+                </div>*@
+            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></div></div>
+        }
+        else
+        {
+            @*<div class="border border-dark container">
+                    <input type="checkbox" disabled="disabled" checked="" readonly="readonly" />
+                </div>*@
+            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="" readonly="readonly" /></div></div>
+        }
+    }
+    else//VERLEDEN
+    {
+        <h6>Aantal aanwezig</h6>
+        @*<div class="border border-dark container">
+                @Model.AantalAanwezigen
+            </div>*@
+
+        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.AantalAanwezigen</div></div>
+
+
+        <h6>Aanwezig?</h6>
+        @if (Model.DeelnemerAanwezig)
+        {
+            @*<div class="border border-dark container">
+                    <input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" />
+                </div>*@
+            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></div></div>
+        }
+        else
+        {
+            @*<div class="border border-dark container">
+                    <input type="checkbox" disabled="disabled" checked="" readonly="readonly" />
+                </div>*@
+            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="" readonly="readonly" /></div></div>
+        }
+    }
+
+    <h6>Media</h6>
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">Media</th>
+                <th class="text-center">Link</th>
+
+            </tr>
+            <!-- loop die door de lijst van Media gaat -->
+            @*@foreach (var media in Model.ListMedia)
+                {
+                    <tr>
+                        <td class="text-center">media.Beschrijving</td>
+                        <td class="text-center">media.Link</td>
+
+                    </tr>
+                }*@
+
+        </table>
+    </div>
+
+    @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
+    @if (Model.StartDatum > DateTime.Now)
+    {
+        <input type="button" class="button1" value="Inschrijven" />
+    }
+    else
+    {
+        <h6>Feedback</h6>
+
+
+        @*SOURCE https://docs.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1#the-textarea-tag-helper
+            <form asp-controller="Demo" asp-action="RegisterTextArea" method="post">
+                <textarea asp-for="Description"></textarea>
+                <button type="submit">Test</button>
+            </form>*@
+
+        <div class="form-group">
+            <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
+        </div>
+        <button type="submit">Indienen</button>
+        
+        <div>
+            <table class="table table-striped">
+                <tr>
+                    <th class="text-center">Auteur</th>
+                    <th class="text-center">Feedback</th>
+
+                </tr>
+                <!-- loop die door de lijst van Media gaat -->
+                @*@foreach (var feedback in Model.ListMedia)
+                    {
+                        <tr>
+                            <td class="text-center">feedback.NaamAuteur</td>
+                            <td class="text-center">feedback.Tekst</td>
+                        </tr>
+                    }*@
+
+            </table>
+        </div>
+    }
+
+
+
+</body>
+</html>

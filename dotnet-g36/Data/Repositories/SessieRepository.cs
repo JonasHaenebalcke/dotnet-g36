@@ -40,10 +40,10 @@ namespace dotnet_g36.Data.Repositories
         }
 
         //public ISessieRepository GetByID(int sessieId) //delete?
-        public IEnumerable<Sessie> GetByID(int sessieId)
+        public Sessie GetByID(int sessieId)
         {
             //throw new NotImplementedException();
-            return _sessies.Where(s => s.SessieID == sessieId).ToList(); ;
+            return _sessies.SingleOrDefault(s => s.SessieID == sessieId);
         }
 
         public IEnumerable<Sessie> GetToekomstige()
