@@ -10,41 +10,21 @@ namespace dotnet_g36
     {
         #region properties
         public ICollection<Sessie> OpenTeZettenSessies { get; set; }
+        public bool IsHoofdverantwoordelijke { get; set; }
         #endregion
 
         #region constructors
         public Verantwoordelijke() : base() { }
-        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker, List<Sessie> sessies)
+        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker, List<Sessie> openTeZettenSessies)
             : base(voornaam, familienaam, statusGebruiker)
         {
-            OpenTeZettenSessies = sessies;
+            OpenTeZettenSessies = openTeZettenSessies;
+            IsHoofdverantwoordelijke = false;
         }
         #endregion
 
         #region methods
-        public void SessieOpenZetten(Sessie sessie)
-        {
-            if (OpenTeZettenSessies.Contains(sessie) && sessie.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= sessie.StartDatum.AddHours(-1))
-            {
-                sessie.StatusSessie = StatusSessie.Open;
-            }
-            else
-            {
-                throw new GeenSessiesException("Sessie kan niet worden opengezet.");
-            }
-        }
 
-        public void SessieSluiten(Sessie sessie)
-        {
-            if (OpenTeZettenSessies.Contains(sessie) && sessie.StatusSessie.Equals(StatusSessie.Open))
-            {
-                sessie.StatusSessie = StatusSessie.Gesloten;
-            }
-            else
-            {
-                throw new GeenSessiesException("Sessie kan niet gesloten worden.");
-            }
-        }
         #endregion
     }
 }

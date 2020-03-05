@@ -19,6 +19,10 @@ namespace dotnet_g36.Tests.Models.Domain
 
         public VerantwoordelijkeTest()
         {
+            _verantwoordelijke = new Verantwoordelijke() { 
+                IsHoofdverantwoordelijke = true, 
+
+            };
             _context = new DummyDbContext();
             _georganiseerdeSessies = new List<Sessie>();
             _organizer1 = _context.organizer1;
@@ -29,7 +33,7 @@ namespace dotnet_g36.Tests.Models.Domain
         [Fact]
         public void SessieOpenzetten_VerantwoordelijkeAngemaakt_geenSessieOmOpenTeZetten_melding()
         {
-            Assert.Equal(_georganiseerdeSessies, _verantwoordelijke.GeorganiseerdeSessies);
+            Assert.Equal(_georganiseerdeSessies, _verantwoordelijke.OpenTeZettenSessies);
 
         }
         [Fact]
@@ -38,7 +42,7 @@ namespace dotnet_g36.Tests.Models.Domain
             hedenSessie = _context.hedenSessie;
             _georganiseerdeSessies.Add(hedenSessie);
             Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
-           _organizer1.SessieOpenZetten(hedenSessie.SessieID);
+            hedenSessie.SessieOpenZetten(_organizer1);
             Assert.Equal(StatusSessie.Open, hedenSessie.StatusSessie);
 
             // Sessie sessie = _lijstSessies.Find(s => s.SessieID.Equals(1));
@@ -54,7 +58,7 @@ namespace dotnet_g36.Tests.Models.Domain
             hedenSessie.StatusSessie = StatusSessie.Open;
             _georganiseerdeSessies.Add(hedenSessie);
             Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
-            Assert.Throws<ArgumentException>(() => { _organizer1.SessieOpenZetten(hedenSessie.SessieID); });
+            Assert.Throws<ArgumentException>(() => { hedenSessie.SessieOpenZetten(_organizer1); });
 
             //Sessie openSessie = _lijstSessies.Find(s => s.SessieID.Equals(6));
             /*  _georganiseerdeSessies.Add(openSessie);
@@ -71,7 +75,7 @@ namespace dotnet_g36.Tests.Models.Domain
             hedenSessie.StatusSessie = StatusSessie.Gesloten;
             Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
             _georganiseerdeSessies.Add(hedenSessie);
-            Assert.Throws<ArgumentException>(() => { _organizer1.SessieOpenZetten(hedenSessie.SessieID); });
+            Assert.Throws<ArgumentException>(() => { hedenSessie.SessieOpenZetten(_organizer1); });
 
             /*   Sessie geslotenSessie = _lijstSessies.Find(s => s.SessieID.Equals(3));
                _georganiseerdeSessies.Add(geslotenSessie);// sessie toevoegen aan lijst.
@@ -87,7 +91,7 @@ namespace dotnet_g36.Tests.Models.Domain
             verledenSessie = _context.verledenSessie;
             Assert.Equal(_organizer2, verledenSessie.Verantwoordelijke);
             Assert.NotEqual(DateTime.Now.Year, verledenSessie.StartDatum.Year);
-            Assert.Throws<ArgumentException>(() => { _organizer2.SessieOpenZetten(verledenSessie.SessieID); });
+            Assert.Throws<ArgumentException>(() => { hedenSessie.SessieOpenZetten(_organizer2); });
 
             /* Sessie sessieVerleden = _lijstSessies.Find(s => s.SessieID.Equals(4));
              Assert.Equal(_organizer2, sessieVerleden.Verantwoordelijke);
@@ -104,7 +108,7 @@ namespace dotnet_g36.Tests.Models.Domain
             hedenSessie = _context.hedenSessie;
             Assert.NotEqual(_organizer2, hedenSessie.Verantwoordelijke);
             _georganiseerdeSessies.Add(hedenSessie);
-            Assert.Throws<ArgumentException>(() => { _organizer2.SessieOpenZetten(hedenSessie.SessieID); });
+            Assert.Throws<ArgumentException>(() => { hedenSessie.SessieOpenZetten(_organizer2); });
 
             //Sessie sessie = _lijstSessies.Find(s => s.SessieID.Equals(4));
             /* _georganiseerdeSessies.Add(sessie);
@@ -127,7 +131,7 @@ namespace dotnet_g36.Tests.Models.Domain
              Assert.Equal(dt, (hedenSessie.StartDatum.AddMinutes(-min)));
             Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
             _georganiseerdeSessies.Add(hedenSessie); // sessie toevoegen aan lijst
-            _organizer1.SessieOpenZetten(hedenSessie.SessieID);
+            hedenSessie.SessieOpenZetten(_organizer1);
             //Assert.True(_organizer1.SessieOpenZetten(hedenSessie.SessieID));
             Assert.Equal(StatusSessie.Open, hedenSessie.StatusSessie);
 
@@ -177,7 +181,7 @@ namespace dotnet_g36.Tests.Models.Domain
             Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
             _georganiseerdeSessies.Add(hedenSessie); // toevoegen sessie
             Assert.NotEqual(openZettenUur, (hedenSessie.StartDatum.AddMinutes(-70)));
-            Assert.Throws<ArgumentException>(() => { _organizer1.SessieOpenZetten(hedenSessie.SessieID); });
+            Assert.Throws<ArgumentException>(() => { hedenSessie.SessieOpenZetten(_organizer1); });
                 //Assert.False(_verantwoordelijke.SessieOpenZetten(sessie.SessieID));
                 //    Assert.Throws<ArgumentException>(() => { return "Sessie mag pas open gezet worden 1 uur voor start van sessie"; });
 
