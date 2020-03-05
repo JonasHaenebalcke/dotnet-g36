@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dotnet_g36.Data.Mapping
 {
@@ -13,9 +10,12 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("Verantwoordelijke");
 
-            builder.HasMany(v => v.GeorganiseerdeSessies)
+            builder.HasMany(v => v.OpenTeZettenSessies)
                 .WithOne(s => s.Verantwoordelijke)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasDiscriminator<String>("Type")
+                .HasValue<Hoofdverantwoordelijke>("Hoofdverantwoordelijke");
 
         }
     }

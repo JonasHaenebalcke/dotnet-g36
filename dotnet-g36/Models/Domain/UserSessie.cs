@@ -37,8 +37,6 @@ namespace dotnet_g36.Models.Domain
             this.Sessie = sessie;
             this.UserID = user.UserID;
             this.User = user;
-
-            Ingeschreven = false;
             Aanwezig = false;
         }
         #endregion

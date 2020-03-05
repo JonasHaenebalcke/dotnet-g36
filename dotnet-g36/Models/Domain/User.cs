@@ -51,14 +51,16 @@ namespace dotnet_g36
 
         #region Constructors
 
+        public User()
+        {
 
+        }
         public User(string voornaam, string familienaam,  StatusGebruiker statusGebruiker)
         {
             this.Voornaam = voornaam;
             this.Familienaam = familienaam;
           //  this.UserID = userID;
             this.StatusGebruiker = statusGebruiker;
-            this.FeedbackList = new List<Feedback>();
             this.UserSessies = new List<UserSessie>();
         }
         #endregion

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace dotnet_g36.Data.Mapping
 {
-    public class GebruikerConfiguration : IEntityTypeConfiguration<Deelnemer>
+    public class DeelnemerConfiguration : IEntityTypeConfiguration<Deelnemer>
     {
         public void Configure(EntityTypeBuilder<Deelnemer> builder)
         {
