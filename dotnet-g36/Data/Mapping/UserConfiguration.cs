@@ -14,6 +14,10 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("User");
             builder.HasKey(u => u.UserID);
+            builder.Property(u => u.Voornaam).IsRequired();
+            builder.Property(u => u.Familienaam).IsRequired();
+            //builder.Property(u => u.GebruikersNaam).IsRequired();
+
 
             //Dit is voor de overevering, er hoort nu
             //een extra kolom 'type' te komen met gepaste waarde in

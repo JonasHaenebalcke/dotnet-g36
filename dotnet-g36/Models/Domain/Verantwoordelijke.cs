@@ -14,11 +14,11 @@ namespace dotnet_g36
         #endregion
 
         #region constructors
-        public Verantwoordelijke() : base() { }
-        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker, List<Sessie> openTeZettenSessies)
+        //public Verantwoordelijke() : base() { }
+        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker/*, List<Sessie> openTeZettenSessies*/)
             : base(voornaam, familienaam, statusGebruiker)
         {
-            OpenTeZettenSessies = openTeZettenSessies;
+            this.OpenTeZettenSessies = /*openTeZettenSessies;*/ new List<Sessie>();
             IsHoofdverantwoordelijke = false;
         }
         #endregion
