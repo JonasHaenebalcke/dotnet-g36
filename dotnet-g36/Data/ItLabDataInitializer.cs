@@ -25,24 +25,26 @@ namespace dotnet_g36.Data
             if (_context.Database.EnsureCreated())
             {
                 // Hoofdverantwoordelijke
-                Hoofdverantwoordelijke admin = new Hoofdverantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>());
-                _context.Hoofdverantwoordelijken.Add(admin);
+                Verantwoordelijke admin = new Verantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief/*, new List<Sessie>()*/)
+               { IsHoofdverantwoordelijke = true  };
+                _context.Hoofdverantwoordelijke.Add(admin);
                 _context.SaveChanges();
                 //verantwoordelijke
-                Verantwoordelijke organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief, new List<Sessie>());
-                Verantwoordelijke organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief, new List<Sessie>());
+                Verantwoordelijke organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief/*, new List<Sessie>()*/);
+                Verantwoordelijke organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief/*, new List<Sessie>()*/);
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 _context.SaveChanges();
 
                 // Deelnemers
-                Deelnemer user1 = new Deelnemer("Pieter", "De Snieter", StatusGebruiker.Actief);
-                Deelnemer user2 = new Deelnemer("Aaron", "Slaerm", StatusGebruiker.Actief);
-                Deelnemer user3 = new Deelnemer("Lucifer", "De Duvel", StatusGebruiker.Actief);
-                Deelnemer user4 = new Deelnemer("Kim", "jansens", StatusGebruiker.NietActief);
-                Deelnemer user5 = new Deelnemer("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
-                Deelnemer user6 = new Deelnemer("Jan", "Van Den Hoge", StatusGebruiker.Actief);
-                _context.Deelnemers.AddRange(new Deelnemer[]
+                User user1 = new User("Pieter", "De Snieter", StatusGebruiker.Actief);
+                User user2 = new User("Aaron", "Slaerm", StatusGebruiker.Actief);
+                User user3 = new User("Lucifer", "De Duvel", StatusGebruiker.Actief);
+                User user4 = new User("Kim", "jansens", StatusGebruiker.NietActief);
+                User user5 = new User("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
+                User user6 = new User("Jan", "Van Den Hoge", StatusGebruiker.Actief);
+                
+                _context.Deelnemers.AddRange(new User[]
                 {
                     user1, user2, user3, user4, user5, user6
                 });
@@ -106,6 +108,16 @@ namespace dotnet_g36.Data
               {
                     sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10
               });
+                _context.SaveChanges();
+
+                //UserSessies
+                UserSessie userSessie1 = new UserSessie(sessie2, user1);
+                UserSessie userSessie2 = new UserSessie(sessie2, user2);
+                UserSessie userSessie3 = new UserSessie(sessie3, user1);
+                _context.UserSessies.AddRange(new UserSessie[]
+                {
+                    userSessie1, userSessie2, userSessie3
+                });
                 _context.SaveChanges();
 
                 //sessie7.SchrijfIn(sessie7.SessieID, user1.UserID);

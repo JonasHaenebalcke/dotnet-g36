@@ -19,8 +19,8 @@ namespace dotnet_g36
 
 
         public String Voornaam
-        { 
-            get => default; 
+        {
+            get { return _voorNaam; }
             set {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("must have a name");
@@ -30,7 +30,7 @@ namespace dotnet_g36
 
         public String Familienaam
         {
-            get => default;
+            get { return _familieNaam; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -52,11 +52,11 @@ namespace dotnet_g36
 
         #region Constructors
 
-        public User()
+        /*public User()
         {
 
-        }
-        public User(string voornaam, string familienaam,  StatusGebruiker statusGebruiker)
+        }*/
+        public User(string voornaam, string familienaam,  StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
         {
             this.Voornaam = voornaam;
             this.Familienaam = familienaam;

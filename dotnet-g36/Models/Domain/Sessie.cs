@@ -21,7 +21,7 @@ namespace dotnet_g36.Models.Domain
         public IEnumerable<Media> Media { get; set; }
         public IEnumerable<Feedback> FeedbackList { get; set; }
         public ICollection<UserSessie> UserSessies { get; set; }
-        public Hoofdverantwoordelijke Hoofdverantwoordelijke { get; set; }
+        public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }
 
@@ -30,7 +30,7 @@ namespace dotnet_g36.Models.Domain
         #region Constructors
         public Sessie() { }
 
-        public Sessie(Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
+        public Sessie(Verantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
             string titel , string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie =  StatusSessie.NietOpen,
             string beschrijving = "", string gastspreker= "")   
         {

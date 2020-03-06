@@ -14,14 +14,14 @@ namespace dotnet_g36.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+          /*  builder.ConfigureServices((context, services) => {
                 services.AddDbContext<ApplicationDb2Context>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("ApplicationDb2ContextConnection")));
 
                 services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ApplicationDb2Context>();
-            });
+            });*/
         }
     }
 }
