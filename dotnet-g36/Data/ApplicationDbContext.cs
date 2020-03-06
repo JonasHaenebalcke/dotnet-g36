@@ -17,10 +17,10 @@ namespace dotnet_g36.Data
             optionsBuilder.UseSqlServer(connectionString);
         }
 
-        public DbSet<Deelnemer> Deelnemers { get; set; }
-        public DbSet<Hoofdverantwoordelijke> Hoofdverantwoordelijken { get; set; }
+      //  public DbSet<Deelnemer> Deelnemers { get; set; }
+       // public DbSet<Hoofdverantwoordelijke> Hoofdverantwoordelijken { get; set; }
         public DbSet<Sessie> Sessies { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Deelnemers { get; set; }
         public DbSet<Verantwoordelijke> Verantwoordelijken { get; set; }
         public DbSet<UserSessie> UserSessies { get; set; }
 
@@ -36,8 +36,8 @@ namespace dotnet_g36.Data
             modelBuilder.ApplyConfiguration(new SessieConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserSessieConfiguration());
-            modelBuilder.Entity<Deelnemer>().HasBaseType<User>();
-            modelBuilder.Entity<Hoofdverantwoordelijke>().HasBaseType<Verantwoordelijke>();
+          //  modelBuilder.Entity<Deelnemer>().HasBaseType<User>();
+          //  modelBuilder.Entity<Hoofdverantwoordelijke>().HasBaseType<Verantwoordelijke>();
             modelBuilder.Entity<Verantwoordelijke>().HasBaseType<User>();
 
 
