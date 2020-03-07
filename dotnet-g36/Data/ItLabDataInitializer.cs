@@ -25,8 +25,8 @@ namespace dotnet_g36.Data
             if (_context.Database.EnsureCreated())
             {
                 // Hoofdverantwoordelijke
-                Hoofdverantwoordelijke admin = new Hoofdverantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>());
-                _context.Hoofdverantwoordelijken.Add(admin);
+                Verantwoordelijke admin = new Verantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>()) { IsHoofdverantwoordelijke = true};
+                //_context.Hoofdverantwoordelijken.Add(admin);
                 _context.SaveChanges();
                 //verantwoordelijke
                 Verantwoordelijke organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief, new List<Sessie>());
@@ -36,20 +36,19 @@ namespace dotnet_g36.Data
                 _context.SaveChanges();
 
                 // Deelnemers
-                Deelnemer user1 = new Deelnemer("Pieter", "De Snieter", StatusGebruiker.Actief);
-                Deelnemer user2 = new Deelnemer("Aaron", "Slaerm", StatusGebruiker.Actief);
-                Deelnemer user3 = new Deelnemer("Lucifer", "De Duvel", StatusGebruiker.Actief);
-                Deelnemer user4 = new Deelnemer("Kim", "jansens", StatusGebruiker.NietActief);
-                Deelnemer user5 = new Deelnemer("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
-                Deelnemer user6 = new Deelnemer("Jan", "Van Den Hoge", StatusGebruiker.Actief);
-                _context.Deelnemers.AddRange(new Deelnemer[]
+                User user1 = new User("Pieter", "De Snieter", StatusGebruiker.Actief);
+                User user2 = new User("Aaron", "Slaerm", StatusGebruiker.Actief);
+                User user3 = new User("Lucifer", "De Duvel", StatusGebruiker.Actief);
+                User user4 = new User("Kim", "jansens", StatusGebruiker.NietActief);
+                User user5 = new User("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
+                User user6 = new User("Jan", "Van Den Hoge", StatusGebruiker.Actief);
+                _context.Users.AddRange(new User[]
                 {
                     user1, user2, user3, user4, user5, user6
                 });
                 _context.SaveChanges();
 
                 //Sessies
-                // Ik denk ook dat er extra attribuut moet komen voor ingeschreven
                 //Maart
                 Sessie sessie1 = new Sessie(admin, organizer1, "Sessie 3D Printing", "B1.027",
                    new DateTime(2020, 3, 1, 7, 30, 0), new DateTime(2020, 3, 1, 9, 30, 0),

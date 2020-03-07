@@ -24,29 +24,25 @@ namespace dotnet_g36.Controllers
         {
             try
             {                
-               
                 //ViewData["aanwezigen"] = _sessieRepository.GetByID()
-                //Month huidigeMaand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
-                int huidigeMaandInt = DateTime.Now.Month;
                 
                 if (maandId == 0)
                 {
-                    //maandId = (int)huidigeMaand;
-                    maandId = huidigeMaandInt;
+                    maandId = DateTime.Now.Month;
                 }
+
                 ViewData["maanden"] = GetMaandSelectList(maandId);
 
-                //IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth((Month) maandId);
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(maandId);
                 if (sessies.Count().Equals(0))
                 {
-                    // Deze throw werkt nu niet meer voor effe
                     throw new GeenSessiesException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
                 }
                 else
                 {
                     TempData["message"] = "Er zijn sessies";
-                    return View(sessies);
+                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), new User() { UserID = 1 })); //OPT VIEWMODEL
+                    //return View(sessies);
                 }
             }
             catch(GeenSessiesException gse)

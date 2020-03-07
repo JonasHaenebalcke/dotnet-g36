@@ -11,7 +11,7 @@ namespace dotnet_g36.Tests.Data
         public IEnumerable<Sessie> December;
         public IEnumerable<Sessie> Januari;
         public IEnumerable<Sessie> HuidigeMaand;
-        public Hoofdverantwoordelijke admin;
+        public Verantwoordelijke admin;
         public  Verantwoordelijke organizer1, organizer2;
         public Sessie verledenSessie;
         public Sessie hedenSessie;
@@ -19,18 +19,18 @@ namespace dotnet_g36.Tests.Data
         public DummyDbContext()
         {
             // Er is maar 1 hfdverantwoordelijke
-             admin = new Hoofdverantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>());
+             admin = new Verantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>());
            // Er kunnen veerdere verantwoordelijke zijn
              organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief, new List<Sessie>());
              organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief, new List<Sessie>());
             
 
             // Users <-- Deelnemers
-            User Pieter = new Deelnemer("Pieter", "De Snieter", StatusGebruiker.Actief);
-            User Aaron = new Deelnemer("Aaron", "Slaerm", StatusGebruiker.Actief);
-            User Lucifer = new Deelnemer("Lucifer", "De Duvel", StatusGebruiker.Actief);
-            User Kim = new Deelnemer("Kim", "jansens", StatusGebruiker.NietActief);
-            User Tom = new Deelnemer("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
+            User Pieter = new User("Pieter", "De Snieter", StatusGebruiker.Actief);
+            User Aaron = new User("Aaron", "Slaerm", StatusGebruiker.Actief);
+            User Lucifer = new User("Lucifer", "De Duvel", StatusGebruiker.Actief);
+            User Kim = new User("Kim", "jansens", StatusGebruiker.NietActief);
+            User Tom = new User("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
 
             IEnumerable<User> ActieveDeelnemers = new List<User>
             {

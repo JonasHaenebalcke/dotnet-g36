@@ -14,8 +14,8 @@ namespace dotnet_g36.Data.Mapping
                 .WithOne(s => s.Verantwoordelijke)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasDiscriminator<String>("Type")
-                .HasValue<Hoofdverantwoordelijke>("Hoofdverantwoordelijke");
+            //builder.HasDiscriminator<String>("Type")
+            //    .HasValue<Hoofdverantwoordelijke>("Hoofdverantwoordelijke");
 
         }
     }

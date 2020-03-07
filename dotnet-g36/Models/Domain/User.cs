@@ -14,10 +14,7 @@ namespace dotnet_g36
         private string _voorNaam;
         #endregion
 
-
         #region properties
-
-
         public String Voornaam
         { 
             get => default; 
@@ -48,6 +45,8 @@ namespace dotnet_g36
         public string Wachtwoord { get; set; }
 
         public StatusGebruiker StatusGebruiker { get; set; }
+
+        public int AantalKeerAfwezig { get; set; }
         #endregion
 
         #region Constructors
@@ -62,8 +61,10 @@ namespace dotnet_g36
             this.Familienaam = familienaam;
             this.StatusGebruiker = statusGebruiker;
             this.UserSessies = new List<UserSessie>();
+            AantalKeerAfwezig = 0;
         }
         #endregion
+
         #region methods
         ///// <summary>
         ///// De gebruiker wordt aanwezig gemeld
