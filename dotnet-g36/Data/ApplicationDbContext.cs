@@ -18,8 +18,9 @@ namespace dotnet_g36.Data
         }
 
         public DbSet<Sessie> Sessies { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Deelnemers { get; set; }
         public DbSet<Verantwoordelijke> Verantwoordelijken { get; set; }
+        public DbSet<Verantwoordelijke> Hoofdverantwoordelijke { get; set; }
         public DbSet<UserSessie> UserSessies { get; set; }
 
 

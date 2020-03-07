@@ -9,13 +9,15 @@ namespace dotnet_g36.Data.Mapping
         public void Configure(EntityTypeBuilder<Verantwoordelijke> builder)
         {
             builder.ToTable("Verantwoordelijke");
+            builder.Property(v => v.Voornaam).IsRequired();
+            builder.Property(v => v.Familienaam).IsRequired();
 
             builder.HasMany(v => v.OpenTeZettenSessies)
                 .WithOne(s => s.Verantwoordelijke)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //builder.HasDiscriminator<String>("Type")
-            //    .HasValue<Hoofdverantwoordelijke>("Hoofdverantwoordelijke");
+            builder.HasDiscriminator<String>("Type")
+                .HasValue<Verantwoordelijke>("Hoofdverantwoordelijke");
 
         }
     }
