@@ -1,10 +1,8 @@
 ﻿using dotnet_g36.Models.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace dotnet_g36.Models.Domain 
+namespace dotnet_g36.Models.Domain
 {
     public class Sessie
     {
@@ -21,7 +19,7 @@ namespace dotnet_g36.Models.Domain
         public IEnumerable<Media> Media { get; set; }
         public IEnumerable<Feedback> FeedbackList { get; set; }
         public ICollection<UserSessie> UserSessies { get; set; }
-        public Hoofdverantwoordelijke Hoofdverantwoordelijke { get; set; }
+        public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }
 
@@ -30,9 +28,9 @@ namespace dotnet_g36.Models.Domain
         #region Constructors
         public Sessie() { }
 
-        public Sessie(Hoofdverantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
-            string titel , string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie =  StatusSessie.NietOpen,
-            string beschrijving = "", string gastspreker= "")   
+        public Sessie(Verantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
+            string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie = StatusSessie.NietOpen,
+            string beschrijving = "", string gastspreker = "")
         {
             this.Verantwoordelijke = verantwoordelijke;
             this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
@@ -47,7 +45,7 @@ namespace dotnet_g36.Models.Domain
             this.UserSessies = new List<UserSessie>();
             this.FeedbackList = new List<Feedback>();
             this.Media = new List<Media>();
- 
+
         }
         #endregion
 
@@ -58,18 +56,18 @@ namespace dotnet_g36.Models.Domain
         /// <param name="user">Verantwoordelijke Object</param>
         public void SessieOpenZetten(Verantwoordelijke user)
         {
-                if (user.OpenTeZettenSessies.Contains(this) && StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1))
-                {
-                    StatusSessie = StatusSessie.Open;
-                }
-                else
-                {
-                    throw new GeenSessiesException("Sessie kan niet worden opengezet.");
-                }            
+            if (user.OpenTeZettenSessies.Contains(this) && StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1))
+            {
+                StatusSessie = StatusSessie.Open;
+            }
+            else
+            {
+                throw new GeenSessiesException("Sessie kan niet worden opengezet.");
+            }
         }
 
         /// <summary>
-        /// Sluit Sessie
+        /// Sluit Sessie en controleert op users die 3 keer afwezig waren en blokkeert deze
         /// </summary>
         /// <param name="user">Verantwoordelijke Object</param>
         public void SessieSluiten(Verantwoordelijke user)
@@ -77,6 +75,20 @@ namespace dotnet_g36.Models.Domain
             if (user.OpenTeZettenSessies.Contains(this) & StatusSessie.Equals(StatusSessie.Open))
             {
                 StatusSessie = StatusSessie.Gesloten;
+                //controleert op users die 3 keer afwezig waren en blokkeert deze
+                foreach (UserSessie userSessie in UserSessies)
+                {
+                    if (!userSessie.Aanwezig)
+                    {
+                        User user1 = userSessie.User;
+                        if (user1.AantalKeerAfwezig >= 2)
+                        {
+                            user1.StatusGebruiker = StatusGebruiker.Geblokkeerd;
+                        }
+                        user1.AantalKeerAfwezig++;
+                    }
+                }
+
             }
             else
             {
