@@ -14,10 +14,12 @@ namespace dotnet_g36.Controllers
     public class SessieController : Controller
     {
         private readonly ISessieRepository _sessieRepository;
+        private User User { get; set; } // DELETE
 
         public SessieController(ISessieRepository sessieRepository)
         {
             _sessieRepository = sessieRepository;
+            User = new User() { UserID = 1 }; // DELETE
         }
 
         public IActionResult Index(int maandId = 0) //get & post
@@ -41,7 +43,7 @@ namespace dotnet_g36.Controllers
                 else
                 {
                     TempData["message"] = "Er zijn sessies";
-                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), new User() { UserID = 1 })); //OPT VIEWMODEL
+                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), /*huidige ingelogde user*/ User)); //OPT VIEWMODEL
                     //return View(sessies);
                 }
             }
@@ -86,7 +88,7 @@ namespace dotnet_g36.Controllers
             //}else {
             ViewData["isIngeschreven"] = false; 
 
-            return View(new SessieDetailsViewModel(sessie));
+            return View(new SessieDetailsViewModel(sessie, User));
         }
 
 

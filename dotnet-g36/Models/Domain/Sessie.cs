@@ -81,14 +81,14 @@ namespace dotnet_g36.Models.Domain
                     if (!userSessie.Aanwezig)
                     {
                         User user1 = userSessie.User;
-                        if (user1.AantalKeerAfwezig >= 2)
+                        if (!(user1 is Verantwoordelijke) && user1.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
                         {
                             user1.StatusGebruiker = StatusGebruiker.Geblokkeerd;
+                            user1.SchrijfUitAlleSessies();
                         }
                         user1.AantalKeerAfwezig++;
                     }
                 }
-
             }
             else
             {

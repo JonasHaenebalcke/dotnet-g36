@@ -1,8 +1,6 @@
 ﻿using dotnet_g36.Models.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dotnet_g36.Models.ViewModels
 {
@@ -18,23 +16,40 @@ namespace dotnet_g36.Models.ViewModels
         public int OpenPlaatsen { get; set; }
         public bool DeelnemerIngeschreven { get; set; }
         public IEnumerable<Media> ListMedia { get; set; }
+        public IEnumerable<Feedback> FeedbackList { get; set; }
+        public string GastSpreker { get; set; }
+        public Verantwoordelijke Verantwoordelijke { get; set; }
+        public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
 
-        public SessieDetailsViewModel(){ }
+        //public SessieDetailsViewModel(){ }
 
-        public SessieDetailsViewModel(Sessie sessie)
+        public SessieDetailsViewModel(Sessie sessie, User user)
         {
             this.Titel = sessie.Titel;
             this.Beschrijving = sessie.Beschrijving;
             this.StartDatum = sessie.StartDatum;
             this.EindDatum = sessie.EindDatum;
             this.Lokaal = sessie.Lokaal;
-            //this.AantalAanwezigen = sessie.UserSessies.Count()
-            //Hoe kan ik dit controleren?
-            this.DeelnemerAanwezig = true;
             this.OpenPlaatsen = sessie.AantalOpenPlaatsen;
-            //Hoe kan ik dit controleren?
-            this.DeelnemerIngeschreven = true;
             this.ListMedia = sessie.Media;
+            this.FeedbackList = sessie.FeedbackList;
+            this.GastSpreker = sessie.Gastspreker;
+            this.Verantwoordelijke = sessie.Verantwoordelijke;
+            this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
+
+            this.AantalAanwezigen = 0;//sessie.UserSessies.Count();
+
+            DeelnemerAanwezig = false; DeelnemerIngeschreven = false;
+            foreach (UserSessie userSessie in sessie.UserSessies)
+            {
+                if (userSessie.Aanwezig) 
+                    AantalAanwezigen++;
+                if (userSessie.User.Equals(user))
+                {
+                    DeelnemerIngeschreven = true;
+                    DeelnemerAanwezig = userSessie.Aanwezig;
+                }
+            }
         }
     }
 }
