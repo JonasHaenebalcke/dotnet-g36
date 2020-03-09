@@ -10,20 +10,20 @@ namespace dotnet_g36.Models.Domain
     {
 
         #region Fields
-        private int _userID;
+        private string _userID;
         private int _sessieID; 
         #endregion
 
         #region properties
-        public int UserID
+        public string UserID
         {
             get { return _userID; }
             set
             {
-                _userID = User.UserID;
+                _userID = User.Id;
             }
         }
-        public User User { get; set; }
+        public Gebruiker User { get; set; }
 
         public int SessieID
         {
@@ -50,7 +50,7 @@ namespace dotnet_g36.Models.Domain
 
         }
 
-        public UserSessie(Sessie sessie, User user)
+        public UserSessie(Sessie sessie, Gebruiker user)
         {
           //  this.SessieID = sessie.SessieID;
             this.Sessie = sessie;

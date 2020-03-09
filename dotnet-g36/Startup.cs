@@ -33,7 +33,7 @@ namespace dotnet_g36
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<Gebruiker>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAuthorization(options =>
@@ -81,7 +81,7 @@ namespace dotnet_g36
                 endpoints.MapRazorPages();
             });
 
-            initializer.initializeData();
+            initializer.initializeData().Wait();
         }
     }
 }

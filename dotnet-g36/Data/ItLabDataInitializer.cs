@@ -12,6 +12,12 @@ namespace dotnet_g36.Data
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private Verantwoordelijke admin;
+        private Verantwoordelijke organizer1;
+        private Verantwoordelijke organizer2;
+        private Gebruiker actieveGebruiker;
+        private Gebruiker nietActieveGebruiker;
+        private Gebruiker geblokkeerdeGebruiker;
 
         public ItLabDataInitializer(ApplicationDbContext context,UserManager<IdentityUser> userManager )
         {
@@ -19,35 +25,33 @@ namespace dotnet_g36.Data
             _userManager = userManager;
         }
 
-        public void initializeData() {
+        public async Task initializeData() {
             _context.Database.EnsureDeleted();
 
             if (_context.Database.EnsureCreated())
             {
-                // Hoofdverantwoordelijke
-                Verantwoordelijke admin = new Verantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>()) { IsHoofdverantwoordelijke = true};
+
+
+                // Hoofdverantwoordelijke string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief
+                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "123", "lucas", "van der haegen", new List<Sessie>(), StatusGebruiker.Actief) { IsHoofdverantwoordelijke = true};
                 //_context.Hoofdverantwoordelijken.Add(admin);
                 _context.SaveChanges();
                 //verantwoordelijke
-                Verantwoordelijke organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief, new List<Sessie>());
-                Verantwoordelijke organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief, new List<Sessie>());
+                organizer1 = new Verantwoordelijke("123", "132lv", "audrey.behiels@student.hogent.be", "123", "audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer2 = new Verantwoordelijke("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 _context.SaveChanges();
 
                 // Deelnemers
-                User user1 = new User("Pieter", "De Snieter", StatusGebruiker.Actief);
-                User user2 = new User("Aaron", "Slaerm", StatusGebruiker.Actief);
-                User user3 = new User("Lucifer", "De Duvel", StatusGebruiker.Actief);
-                User user4 = new User("Kim", "jansens", StatusGebruiker.NietActief);
-                User user5 = new User("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
-                User user6 = new User("Jan", "Van Den Hoge", StatusGebruiker.Actief);
-                _context.Users.AddRange(new User[]
-                {
-                    user1, user2, user3, user4, user5, user6
-                });
+                Gebruiker actieveGebruiker = new Gebruiker("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Lucifer", "De Duvel", StatusGebruiker.Actief);
+                Gebruiker nietActieveGebruiker = new Gebruiker("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Kim", "jansens", StatusGebruiker.NietActief);
+                Gebruiker geblokkeerdeGebruiker = new Gebruiker("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
+                _context.Gebruikers.AddRange(new Gebruiker[]
+                {actieveGebruiker, nietActieveGebruiker, geblokkeerdeGebruiker });
                 _context.SaveChanges();
 
+                await InitializeDeelnemersEnVerantwoordelijke();
                 //Sessies
                 // Jan 
 
@@ -114,23 +118,27 @@ namespace dotnet_g36.Data
               });
                 _context.SaveChanges();
 
-                //sessie7.SchrijfIn(sessie7.SessieID, user1.UserID);
-
             }
         }
         private async Task InitializeDeelnemersEnVerantwoordelijke()
         {
-            string eMailAddress = "Hoofdverantwoordelijke@hogent.be";
-            IdentityUser user = new IdentityUser { UserName = "Hfdverantwoordelijke", Email = eMailAddress };
-            await _userManager.CreateAsync(user, "1234");
-            await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
-        
+            await _userManager.CreateAsync(admin, "123");
+            await _userManager.AddClaimAsync(admin, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
+            //string eMailAddress = "Hoofdverantwoordelijke@hogent.be";
+            //User user = new User { UserName = "Hfdverantwoordelijke", Email = eMailAddress };
+            //await _userManager.CreateAsync(user, "1234");
+            //await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
 
-         eMailAddress = "Student1@hogent.be";
-         user = new IdentityUser { UserName = "student1", Email = eMailAddress };
-        await _userManager.CreateAsync(user, "1234");
-        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Deelnemer"));
+
+         //   eMailAddress = "Student1@hogent.be";
+         //user = new User { UserName = "student1", Email = eMailAddress };
+        await _userManager.CreateAsync(organizer1, "123");
+        await _userManager.AddClaimAsync(organizer1, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
+
+            await _userManager.CreateAsync(actieveGebruiker, "123");
+            await _userManager.AddClaimAsync(actieveGebruiker, new Claim(ClaimTypes.Role, "Deelnemer"));
         }
     }
-    }
+}
+    
 

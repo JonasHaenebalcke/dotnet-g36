@@ -80,7 +80,7 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (!userSessie.Aanwezig)
                     {
-                        User user1 = userSessie.User;
+                        Gebruiker user1 = userSessie.User;
                         if (!(user1 is Verantwoordelijke) && user1.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
                         {
                             user1.StatusGebruiker = StatusGebruiker.Geblokkeerd;
@@ -100,11 +100,11 @@ namespace dotnet_g36.Models.Domain
         /// De user wordt aanwezig gemeld
         /// </summary>
         /// <param name="sessie">User Object</param>
-        public void MeldAanwezig(User user)
+        public void MeldAanwezig(Gebruiker user)
         {
             foreach (UserSessie userSessie in UserSessies)
             {
-                if (userSessie.UserID == user.UserID)
+                if (userSessie.UserID == user.Id)
                 {
                     userSessie.Aanwezig = true;
                 }
@@ -120,13 +120,13 @@ namespace dotnet_g36.Models.Domain
         /// User wordt ingeschreven bij de sessie
         /// </summary>
         /// <param name="sessie">User Object</param>
-        public void SchrijfIn(User user)
+        public void SchrijfIn(Gebruiker user)
         {
             if (StartDatum < DateTime.Now || AantalOpenPlaatsen < 1)
                 throw new ArgumentException("je kan je niet inschrijven in een verleden maand.");
             foreach (UserSessie userSessie in UserSessies)
             {
-                if (userSessie.UserID == user.UserID)
+                if (userSessie.UserID == user.Id)
                     throw new AlIngeschrevenException("U bent al ingeschreven voor deze sessie.");
             }
             if (user.StatusGebruiker == StatusGebruiker.Actief)
@@ -145,7 +145,7 @@ namespace dotnet_g36.Models.Domain
         /// User wordt uitgeschreven bij de sessie
         /// </summary>
         /// <param name="sessie">User object</param>
-        public void SchrijfUit(User user)
+        public void SchrijfUit(Gebruiker user)
         {
             if (StartDatum < DateTime.Now)
                 throw new ArgumentException("je kan je niet uitschreven in een verleden maand.");
@@ -153,7 +153,7 @@ namespace dotnet_g36.Models.Domain
             bool succes = false;
             foreach (UserSessie userSessie in UserSessies)
             {
-                if (userSessie.UserID == user.UserID)
+                if (userSessie.UserID == user.Id)
                 {
                     user.UserSessies.Remove(userSessie);
                     UserSessies.Remove(userSessie);

@@ -1,5 +1,6 @@
 ﻿using dotnet_g36.Models.Domain;
 using dotnet_g36.Models.Exceptions;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace dotnet_g36
 {
-    public class User
+    public class Gebruiker : IdentityUser
     {
         #region fields
         private string _familieNaam;
@@ -38,11 +39,11 @@ namespace dotnet_g36
 
         public ICollection<UserSessie> UserSessies { get; set; }
 
-        public int UserID { get; set; }
+        //public int UserID { get; set; }
 
-        public string GebruikersNaam { get; set; }
+        //public string GebruikersNaam { get; set; }
 
-        public string Wachtwoord { get; set; }
+        //public string Wachtwoord { get; set; }
 
         public StatusGebruiker StatusGebruiker { get; set; }
 
@@ -51,12 +52,16 @@ namespace dotnet_g36
 
         #region Constructors
 
-        public User()
+        public Gebruiker()
         {
-
         }
-        public User(string voornaam, string familienaam,  StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
+        public Gebruiker(string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
         {
+            Id = barcode;
+            PasswordHash = wachtwoord;
+            Email = email;
+            AccessFailedCount = 0;
+            UserName = username;
             this.Voornaam = voornaam;
             this.Familienaam = familienaam;
             this.StatusGebruiker = statusGebruiker;

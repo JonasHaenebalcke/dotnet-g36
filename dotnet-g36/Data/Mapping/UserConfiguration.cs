@@ -8,20 +8,22 @@ using System.Threading.Tasks;
 
 namespace dotnet_g36.Data.Mapping
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<Gebruiker>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Gebruiker> builder)
         {
             builder.ToTable("User");
-            builder.HasKey(u => u.UserID);
+            builder.HasKey(u => u.Id);
             builder.Property(u => u.Voornaam).IsRequired();
             builder.Property(u => u.Familienaam).IsRequired();
-            //builder.Property(u => u.GebruikersNaam).IsRequired();
+            builder.Property(u => u.UserName).IsRequired();
+            builder.Property(u => u.PasswordHash).IsRequired();
+            builder.Property(u => u.Email).IsRequired();
 
 
             //Dit is voor de overevering, er hoort nu
             //een extra kolom 'type' te komen met gepaste waarde in
-            builder.HasDiscriminator<String>("Type")
+            builder.HasDiscriminator<string>("Type")
                 .HasValue<Verantwoordelijke>("Verantwoordelijke");
         }
     }

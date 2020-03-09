@@ -6,7 +6,7 @@ using dotnet_g36.Models.Exceptions;
 
 namespace dotnet_g36
 {
-    public class Verantwoordelijke : User
+    public class Verantwoordelijke : Gebruiker
     {
         #region properties
         public ICollection<Sessie> OpenTeZettenSessies { get; set; }
@@ -15,10 +15,10 @@ namespace dotnet_g36
 
         #region constructors
         //public Verantwoordelijke() : base() { }
-        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker/*, List<Sessie> openTeZettenSessies*/)
-            : base(voornaam, familienaam, statusGebruiker)
+        public Verantwoordelijke(string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, List<Sessie> openTeZettenSessies, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
+            : base(barcode, username, email, wachtwoord, voornaam, familienaam, statusGebruiker)
         {
-            this.OpenTeZettenSessies = /*openTeZettenSessies;*/ new List<Sessie>();
+            this.OpenTeZettenSessies = openTeZettenSessies;// new List<Sessie>();
             IsHoofdverantwoordelijke = false;
         }
         #endregion

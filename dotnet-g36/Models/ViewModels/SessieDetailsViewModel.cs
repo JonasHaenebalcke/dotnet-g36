@@ -23,7 +23,7 @@ namespace dotnet_g36.Models.ViewModels
 
         //public SessieDetailsViewModel(){ }
 
-        public SessieDetailsViewModel(Sessie sessie, User user)
+        public SessieDetailsViewModel(Sessie sessie, Gebruiker user)
         {
             this.Titel = sessie.Titel;
             this.Beschrijving = sessie.Beschrijving;

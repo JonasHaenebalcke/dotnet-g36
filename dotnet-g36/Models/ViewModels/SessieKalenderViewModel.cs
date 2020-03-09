@@ -24,7 +24,7 @@ namespace dotnet_g36.Models.ViewModels
 
         //public SessieKalenderViewModel() { }
 
-        public SessieKalenderViewModel(IEnumerable<Sessie> sessies, SelectList maanden, User user)
+        public SessieKalenderViewModel(IEnumerable<Sessie> sessies, SelectList maanden, Gebruiker user)
         {
 
             Sessies = sessies; // opt indien alle details v alle sessies in verschillende lists (overlopen adhv for lus)

@@ -11,7 +11,7 @@ namespace dotnet_g36.Data.Repositories
     {
         #region Fields
         private readonly ApplicationDbContext _dbContext;
-        private readonly DbSet<User> _users;
+        private readonly DbSet<Gebruiker> _users;
         private readonly DbSet<Verantwoordelijke> _verantwoordelijken;
         #endregion
 
@@ -19,30 +19,30 @@ namespace dotnet_g36.Data.Repositories
         public UserRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _users = _dbContext.Deelnemers;
+            _users = _dbContext.Gebruikers;
             _verantwoordelijken = _dbContext.Verantwoordelijken;
         }
         #endregion
 
         #region Methods
-        public void Add(User deelnemer)
+        public void Add(Gebruiker deelnemer)
         {
             if (!_users.Contains(deelnemer))
                 _users.Add(deelnemer);
         }
 
-        public void Delete(User deelnemer)
+        public void Delete(Gebruiker deelnemer)
         {
             _users.Remove(deelnemer);
         }
-        public IEnumerable<User> GetAll()
+        public IEnumerable<Gebruiker> GetAll()
         {
             return _users.ToList();
         }
 
-        public User GetDeelnemerByID(int userID)
+        public Gebruiker GetDeelnemerByID(int userID)
         {
-            return _users.SingleOrDefault(u => u.UserID.Equals(userID));
+            return _users.SingleOrDefault(u => u.Id.Equals(userID));
         }
 
         public Verantwoordelijke GetHoofdverantwoordelijke()
@@ -52,7 +52,7 @@ namespace dotnet_g36.Data.Repositories
         }
         public Verantwoordelijke GetVerantwoordelijke(int userID)
         {
-            return _verantwoordelijken.SingleOrDefault(v => v.UserID.Equals(userID));
+            return _verantwoordelijken.SingleOrDefault(v => v.Id.Equals(userID));
         }
 
         public IEnumerable<Verantwoordelijke> GetVerantwoordelijken()

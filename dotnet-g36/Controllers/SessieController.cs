@@ -8,24 +8,38 @@ using dotnet_g36.Models.Exceptions;
 using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace dotnet_g36.Controllers
 {
     public class SessieController : Controller
     {
+        SignInManager<Gebruiker> SignInManager;
+        UserManager<Gebruiker> UserManager;
         private readonly ISessieRepository _sessieRepository;
-        private User User { get; set; } // DELETE
+        private Gebruiker Gebruiker { get; set; } // DELETE
 
         public SessieController(ISessieRepository sessieRepository)
         {
+
             _sessieRepository = sessieRepository;
-            User = new User() { UserID = 1 }; // DELETE
+            Gebruiker = new Gebruiker() { Id = "1" }; // DELETE
+        }
+        public SessieController(ISessieRepository sessieRepository, UserManager<Gebruiker> userManager)
+        {
+            
+            _sessieRepository = sessieRepository;
+            Gebruiker = new Gebruiker() { Id = "1" }; // DELETE
+            UserManager = userManager;
         }
 
         public IActionResult Index(int maandId = 0) //get & post
         {
             try
-            {                
+            {
+                //if(userid == null || userid.Length == 0)
+                //    return 
                 //ViewData["aanwezigen"] = _sessieRepository.GetByID()
                 
                 if (maandId == 0)
@@ -43,7 +57,7 @@ namespace dotnet_g36.Controllers
                 else
                 {
                     TempData["message"] = "Er zijn sessies";
-                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), /*huidige ingelogde user*/ User)); //OPT VIEWMODEL
+                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), /*huidige ingelogde user*/ Gebruiker)); //OPT VIEWMODEL
                     //return View(sessies);
                 }
             }
@@ -88,7 +102,7 @@ namespace dotnet_g36.Controllers
             //}else {
             ViewData["isIngeschreven"] = false; 
 
-            return View(new SessieDetailsViewModel(sessie, User));
+            return View(new SessieDetailsViewModel(sessie, Gebruiker));
         }
 
 
@@ -141,6 +155,24 @@ namespace dotnet_g36.Controllers
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
         }
+
+        //[AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
+        //public class GebruikerFilter : ActionFilterAttribute
+        //{
+        //    private readonly IGebruikerRepository _gebruikerRepository;
+
+        //    public GebruikerFilter(IGebruikerRepository gebruikerRepository)
+        //    {
+        //        _gebruikerRepository = gebruikerRepository;
+        //    }
+
+        //    public override void OnActionExecuting(ActionExecutingContext context)
+        //    {
+        //        context.ActionArguments["gebruiker"] = context.HttpContext.User.Identity.IsAuthenticated ?
+        //                _gebruikerRepository.GetByUsername(context.HttpContext.User.Identity.Name) : null;
+        //        base.OnActionExecuting(context);
+        //    }
+        //}
     }
 
     
