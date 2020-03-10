@@ -120,21 +120,21 @@ namespace dotnet_g36.Data
                 _context.SaveChanges();
 
                 //sessie7.SchrijfIn(sessie7.SessieID, user1.UserID);
-
+                InitializeDeelnemersEnVerantwoordelijke();
             }
         }
-        private async Task InitializeDeelnemersEnVerantwoordelijke()
+        public async Task InitializeDeelnemersEnVerantwoordelijke()
         {
             string eMailAddress = "hoofdverantwoordelijke@hogent.be";
-            IdentityUser user = new IdentityUser { UserName = "hfdverantwoordelijke", Email = eMailAddress };
-            await _userManager.CreateAsync(user, "1234");
+            var user = new IdentityUser { UserName = "hfdverantwoordelijke", Email = eMailAddress };
+            await _userManager.CreateAsync(user, "123456");
             await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
         
 
          eMailAddress = "student1@hogent.be";
-         user = new IdentityUser { UserName = "student1", Email = eMailAddress };
-        await _userManager.CreateAsync(user, "1234");
-        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Deelnemer"));
+         var user2 = new IdentityUser { UserName = "student1", Email = eMailAddress };
+        await _userManager.CreateAsync(user2, "123456");
+        await _userManager.AddClaimAsync(user2, new Claim(ClaimTypes.Role, "Deelnemer"));
         }
     }
     }

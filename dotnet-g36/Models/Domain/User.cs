@@ -51,10 +51,10 @@ namespace dotnet_g36
 
         #region Constructors
 
-        /*public User()
+        public User()
         {
 
-        }*/
+        }
         public User(string voornaam, string familienaam,  StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
         {
             this.Voornaam = voornaam;
