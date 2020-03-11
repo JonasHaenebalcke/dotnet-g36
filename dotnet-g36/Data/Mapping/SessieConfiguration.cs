@@ -15,11 +15,14 @@ namespace dotnet_g36.Data.Mapping
             //Autogenerate ID nummer? UserSessies van kolom naam veranderen?
             builder.ToTable("Sessie");
             builder.HasKey(s => s.SessieID);
-            builder.Property(s => s.Lokaal).IsRequired();
+            builder.Property(s => s.Lokaal).HasMaxLength(10).IsRequired();
             builder.Property(s => s.StartDatum).IsRequired();
             builder.Property(s => s.EindDatum).IsRequired();
-            builder.Property(s => s.Titel).IsRequired();
-
+            builder.Property(s => s.Titel).HasMaxLength(25).IsRequired();
+            builder.Property(s => s.Beschrijving).HasMaxLength(100).IsRequired(false);
+            builder.Property(s => s.Gastspreker).HasMaxLength(50).IsRequired(false);
+            builder.Property(s => s.Hoofdverantwoordelijke).HasMaxLength(50);
+            builder.Property(s => s.Verantwoordelijke).HasMaxLength(50);
 
             builder.HasOne(s => s.Verantwoordelijke)
                 .WithMany(s => s.OpenTeZettenSessies)

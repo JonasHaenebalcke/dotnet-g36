@@ -10,11 +10,11 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("Verantwoordelijke");
             builder.HasKey(u => u.Id);
-            builder.Property(u => u.Voornaam).IsRequired();
-            builder.Property(u => u.Familienaam).IsRequired();
-            builder.Property(u => u.UserName).IsRequired();
-            builder.Property(u => u.PasswordHash).IsRequired();
-            builder.Property(u => u.Email).IsRequired();
+            builder.Property(u => u.Voornaam).HasMaxLength(20).IsRequired();
+            builder.Property(u => u.Familienaam).HasMaxLength(20).IsRequired();
+            builder.Property(u => u.UserName).HasMaxLength(15).IsRequired();
+            builder.Property(u => u.PasswordHash).HasMaxLength(30).IsRequired();
+            builder.Property(u => u.Email).HasMaxLength(50).IsRequired();
 
             builder.HasMany(v => v.OpenTeZettenSessies)
                 .WithOne(s => s.Verantwoordelijke)
