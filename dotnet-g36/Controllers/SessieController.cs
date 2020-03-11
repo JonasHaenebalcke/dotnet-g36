@@ -9,7 +9,7 @@ using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotnet_g36.Controllers
 {
@@ -34,6 +34,7 @@ namespace dotnet_g36.Controllers
             UserManager = userManager;
         }
 
+        [AllowAnonymous]
         public IActionResult Index(int maandId = 0) //get & post
         {
             try
@@ -69,12 +70,13 @@ namespace dotnet_g36.Controllers
 
         }
 
-        
+
         /// <summary>
         /// Geeft de details van een sessie weer
         /// </summary>
         /// <param name="id"></param>
         /// <returns>View naar nieuwe pagina</returns>
+        [AllowAnonymous]
         public IActionResult Detail(int id)
         {
             Sessie sessie = _sessieRepository.GetByID(id);
@@ -113,6 +115,7 @@ namespace dotnet_g36.Controllers
         /// <param name="id"></param>
         /// <param name="sessieDetailsViewModel"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult DetailInschrijvenUitschrijven(int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
@@ -133,6 +136,7 @@ namespace dotnet_g36.Controllers
         /// <param name="id"></param>
         /// <param name="sessieDetailsViewModel"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult DetailFeedbackGeven(int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
