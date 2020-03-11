@@ -33,21 +33,24 @@ namespace dotnet_g36.Data
 
 
                 // Hoofdverantwoordelijke string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief
-                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "123", "lucas", "van der haegen", new List<Sessie>(), StatusGebruiker.Actief) { IsHoofdverantwoordelijke = true};
-                //_context.Hoofdverantwoordelijken.Add(admin);
+                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "123", "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
+                {
+                    IsHoofdverantwoordelijke = true
+                };
                 _context.SaveChanges();
                 //verantwoordelijke
-                organizer1 = new Verantwoordelijke("123", "132lv", "audrey.behiels@student.hogent.be", "123", "audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
-                organizer2 = new Verantwoordelijke("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "123", "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "123", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 _context.SaveChanges();
 
                 // Deelnemers
-                Gebruiker actieveGebruiker = new Gebruiker("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Lucifer", "De Duvel", StatusGebruiker.Actief);
-                Gebruiker nietActieveGebruiker = new Gebruiker("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Kim", "jansens", StatusGebruiker.NietActief);
-                Gebruiker geblokkeerdeGebruiker = new Gebruiker("123", "132lv", "audrey.behiels@student.hogent.be", "123", "Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
-                _context.Gebruikers.AddRange(new Gebruiker[]
+                actieveGebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "123", "Rein", "Daelman", StatusGebruiker.Actief);
+                nietActieveGebruiker = new Gebruiker("789", "1234az", "kim.jansens@student.hogent.be", "123", "Kim", "jansens", StatusGebruiker.NietActief);
+                geblokkeerdeGebruiker = new Gebruiker("741", "5678er", "lucifer.deduivel@student.hogent.be", "123", "Lucifer", "De Duvel", StatusGebruiker.Geblokkeerd);
+
+               _context.Gebruikers.AddRange(new Gebruiker[]
                 {actieveGebruiker, nietActieveGebruiker, geblokkeerdeGebruiker });
                 _context.SaveChanges();
 
@@ -122,18 +125,15 @@ namespace dotnet_g36.Data
         }
         private async Task InitializeDeelnemersEnVerantwoordelijke()
         {
+
             await _userManager.CreateAsync(admin, "123");
             await _userManager.AddClaimAsync(admin, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
-            //string eMailAddress = "Hoofdverantwoordelijke@hogent.be";
-            //User user = new User { UserName = "Hfdverantwoordelijke", Email = eMailAddress };
-            //await _userManager.CreateAsync(user, "1234");
-            //await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
 
+            await _userManager.CreateAsync(organizer1, "123");
+            await _userManager.AddClaimAsync(organizer1, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
 
-         //   eMailAddress = "Student1@hogent.be";
-         //user = new User { UserName = "student1", Email = eMailAddress };
-        await _userManager.CreateAsync(organizer1, "123");
-        await _userManager.AddClaimAsync(organizer1, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
+            await _userManager.CreateAsync(organizer2, "123");
+            await _userManager.AddClaimAsync(organizer1, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
 
             await _userManager.CreateAsync(actieveGebruiker, "123");
             await _userManager.AddClaimAsync(actieveGebruiker, new Claim(ClaimTypes.Role, "Deelnemer"));
