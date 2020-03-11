@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_g36.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<Gebruiker>
     {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -18,7 +18,7 @@ namespace dotnet_g36.Data
         }
 
         public DbSet<Sessie> Sessies { get; set; }
-        public DbSet<User> Deelnemers { get; set; }
+        public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<Verantwoordelijke> Verantwoordelijken { get; set; }
         public DbSet<Verantwoordelijke> Hoofdverantwoordelijke { get; set; }
         public DbSet<UserSessie> UserSessies { get; set; }
@@ -35,7 +35,7 @@ namespace dotnet_g36.Data
             modelBuilder.ApplyConfiguration(new SessieConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserSessieConfiguration());
-            modelBuilder.Entity<Verantwoordelijke>().HasBaseType<User>();
+            modelBuilder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
 
         }
         

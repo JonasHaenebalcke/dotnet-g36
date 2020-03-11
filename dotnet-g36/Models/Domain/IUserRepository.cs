@@ -7,10 +7,10 @@ namespace dotnet_g36.Models.Domain
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAll();
+        IEnumerable<Gebruiker> GetAll();
         IEnumerable<Verantwoordelijke> GetVerantwoordelijken();
         Verantwoordelijke GetHoofdverantwoordelijke();
-        User GetDeelnemerByID(int userID);
+        Gebruiker GetDeelnemerByID(int userID);
         void SaveChanges();
        //void Add(User deelnemer);
        //void Delete(User deelnemer);

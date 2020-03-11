@@ -23,7 +23,7 @@ namespace dotnet_g36.Data.Mapping
 
             builder.HasOne(s => s.Verantwoordelijke)
                 .WithMany(s => s.OpenTeZettenSessies)
-                .IsRequired(false)
+                .IsRequired(true)
                  .OnDelete(DeleteBehavior.Restrict);
 
             //builder.HasOne(s => s.Hoofdverantwoordelijke)

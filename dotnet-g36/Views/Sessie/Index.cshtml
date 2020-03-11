@@ -1,5 +1,8 @@
 ﻿@*@model IEnumerable<dotnet_g36.Models.Domain.Sessie>*@
 @model dotnet_g36.Models.ViewModels.SessieKalenderViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{ViewData["Title"] = "Sessiekalender";}
 
@@ -30,7 +33,7 @@
             <div class="form-group">
                 <label for="maandId"></label>
                 @*<select onchange="this.form.submit()" id="maandId" name="maandId" asp-items="@(ViewData["maanden"] as SelectList)" class="form-control">*@
-                    <select onchange="this.form.submit()" id="maandId" name="maandId" asp-items="@Model.Maanden" class="form-control">
+                <select onchange="this.form.submit()" id="maandId" name="maandId" asp-items="@Model.Maanden" class="form-control">
                 </select>
             </div>
         </div>
@@ -49,26 +52,29 @@
         <!-- loop die door de lijst van sessies gaat -->
         @for (int i = 0; i < Model.Titels.Count(); i++)
         {
-    <tr>
-        <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
-        <td class="text-center">@Model.Titels.ElementAt(i)</td>
-        <td class="text-center">@Model.DateTimes.ElementAt(i)</td>
-        <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
-        <td class="text-center">@Model.Ingeschrevenen.ElementAt(i)</td>
-        @if (Model.Ingeschrevenen.ElementAt(i))
-        {
-            <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
-        } else{
-            <td class="text-center"><input type="checkbox" disabled="disabled" readonly="readonly" /></td> 
-	    }
-        <td>
-            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
-        </td>
-    </tr>
-}
-                
-                <!---->
-            @*@foreach (var item in Model)
+            <tr>
+                <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
+                <td class="text-center">@Model.Titels.ElementAt(i)</td>
+                <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
+                <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
+                <td class="text-center">@Model.Ingeschrevenen.ElementAt(i)</td>
+                @if (Model.Ingeschrevenen.ElementAt(i))
+                {
+                    <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
+                }
+                else
+                {
+                    <td class="text-center"><input type="checkbox" disabled="disabled" readonly="readonly" /></td>
+
+                }
+                <td>
+                    <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
+                </td>
+            </tr>
+        }
+
+        <!---->
+        @*@foreach (var item in Model)
                     {@if (item.StartDatum >= DateTime.Now)
                         {
             <tr>
@@ -76,27 +82,27 @@
                 <td class="text-center">@item.Titel</td>
                 <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
                 <td class="text-center">@item.AantalOpenPlaatsen</td>*@
-            <!-- hier moet nog komen of user aanwezig was -->
-                @* @foreach (var usersessie in item.UserSessies)
+        <!-- hier moet nog komen of user aanwezig was -->
+        @* @foreach (var usersessie in item.UserSessies)
+            {
+                @if (usersessie.UserID == huidigeUser.UserID || item.Verantwoordelijke == huidigeUser || item.Hoofdverantwoordelijke == huidigeUser)
                 {
-                    @if (usersessie.UserID == huidigeUser.UserID || item.Verantwoordelijke == huidigeUser || item.Hoofdverantwoordelijke == huidigeUser)
-                    {
 
-                    }
-                    else
-                    {*@
-                @*<td class="text-center">-</td>*@
-                @*<td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly"/></td>
                 }
+                else
+                {*@
+        @*<td class="text-center">-</td>*@
+        @*<td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly"/></td>
+            }
+            }*@
+        <!-- Hier moet een link komen naar de details van de sessie -->
+        @*<td>
+                <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
+            </td>
+            </tr>
+                        }
                 }*@
-                <!-- Hier moet een link komen naar de details van de sessie -->
-                @*<td>
-                    <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
-                </td>
-                </tr>
-                            }
-                    }*@
-            </table>
+    </table>
 
     <h4>Afgelopen sessie</h4>
     <table class="table table-striped">
@@ -113,9 +119,11 @@
             <tr>
                 <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                 <td class="text-center">@Model.Titels.ElementAt(i)</td>
-                <td class="text-center">@Model.DateTimes.ElementAt(i)</td>
+                <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
                 <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
                 <td class="text-center">@Model.Aanwezigheden.ElementAt(i)</td>
+
+                @User.Identity.
                 @if (Model.Aanwezigheden.ElementAt(i))
                 {
                     <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
@@ -132,21 +140,21 @@
         }
         <!-- loop die door de lijst van sessies gaat -->
         @*@foreach (var item in Model)
-        {@if (item.StartDatum < DateTime.Now)
-            {
-                <tr>
-                    <td class="text-center">@item.Gastspreker</td>
-                    <td class="text-center">@item.Titel</td>
-                    <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString() </td>*@
-                    <!-- Hier moet komen of gebruiker aanwezig was -->
-                    @*<td class="text-center">-</td>*@
-                    <!-- Hier moet een link komen naar de details van de sessie -->
-                    @*<td class="text-center">
-                        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
-                    </td>
-                </tr>
-            }
-    }*@
+            {@if (item.StartDatum < DateTime.Now)
+                {
+                    <tr>
+                        <td class="text-center">@item.Gastspreker</td>
+                        <td class="text-center">@item.Titel</td>
+                        <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString() </td>*@
+        <!-- Hier moet komen of gebruiker aanwezig was -->
+        @*<td class="text-center">-</td>*@
+        <!-- Hier moet een link komen naar de details van de sessie -->
+        @*<td class="text-center">
+                                <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
+                            </td>
+                        </tr>
+                    }
+            }*@
     </table>
 
 </body>

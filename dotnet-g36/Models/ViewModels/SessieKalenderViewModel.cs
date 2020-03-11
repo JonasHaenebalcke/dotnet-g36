@@ -13,28 +13,27 @@ namespace dotnet_g36.Models.ViewModels
     {
         public IEnumerable<Sessie> Sessies { get; set; }
         public SelectList Maanden { get; set; }
-        public ICollection<List<string>> DetailsSessies { get; set; }
+        //public ICollection<List<string>> DetailsSessies { get; set; }
         public ICollection<string> GastSprekers { get; set; }
         public ICollection<string> Titels { get; set; }
-        public ICollection<DateTime> DateTimes { get; set; }
+        public ICollection<DateTime> StartDatums { get; set; }
         public ICollection<bool> Aanwezigheden { get; set; }
         public ICollection<int> OpenPlaatsen { get; set; }
         public ICollection<bool> Ingeschrevenen { get; set; }
         public ICollection<int> SessieIds { get; set; }
 
-        public SessieKalenderViewModel() { }
+        //public SessieKalenderViewModel() { }
 
-        public SessieKalenderViewModel(IEnumerable<Sessie> sessies, SelectList maanden, User user)
-
+        public SessieKalenderViewModel(IEnumerable<Sessie> sessies, SelectList maanden, Gebruiker user)
         {
 
-            Sessies = sessies;
+            Sessies = sessies; // opt indien alle details v alle sessies in verschillende lists (overlopen adhv for lus)
             Maanden = maanden;
-            //DetailsSessies = new List<List<string>>();
+            //DetailsSessies = new List<List<string>>(); //opt indien alles in per sessie
 
             GastSprekers = new List<string>();
             Titels = new List<string>();
-            DateTimes = new List<DateTime>();
+            StartDatums = new List<DateTime>();
             Aanwezigheden = new List<bool>();
             OpenPlaatsen = new List<int>();
             Ingeschrevenen = new List<bool>();
@@ -44,7 +43,7 @@ namespace dotnet_g36.Models.ViewModels
             {
                 GastSprekers.Add(sessie.Gastspreker);
                 Titels.Add(sessie.Titel);
-                DateTimes.Add(sessie.StartDatum);
+                StartDatums.Add(sessie.StartDatum);
                 OpenPlaatsen.Add(sessie.AantalOpenPlaatsen);
                 SessieIds.Add(sessie.SessieID);
 
