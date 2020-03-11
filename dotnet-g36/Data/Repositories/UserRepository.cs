@@ -60,10 +60,26 @@ namespace dotnet_g36.Data.Repositories
             return _verantwoordelijken.ToList();
         }
 
+        public IEnumerable<Gebruiker> GetDeelnemers()
+        {
+            return _users.Where(d => d.GetType().Equals("Deelnemer")).ToList();
+        }
+
+        public Gebruiker GetDeelnemerByEmail(string emailadres) // Misschien moet er nog een include in...
+        {
+            return _users.SingleOrDefault(d => d.Email.Equals(emailadres));
+        }
+
+        public Gebruiker GetDeelnemerByUsername(string username)
+        {
+            return _users.SingleOrDefault(d => d.UserName.Equals(username));
+        }
         public void SaveChanges()
         {
             _dbContext.SaveChanges();
-        } 
+        }
+
+
         #endregion
     }
 }

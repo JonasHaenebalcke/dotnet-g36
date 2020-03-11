@@ -11,6 +11,9 @@ namespace dotnet_g36.Models.Domain
         IEnumerable<Verantwoordelijke> GetVerantwoordelijken();
         Verantwoordelijke GetHoofdverantwoordelijke();
         Gebruiker GetDeelnemerByID(int userID);
+        Gebruiker GetDeelnemerByEmail(string emailadres);
+        Gebruiker GetDeelnemerByUsername(string username);
+        IEnumerable<Gebruiker> GetDeelnemers();
         void SaveChanges();
        //void Add(User deelnemer);
        //void Delete(User deelnemer);
