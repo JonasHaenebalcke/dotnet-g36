@@ -164,6 +164,23 @@ namespace dotnet_g36.Models.Domain
             if (!succes)
                 throw new NietIngeschrevenException("Deelnemer kon niet worden uitegeschreven.");
         }
+
+        /// <summary>
+        /// geeft alle usernames van de aanwezigen
+        /// </summary>
+        /// <returns>List van string</returns>
+        public List<string> geefAlleAanwezigen()
+        {
+            List<string> res = new List<string>();
+            foreach (UserSessie userSessie in UserSessies)
+            {
+                if (userSessie.Aanwezig)
+                {
+                    res.Add(userSessie.User.UserName);
+                }
+            }
+            return res;
+        }
         #endregion
     }
 }

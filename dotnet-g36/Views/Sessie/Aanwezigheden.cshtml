@@ -1,0 +1,29 @@
+﻿
+@{ViewData["Title"] = "Aanwezigheid Registreren";}
+@if(Model. >= DateTime.Now)
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>Aanwezigheid Registreren</h1>
+    @*<input />*@
+    <button type="submit" class="btn btn-secondary ml-1">Voeg toe</button>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-warning">@TempData["error"]</div>
+            }
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+        </main>
+    </div>
+</body>
+</html>
