@@ -95,7 +95,7 @@ namespace dotnet_g36.Controllers
             //}else {
             ViewData["isIngeschreven"] = false; */
 
-            return View(new SessieDetailsViewModel(sessie, Gebruiker));
+            return View(new SessieDetailsViewModel(sessie/*, Gebruiker*/));
         }
 
 

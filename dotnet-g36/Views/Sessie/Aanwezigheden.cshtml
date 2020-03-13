@@ -1,7 +1,12 @@
-﻿
+﻿@model dotnet_g36.Models.Domain.UserSessie
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Gebruiker> SignInManager
+@inject UserManager<Gebruiker> UserManager
+
 @{ViewData["Title"] = "Aanwezigheid Registreren";}
-@if(Model. >= DateTime.Now)
-<!DOCTYPE html>
+@*@if (Model >= DateTime.Now) { }*@
+
+    <!DOCTYPE html>
 
 <html>
 <head>
