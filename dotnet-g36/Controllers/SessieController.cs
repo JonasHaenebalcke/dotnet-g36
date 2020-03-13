@@ -15,8 +15,6 @@ namespace dotnet_g36.Controllers
 {
     public class SessieController : Controller
     {
-        SignInManager<Gebruiker> SignInManager;
-        UserManager<Gebruiker> UserManager;
         private readonly ISessieRepository _sessieRepository;
         private Gebruiker Gebruiker { get; set; } // DELETE
 
@@ -24,14 +22,6 @@ namespace dotnet_g36.Controllers
         {
 
             _sessieRepository = sessieRepository;
-            Gebruiker = new Gebruiker() { Id = "1" }; // DELETE
-        }
-        public SessieController(ISessieRepository sessieRepository, UserManager<Gebruiker> userManager)
-        {
-            
-            _sessieRepository = sessieRepository;
-            Gebruiker = new Gebruiker() { Id = "1" }; // DELETE
-            UserManager = userManager;
         }
 
         [AllowAnonymous]
@@ -41,7 +31,6 @@ namespace dotnet_g36.Controllers
             {
                 //if(userid == null || userid.Length == 0)
                 //    return 
-                //ViewData["aanwezigen"] = _sessieRepository.GetByID()
                 
                 if (maandId == 0)
                 {
@@ -58,14 +47,13 @@ namespace dotnet_g36.Controllers
                 else
                 {
                     TempData["message"] = "Er zijn sessies";
-                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), /*huidige ingelogde user*/ Gebruiker)); //OPT VIEWMODEL
-                    //return View(sessies);
+                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId))); //OPT VIEWMODEL
                 }
             }
             catch(GeenSessiesException gse)
             {
                 TempData["error"] = gse.Message;
-                return View(new List<Sessie>());
+                return View(new SessieKalenderViewModel( new List<Sessie>(), GetMaandSelectList(maandId)));
             }
 
         }
@@ -81,30 +69,7 @@ namespace dotnet_g36.Controllers
         {
             Sessie sessie = _sessieRepository.GetByID(id);
 
-            if (sessie.Media != null)
-            {
-                ViewData["hasMedia"] = true;
-            }
-            else
-            {
-                ViewData["hasMedia"] = false;
-            }
-
-            if (sessie.FeedbackList != null)
-            {
-                ViewData["hasFeedback"] = true;
-            }
-            else
-            {
-                ViewData["hasFeedback"] = false;
-            }
-
-            //if(user is ingeschreven) {
-           // ViewData["isIngeschreven"] = true;
-            //}else {
-            ViewData["isIngeschreven"] = false; 
-
-            return View(new SessieDetailsViewModel(sessie, Gebruiker));
+            return View(new SessieDetailsViewModel(sessie/*, Gebruiker*/));
         }
 
 

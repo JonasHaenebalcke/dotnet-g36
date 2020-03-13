@@ -23,7 +23,7 @@ namespace dotnet_g36.Models.ViewModels
 
         //public SessieDetailsViewModel(){ }
 
-        public SessieDetailsViewModel(Sessie sessie, Gebruiker user)
+        public SessieDetailsViewModel(Sessie sessie/*, Gebruiker user*/)
         {
             this.Titel = sessie.Titel;
             this.Beschrijving = sessie.Beschrijving;
@@ -40,16 +40,16 @@ namespace dotnet_g36.Models.ViewModels
             this.AantalAanwezigen = 0;//sessie.UserSessies.Count();
 
             DeelnemerAanwezig = false; DeelnemerIngeschreven = false;
-            foreach (UserSessie userSessie in sessie.UserSessies)
-            {
-                if (userSessie.Aanwezig) 
-                    AantalAanwezigen++;
-                if (userSessie.User.Equals(user))
-                {
-                    DeelnemerIngeschreven = true;
-                    DeelnemerAanwezig = userSessie.Aanwezig;
-                }
-            }
+            //foreach (UserSessie userSessie in sessie.UserSessies)
+            //{
+            //    if (userSessie.Aanwezig) 
+            //        AantalAanwezigen++;
+            //    if (userSessie.User.Equals(user))
+            //    {
+            //        DeelnemerIngeschreven = true;
+            //        DeelnemerAanwezig = userSessie.Aanwezig;
+            //    }
+            //}
         }
     }
 }

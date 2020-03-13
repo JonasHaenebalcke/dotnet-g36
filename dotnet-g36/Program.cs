@@ -16,11 +16,11 @@ namespace dotnet_g36
         {
            //Dit staat in de slides maar niet in vb examen 
             
-             using (ApplicationDbContext context = new ApplicationDbContext())
-            {
+         /*   using (ApplicationDbContext context = new ApplicationDbContext())
+          {
                 new ItLabDataInitializer(context).initializeData();
-                Console.WriteLine("Database created");
-            }
+           Console.WriteLine("Database created");
+          }*/
 
             CreateHostBuilder(args).Build().Run();
         }

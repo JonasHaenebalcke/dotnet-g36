@@ -1,4 +1,7 @@
-﻿@model dotnet_g36.Models.ViewModels.SessieDetailsViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Gebruiker> SignInManager
+@inject UserManager<Gebruiker> UserManager
+@model dotnet_g36.Models.ViewModels.SessieDetailsViewModel
 @{
     ViewData["Title"] = "Sessie Details";
 }
