@@ -26,9 +26,9 @@ namespace dotnet_g36.Data
         public DbSet<Verantwoordelijke> Verantwoordelijken { get; set; }
         public DbSet<Verantwoordelijke> Hoofdverantwoordelijke { get; set; }
         public DbSet<UserSessie> UserSessies { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
 
-        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,7 @@ namespace dotnet_g36.Data
             modelBuilder.ApplyConfiguration(new SessieConfiguration());
             modelBuilder.ApplyConfiguration(new GebruikerConfiguration());
             modelBuilder.ApplyConfiguration(new UserSessieConfiguration());
+            modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
             modelBuilder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
 
 

@@ -39,7 +39,7 @@
         </div>
     </form>
 
-    <h4>Geplande sessie</h4>
+    <h4>Geplande sessies</h4>
     <table class="table table-striped">
         <tr>
             <th class="text-center">Gastspreker</th>
@@ -50,61 +50,61 @@
             <th class="text-center">Details</th>
         </tr>
         <!-- loop die door de lijst van sessies gaat -->
-        @for (int i = 0; i < Model.Titels.Count(); i++)
-        {
+        @for (int i = 0; i < Model.Titels.Count(); i++){
             <tr>
                 <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                 <td class="text-center">@Model.Titels.ElementAt(i)</td>
                 <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
                 <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
-                <td class="text-center">@Model.Ingeschrevenen.ElementAt(i)</td>
                 @if (Model.Ingeschrevenen.ElementAt(i))
                 {
-                    <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
+                    <td class="text-center">Ja</td>
                 }
                 else
                 {
-                    <td class="text-center"><input type="checkbox" disabled="disabled" readonly="readonly" /></td>
-
+                    <td class="text-center">--</td>
                 }
+
                 <td>
                     <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                 </td>
             </tr>
         }
 
-        @* < !---->
-        @foreach (var item in Model)
-         {@if (item.StartDatum >= DateTime.Now)
-             {
-                 <tr>
-                     <td class="text-center">@item.Gastspreker</td>
-                     <td class="text-center">@item.Titel</td>
-                     <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
-                     <td class="text-center">@item.AantalOpenPlaatsen</td>
-                     <!-- hier moet nog komen of user aanwezig was -->
-                     @foreach (var usersessie in item.UserSessies)
-                     {
-                         @if (usersessie.UserID == huidigeUser.UserID || item.Verantwoordelijke == huidigeUser || item.Hoofdverantwoordelijke == huidigeUser)
-                         {
 
-                         }
-                         else
+        <!---->
+        @* @foreach (var item in Model)
+             {@if (item.StartDatum >= DateTime.Now)
+                 {
+                     <tr>
+                         <td class="text-center">@item.Gastspreker</td>
+                         <td class="text-center">@item.Titel</td>
+                         <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
+                         <td class="text-center">@item.AantalOpenPlaatsen</td>
+                         <!-- hier moet nog komen of user aanwezig was -->
+                         @foreach (var usersessie in item.UserSessies)
                          {
-                             <td class="text-center">-</td>
-                             <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
-                         }
-                     }
-                     <!-- Hier moet een link komen naar de details van de sessie -->
-                     <td>
-                         <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
-                     </td>
-                 </tr>
-             }*@
+                             @if (usersessie.UserID == huidigeUser.UserID || item.Verantwoordelijke == huidigeUser || item.Hoofdverantwoordelijke == huidigeUser)
+                             {
+
+                             }
+                             else
+                             {
+                                 <td class="text-center">-</td>
+                                 <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
+                             }
+            }
+
+             <!-- Hier moet een link komen naar de details van de sessie -->
+             <td>
+                 <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
+             </td>
+             </tr>*@
+        }
 
     </table>
 
-    <h4>Afgelopen sessie</h4>
+    <h4>Afgelopen sessies</h4>
     <table class="table table-striped">
         <tr>
             <th class="text-center">Gastspreker</th>
@@ -114,24 +114,19 @@
             <th class="text-center">Details</th>
         </tr>
 
-        @for (int i = 0; i < Model.Titels.Count(); i++)
-        {
+        @for (int i = 0; i < Model.Titels.Count(); i++){
             <tr>
                 <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                 <td class="text-center">@Model.Titels.ElementAt(i)</td>
                 <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
-                <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
-                <td class="text-center">@Model.Aanwezigheden.ElementAt(i)</td>
 
-                @if (Model.Aanwezigheden.ElementAt(i))
-                {
-                    <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
+                @if (Model.Aanwezigheden.ElementAt(i))  {
+                    <td class="text-center">Ja</td>
                 }
-                else
-                {
-                    <td class="text-center"><input type="checkbox" disabled="disabled" readonly="readonly" /></td>
+                else {
+                    <td class="text-center">--</td>
+                }
 
-                }
                 <td>
                     <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                 </td>

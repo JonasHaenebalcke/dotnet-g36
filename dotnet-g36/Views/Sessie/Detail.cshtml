@@ -1,7 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@model dotnet_g36.Models.ViewModels.SessieDetailsViewModel
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<Gebruiker> SignInManager
 @inject UserManager<Gebruiker> UserManager
-@model dotnet_g36.Models.ViewModels.SessieDetailsViewModel
 @{
     ViewData["Title"] = "Sessie Details";
 }
@@ -122,8 +122,8 @@
             <button type="submit">Indienen</button>
         </form>
 
+        @*@if(ViewData["hasFeedback"].Equals(true)) *@
 
-        @*@if (ViewData["hasFeedback"].Equals(true))*@
         @if (Model.FeedbackList.Count() != 0)
         {
             <div>

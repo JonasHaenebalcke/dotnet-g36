@@ -71,10 +71,10 @@ namespace dotnet_g36.Controllers
         public IActionResult Detail(int id)
         {
             Sessie sessie = _sessieRepository.GetByID(id);
-            /*
-            if (sessie.Media != null)
+            
+          /*  if (sessie.Media != null)
             {
-                ViewData["hasMedia"] = true;
+                ViewData["hasMedia"] = sessie.Media;
             }
             else
             {
@@ -83,18 +83,19 @@ namespace dotnet_g36.Controllers
 
             if (sessie.FeedbackList != null)
             {
-                ViewData["hasFeedback"] = true;
-            }
-            else
+                ViewData["hasFeedback"] = sessie.FeedbackList ;
+            }*/
+            /*else
             {
                 ViewData["hasFeedback"] = false;
-            }
+            }*/
 
+            
             //if(user is ingeschreven) {
            // ViewData["isIngeschreven"] = true;
             //}else {
-            ViewData["isIngeschreven"] = false; */
-
+           // ViewData["isIngeschreven"] = false; 
+          
             return View(new SessieDetailsViewModel(sessie/*, Gebruiker*/));
         }
 
