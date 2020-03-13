@@ -63,7 +63,8 @@
         }
     }
 
-    @if (ViewData["hasMedia"].Equals(true))
+    @*@if (ViewData["hasMedia"].Equals(true))*@
+    @if (Model.ListMedia.Count() != 0)
     {
         <h6>Media</h6>
         <div>
@@ -119,7 +120,8 @@
         </form>
 
 
-        @if (ViewData["hasFeedback"].Equals(true))
+        @*@if (ViewData["hasFeedback"].Equals(true))*@
+        @if (Model.FeedbackList.Count() != 0)
         {
             <div>
                 <table class="table table-striped">
@@ -129,7 +131,7 @@
 
                     </tr>
                     <!-- loop die door de lijst van Feedback gaat -->
-                    @foreach (var feedback in Model.ListMedia)
+                    @foreach (var feedback in Model.FeedbackList)
                     {
                         <tr>
                             <td class="text-center">feedback.NaamAuteur</td>

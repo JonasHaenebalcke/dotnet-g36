@@ -18,12 +18,14 @@ namespace dotnet_g36.Controllers
         SignInManager<Gebruiker> SignInManager;
         UserManager<Gebruiker> UserManager;
         private readonly ISessieRepository _sessieRepository;
+        private readonly IUserRepository _userRepository;
+        private Sessie geselecteerdeSessie;
         private Gebruiker Gebruiker { get; set; } // DELETE
 
-        public SessieController(ISessieRepository sessieRepository)
+        public SessieController(ISessieRepository sessieRepository, IUserRepository userRepository)
         {
-
             _sessieRepository = sessieRepository;
+            _userRepository = userRepository;
             Gebruiker = new Gebruiker() { Id = "1" }; // DELETE
         }
         public SessieController(ISessieRepository sessieRepository, UserManager<Gebruiker> userManager)
@@ -79,28 +81,28 @@ namespace dotnet_g36.Controllers
         {
             Sessie sessie = _sessieRepository.GetByID(id);
 
-            if (sessie.Media != null)
-            {
-                ViewData["hasMedia"] = true;
-            }
-            else
-            {
-                ViewData["hasMedia"] = false;
-            }
+            //if (sessie.Media != null)
+            //{
+            //    ViewData["hasMedia"] = true;
+            //}
+            //else
+            //{
+            //    ViewData["hasMedia"] = false;
+            //}
 
-            if (sessie.FeedbackList != null)
-            {
-                ViewData["hasFeedback"] = true;
-            }
-            else
-            {
-                ViewData["hasFeedback"] = false;
-            }
+            //if (sessie.FeedbackList != null)
+            //{
+            //    ViewData["hasFeedback"] = true;
+            //}
+            //else
+            //{
+            //    ViewData["hasFeedback"] = false;
+            //}
 
             //if(user is ingeschreven) {
            // ViewData["isIngeschreven"] = true;
             //}else {
-            ViewData["isIngeschreven"] = false; 
+            //ViewData["isIngeschreven"] = false; 
 
             return View(new SessieDetailsViewModel(sessie, Gebruiker));
         }
@@ -173,6 +175,85 @@ namespace dotnet_g36.Controllers
         //        base.OnActionExecuting(context);
         //    }
         //}
+
+        public IActionResult MeldAanwezig(int id)
+        {
+            try
+            {
+                //Gebruiker gebruiker = new Gebruiker();
+
+                Sessie sessie = _sessieRepository.GetByID(id);
+
+                if(sessie.StartDatum >= DateTime.Now)
+                {
+                    TempData["Error"] = "U kan zich niet meer aanmelden";
+                    return View(nameof(Index));
+                    //return View(nameof(Inloggen));
+                }
+
+                //if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
+                //{
+                //    throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
+                //}
+
+                ViewData["Aanwezig"] = sessie.geefAlleAanwezigen();
+                ViewData["Startdatum"] = sessie.StartDatum;
+                return View();
+            } catch (Exception e)
+            {
+                TempData["Error"] = e.Message;
+                return View();
+            }
+            //catch (GeenActieveGebruikerException e)
+            //{
+            //    TempData["Error"] = e.Message;
+            //    return View();
+            //}
+            //catch (NietIngeschrevenException e)
+            //{
+            //    TempData["Error"] = e.Message;
+            //    return View();
+            //}
+        }
+        [HttpPost]
+        public IActionResult MeldAanwezig(int id, string barcode)
+        {
+            try
+            {
+                Gebruiker gebruiker = new Gebruiker();
+
+                Sessie sessie = _sessieRepository.GetByID(id);
+
+                if (sessie.StartDatum >= DateTime.Now)
+                {
+                    TempData["Error"] = "U kan zich niet meer aanmelden";
+                    return View(nameof(Index));
+                    //return View(nameof(Inloggen));
+                }
+
+                if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
+                {
+                    throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
+                }
+
+                sessie.MeldAanwezig(gebruiker);
+                TempData["message"] = "Aanmelden is gelukt!";
+
+                ViewData["Aanwezig"] = sessie.geefAlleAanwezigen();
+
+                return View(nameof(MeldAanwezig), id);
+            }
+            catch (GeenActieveGebruikerException e)
+            {
+                TempData["Error"] = e.Message;
+                return View();
+            }
+            catch (NietIngeschrevenException e)
+            {
+                TempData["Error"] = e.Message;
+                return View();
+            }
+        }
     }
 
     
