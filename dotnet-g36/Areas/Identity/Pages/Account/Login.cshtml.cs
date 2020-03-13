@@ -19,14 +19,14 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<Gebruiker> _userManager;
+        private readonly SignInManager<Gebruiker> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<Gebruiker> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager,
+            UserManager<Gebruiker> userManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -48,11 +48,13 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [EmailAddress]
             [Display(Name = "Gebruikersnaam of email")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]
@@ -78,14 +80,15 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-
-            if (Input.Email.IndexOf('@') > -1)
+            returnUrl ??= Url.Content("~/");
+            // ik heb gekeken of dit wordt gecheckt , ik denk van niet want als ik iets fout ingeef dan mocht de specifieke melding niet.
+            /*if (Input.Email.IndexOf('@') > -1)
             {
                 //Validate email format
                 string emailRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
                                        @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
                                           @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+              //  @"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}";
                 Regex re = new Regex(emailRegex);
                 if (!re.IsMatch(Input.Email))
                 {
@@ -95,13 +98,13 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
             else
             {
                 //validate Username format
-                string emailRegex = @"^[a-zA-Z0-9]*$";
-                Regex re = new Regex(emailRegex);
+                string userRegex = @"^[a-zA-Z0-9]*$";
+                Regex re = new Regex(userRegex);
                 if (!re.IsMatch(Input.Email))
                 {
                     ModelState.AddModelError("Email", "Username is not valid");
                 }
-            }
+            }*/
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -125,10 +128,10 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
                         .FirstOrDefaultAsync(u => u.UserName == Input.Email || u.Email == Input.Email);
                 if (user != null)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(/*email*/user.Email, Input.Password, false, true);
+                    var result = await _signInManager.PasswordSignInAsync(/*email*/user.UserName, Input.Password, false, true);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User logged in.");
+                        _logger.LogInformation("User is ingelogd.");
                         return LocalRedirect(returnUrl);
                     }
                     if (result.RequiresTwoFactor)
@@ -142,7 +145,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt..");
+                        ModelState.AddModelError(string.Empty, "Ongeldig login attempt..");
                         return Page();
                     }
                 }
@@ -152,7 +155,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+           ModelState.AddModelError(string.Empty, "Ongeldig login attempt.");
             return Page();
         }
 
@@ -174,7 +177,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { userId = userId, code = code },
+                values: new {userId,code },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 Input.Email,

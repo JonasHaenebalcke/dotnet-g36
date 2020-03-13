@@ -11,49 +11,62 @@ namespace dotnet_g36.Data
     public class ItLabDataInitializer
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+       private readonly UserManager<Gebruiker> _userManager;
         private Verantwoordelijke admin;
         private Verantwoordelijke organizer1;
         private Verantwoordelijke organizer2;
         private Gebruiker actieveGebruiker;
-        private Gebruiker nietActieveGebruiker;
-        private Gebruiker geblokkeerdeGebruiker;
-
-        public ItLabDataInitializer(ApplicationDbContext context,UserManager<IdentityUser> userManager )
+       // private Gebruiker nietActieveGebruiker;
+       // private Gebruiker geblokkeerdeGebruiker;
+        
+        public ItLabDataInitializer(ApplicationDbContext context , UserManager<Gebruiker> userManager)
         {
             _context = context;
-            _userManager = userManager;
+           _userManager = userManager;
         }
 
-        public async Task initializeData() {
+        public async Task InitializeData() {
             _context.Database.EnsureDeleted();
 
             if (_context.Database.EnsureCreated())
             {
 
-
+                var ph = new PasswordHasher<Gebruiker>();
                 // Hoofdverantwoordelijke string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief
-                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "123", "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
+                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", /*"123",*/ "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
                 {
                     IsHoofdverantwoordelijke = true
                 };
-                _context.SaveChanges();
+                admin.EmailConfirmed = true;
+                admin.PasswordHash = ph.HashPassword(admin, "123");
+                admin.SecurityStamp = Guid.NewGuid().ToString();
                 //verantwoordelijke
-                organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "123", "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
-                organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "123", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", /*"123",*/ "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be",/* "123", */"Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer1.EmailConfirmed = true;
+                organizer1.PasswordHash = ph.HashPassword(organizer1, "123");
+                organizer1.SecurityStamp = Guid.NewGuid().ToString();
+                organizer2.EmailConfirmed = true;
+                organizer2.PasswordHash = ph.HashPassword(organizer2, "123");
+                organizer2.SecurityStamp = Guid.NewGuid().ToString();
+
+                // Deelnemers
+                actieveGebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be",/* "123",*/ "Rein", "Daelman", StatusGebruiker.Actief);
+                //nietActieveGebruiker = new Gebruiker("789", "1234az", "kim.jansens@student.hogent.be",/* "123", */"Kim", "jansens", StatusGebruiker.NietActief);
+                //geblokkeerdeGebruiker = new Gebruiker("741", "5678er", "lucifer.deduivel@student.hogent.be",/* "123",*/ "Lucifer", "De Duvel", StatusGebruiker.Geblokkeerd);
+                actieveGebruiker.EmailConfirmed = true;
+                actieveGebruiker.PasswordHash = ph.HashPassword(actieveGebruiker, "123");
+                actieveGebruiker.SecurityStamp = Guid.NewGuid().ToString();
+
+                _context.Gebruikers.AddRange(new Gebruiker[]
+                {actieveGebruiker  });
+                //nietActieveGebruiker, geblokkeerdeGebruiker
+                _context.SaveChanges();
+                _context.Verantwoordelijken.Add(admin);
+              
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 _context.SaveChanges();
-
-                // Deelnemers
-                actieveGebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "123", "Rein", "Daelman", StatusGebruiker.Actief);
-                nietActieveGebruiker = new Gebruiker("789", "1234az", "kim.jansens@student.hogent.be", "123", "Kim", "jansens", StatusGebruiker.NietActief);
-                geblokkeerdeGebruiker = new Gebruiker("741", "5678er", "lucifer.deduivel@student.hogent.be", "123", "Lucifer", "De Duvel", StatusGebruiker.Geblokkeerd);
-
-               _context.Gebruikers.AddRange(new Gebruiker[]
-                {actieveGebruiker, nietActieveGebruiker, geblokkeerdeGebruiker });
-                _context.SaveChanges();
-
                 await InitializeDeelnemersEnVerantwoordelijke();
                 //Sessies
                 // Jan 
@@ -121,23 +134,29 @@ namespace dotnet_g36.Data
               });
                 _context.SaveChanges();
 
+                UserSessie us1 = new UserSessie(sessie1, actieveGebruiker);
+                _context.UserSessies.Add(us1);
+                _context.SaveChanges();
+              //  UserSessie usé = new UserSessie(sessie1, actieveGebruiker);
+
             }
         }
         private async Task InitializeDeelnemersEnVerantwoordelijke()
         {
-
-            await _userManager.CreateAsync(admin, "123");
+            
+           // await _userManager.CreateAsync(admin, "123");
             await _userManager.AddClaimAsync(admin, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
 
-            await _userManager.CreateAsync(organizer1, "123");
+
+            //await _userManager.CreateAsync(organizer1, "123");
             await _userManager.AddClaimAsync(organizer1, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
 
-            await _userManager.CreateAsync(organizer2, "123");
+           // await _userManager.CreateAsync(organizer2, "123");
             await _userManager.AddClaimAsync(organizer1, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
 
-            await _userManager.CreateAsync(actieveGebruiker, "123");
+           // await _userManager.CreateAsync(actieveGebruiker, "123");
             await _userManager.AddClaimAsync(actieveGebruiker, new Claim(ClaimTypes.Role, "Deelnemer"));
-        }
+    }
     }
 }
     

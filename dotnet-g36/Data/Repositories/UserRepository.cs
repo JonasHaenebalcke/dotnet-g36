@@ -40,7 +40,7 @@ namespace dotnet_g36.Data.Repositories
             return _users.ToList();
         }
 
-        public Gebruiker GetDeelnemerByID(int userID)
+        public Gebruiker GetDeelnemerByID(Guid userID)
         {
             return _users.SingleOrDefault(u => u.Id.Equals(userID));
         }

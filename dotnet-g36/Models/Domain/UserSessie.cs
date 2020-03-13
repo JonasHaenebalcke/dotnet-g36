@@ -10,12 +10,12 @@ namespace dotnet_g36.Models.Domain
     {
 
         #region Fields
-        private string _userID;
+        private Guid _userID;
         private int _sessieID; 
         #endregion
 
         #region properties
-        public string UserID
+        public Guid UserID
         {
             get { return _userID; }
             set

@@ -32,7 +32,7 @@ namespace dotnet_g36.Models.Domain
             string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie = StatusSessie.NietOpen,
             string beschrijving = "", string gastspreker = "")
         {
-            this.Verantwoordelijke = verantwoordelijke;
+            this.Verantwoordelijke = verantwoordelijke == null ? hoofdVerantwoordelijke : verantwoordelijke;
             this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
             this.Titel = titel;
             this.Lokaal = lokaal;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using dotnet_g36.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace dotnet_g36.Controllers
 {

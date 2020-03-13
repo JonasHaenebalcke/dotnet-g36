@@ -14,7 +14,7 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("UserSessie");
 
-            builder.HasKey(us => new { us.SessieID, us.UserID });
+            builder.HasKey(us => new { us.SessieID, us.UserID});
             builder.Property(us => us.SessieID).IsRequired();
             builder.Property(us => us.UserID).IsRequired();
 

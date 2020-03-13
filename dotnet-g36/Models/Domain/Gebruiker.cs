@@ -8,7 +8,7 @@ using System.Text;
 
 namespace dotnet_g36
 {
-    public class Gebruiker : IdentityUser
+    public class Gebruiker : IdentityUser<Guid>
     {
         #region fields
         private string _familieNaam;
@@ -39,7 +39,7 @@ namespace dotnet_g36
 
         public ICollection<UserSessie> UserSessies { get; set; }
 
-        //public int UserID { get; set; }
+        public string Barcode { get; set; }
 
         //public string GebruikersNaam { get; set; }
 
@@ -48,6 +48,7 @@ namespace dotnet_g36
         public StatusGebruiker StatusGebruiker { get; set; }
 
         public int AantalKeerAfwezig { get; set; }
+
         #endregion
 
         #region Constructors
@@ -55,13 +56,15 @@ namespace dotnet_g36
         public Gebruiker()
         {
         }
-        public Gebruiker(string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
+        public Gebruiker(string barcode, string username, string email,/* string wachtwoord,*/ string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
         {
-            Id = barcode;
-            PasswordHash = wachtwoord;
+            Barcode = barcode;
+         //   PasswordHash = wachtwoord;
             Email = email;
+            NormalizedEmail = email;
             AccessFailedCount = 0;
             UserName = username;
+            NormalizedUserName = username;
             this.Voornaam = voornaam;
             this.Familienaam = familienaam;
             this.StatusGebruiker = statusGebruiker;

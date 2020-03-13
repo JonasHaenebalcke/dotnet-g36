@@ -14,9 +14,9 @@ namespace dotnet_g36
         #endregion
 
         #region constructors
-        //public Verantwoordelijke() : base() { }
-        public Verantwoordelijke(string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, List<Sessie> openTeZettenSessies, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
-            : base(barcode, username, email, wachtwoord, voornaam, familienaam, statusGebruiker)
+        public Verantwoordelijke() : base() { }
+        public Verantwoordelijke(string barcode, string username, string email,/* string wachtwoord,*/ string voornaam, string familienaam, List<Sessie> openTeZettenSessies, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
+            : base(barcode, username, email,/* wachtwoord, */voornaam, familienaam, statusGebruiker)
         {
             this.OpenTeZettenSessies = openTeZettenSessies;// new List<Sessie>();
             IsHoofdverantwoordelijke = false;

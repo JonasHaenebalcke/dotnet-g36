@@ -33,21 +33,22 @@ namespace dotnet_g36
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<Gebruiker>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+           services.AddDefaultIdentity<Gebruiker>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders() ;
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Hoofdverantwoordelijke", policy => policy.RequireClaim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
-                options.AddPolicy("Verantwoordelijk", policy => policy.RequireClaim(ClaimTypes.Role, "Verantwoordelijke"));
-                options.AddPolicy("Deelnemer", policy => policy.RequireClaim(ClaimTypes.Role, "Deelnemer"));
-
-            });
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<ItLabDataInitializer>();
             services.AddScoped<ISessieRepository, SessieRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
+                        services.AddAuthorization(options =>
+                        {
+                            options.AddPolicy("Hoofdverantwoordelijke", policy => policy.RequireClaim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
+                            options.AddPolicy("Verantwoordelijk", policy => policy.RequireClaim(ClaimTypes.Role, "Verantwoordelijke"));
+                            options.AddPolicy("Deelnemer", policy => policy.RequireClaim(ClaimTypes.Role, "Deelnemer"));
+
+                        });
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -55,7 +56,7 @@ namespace dotnet_g36
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 4;
+                options.Password.RequiredLength = 3;
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
@@ -117,7 +118,7 @@ namespace dotnet_g36
                 endpoints.MapRazorPages();
             });
 
-            initializer.initializeData().Wait();
+            initializer.InitializeData().Wait();
         }
     }
 }
