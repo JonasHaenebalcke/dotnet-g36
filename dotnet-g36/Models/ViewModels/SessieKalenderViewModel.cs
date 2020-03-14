@@ -47,7 +47,6 @@ namespace dotnet_g36.Models.ViewModels
                 OpenPlaatsen.Add(sessie.AantalOpenPlaatsen);
                 SessieIds.Add(sessie.SessieID);
 
-                //String aanwezig = false.ToString(), ingeschreven = false.ToString();
                 bool aanwezig = false, ingeschreven = false;
                 if(gebruiker != null)
                 {
@@ -55,8 +54,6 @@ namespace dotnet_g36.Models.ViewModels
                     {
                         if (userSessie.UserID == gebruiker.Id)
                         {
-                            //aanwezig = userSessie.Aanwezig.ToString();
-                            //ingeschreven = true.ToString();
                             aanwezig = userSessie.Aanwezig;
                             ingeschreven = true;
                             break;

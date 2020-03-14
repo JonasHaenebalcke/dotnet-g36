@@ -11,7 +11,7 @@ namespace dotnet_g36.Models.Domain
 
         #region Fields
         private Guid _userID;
-        private string _userName;
+        //private string _userName;
         private int _sessieID;
         #endregion
 
@@ -24,14 +24,14 @@ namespace dotnet_g36.Models.Domain
                 _userID = User.Id;
             }
         }
-        public string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                _userName = User.UserName;
-            }
-        }
+        //public string UserName
+        //{
+        //    get { return _userName; }
+        //    set
+        //    {
+        //        _userName = User.UserName;
+        //    }
+        //}
         public Gebruiker User { get; set; }
 
         public int SessieID
@@ -44,13 +44,7 @@ namespace dotnet_g36.Models.Domain
         }
         public Sessie Sessie { get; set; }
 
-        public bool Aanwezig
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public bool Aanwezig { get; set; }
         #endregion
 
         #region Constructors
@@ -61,9 +55,7 @@ namespace dotnet_g36.Models.Domain
 
         public UserSessie(Sessie sessie, Gebruiker user)
         {
-          //  this.SessieID = sessie.SessieID;
             this.Sessie = sessie;
-            //this.UserID = user.UserID;
             this.User = user;
             Aanwezig = false;
         }

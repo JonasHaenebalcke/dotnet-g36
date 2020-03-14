@@ -19,7 +19,7 @@ namespace dotnet_g36.Tests.Controllers
         private readonly SessieController _controller;
         private readonly DummyDbContext _context;
         private readonly Mock<ISessieRepository> _sessieRepo;
-        //private readonly Month huidigeMaand;
+        private readonly Mock<IUserRepository> _userRepo;
         private readonly int huidigeMaand;
 
         public SessieControllerTest()
@@ -27,7 +27,9 @@ namespace dotnet_g36.Tests.Controllers
             huidigeMaand = DateTime.Now.Month;
             _context = new DummyDbContext();
             _sessieRepo = new Mock<ISessieRepository>();
-            _controller = new SessieController(_sessieRepo.Object)
+            _userRepo = new Mock<IUserRepository>();
+
+            _controller = new SessieController(_sessieRepo.Object, _userRepo.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -58,17 +60,10 @@ namespace dotnet_g36.Tests.Controllers
         [Fact]
         public void SessieKalender_veranderJanuariMaandZonderSessies_GeeftMeldingenGeenSessiesWeer()
         {
-            _sessieRepo.Setup(s => s.GetByMonth(01)).Returns(new List<Sessie>()); //Custom Exception? //(_context.huidigeMaandSessies);
+            _sessieRepo.Setup(s => s.GetByMonth(01)).Returns(new List<Sessie>());
             var actionResult = Assert.IsType<ViewResult>(_controller.Index(01));
             var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
             Assert.Empty(sessies);
-            //Assert.Throws<GeenSessiesException>(() => _controller.Index(01));
-        }
-
-        [Fact] //geschreven door Rein, doel vd test?
-        public void KiesSessieTest()
-        {
-
         }
     }
 }

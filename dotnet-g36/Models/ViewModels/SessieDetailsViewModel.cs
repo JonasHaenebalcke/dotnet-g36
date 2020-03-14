@@ -34,14 +34,14 @@ namespace dotnet_g36.Models.ViewModels
             this.Lokaal = sessie.Lokaal;
             this.OpenPlaatsen = sessie.AantalOpenPlaatsen;
             //this.ListMedia = sessie.Media;
-            this.ListMedia = new List<Media>(); // anders werkte de knop Details niet
+            this.ListMedia = new List<Media>();
             // this.FeedbackList = sessie.FeedbackList;
-            this.FeedbackList = new List<Feedback>(); // anders werkte de knop Details niet
+            this.FeedbackList = new List<Feedback>();
             this.GastSpreker = sessie.Gastspreker;
             this.Verantwoordelijke = sessie.Verantwoordelijke;
             this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
 
-            this.AantalAanwezigen = 0;//sessie.UserSessies.Count();
+            this.AantalAanwezigen = 0;
             this.gebruiker = gebruiker;
             DeelnemerAanwezig = false;
             DeelnemerIngeschreven = false;
