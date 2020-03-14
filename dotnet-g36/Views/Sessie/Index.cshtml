@@ -35,7 +35,6 @@
         <div class="form-inline">
             <div class="form-group">
                 <label for="maandId"></label>
-                @*<select onchange="this.form.submit()" id="maandId" name="maandId" asp-items="@(ViewData["maanden"] as SelectList)" class="form-control">*@
                 <select onchange="this.form.submit()" id="maandId" name="maandId" asp-items="@Model.Maanden" class="form-control">
                 </select>
             </div>

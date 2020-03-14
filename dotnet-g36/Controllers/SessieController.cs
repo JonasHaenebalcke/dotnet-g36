@@ -18,7 +18,6 @@ namespace dotnet_g36.Controllers
         private readonly ISessieRepository _sessieRepository;
         private readonly IUserRepository _userRepository;
         private Sessie geselecteerdeSessie;
-        private Gebruiker Gebruiker { get; set; } // DELETE
 
         SignInManager<Gebruiker> SignInManager;
         UserManager<Gebruiker> UserManager;
@@ -36,9 +35,10 @@ namespace dotnet_g36.Controllers
         {
             try
             {
+                Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
                 //if(userid == null || userid.Length == 0)
                 //    return 
-                
+
                 if (maandId == 0)
                 {
                     maandId = DateTime.Now.Month;
@@ -54,13 +54,13 @@ namespace dotnet_g36.Controllers
                 else
                 {
                     TempData["message"] = "Er zijn sessies";
-                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId))); //OPT VIEWMODEL
+                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), gebruiker)); //OPT VIEWMODEL
                 }
             }
             catch(GeenSessiesException gse)
             {
                 TempData["error"] = gse.Message;
-                return View(new SessieKalenderViewModel( new List<Sessie>(), GetMaandSelectList(maandId)));
+                return View(new SessieKalenderViewModel( new List<Sessie>(), GetMaandSelectList(maandId), _userRepository.GetDeelnemerByUsername(User.Identity.Name)));
             }
 
         }
@@ -120,26 +120,38 @@ namespace dotnet_g36.Controllers
         public IActionResult DetailInschrijvenUitschrijven(int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
             Sessie sessie = _sessieRepository.GetByID(id);
-            //string naam = _userRepository.GetDeelnemerByUsername(User.Identity.Name).UserName;
+            Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
+            //string naam = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
             //Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(username);
-            
-         //Gebruiker gebruiker=   _userRepository.GetDeelnemerByID(userid);
 
-          /* gebruiker.UserSessies.Add(new UserSessie(sessie, gebruiker));
-        foreach(UserSessie us in gebruiker.UserSessies)
+            //Gebruiker gebruiker=   _userRepository.GetDeelnemerByID(userid);
+
+            //gebruiker.UserSessies.Add(new UserSessie(sessie, gebruiker));
+
+            bool succes = false;
+            //ICollection<UserSessie> temp = sessie.UserSessies;
+            foreach (UserSessie us in sessie.UserSessies)
             {
                 if (us.SessieID.Equals(sessie.SessieID))
                 {
                     sessie.SchrijfUit(gebruiker);
+                    succes = true;
                     TempData["message"] = "Uitschrijven is gelukt";
+                    break;
                 }
-                else
-                {
-                    sessie.SchrijfIn(gebruiker);
-                    TempData["message"] = "Inschrijven is gelukt";
-                }
+                //else
+                //{
+                //    sessie.SchrijfIn(gebruiker);
+                //    TempData["message"] = "Inschrijven is gelukt";
+                //}
                 
-            }*/
+            }
+            if (!succes)
+            {
+                sessie.SchrijfIn(gebruiker);
+                TempData["message"] = "Inschrijven is gelukt";
+            }
+
 
             //UserID opvragen
             //Als user ingeschreven is, schrijf user uit

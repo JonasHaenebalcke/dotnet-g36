@@ -11,13 +11,13 @@ namespace dotnet_g36.Tests.Models.Domain
     {
         //NU: enkel testen met deelnemer, immers User is abstract
         // verantwoordelijken ook testen?
-        private User _User;
+        private Gebruiker _gebruiker;
         private Sessie _sessie;
 
         public SessieTest()
         {
-            _User = new User() {
-                UserID = 1,
+            _gebruiker = new Gebruiker() {
+                //UserID = 1,
                 UserSessies = new List<UserSessie>(),
                 StatusGebruiker = StatusGebruiker.Actief
             };
@@ -32,9 +32,9 @@ namespace dotnet_g36.Tests.Models.Domain
         [Fact]
         public void InschrijvenSessieTest()
         {
-            _sessie.SchrijfIn(_User);
+            _sessie.SchrijfIn(_gebruiker);
             Assert.Equal(1, _sessie.UserSessies.Count);
-            Assert.Equal(1, _User.UserSessies.Count);
+            Assert.Equal(1, _gebruiker.UserSessies.Count);
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _sessie.StartDatum = DateTime.Now.AddMonths(-2);
             Assert.Throws<ArgumentException>(
-                () => _sessie.SchrijfIn(_User));
+                () => _sessie.SchrijfIn(_gebruiker));
         }
 
         [Fact]
@@ -50,40 +50,40 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _sessie.AantalOpenPlaatsen = 0;
             Assert.Throws<ArgumentException>(
-                () => _sessie.SchrijfIn(_User));
+                () => _sessie.SchrijfIn(_gebruiker));
         }
 
         [Fact]
         public void InschrijvenSessieGebruikerReedsIngeschrevenTest()
         {
-            _sessie.SchrijfIn(_User);
+            _sessie.SchrijfIn(_gebruiker);
 
             Assert.Throws<AlIngeschrevenException>(
-                () => _sessie.SchrijfIn(_User));
+                () => _sessie.SchrijfIn(_gebruiker));
         }
 
         [Fact]
         public void InschrijvenSessieGebruikerNietActiefTest()
         {
-            _User.StatusGebruiker = StatusGebruiker.NietActief;
+            _gebruiker.StatusGebruiker = StatusGebruiker.NietActief;
             Assert.Throws<GeenActieveGebruikerException>(
-                () => _sessie.SchrijfIn(_User));
+                () => _sessie.SchrijfIn(_gebruiker));
         }
 
         [Fact]
         public void InschrijvenSessieGebruikerGeblokkeerdTest()
         {
-            _User.StatusGebruiker = StatusGebruiker.Geblokkeerd;
+            _gebruiker.StatusGebruiker = StatusGebruiker.Geblokkeerd;
             Assert.Throws<GeenActieveGebruikerException>(
-                () => _sessie.SchrijfIn(_User));
+                () => _sessie.SchrijfIn(_gebruiker));
         }
 
         [Fact]
         public void UitschrijvenSessieTest()
         {
-            _sessie.SchrijfIn(_User);
+            _sessie.SchrijfIn(_gebruiker);
 
-            _sessie.SchrijfUit(_User);
+            _sessie.SchrijfUit(_gebruiker);
 
             Assert.Empty(_sessie.UserSessies);
         }
@@ -92,7 +92,7 @@ namespace dotnet_g36.Tests.Models.Domain
         public void UitschrijvenSessieNietIngeschrevenTest()
         {
             Assert.Throws<NietIngeschrevenException>(
-                () => _sessie.SchrijfUit(_User));
+                () => _sessie.SchrijfUit(_gebruiker));
 
         }
 
@@ -101,7 +101,7 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _sessie.StartDatum = DateTime.Now.AddMonths(-2);
             Assert.Throws<ArgumentException>(
-                () => _sessie.SchrijfUit(_User));
+                () => _sessie.SchrijfUit(_gebruiker));
         }
 
         [Fact(Skip = " ")] //fout, use usersessie
@@ -109,7 +109,7 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _sessie.StartDatum = DateTime.Now.AddHours(-2);
             _sessie.StatusSessie = StatusSessie.Gesloten;
-            _sessie.MeldAanwezig(_User);
+            _sessie.MeldAanwezig(_gebruiker);
             //_sessie.FeedbackGeven(_Deelnemer);
         }
 
@@ -125,7 +125,7 @@ namespace dotnet_g36.Tests.Models.Domain
         public void FeedbackGevenSessieNogNietGestartTest()
         {
             _sessie.StartDatum = DateTime.Now.AddHours(2);
-            _sessie.MeldAanwezig(_User);
+            _sessie.MeldAanwezig(_gebruiker);
             //Assert.Throws<ArgumentException>(
             //    () => _sessie.FeedbackGeven(_Deelnemer));
         }

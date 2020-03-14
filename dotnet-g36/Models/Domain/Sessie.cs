@@ -104,7 +104,8 @@ namespace dotnet_g36.Models.Domain
         {
             foreach (UserSessie userSessie in UserSessies)
             {
-                if (userSessie.UserID == user.Id)
+                //if (userSessie.UserID == user.Id)
+                if (userSessie.UserName == user.UserName)
                 {
                     userSessie.Aanwezig = true;
                 }
@@ -126,7 +127,8 @@ namespace dotnet_g36.Models.Domain
                 throw new ArgumentException("je kan je niet inschrijven in een verleden maand.");
             foreach (UserSessie userSessie in UserSessies)
             {
-                if (userSessie.UserID == user.Id)
+                //if (userSessie.UserID == user.Id)
+                if (userSessie.UserName == user.UserName)
                     throw new AlIngeschrevenException("U bent al ingeschreven voor deze sessie.");
             }
             if (user.StatusGebruiker == StatusGebruiker.Actief)
@@ -154,6 +156,7 @@ namespace dotnet_g36.Models.Domain
             foreach (UserSessie userSessie in UserSessies)
             {
                 if (userSessie.UserID == user.Id)
+                //if (userSessie.UserName == user.UserName)
                 {
                     user.UserSessies.Remove(userSessie);
                     UserSessies.Remove(userSessie);

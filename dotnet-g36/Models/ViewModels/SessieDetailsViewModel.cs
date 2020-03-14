@@ -24,7 +24,7 @@ namespace dotnet_g36.Models.ViewModels
         public Gebruiker gebruiker;
         public SessieDetailsViewModel(){ }
 
-        public SessieDetailsViewModel(Sessie sessie, Gebruiker user)
+        public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker)
         {
             this.sessieID = sessie.SessieID;
             this.Titel = sessie.Titel;
@@ -42,21 +42,21 @@ namespace dotnet_g36.Models.ViewModels
             this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
 
             this.AantalAanwezigen = 0;//sessie.UserSessies.Count();
-            this.gebruiker = user;
+            this.gebruiker = gebruiker;
             DeelnemerAanwezig = false;
             DeelnemerIngeschreven = false;
 
             
-            /*foreach (UserSessie usersessie in sessie.UserSessies)
+            foreach (UserSessie usersessie in sessie.UserSessies)
              {
-                 if (usersessie.User.Id == user.Id)
+                 if (usersessie.UserID == gebruiker.Id)
                  {
                      DeelnemerIngeschreven = true;
                      DeelnemerAanwezig = usersessie.Aanwezig;
                  }
                  if (usersessie.Aanwezig)
                      AantalAanwezigen++;
-             }*/
+             }
         }
     }
 }

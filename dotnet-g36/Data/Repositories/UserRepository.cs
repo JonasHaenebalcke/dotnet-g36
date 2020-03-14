@@ -37,42 +37,42 @@ namespace dotnet_g36.Data.Repositories
         }
         public IEnumerable<Gebruiker> GetAll()
         {
-            return _users.ToList();
+            return _users.Include(s => s.UserSessies).ToList();
         }
 
         public Gebruiker GetDeelnemerByID(Guid userID)
         {
-            return _users.SingleOrDefault(u => u.Id.Equals(userID));
+            return _users.Include(s => s.UserSessies).SingleOrDefault(u => u.Id.Equals(userID));
         }
 
         public Verantwoordelijke GetHoofdverantwoordelijke()
         {
             // er is maar 1 hoofdvernatwoordelijke die in de lijst van verantwoordelijke zit
-            return _verantwoordelijken.SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
+            return _verantwoordelijken.Include(s => s.UserSessies).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
         }
         public Verantwoordelijke GetVerantwoordelijke(int userID)
         {
-            return _verantwoordelijken.SingleOrDefault(v => v.Id.Equals(userID));
+            return _verantwoordelijken.Include(s => s.UserSessies).SingleOrDefault(v => v.Id.Equals(userID));
         }
 
         public IEnumerable<Verantwoordelijke> GetVerantwoordelijken()
         {
-            return _verantwoordelijken.ToList();
+            return _verantwoordelijken.Include(s => s.UserSessies).ToList();
         }
 
         public IEnumerable<Gebruiker> GetDeelnemers()
         {
-            return _users.Where(d => d.GetType().Equals("Deelnemer")).ToList();
+            return _users.Include(s => s.UserSessies).Where(d => d.GetType().Equals("Deelnemer")).ToList();
         }
 
         public Gebruiker GetDeelnemerByEmail(string emailadres) // Misschien moet er nog een include in...
         {
-            return _users.SingleOrDefault(d => d.Email.Equals(emailadres));
+            return _users.Include(s => s.UserSessies).SingleOrDefault(d => d.Email.Equals(emailadres));
         }
 
         public Gebruiker GetDeelnemerByUsername(string username)
         {
-            return _users.SingleOrDefault(d => d.UserName.Equals(username));
+            return _users.Include(s => s.UserSessies).SingleOrDefault(d => d.UserName.Equals(username));
         }
         public void SaveChanges()
         {

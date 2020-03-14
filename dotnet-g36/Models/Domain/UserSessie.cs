@@ -11,7 +11,8 @@ namespace dotnet_g36.Models.Domain
 
         #region Fields
         private Guid _userID;
-        private int _sessieID; 
+        private string _userName;
+        private int _sessieID;
         #endregion
 
         #region properties
@@ -21,6 +22,14 @@ namespace dotnet_g36.Models.Domain
             set
             {
                 _userID = User.Id;
+            }
+        }
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                _userName = User.UserName;
             }
         }
         public Gebruiker User { get; set; }
