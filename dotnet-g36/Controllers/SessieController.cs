@@ -17,11 +17,6 @@ namespace dotnet_g36.Controllers
     {
         private readonly ISessieRepository _sessieRepository;
         private readonly IUserRepository _userRepository;
-        private Sessie geselecteerdeSessie;
-
-        SignInManager<Gebruiker> SignInManager;
-        UserManager<Gebruiker> UserManager;
-        IUserRepository UserRepository;
 
         public SessieController(ISessieRepository sessieRepository, IUserRepository userRepository)
         {
@@ -31,13 +26,11 @@ namespace dotnet_g36.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Index(int maandId = 0) //get & post
+        public IActionResult Index(int maandId = 0)
         {
             try
             {
                 Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
-                //if(userid == null || userid.Length == 0)
-                //    return 
 
                 if (maandId == 0)
                 {
@@ -49,15 +42,15 @@ namespace dotnet_g36.Controllers
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(maandId);
                 if (sessies.Count().Equals(0))
                 {
-                    throw new GeenSessiesException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
+                    throw new SessieException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
                 }
                 else
                 {
                     TempData["message"] = "Er zijn sessies";
-                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), gebruiker)); //OPT VIEWMODEL
+                    return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), gebruiker));
                 }
             }
-            catch(GeenSessiesException gse)
+            catch(SessieException gse)
             {
                 TempData["error"] = gse.Message;
                 return View(new SessieKalenderViewModel( new List<Sessie>(), GetMaandSelectList(maandId), _userRepository.GetDeelnemerByUsername(User.Identity.Name)));
@@ -77,34 +70,7 @@ namespace dotnet_g36.Controllers
             Sessie sessie = _sessieRepository.GetByID(id);
             Gebruiker user = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
 
-           if (sessie.Media != null)
-            {
-                ViewData["hasMedia"] = /*sessie.Media;*/ true;
-            }
-            else
-            {
-                ViewData["hasMedia"] = false;
-            }
-
-            if (sessie.FeedbackList != null)
-            {
-                ViewData["hasFeedback"] =/* sessie.FeedbackList ;*/true;
-            }
-          else
-          {
-              ViewData["hasFeedback"] = false;
-          }
-            
-
-         /*   if (user is ingeschreven)
-            {
-                viewdata["isingeschreven"] = true;
-            }
-            else
-            {
-                viewdata["isingeschreven"] = false;
-            }*/
-                return View(new SessieDetailsViewModel(sessie,user));
+            return View(new SessieDetailsViewModel(sessie,user));
         }
 
 
@@ -119,46 +85,43 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailInschrijvenUitschrijven(int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
-            Sessie sessie = _sessieRepository.GetByID(id);
-            Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
-            //string naam = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
-            //Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(username);
-
-            //Gebruiker gebruiker=   _userRepository.GetDeelnemerByID(userid);
-
-            //gebruiker.UserSessies.Add(new UserSessie(sessie, gebruiker));
-
-            bool succes = false;
-            //ICollection<UserSessie> temp = sessie.UserSessies;
-            foreach (UserSessie us in sessie.UserSessies)
+            try
             {
-                if (us.SessieID.Equals(sessie.SessieID))
+                Sessie sessie = _sessieRepository.GetByID(id);
+                Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
+
+                bool succes = false;
+                foreach (UserSessie us in sessie.UserSessies)
                 {
-                    sessie.SchrijfUit(gebruiker);
-                    succes = true;
-                    TempData["message"] = "Uitschrijven is gelukt";
-                    break;
+                    if (us.SessieID.Equals(sessie.SessieID))
+                    {
+                        sessie.SchrijfUit(gebruiker);
+                        succes = true;
+                        TempData["message"] = "Uitschrijven is gelukt";
+                        break;
+                    }
                 }
-                //else
-                //{
-                //    sessie.SchrijfIn(gebruiker);
-                //    TempData["message"] = "Inschrijven is gelukt";
-                //}
-                
-            }
-            if (!succes)
+                if (!succes)
+                {
+                    sessie.SchrijfIn(gebruiker);
+                    TempData["message"] = "Inschrijven is gelukt";
+                }
+                _sessieRepository.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            } catch (ArgumentException e)
             {
-                sessie.SchrijfIn(gebruiker);
-                TempData["message"] = "Inschrijven is gelukt";
+                TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Detail), id);
+            } catch (IngeschrevenException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Detail), id);
+            } catch (GeenActieveGebruikerException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Detail), id);
             }
-
-
-            //UserID opvragen
-            //Als user ingeschreven is, schrijf user uit
-            //anders schrijf user in
-            _sessieRepository.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -178,44 +141,11 @@ namespace dotnet_g36.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        /// <summary>
-        /// retourneert selectlist van alle sessies in de opgegeven maand
-        /// </summary>
-        /// <param name="maandId">nummer van de opgegeven maand</param>
-        /// <returns>selectlist van sessies</returns>
-        private SelectList GetMaandSelectList(int maandId = 0)
-        {
-            var maanden =  DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem{Value = (index + 1).ToString(),Text = monthName});
-            SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
-            return result;
-        }
-
-        //[AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
-        //public class GebruikerFilter : ActionFilterAttribute
-        //{
-        //    private readonly IGebruikerRepository _gebruikerRepository;
-
-        //    public GebruikerFilter(IGebruikerRepository gebruikerRepository)
-        //    {
-        //        _gebruikerRepository = gebruikerRepository;
-        //    }
-
-        //    public override void OnActionExecuting(ActionExecutingContext context)
-        //    {
-        //        context.ActionArguments["gebruiker"] = context.HttpContext.User.Identity.IsAuthenticated ?
-        //                _gebruikerRepository.GetByUsername(context.HttpContext.User.Identity.Name) : null;
-        //        base.OnActionExecuting(context);
-        //    }
-        //}
-
         [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
         {
             try
             {
-                //Gebruiker gebruiker = new Gebruiker();
-
                 Sessie sessie = _sessieRepository.GetByID(id);
 
                 if(sessie.StartDatum >= DateTime.Now)
@@ -249,6 +179,7 @@ namespace dotnet_g36.Controllers
             //    return View();
             //}
         }
+
         [HttpPost]
         [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id, string barcode)
@@ -263,7 +194,6 @@ namespace dotnet_g36.Controllers
                 {
                     TempData["Error"] = "U kan zich niet meer aanmelden";
                     return View(nameof(Index));
-                    //return View(nameof(Inloggen));
                 }
 
                 if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
@@ -283,14 +213,44 @@ namespace dotnet_g36.Controllers
                 TempData["Error"] = e.Message;
                 return View();
             }
-            catch (NietIngeschrevenException e)
+            catch (IngeschrevenException e)
             {
                 TempData["Error"] = e.Message;
                 return View();
             }
         }
+
+        /// <summary>
+        /// retourneert selectlist van alle sessies in de opgegeven maand
+        /// </summary>
+        /// <param name="maandId">nummer van de opgegeven maand</param>
+        /// <returns>selectlist van sessies</returns>
+        private SelectList GetMaandSelectList(int maandId = 0)
+        {
+            var maanden = DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem { Value = (index + 1).ToString(), Text = monthName });
+            SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
+            return result;
+        }
+
+        //[AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
+        //public class GebruikerFilter : ActionFilterAttribute
+        //{
+        //    private readonly IGebruikerRepository _gebruikerRepository;
+
+        //    public GebruikerFilter(IGebruikerRepository gebruikerRepository)
+        //    {
+        //        _gebruikerRepository = gebruikerRepository;
+        //    }
+
+        //    public override void OnActionExecuting(ActionExecutingContext context)
+        //    {
+        //        context.ActionArguments["gebruiker"] = context.HttpContext.User.Identity.IsAuthenticated ?
+        //                _gebruikerRepository.GetByUsername(context.HttpContext.User.Identity.Name) : null;
+        //        base.OnActionExecuting(context);
+        //    }
+        //}
     }
 
-    
+
 
 }

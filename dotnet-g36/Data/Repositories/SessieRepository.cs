@@ -34,17 +34,17 @@ namespace dotnet_g36.Data.Repositories
 
         public IEnumerable<Sessie> GetAll()
         {
-            return _sessies.Include(s => s.UserSessies);
+            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies);
         }
 
         public Sessie GetByID(int sessieId)
         {
-            return _sessies.Include(s => s.UserSessies).SingleOrDefault(s => s.SessieID == sessieId);
+            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).SingleOrDefault(s => s.SessieID == sessieId);
         }
 
         public IEnumerable<Sessie> GetToekomstige()
         {
-            return _sessies.Include(s => s.UserSessies).Where(s => s.StartDatum >= DateTime.Now).ToList();
+            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).Where(s => s.StartDatum >= DateTime.Now).ToList();
         }
 
         public void SaveChanges()
@@ -54,7 +54,7 @@ namespace dotnet_g36.Data.Repositories
 
         IEnumerable<Sessie> ISessieRepository.GetByMonth(int month)
         {
-            return _sessies.Include(s => s.UserSessies).Where(s => s.StartDatum.Month == month).OrderBy(m => m.StartDatum);
+            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).Where(s => s.StartDatum.Month == month).OrderBy(m => m.StartDatum);
         }
         #endregion
     }
