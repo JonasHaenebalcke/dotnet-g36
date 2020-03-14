@@ -1,8 +1,11 @@
 ﻿@*@model IEnumerable<dotnet_g36.Models.Domain.Sessie>*@
 @model dotnet_g36.Models.ViewModels.SessieKalenderViewModel
+
 @using Microsoft.AspNetCore.Identity
+@using dotnet_g36.Models.Domain
 @inject SignInManager<Gebruiker> SignInManager
 @inject UserManager<Gebruiker> UserManager
+@inject IUserRepository  UserRepository
 
 @{ViewData["Title"] = "Sessiekalender";}
 
@@ -50,7 +53,8 @@
             <th class="text-center">Details</th>
         </tr>
         <!-- loop die door de lijst van sessies gaat -->
-        @for (int i = 0; i < Model.Titels.Count(); i++){
+        @for (int i = 0; i < Model.Titels.Count(); i++)
+        {
             <tr>
                 <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                 <td class="text-center">@Model.Titels.ElementAt(i)</td>
@@ -71,36 +75,39 @@
             </tr>
         }
 
-
+        @*@UserRepository.GetDeelnemerByUsername(User.Identity.Name).Id*@
         <!---->
-        @* @foreach (var item in Model)
-             {@if (item.StartDatum >= DateTime.Now)
-                 {
-                     <tr>
-                         <td class="text-center">@item.Gastspreker</td>
-                         <td class="text-center">@item.Titel</td>
-                         <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
-                         <td class="text-center">@item.AantalOpenPlaatsen</td>
-                         <!-- hier moet nog komen of user aanwezig was -->
-                         @foreach (var usersessie in item.UserSessies)
-                         {
-                             @if (usersessie.UserID == huidigeUser.UserID || item.Verantwoordelijke == huidigeUser || item.Hoofdverantwoordelijke == huidigeUser)
-                             {
+      @*@foreach (var item in Model)
+        {@if (item.StartDatum >= DateTime.Now)
+            {
+                <tr>
+                    <td class="text-center">@item.Gastspreker</td>
+                    <td class="text-center">@item.Titel</td>
+                    <td class="text-center">@item.StartDatum.ToShortDateString() @item.StartDatum.ToShortTimeString()</td>
+                    <td class="text-center">@item.AantalOpenPlaatsen</td>
+                    <!-- hier moet nog komen of user aanwezig was -->
+                    @foreach (var usersessie in item.UserSessies)
+                    {
+                        @if (usersessie.UserID == /*huidigeUser.UserID*/
+                 @UserRepository.GetDeelnemerByUsername(User.Identity.Name).Id || item.Verantwoordelijke == /*huidigeUser*/
+             @UserRepository.GetDeelnemerByUsername(User.Identity.Name) || item.Hoofdverantwoordelijke == /*huidigeUser*/
+                 @UserRepository.GetDeelnemerByUsername(User.Identity.Name))
+                        {
 
-                             }
-                             else
-                             {
-                                 <td class="text-center">-</td>
-                                 <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
-                             }
-            }
+                        }
+                        else
+                        {
+                            <td class="text-center">-</td>
+                            <td class="text-center"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></td>
+                        }
+                    }
 
-             <!-- Hier moet een link komen naar de details van de sessie -->
-             <td>
-                 <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
-             </td>
-             </tr>*@
-        }
+                    <!-- Hier moet een link komen naar de details van de sessie -->
+                    <td>
+                        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
+                    </td>
+                </tr>
+    }*@ 
 
     </table>
 
@@ -114,16 +121,19 @@
             <th class="text-center">Details</th>
         </tr>
 
-        @for (int i = 0; i < Model.Titels.Count(); i++){
+        @for (int i = 0; i < Model.Titels.Count(); i++)
+        {
             <tr>
                 <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                 <td class="text-center">@Model.Titels.ElementAt(i)</td>
                 <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
 
-                @if (Model.Aanwezigheden.ElementAt(i))  {
+                @if (Model.Aanwezigheden.ElementAt(i))
+                {
                     <td class="text-center">Ja</td>
                 }
-                else {
+                else
+                {
                     <td class="text-center">--</td>
                 }
 
@@ -150,6 +160,5 @@
                     }
             }*@
     </table>
-    }
-</body>
+    </body>
 </html>

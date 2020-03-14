@@ -17,6 +17,19 @@
 </head>
 
 <body>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-warning">@TempData["error"]</div>
+            }
+        </main>
+    </div>
+
     <h3>@Model.Titel</h3>
 
     <div class="col px-md-5"><div class="p-3 border bg-light">@Model.Beschrijving</div></div>
@@ -40,7 +53,7 @@
 
 
         <h6>Ingeschreven?</h6>
-        @if (Model.DeelnemerIngeschreven)
+        @if (Model.DeelnemerIngeschreven.Equals(true))
         {
             <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></div></div>
         }
@@ -51,12 +64,12 @@
     }
     else//VERLEDEN
     {
-        <h6>Aantal aanwezig</h6>
+        <h6>Aantal aanwezigen</h6>
         <div class="col px-md-5"><div class="p-3 border bg-light">@Model.AantalAanwezigen</div></div>
 
 
         <h6>Aanwezig?</h6>
-        @if (Model.DeelnemerAanwezig)
+        @if (Model.DeelnemerAanwezig.Equals(true))
         {
             <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></div></div>
         }
@@ -91,59 +104,72 @@
         </div>
     }
 
-
-    @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
-    @if (Model.StartDatum > DateTime.Now)
+    @if (SignInManager.IsSignedIn(User))
     {
-        if (ViewData["isIngeschreven"].Equals(false))
+
+        @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
+        @if (Model.StartDatum > DateTime.Now)
         {
-            <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" method="post">
-                <button type="submit">Inschrijven</button>
-            </form>
+
+
+            @if (!Model.DeelnemerIngeschreven)
+            {<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                    <button type="submit">Inschrijven</button>
+                </form>
+            }
+            else
+            {
+                <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                    <button type="submit">Uitschrijven</button>
+                </form>
+            }
+            @*if (ViewData["isIngeschreven"].Equals(false))
+                {
+                    <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" method="post">
+                        <button type="submit">Inschrijven</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" method="post">
+                        <button type="submit">Uitschrijven</button>
+                    </form>
+                }*@
         }
         else
         {
-            <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" method="post">
-                <button type="submit">Uitschrijven</button>
-            </form>
-        }
-    }
-    else
-    {
-        <h6>Feedback</h6>
+            <h6>Feedback</h6>
 
-
-
-
-        <div class="form-group">
-            <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
-        </div>
-        <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" method="post">
-            <button type="submit">Indienen</button>
-        </form>
-
-        @*@if(ViewData["hasFeedback"].Equals(true)) *@
-
-        @if (Model.FeedbackList.Count() != 0)
-        {
-            <div>
-                <table class="table table-striped">
-                    <tr>
-                        <th class="text-center">Auteur</th>
-                        <th class="text-center">Feedback</th>
-
-                    </tr>
-                    <!-- loop die door de lijst van Feedback gaat -->
-                    @foreach (var feedback in Model.FeedbackList)
-                    {
-                        <tr>
-                            <td class="text-center">feedback.NaamAuteur</td>
-                            <td class="text-center">feedback.Tekst</td>
-                        </tr>
-                    }
-
-                </table>
+            <div class="form-group">
+                <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
             </div>
+            <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" method="post">
+                <button type="submit">Indienen</button>
+            </form>
+
+            @*@if(ViewData["hasFeedback"].Equals(true)) *@
+
+            @if (Model.FeedbackList.Count() != 0)
+            {
+                <div>
+                    <table class="table table-striped">
+                        <tr>
+                            <th class="text-center">Auteur</th>
+                            <th class="text-center">Feedback</th>
+
+                        </tr>
+                        <!-- loop die door de lijst van Feedback gaat -->
+                        @foreach (var feedback in Model.FeedbackList)
+                        {
+                            <tr>
+                                <td class="text-center">feedback.NaamAuteur</td>
+                                <td class="text-center">feedback.Tekst</td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            }
         }
     }
 

@@ -6,6 +6,7 @@ namespace dotnet_g36.Models.ViewModels
 {
     public class SessieDetailsViewModel
     {
+        public int sessieID { get; set; }
         public string Titel { get; set; }
         public string Beschrijving { get; set; }
         public DateTime StartDatum { get; set; }
@@ -20,11 +21,12 @@ namespace dotnet_g36.Models.ViewModels
         public string GastSpreker { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
+        public Gebruiker gebruiker;
+        public SessieDetailsViewModel(){ }
 
-        //public SessieDetailsViewModel(){ }
-
-        public SessieDetailsViewModel(Sessie sessie/*, Gebruiker user*/)
+        public SessieDetailsViewModel(Sessie sessie, Gebruiker user)
         {
+            this.sessieID = sessie.SessieID;
             this.Titel = sessie.Titel;
             this.Beschrijving = sessie.Beschrijving;
             this.StartDatum = sessie.StartDatum;
@@ -40,18 +42,21 @@ namespace dotnet_g36.Models.ViewModels
             this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
 
             this.AantalAanwezigen = 0;//sessie.UserSessies.Count();
+            this.gebruiker = user;
+            DeelnemerAanwezig = false;
+            DeelnemerIngeschreven = false;
 
-            DeelnemerAanwezig = false; DeelnemerIngeschreven = false;
-            //foreach (UserSessie userSessie in sessie.UserSessies)
-            //{
-            //    if (userSessie.Aanwezig) 
-            //        AantalAanwezigen++;
-            //    if (userSessie.User.Equals(user))
-            //    {
-            //        DeelnemerIngeschreven = true;
-            //        DeelnemerAanwezig = userSessie.Aanwezig;
-            //    }
-            //}
+            
+            /*foreach (UserSessie usersessie in sessie.UserSessies)
+             {
+                 if (usersessie.User.Id == user.Id)
+                 {
+                     DeelnemerIngeschreven = true;
+                     DeelnemerAanwezig = usersessie.Aanwezig;
+                 }
+                 if (usersessie.Aanwezig)
+                     AantalAanwezigen++;
+             }*/
         }
     }
 }

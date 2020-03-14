@@ -50,6 +50,10 @@ namespace dotnet_g36.Data
                 organizer2.PasswordHash = ph.HashPassword(organizer2, "123");
                 organizer2.SecurityStamp = Guid.NewGuid().ToString();
 
+                _context.Verantwoordelijken.Add(admin);
+
+                _context.Verantwoordelijken.Add(organizer1);
+                _context.Verantwoordelijken.Add(organizer2);
                 // Deelnemers
                 actieveGebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be",/* "123",*/ "Rein", "Daelman", StatusGebruiker.Actief);
                 //nietActieveGebruiker = new Gebruiker("789", "1234az", "kim.jansens@student.hogent.be",/* "123", */"Kim", "jansens", StatusGebruiker.NietActief);
@@ -62,10 +66,6 @@ namespace dotnet_g36.Data
                 {actieveGebruiker  });
                 //nietActieveGebruiker, geblokkeerdeGebruiker
                 _context.SaveChanges();
-                _context.Verantwoordelijken.Add(admin);
-              
-                _context.Verantwoordelijken.Add(organizer1);
-                _context.Verantwoordelijken.Add(organizer2);
                 _context.SaveChanges();
                 await InitializeDeelnemersEnVerantwoordelijke();
                 //Sessies
@@ -130,14 +130,16 @@ namespace dotnet_g36.Data
 
                 _context.Sessies.AddRange(new Sessie[]
               {
-                    sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10
+                   huidigeMaandSessie, sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10
               });
                 _context.SaveChanges();
 
                 UserSessie us1 = new UserSessie(sessie1, actieveGebruiker);
-                _context.UserSessies.Add(us1);
+                UserSessie us2 = new UserSessie(huidigeMaandSessie, organizer1);
+
+                _context.UserSessies.AddRange(new UserSessie[]{
+                    us1, us2});
                 _context.SaveChanges();
-              //  UserSessie usé = new UserSessie(sessie1, actieveGebruiker);
 
             }
         }

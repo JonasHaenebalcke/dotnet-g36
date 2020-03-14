@@ -20,6 +20,10 @@ namespace dotnet_g36.Controllers
         private Sessie geselecteerdeSessie;
         private Gebruiker Gebruiker { get; set; } // DELETE
 
+        SignInManager<Gebruiker> SignInManager;
+        UserManager<Gebruiker> UserManager;
+        IUserRepository UserRepository;
+
         public SessieController(ISessieRepository sessieRepository, IUserRepository userRepository)
         {
             _sessieRepository = sessieRepository;
@@ -71,10 +75,11 @@ namespace dotnet_g36.Controllers
         public IActionResult Detail(int id)
         {
             Sessie sessie = _sessieRepository.GetByID(id);
-            
-          /*  if (sessie.Media != null)
+            Gebruiker user = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
+
+           if (sessie.Media != null)
             {
-                ViewData["hasMedia"] = sessie.Media;
+                ViewData["hasMedia"] = /*sessie.Media;*/ true;
             }
             else
             {
@@ -83,20 +88,23 @@ namespace dotnet_g36.Controllers
 
             if (sessie.FeedbackList != null)
             {
-                ViewData["hasFeedback"] = sessie.FeedbackList ;
-            }*/
-            /*else
-            {
-                ViewData["hasFeedback"] = false;
-            }*/
-
+                ViewData["hasFeedback"] =/* sessie.FeedbackList ;*/true;
+            }
+          else
+          {
+              ViewData["hasFeedback"] = false;
+          }
             
-            //if(user is ingeschreven) {
-           // ViewData["isIngeschreven"] = true;
-            //}else {
-           // ViewData["isIngeschreven"] = false; 
-          
-            return View(new SessieDetailsViewModel(sessie/*, Gebruiker*/));
+
+         /*   if (user is ingeschreven)
+            {
+                viewdata["isingeschreven"] = true;
+            }
+            else
+            {
+                viewdata["isingeschreven"] = false;
+            }*/
+                return View(new SessieDetailsViewModel(sessie,user));
         }
 
 
@@ -112,7 +120,26 @@ namespace dotnet_g36.Controllers
         public IActionResult DetailInschrijvenUitschrijven(int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
             Sessie sessie = _sessieRepository.GetByID(id);
+            //string naam = _userRepository.GetDeelnemerByUsername(User.Identity.Name).UserName;
+            //Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(username);
+            
+         //Gebruiker gebruiker=   _userRepository.GetDeelnemerByID(userid);
 
+          /* gebruiker.UserSessies.Add(new UserSessie(sessie, gebruiker));
+        foreach(UserSessie us in gebruiker.UserSessies)
+            {
+                if (us.SessieID.Equals(sessie.SessieID))
+                {
+                    sessie.SchrijfUit(gebruiker);
+                    TempData["message"] = "Uitschrijven is gelukt";
+                }
+                else
+                {
+                    sessie.SchrijfIn(gebruiker);
+                    TempData["message"] = "Inschrijven is gelukt";
+                }
+                
+            }*/
 
             //UserID opvragen
             //Als user ingeschreven is, schrijf user uit
@@ -170,6 +197,7 @@ namespace dotnet_g36.Controllers
         //    }
         //}
 
+        [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
         {
             try
@@ -210,6 +238,7 @@ namespace dotnet_g36.Controllers
             //}
         }
         [HttpPost]
+        [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id, string barcode)
         {
             try
