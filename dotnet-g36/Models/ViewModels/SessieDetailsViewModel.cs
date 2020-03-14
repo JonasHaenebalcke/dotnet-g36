@@ -24,7 +24,7 @@ namespace dotnet_g36.Models.ViewModels
         public Gebruiker gebruiker;
         public SessieDetailsViewModel(){ }
 
-        public SessieDetailsViewModel(Sessie sessie, Gebruiker user)
+        public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker)
         {
             this.sessieID = sessie.SessieID;
             this.Titel = sessie.Titel;
@@ -34,29 +34,29 @@ namespace dotnet_g36.Models.ViewModels
             this.Lokaal = sessie.Lokaal;
             this.OpenPlaatsen = sessie.AantalOpenPlaatsen;
             //this.ListMedia = sessie.Media;
-            this.ListMedia = new List<Media>(); // anders werkte de knop Details niet
+            this.ListMedia = new List<Media>();
             // this.FeedbackList = sessie.FeedbackList;
-            this.FeedbackList = new List<Feedback>(); // anders werkte de knop Details niet
+            this.FeedbackList = new List<Feedback>();
             this.GastSpreker = sessie.Gastspreker;
             this.Verantwoordelijke = sessie.Verantwoordelijke;
             this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
 
-            this.AantalAanwezigen = 0;//sessie.UserSessies.Count();
-            this.gebruiker = user;
+            this.AantalAanwezigen = 0;
+            this.gebruiker = gebruiker;
             DeelnemerAanwezig = false;
             DeelnemerIngeschreven = false;
 
             
-            /*foreach (UserSessie usersessie in sessie.UserSessies)
+            foreach (UserSessie usersessie in sessie.UserSessies)
              {
-                 if (usersessie.User.Id == user.Id)
+                 if (usersessie.UserID == gebruiker.Id)
                  {
                      DeelnemerIngeschreven = true;
                      DeelnemerAanwezig = usersessie.Aanwezig;
                  }
                  if (usersessie.Aanwezig)
                      AantalAanwezigen++;
-             }*/
+             }
         }
     }
 }

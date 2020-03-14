@@ -24,7 +24,7 @@ namespace dotnet_g36.Models.ViewModels
 
         //public SessieKalenderViewModel() { }
 
-        public SessieKalenderViewModel(IEnumerable<Sessie> sessies, SelectList maanden /*Gebruiker user*/)
+        public SessieKalenderViewModel(IEnumerable<Sessie> sessies, SelectList maanden, Gebruiker gebruiker)
         {
 
             Sessies = sessies; // opt indien alle details v alle sessies in verschillende lists (overlopen adhv for lus)
@@ -47,19 +47,20 @@ namespace dotnet_g36.Models.ViewModels
                 OpenPlaatsen.Add(sessie.AantalOpenPlaatsen);
                 SessieIds.Add(sessie.SessieID);
 
-                //String aanwezig = false.ToString(), ingeschreven = false.ToString();
                 bool aanwezig = false, ingeschreven = false;
-                //foreach (UserSessie userSessie in sessie.UserSessies)
-                //{
-                //    if (userSessie.User.Equals(user))
-                //    {
-                //        //aanwezig = userSessie.Aanwezig.ToString();
-                //        //ingeschreven = true.ToString();
-                //        aanwezig = userSessie.Aanwezig;
-                //        ingeschreven = true;
-                //        break;
-                //    }
-                //}
+                if(gebruiker != null)
+                {
+                    foreach (UserSessie userSessie in sessie.UserSessies)
+                    {
+                        if (userSessie.UserID == gebruiker.Id)
+                        {
+                            aanwezig = userSessie.Aanwezig;
+                            ingeschreven = true;
+                            break;
+                        }
+                    }
+                }
+
                 Aanwezigheden.Add(aanwezig);
                 Ingeschrevenen.Add(ingeschreven);
 

@@ -79,7 +79,6 @@
         }
     }
 
-    @*@if (ViewData["hasMedia"].Equals(true))*@
     @if (Model.ListMedia.Count() != 0)
     {
         <h6>Media</h6>
@@ -123,18 +122,6 @@
                     <button type="submit">Uitschrijven</button>
                 </form>
             }
-            @*if (ViewData["isIngeschreven"].Equals(false))
-                {
-                    <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" method="post">
-                        <button type="submit">Inschrijven</button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" method="post">
-                        <button type="submit">Uitschrijven</button>
-                    </form>
-                }*@
         }
         else
         {
@@ -146,9 +133,7 @@
             <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" method="post">
                 <button type="submit">Indienen</button>
             </form>
-
-            @*@if(ViewData["hasFeedback"].Equals(true)) *@
-
+            
             @if (Model.FeedbackList.Count() != 0)
             {
                 <div>
