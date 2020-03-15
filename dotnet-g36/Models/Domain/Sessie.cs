@@ -56,7 +56,7 @@ namespace dotnet_g36.Models.Domain
         /// <param name="user">Verantwoordelijke Object</param>
         public void SessieOpenZetten(Verantwoordelijke user)
         {
-            if (user.OpenTeZettenSessies.Contains(this) && StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now <= StartDatum.AddHours(1))
+            if (user.OpenTeZettenSessies.Contains(this) && StatusSessie.Equals(StatusSessie.NietOpen) && (DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum))
             {
                 StatusSessie = StatusSessie.Open;
             }

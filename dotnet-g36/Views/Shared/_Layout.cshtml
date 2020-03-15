@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿
+@using Microsoft.AspNetCore.Identity
+@using dotnet_g36.Models.Domain
+@inject SignInManager<Gebruiker> SignInManager
+@inject UserManager<Gebruiker> UserManager
+@inject IUserRepository  UserRepository
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,9 +29,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Sessie" asp-action="Index">Sessies</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="SessieOpenzetten" asp-action="Index">Sessie Open Zetten</a>
-                        </li>
+                        <!--Moet nog gecontrolleerd worden of dat ingelogde hoofd- of vernatwoordelijke is en dan mag het ook zichtbaar zijn anders niet.-->
+                        <!-- && (UserRepository.GetDeelnemerByUsername(User.IsInRole("Hoofdverantwoordelijke"))
+    (UserManager. IsSignedIn(User.IsInRole("Hoofdverantwoordelijke")) || (SignInManager.IsSignedIn(User.IsInRole("Verantwoordelijke"))))) -->
+                        @if (SignInManager.IsSignedIn(User))
+                        { @if (User.IsInRole("Hoofdverantwoordelijke").Equals(true) || User.IsInRole("Verantwoordelijke").Equals(true))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="SessieOpenzetten" asp-action="Index">Sessie Openzetten</a>
+                            </li>
+                        }
+                        }
                     </ul>
                 </div>
             </div>

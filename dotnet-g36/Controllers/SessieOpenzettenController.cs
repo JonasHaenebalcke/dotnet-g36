@@ -24,7 +24,7 @@ namespace dotnet_g36.Controllers
             //Vult sessies op met gepaste sessies
             foreach (Sessie s in gebruiker.OpenTeZettenSessies)
             {
-                if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now <= s.StartDatum.AddHours(1))
+                if (s.StatusSessie.Equals(StatusSessie.NietOpen) && (DateTime.Now >= s.StartDatum.AddHours(/*1*/ -1) && DateTime.Now < s.StartDatum))/* DateTime.Now <= s.StartDatum.AddHours(1))*/
                 {
                     sessies.Add(s);
                 }

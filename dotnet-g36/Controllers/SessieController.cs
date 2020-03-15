@@ -100,13 +100,16 @@ namespace dotnet_g36.Controllers
                         sessie.SchrijfUit(gebruiker);
                         succes = true;
                         TempData["message"] = "Uitschrijven is gelukt";
+                        _sessieRepository.SaveChanges();
                         break;
+
                     }
                 }
                 if (!succes)
                 {
                     sessie.SchrijfIn(gebruiker);
                     TempData["message"] = "Inschrijven is gelukt";
+                    _sessieRepository.SaveChanges();
                 }
                 _sessieRepository.SaveChanges();
 

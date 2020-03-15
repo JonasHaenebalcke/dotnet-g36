@@ -55,11 +55,15 @@
         <h6>Ingeschreven?</h6>
         @if (Model.DeelnemerIngeschreven.Equals(true))
         {
-            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></div></div>
+            <div class="col px-md-5">
+                <div class="p-3 border bg-light">Ja</div>
+            </div>
         }
         else
         {
-            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" readonly="readonly" /></div></div>
+            <div class="col px-md-5">
+                <div class="p-3 border bg-light">--</div>
+            </div>
         }
     }
     else//VERLEDEN
@@ -71,11 +75,15 @@
         <h6>Aanwezig?</h6>
         @if (Model.DeelnemerAanwezig.Equals(true))
         {
-            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="checked" readonly="readonly" /></div></div>
+            <div class="col px-md-5">
+                <div class="p-3 border bg-light">Ja</div>
+            </div>
         }
         else
         {
-            <div class="col px-md-5"><div class="p-3 border bg-light"><input type="checkbox" disabled="disabled" checked="" readonly="readonly" /></div></div>
+            <div class="col px-md-5">
+                <div class="p-3 border bg-light">--</div>
+            </div>
         }
     }
 
@@ -130,7 +138,7 @@
             <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" method="post">
                 <button type="submit">Indienen</button>
             </form>
-            
+
             @if (Model.FeedbackList.Count() != 0)
             {
                 <div>
@@ -153,6 +161,12 @@
                 </div>
             }
         }
+    }
+    else
+    {   
+        <div class="col px-md-5">
+            <div class="p-3 text-danger"> Je zal je moeten inloggen om je in te schrijven voor deze sessie of feedback te kunnen geven.</div></div>
+
     }
 </body>
 </html>
