@@ -1,8 +1,8 @@
 ﻿using dotnet_g36.Models.Domain;
 using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace dotnet_g36.Controllers
 {
@@ -19,30 +19,16 @@ namespace dotnet_g36.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Sessie> sessies = new List<Sessie>();
-            Verantwoordelijke gebruiker = (Verantwoordelijke)_userRepository.GetDeelnemerByUsername(User.Identity.Name);
+            ICollection<Sessie> sessies = new List<Sessie>();
+            Verantwoordelijke gebruiker = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
             //Vult sessies op met gepaste sessies
-            if (gebruiker.Equals(_userRepository.GetHoofdverantwoordelijke()))
+            foreach (Sessie s in gebruiker.OpenTeZettenSessies)
             {
-                sessies = _sessieRepository.GetAll();
-            }
-            else
-            {
-                foreach (Sessie s in gebruiker.OpenTeZettenSessies)
+                if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now <= s.StartDatum.AddHours(1))
                 {
-                    // if (s.Verantwoordelijke != null && s.Verantwoordelijke.Equals(gebruiker))
-
-                    sessies.ToList().Add(s);
-
+                    sessies.Add(s);
                 }
             }
-
-
-            //if (sessies.Count().Equals(0))
-            //{
-            //    throw new GeenSessiesException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
-            //}
-
             return View(new SessieOpenzettenViewModel(sessies));
         }
 
