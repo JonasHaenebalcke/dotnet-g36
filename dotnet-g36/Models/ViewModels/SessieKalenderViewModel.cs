@@ -1,11 +1,7 @@
-﻿using dotnet_g36.Data.Repositories;
-using dotnet_g36.Models.Domain;
+﻿using dotnet_g36.Models.Domain;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dotnet_g36.Models.ViewModels
 {
@@ -48,7 +44,7 @@ namespace dotnet_g36.Models.ViewModels
                 SessieIds.Add(sessie.SessieID);
 
                 bool aanwezig = false, ingeschreven = false;
-                if(gebruiker != null)
+                if (gebruiker != null)
                 {
                     foreach (UserSessie userSessie in sessie.UserSessies)
                     {

@@ -56,7 +56,7 @@ namespace dotnet_g36.Models.Domain
         /// <param name="user">Verantwoordelijke Object</param>
         public void SessieOpenZetten(Verantwoordelijke user)
         {
-            if (user.OpenTeZettenSessies.Contains(this) && StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1))
+            if (user.OpenTeZettenSessies.Contains(this) && StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now <= StartDatum)
             {
                 StatusSessie = StatusSessie.Open;
             }
@@ -70,9 +70,9 @@ namespace dotnet_g36.Models.Domain
         /// Sluit Sessie en controleert op users die 3 keer afwezig waren en blokkeert deze
         /// </summary>
         /// <param name="user">Verantwoordelijke Object</param>
-        public void SessieSluiten(Verantwoordelijke user)
+        public void SessieSluiten()
         {
-            if (user.OpenTeZettenSessies.Contains(this) & StatusSessie.Equals(StatusSessie.Open))
+            if (StatusSessie.Equals(StatusSessie.Open))
             {
                 StatusSessie = StatusSessie.Gesloten;
                 //controleert op users die 3 keer afwezig waren en blokkeert deze
@@ -80,13 +80,13 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (!userSessie.Aanwezig)
                     {
-                        Gebruiker user1 = userSessie.User;
-                        if (!(user1 is Verantwoordelijke) && user1.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
+                        Gebruiker gebruiker = userSessie.User;
+                        if (!(gebruiker is Verantwoordelijke) && gebruiker.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
                         {
-                            user1.StatusGebruiker = StatusGebruiker.Geblokkeerd;
-                            user1.SchrijfUitAlleSessies();
+                            gebruiker.StatusGebruiker = StatusGebruiker.Geblokkeerd;
+                            gebruiker.SchrijfUitAlleSessies();
                         }
-                        user1.AantalKeerAfwezig++;
+                        gebruiker.AantalKeerAfwezig++;
                     }
                 }
             }

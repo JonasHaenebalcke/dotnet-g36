@@ -9,6 +9,7 @@ namespace dotnet_g36.Models.Domain
     {
         IEnumerable<Gebruiker> GetAll();
         IEnumerable<Verantwoordelijke> GetVerantwoordelijken();
+        Verantwoordelijke GetVerantwoordelijke(Guid id);
         Verantwoordelijke GetHoofdverantwoordelijke();
         Gebruiker GetDeelnemerByID(Guid userID);
         Gebruiker GetDeelnemerByEmail(string emailadres);

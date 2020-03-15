@@ -124,14 +124,18 @@ namespace dotnet_g36.Data
                  new DateTime(2020, 5, 5, 12, 30, 0), new DateTime(2020, 5, 5, 13, 30, 0), 50,
                  StatusSessie.NietOpen, "Sessie over MySQL", " ");
 
-                admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10 };
-                organizer1.OpenTeZettenSessies = new List<Sessie>() { sessie1,sessie2, sessie3, sessie5, sessie6};
-                organizer2.OpenTeZettenSessies = new List<Sessie>() { sessie4, sessie9, sessie10};
+               
 
                 _context.Sessies.AddRange(new Sessie[]
               {
                    huidigeMaandSessie, sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10
               });
+                _context.SaveChanges();
+
+                admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10 };
+                organizer1.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie5, sessie6 };
+                organizer2.OpenTeZettenSessies = new List<Sessie>() { sessie4, sessie9, sessie10 };
+                organizer2.OpenTeZettenSessies.Add(sessie4);
                 _context.SaveChanges();
 
                 UserSessie us1 = new UserSessie(sessie1, actieveGebruiker);

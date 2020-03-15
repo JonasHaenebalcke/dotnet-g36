@@ -50,9 +50,9 @@ namespace dotnet_g36.Data.Repositories
             // er is maar 1 hoofdvernatwoordelijke die in de lijst van verantwoordelijke zit
             return _verantwoordelijken.Include(s => s.UserSessies).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
         }
-        public Verantwoordelijke GetVerantwoordelijke(int userID)
+        public Verantwoordelijke GetVerantwoordelijke(Guid userID)
         {
-            return _verantwoordelijken.Include(s => s.UserSessies).SingleOrDefault(v => v.Id.Equals(userID));
+            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).SingleOrDefault(v => v.Id.Equals(userID));
         }
 
         public IEnumerable<Verantwoordelijke> GetVerantwoordelijken()

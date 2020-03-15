@@ -19,9 +19,6 @@ namespace dotnet_g36.Controllers
         private readonly IUserRepository _userRepository;
         private Sessie geselecteerdeSessie;
 
-        SignInManager<Gebruiker> SignInManager;
-        UserManager<Gebruiker> UserManager;
-        IUserRepository UserRepository;
 
         public SessieController(ISessieRepository sessieRepository, IUserRepository userRepository)
         {
@@ -37,8 +34,7 @@ namespace dotnet_g36.Controllers
             {
                 Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
                 //if(userid == null || userid.Length == 0)
-                //    return 
-
+                //    return   
                 if (maandId == 0)
                 {
                     maandId = DateTime.Now.Month;
@@ -76,7 +72,6 @@ namespace dotnet_g36.Controllers
         {
             Sessie sessie = _sessieRepository.GetByID(id);
             Gebruiker user = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
-
            if (sessie.Media != null)
             {
                 ViewData["hasMedia"] = /*sessie.Media;*/ true;
