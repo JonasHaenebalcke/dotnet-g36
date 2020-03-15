@@ -48,7 +48,7 @@ namespace dotnet_g36.Data.Repositories
         public Verantwoordelijke GetHoofdverantwoordelijke()
         {
             // er is maar 1 hoofdvernatwoordelijke die in de lijst van verantwoordelijke zit
-            return _verantwoordelijken.Include(s => s.UserSessies).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
+            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
         }
         public Verantwoordelijke GetVerantwoordelijke(Guid userID)
         {
@@ -57,7 +57,7 @@ namespace dotnet_g36.Data.Repositories
 
         public IEnumerable<Verantwoordelijke> GetVerantwoordelijken()
         {
-            return _verantwoordelijken.Include(s => s.UserSessies).ToList();
+            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).ToList();
         }
 
         public IEnumerable<Gebruiker> GetDeelnemers()

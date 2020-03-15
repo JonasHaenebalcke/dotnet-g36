@@ -33,10 +33,8 @@ namespace dotnet_g36.Models.ViewModels
             this.EindDatum = sessie.EindDatum;
             this.Lokaal = sessie.Lokaal;
             this.OpenPlaatsen = sessie.AantalOpenPlaatsen;
-            //this.ListMedia = sessie.Media;
-            this.ListMedia = new List<Media>();
-            // this.FeedbackList = sessie.FeedbackList;
-            this.FeedbackList = new List<Feedback>();
+            this.ListMedia = sessie.Media;
+            this.FeedbackList = sessie.FeedbackList;
             this.GastSpreker = sessie.Gastspreker;
             this.Verantwoordelijke = sessie.Verantwoordelijke;
             this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;

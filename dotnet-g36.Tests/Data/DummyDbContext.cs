@@ -26,19 +26,19 @@ namespace dotnet_g36.Tests.Data
             
 
             // Users <-- Deelnemers
-            User Pieter = new User("Pieter", "De Snieter", StatusGebruiker.Actief);
-            User Aaron = new User("Aaron", "Slaerm", StatusGebruiker.Actief);
-            User Lucifer = new User("Lucifer", "De Duvel", StatusGebruiker.Actief);
-            User Kim = new User("Kim", "jansens", StatusGebruiker.NietActief);
-            User Tom = new User("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
+            Gebruiker Pieter = new Gebruiker("Pieter", "De Snieter", StatusGebruiker.Actief);
+            Gebruiker Aaron = new Gebruiker("Aaron", "Slaerm", StatusGebruiker.Actief);
+            Gebruiker Lucifer = new Gebruiker("Lucifer", "De Duvel", StatusGebruiker.Actief);
+            Gebruiker Kim = new Gebruiker("Kim", "jansens", StatusGebruiker.NietActief);
+            Gebruiker Tom = new Gebruiker("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
 
-            IEnumerable<User> ActieveDeelnemers = new List<User>
+            IEnumerable<Gebruiker> ActieveDeelnemers = new List<Gebruiker>
             {
                 Pieter,
                 Aaron,
                 Lucifer
             };
-            IEnumerable<User> GeenDeelnemers = new List<User>
+            IEnumerable<Gebruiker> GeenDeelnemers = new List<Gebruiker>
             {
                 Kim, Tom
             };
@@ -75,7 +75,7 @@ namespace dotnet_g36.Tests.Data
             verledenSessie = sessie4;
             hedenSessie = sessie2;
 
-            admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, /*sessie7, sessie8, sessie9, sessie10*/ };
+            admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6};
 
             organizer1.OpenTeZettenSessies = new List<Sessie>() { };
             organizer2.OpenTeZettenSessies = new List<Sessie>() { };

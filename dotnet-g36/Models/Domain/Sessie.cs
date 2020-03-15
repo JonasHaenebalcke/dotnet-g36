@@ -62,14 +62,13 @@ namespace dotnet_g36.Models.Domain
             }
             else
             {
-                throw new GeenSessiesException("Sessie kan niet worden opengezet.");
+                throw new SessieException("Sessie kan niet worden opengezet. Controleer of U de rechten hebt om deze sessie open te zetten en of U niet meer dan één uur op voorhand ");
             }
         }
 
         /// <summary>
         /// Sluit Sessie en controleert op users die 3 keer afwezig waren en blokkeert deze
         /// </summary>
-        /// <param name="user">Verantwoordelijke Object</param>
         public void SessieSluiten()
         {
             if (StatusSessie.Equals(StatusSessie.Open))
@@ -92,7 +91,7 @@ namespace dotnet_g36.Models.Domain
             }
             else
             {
-                throw new GeenSessiesException("Sessie kan niet gesloten worden.");
+                throw new SessieException("Sessie kan niet gesloten worden.");
             }
         }
 
@@ -111,7 +110,7 @@ namespace dotnet_g36.Models.Domain
                 }
                 else
                 {
-                    throw new NietIngeschrevenException("U bent niet ingeschreven, dus U kan zich niet aanwezig zetten.");
+                    throw new IngeschrevenException("U bent niet ingeschreven, dus U kan zich niet aanwezig zetten.");
                 }
             }
 
@@ -129,7 +128,7 @@ namespace dotnet_g36.Models.Domain
             {
                 if (userSessie.UserID == user.Id)
                     //if (userSessie.UserName == user.UserName)
-                    throw new AlIngeschrevenException("U bent al ingeschreven voor deze sessie.");
+                    throw new IngeschrevenException("U bent al ingeschreven voor deze sessie.");
             }
             if (user.StatusGebruiker == StatusGebruiker.Actief)
             {
@@ -139,7 +138,7 @@ namespace dotnet_g36.Models.Domain
             }
             else
             {
-                throw new GeenActieveGebruikerException("U kan zich niet inschrijven omdat u bent geen actieve gebruiker. Glieve contact op te nemen met de hoofdverantwoordelijk.");
+                throw new GeenActieveGebruikerException("U kan zich niet inschrijven omdat u geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
             }
         }
 
@@ -165,7 +164,7 @@ namespace dotnet_g36.Models.Domain
                 }
             }
             if (!succes)
-                throw new NietIngeschrevenException("Deelnemer kon niet worden uitegeschreven.");
+                throw new IngeschrevenException("U kon niet worden uitgeschreven, omdat u niet ingeschreven bent.");
         }
 
         /// <summary>
