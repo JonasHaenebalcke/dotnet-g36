@@ -128,6 +128,11 @@ namespace dotnet_g36.Data.Repositories
         {
             _dbContext.SaveChanges();
         }
+        /// <summary>
+        /// Geeft de juiste Verantwoordelijke aan de hand van een username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>Verantwoordelijke object</returns>
         public Verantwoordelijke GetVerantwoordelijkeByUsername(string username)
         {
             return _verantwoordelijken.Include(s => s.UserSessies).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username));

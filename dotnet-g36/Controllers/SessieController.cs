@@ -265,6 +265,32 @@ namespace dotnet_g36.Controllers
         //        base.OnActionExecuting(context);
         //    }
         //}
+
+        public IActionResult Openzetten()
+        {
+            ICollection<Sessie> sessies = new List<Sessie>();
+            Verantwoordelijke gebruiker = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
+            //Vult sessies op met gepaste sessies
+            foreach (Sessie s in gebruiker.OpenTeZettenSessies)
+            {
+                if (s.StatusSessie.Equals(StatusSessie.NietOpen) && (DateTime.Now >= s.StartDatum.AddHours(/*1*/ -1) && DateTime.Now < s.StartDatum))/* DateTime.Now <= s.StartDatum.AddHours(1))*/
+                {
+                    sessies.Add(s);
+                }
+            }
+            return View(new SessieOpenzettenViewModel(sessies));
+        }
+
+        [HttpPost]
+        public IActionResult Openzetten(int id)
+        {
+            Sessie sessie = _sessieRepository.GetByID(id);
+            Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijke(_userRepository.GetDeelnemerByUsername(User.Identity.Name).Id);
+
+            sessie.SessieOpenZetten(verantwoordelijke);
+            _sessieRepository.SaveChanges();
+            return RedirectToAction(nameof(Openzetten));
+        }
     }
 
 
