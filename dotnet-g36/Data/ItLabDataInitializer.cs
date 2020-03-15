@@ -11,7 +11,7 @@ namespace dotnet_g36.Data
     public class ItLabDataInitializer
     {
         private readonly ApplicationDbContext _context;
-       private readonly UserManager<Gebruiker> _userManager;
+        private readonly UserManager<Gebruiker> _userManager;
         private Verantwoordelijke admin;
         private Verantwoordelijke organizer1;
         private Verantwoordelijke organizer2;
@@ -123,15 +123,20 @@ namespace dotnet_g36.Data
                 Sessie sessie10 = new Sessie(admin, organizer2, "Sessie MySQL", "B4.013",
                  new DateTime(2020, 5, 5, 12, 30, 0), new DateTime(2020, 5, 5, 13, 30, 0), 50,
                  StatusSessie.NietOpen, "Sessie over MySQL", " ");
+                Sessie sessie11 = new Sessie(admin, organizer2, "Sessie Databanken", "BCON",
+                    new DateTime(2020, 08, 10, 12, 30, 0), new DateTime(2020, 08, 10, 12, 45, 0), 50, StatusSessie.NietOpen, "Databanken enzo", "De Data Expert");
 
-                admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10 };
-                organizer1.OpenTeZettenSessies = new List<Sessie>() { sessie1,sessie2, sessie3, sessie5, sessie6};
-                organizer2.OpenTeZettenSessies = new List<Sessie>() { sessie4, sessie9, sessie10};
+               
 
                 _context.Sessies.AddRange(new Sessie[]
               {
-                   huidigeMaandSessie, sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10
+                   huidigeMaandSessie, sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10, sessie11
               });
+                _context.SaveChanges();
+
+                admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10, sessie11 };
+                organizer1.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie5, sessie6 };
+                organizer2.OpenTeZettenSessies = new List<Sessie>() { sessie4, sessie9, sessie10, sessie11};
                 _context.SaveChanges();
 
                 UserSessie us1 = new UserSessie(sessie1, actieveGebruiker);

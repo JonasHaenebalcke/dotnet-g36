@@ -20,10 +20,24 @@ namespace dotnet_g36.Models.Domain
         IEnumerable<Verantwoordelijke> GetVerantwoordelijken();
 
         /// <summary>
+        /// Geeft de verantwoordelijke met juiste id
+        /// </summary>
+        /// <param name="id">idnummer van verantwoordelijke</param>
+        /// <returns>Verantwoordelijke Object</returns>
+        Verantwoordelijke GetVerantwoordelijke(Guid id);
+
+        /// <summary>
         /// Geeft de hoofdverantwoordelijke
         /// </summary>
         /// <returns>Verantwoordelijke Object</returns>
         Verantwoordelijke GetHoofdverantwoordelijke();
+
+        /// <summary>
+        /// Geeft de verantwoordelijke met de juiste username
+        /// </summary>
+        /// <param name="username">username van verantwoordelijke</param>
+        /// <returns>Verantwoordelijke Object</returns>
+        Verantwoordelijke GetVerantwoordelijkeByUsername(string username);
 
         /// <summary>
         /// Geeft de juiste deelnemer/gebruiker aan de hand van userId

@@ -1,0 +1,66 @@
+﻿@model dotnet_g36.Models.ViewModels.SessieOpenzettenViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using dotnet_g36.Models.Domain
+@inject SignInManager<Gebruiker> SignInManager
+@inject UserManager<Gebruiker> UserManager
+@inject IUserRepository  UserRepository
+
+@{ViewData["Title"] = "SessieOpenzetten";}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+
+
+<body>
+
+    <h4>Sessies</h4>
+     <table class="table table-striped">
+        <tr>
+            <th class="text-center">Titel</th>
+            <th class="text-center">Startdatum @($"&") uur</th>
+            <th class="text-center">Open plaatsen</th>
+            <th class="text-center">Details</th>
+            <th class="text-center">Openzetten</th>
+        </tr>
+        <!-- loop die door de lijst van sessies gaat -->
+        @for (int i = 0; i < Model.SessieIds.Count(); i++)
+        {
+            <tr>
+                <td class="text-center">@Model.Titels.ElementAt(i)</td>
+                <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
+                <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
+                <td class="text-center">
+                    <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
+                </td>
+                <td>
+                    <form asp-controller="SessieOpenzetten" asp-action="Index" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                        <button type="submit">Openzetten</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </table>
+</body>
+</html>
+
+
+@*<tr>
+    <td class="text-center">@item.Verantwoordelijke.Voornaam</td>
+    <td class="text-center">@item.Titel</td>
+    <td class="text-center">@item.StartDatum</td>
+    <td class="text-center">@item.AantalOpenPlaatsen</td>
+    <td class="text-center">
+        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
+    </td>
+    <td>
+        <form asp-controller="SessieOpenzetten" asp-action="Index" asp-route-id="@item.SessieID" method="post">
+            <button type="submit">Openzetten</button>
+        </form>
+      </td>
+     </tr>*@
