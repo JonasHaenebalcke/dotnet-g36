@@ -58,7 +58,7 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _sessie.SchrijfIn(_gebruiker);
 
-            Assert.Throws<AanwezigException>(
+            Assert.Throws<IngeschrevenException>(
                 () => _sessie.SchrijfIn(_gebruiker));
         }
 

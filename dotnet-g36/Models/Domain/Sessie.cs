@@ -62,7 +62,7 @@ namespace dotnet_g36.Models.Domain
             }
             else
             {
-                throw new SessieException("Sessie kan niet worden opengezet. Controleer of U de rechten hebt om deze sessie open te zetten en of U niet meer dan één uur op voorhand ");
+                throw new SessieException("Sessie kan niet worden opengezet. Controleer of U de rechten hebt om deze sessie open te zetten en of U niet meer dan één uur op voorhand deze sessie wilt openzetten");
             }
         }
 
