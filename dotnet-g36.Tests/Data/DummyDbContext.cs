@@ -18,19 +18,26 @@ namespace dotnet_g36.Tests.Data
 
         public DummyDbContext()
         {
+        
             // Er is maar 1 hfdverantwoordelijke
-             admin = new Verantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>());
-           // Er kunnen veerdere verantwoordelijke zijn
-             organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief, new List<Sessie>());
-             organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief, new List<Sessie>());
-            
+            admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", /*"123",*/ "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
+            {
+                IsHoofdverantwoordelijke = true
+            };
+            //admin = new Verantwoordelijke("Admin", "De Padwin", StatusGebruiker.Actief, new List<Sessie>());
+
+            // Er kunnen meerdere verantwoordelijke zijn
+            organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", /*"123",*/ "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
+            organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be",/* "123", */"Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
+            //  organizer1 = new Verantwoordelijke("Organiser1", "De SubAdmin1", StatusGebruiker.Actief, new List<Sessie>());
+            // organizer2 = new Verantwoordelijke("Organiser2", "De SubAdmin2", StatusGebruiker.Actief, new List<Sessie>());
 
             // Users <-- Deelnemers
-            Gebruiker Pieter = new Gebruiker("Pieter", "De Snieter", StatusGebruiker.Actief);
-            Gebruiker Aaron = new Gebruiker("Aaron", "Slaerm", StatusGebruiker.Actief);
-            Gebruiker Lucifer = new Gebruiker("Lucifer", "De Duvel", StatusGebruiker.Actief);
-            Gebruiker Kim = new Gebruiker("Kim", "jansens", StatusGebruiker.NietActief);
-            Gebruiker Tom = new Gebruiker("Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
+            Gebruiker Pieter = new Gebruiker("769","45612pd","pieter.desnieter@student.hogent.be","Pieter", "De Snieter", StatusGebruiker.Actief);
+            Gebruiker Aaron = new Gebruiker("428", "48235as", "aaron.Slaerm@student.hogent.be", "Aaron", "Slaerm", StatusGebruiker.Actief);
+            Gebruiker Lucifer = new Gebruiker("1254", "1293ld", "lucifer.deduivel@student.hogent.be", "Lucifer", "De Duvel", StatusGebruiker.Actief);
+            Gebruiker Kim = new Gebruiker("9874", "6541kj", "kim.jansens@student.hogent.be", "Kim", "jansens", StatusGebruiker.NietActief);
+            Gebruiker Tom = new Gebruiker("9634", "5486tt", "tom.tomsens@student.hogent.be", "Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
 
             IEnumerable<Gebruiker> ActieveDeelnemers = new List<Gebruiker>
             {
@@ -42,7 +49,10 @@ namespace dotnet_g36.Tests.Data
             {
                 Kim, Tom
             };
-
+            Sessie huidigeMaandSessie = new Sessie(admin, organizer1, "Sessie 3D Printing", "B1.027",
+               DateTime.Now, DateTime.Now.AddHours(2),
+               25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+               );
             // Ik denk ook dat er extra attribuut moet komen voor ingeschreven
             Sessie sessie1 = new Sessie(admin, organizer1, "Sessie 3D Printing",  "B1.027",
                new DateTime(2020, 3, 01, 7, 30, 0), new DateTime(2020, 3, 01, 9, 30, 0),
@@ -73,7 +83,7 @@ namespace dotnet_g36.Tests.Data
                 150, StatusSessie.Open, " ", " "
                 );
             verledenSessie = sessie4;
-            hedenSessie = sessie2;
+            hedenSessie = huidigeMaandSessie;
 
             admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6};
 
