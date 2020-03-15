@@ -24,7 +24,12 @@ namespace dotnet_g36.Controllers
             _userRepository = userRepository;
            
         }
-
+        
+        /// <summary>
+        /// Geeft de sessies van de gekozen maand
+        /// </summary>
+        /// <param name="maandId">idnummer van de gekozen maand [default maand = 0]</param>
+        /// <returns>View naar kalender van sessies</returns>
         [AllowAnonymous]
         public IActionResult Index(int maandId = 0)
         {
@@ -55,14 +60,12 @@ namespace dotnet_g36.Controllers
                 TempData["error"] = gse.Message;
                 return View(new SessieKalenderViewModel( new List<Sessie>(), GetMaandSelectList(maandId), _userRepository.GetDeelnemerByUsername(User.Identity.Name)));
             }
-
         }
 
-
         /// <summary>
-        /// Geeft de details van een sessie weer
+        /// Geeft de details van de gekozen sessie weer
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">idnummer van de gekozen sessie</param>
         /// <returns>View naar nieuwe pagina</returns>
         [AllowAnonymous]
         public IActionResult Detail(int id)
@@ -74,13 +77,12 @@ namespace dotnet_g36.Controllers
         }
 
 
-
         /// <summary>
-        /// De post van Detail Action als de gebruiker zich inschrijft
+        /// De post van Detail Action als de gebruiker zich inschrijft/uitschrijft
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="sessieDetailsViewModel"></param>
-        /// <returns></returns>
+        /// <param name="id">idnummer van de gekozen sessie</param>
+        /// <param name="sessieDetailsViewModel">sessieDetailsViewModel Object</param>
+        /// <returns>View naar kalender van sessies </returns>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult DetailInschrijvenUitschrijven(int id, SessieDetailsViewModel sessieDetailsViewModel)
@@ -127,9 +129,9 @@ namespace dotnet_g36.Controllers
         /// <summary>
         /// De post van Detail Action als de gebruiker feedback geeft
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="sessieDetailsViewModel"></param>
-        /// <returns></returns>
+        /// <param name="id">idnummer van de gekozen sessie</param>
+        /// <param name="sessieDetailsViewModel">sessieDetailsViewModel Object</param>
+        /// <returns>View naar kalender van sessies</returns>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult DetailFeedbackGeven(int id, SessieDetailsViewModel sessieDetailsViewModel)
@@ -141,6 +143,11 @@ namespace dotnet_g36.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Om de aanwezigheden op te nemen
+        /// </summary>
+        /// <param name="id">idnummer van de sessie</param>
+        /// <returns>View naar Aanwezigheden (aanmelden voor sessie)</returns>
         [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
         {
@@ -180,6 +187,12 @@ namespace dotnet_g36.Controllers
             //}
         }
 
+        /// <summary>
+        /// De Post van MeldAanwezig om de aanwezigheden op te nemen
+        /// </summary>
+        /// <param name="id">idnummer van de gekozen sessie</param>
+        /// <param name="barcode">barcode van gebruiker</param>
+        /// <returns>View naar aanwezigheden (aanmelden voor sessie)</returns>
         [HttpPost]
         [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id, string barcode)
@@ -221,10 +234,10 @@ namespace dotnet_g36.Controllers
         }
 
         /// <summary>
-        /// retourneert selectlist van alle sessies in de opgegeven maand
+        /// Retourneert selectlist van alle sessies in de opgegeven maand
         /// </summary>
         /// <param name="maandId">nummer van de opgegeven maand</param>
-        /// <returns>selectlist van sessies</returns>
+        /// <returns>Selectlist van sessies</returns>
         private SelectList GetMaandSelectList(int maandId = 0)
         {
             var maanden = DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem { Value = (index + 1).ToString(), Text = monthName });

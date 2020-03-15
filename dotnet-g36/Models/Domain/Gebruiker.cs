@@ -75,7 +75,7 @@ namespace dotnet_g36
 
         #region methods
         /// <summary>
-        /// schrijft user uit alle sessies
+        /// Schrijft de gebruiker/user uit alle sessies
         /// </summary>
         public void SchrijfUitAlleSessies() //vb indien 3 keer niet aanwezig
         {
@@ -88,6 +88,9 @@ namespace dotnet_g36
                 }
             }
         }
+        /// <summary>
+        /// Feedback geven op afgelopen sessies
+        /// </summary>
         public void FeedbackGeven()
         {
             // kan alleen als ingeschreven en aanwezig was
