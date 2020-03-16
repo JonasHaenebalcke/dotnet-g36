@@ -47,7 +47,8 @@
             <th class="text-center">Titel</th>
             <th class="text-center">Startdatum @($"&") uur</th>
             <th class="text-center">Open plaatsen</th>
-            <th class="text-center">Ingeschreven?</th>
+            @if (SignInManager.IsSignedIn(User)) {
+            <th class="text-center">Ingeschreven?</th> }
             <th class="text-center">Details</th>
         </tr>
         <!-- loop die door de lijst van sessies gaat -->
@@ -60,15 +61,17 @@
                     <td class="text-center">@Model.Titels.ElementAt(i)</td>
                     <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
                     <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
-                    @if (Model.Ingeschrevenen.ElementAt(i))
+                    @if (SignInManager.IsSignedIn(User))
                     {
-                        <td class="text-center">Ja</td>
+                        @if (Model.Ingeschrevenen.ElementAt(i))
+                        {
+                            <td class="text-center">Ja</td>
+                        }
+                        else
+                        {
+                            <td class="text-center">--</td>
+                        }
                     }
-                    else
-                    {
-                        <td class="text-center">--</td>
-                    }
-
                     <td class="text-center">
                         <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                     </td>
@@ -85,7 +88,8 @@
             <th class="text-center">Gastspreker</th>
             <th class="text-center">Titel</th>
             <th class="text-center">Startdatum @($"&") uur</th>
-            <th class="text-center">Aanwezig?</th>
+            @if (SignInManager.IsSignedIn(User)) { 
+            <th class="text-center">Aanwezig?</th>}
             <th class="text-center">Details</th>
         </tr>
 
@@ -97,22 +101,23 @@
                     <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                     <td class="text-center">@Model.Titels.ElementAt(i)</td>
                     <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
-
-                    @if (Model.Aanwezigheden.ElementAt(i))
+                    @if (SignInManager.IsSignedIn(User))
                     {
-                        <td class="text-center">Ja</td>
+                        @if (Model.Aanwezigheden.ElementAt(i))
+                        {
+                            <td class="text-center">Ja</td>
+                        }
+                        else
+                        {
+                            <td class="text-center">--</td>
+                        }
                     }
-                    else
-                    {
-                        <td class="text-center">--</td>
-                    }
-
                     <td class="text-center">
                         <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                     </td>
                 </tr>
-                }
             }
-        </table>
-    </body>
+        }
+    </table>
+</body>
 </html>

@@ -48,7 +48,6 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
             [Display(Name = "Gebruikersnaam of email")]
             public string Email { get; set; }
 
