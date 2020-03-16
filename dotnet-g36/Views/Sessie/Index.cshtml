@@ -39,7 +39,7 @@
             </div>
         </div>
     </form>
-
+    <br />
     <h4>Geplande sessies</h4>
     <table class="table table-striped">
         <tr>
@@ -47,8 +47,10 @@
             <th class="text-center">Titel</th>
             <th class="text-center">Startdatum @($"&") uur</th>
             <th class="text-center">Open plaatsen</th>
-            @if (SignInManager.IsSignedIn(User)) {
-            <th class="text-center">Ingeschreven?</th> }
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <th class="text-center">Ingeschreven?</th>
+}
             <th class="text-center">Details</th>
         </tr>
         <!-- loop die door de lijst van sessies gaat -->
@@ -81,15 +83,17 @@
 
 
     </table>
-
+    <br />
     <h4>Afgelopen sessies</h4>
     <table class="table table-striped">
         <tr>
             <th class="text-center">Gastspreker</th>
             <th class="text-center">Titel</th>
             <th class="text-center">Startdatum @($"&") uur</th>
-            @if (SignInManager.IsSignedIn(User)) { 
-            <th class="text-center">Aanwezig?</th>}
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <th class="text-center">Aanwezig?</th>
+}
             <th class="text-center">Details</th>
         </tr>
 

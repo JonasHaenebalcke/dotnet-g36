@@ -51,7 +51,6 @@ namespace dotnet_g36.Controllers
                 }
                 else
                 {
-                    TempData["message"] = "Er zijn sessies";
                     return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), gebruiker));
                 }
             }
@@ -151,7 +150,8 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="id">idnummer van de sessie</param>
         /// <returns>View naar Aanwezigheden (aanmelden voor sessie)</returns>
-        [Authorize(Policy = "Hoofdverantwoordelijke")]
+        [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
+       // [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
         {
             try
@@ -197,7 +197,8 @@ namespace dotnet_g36.Controllers
         /// <param name="barcode">barcode van gebruiker</param>
         /// <returns>View naar aanwezigheden (aanmelden voor sessie)</returns>
         [HttpPost]
-        [Authorize(Policy = "Hoofdverantwoordelijke")]
+        // [Authorize(Policy = "Hoofdverantwoordelijke")]
+        [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         public IActionResult MeldAanwezig(int id, string barcode)
         {
             try
@@ -265,7 +266,7 @@ namespace dotnet_g36.Controllers
         //        base.OnActionExecuting(context);
         //    }
         //}
-
+        [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         public IActionResult Openzetten()
         {
             ICollection<Sessie> sessies = new List<Sessie>();
@@ -281,6 +282,7 @@ namespace dotnet_g36.Controllers
             return View(new SessieOpenzettenViewModel(sessies));
         }
 
+        [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         [HttpPost]
         public IActionResult Openzetten(int id)
         {

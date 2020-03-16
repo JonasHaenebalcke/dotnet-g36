@@ -144,7 +144,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Ongeldig login attempt..");
+                        ModelState.AddModelError(string.Empty, "Je wachtwoord is fout");
                         return Page();
                     }
                 }
@@ -154,7 +154,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
-           ModelState.AddModelError(string.Empty, "Ongeldig login attempt.");
+           ModelState.AddModelError(string.Empty, "Je gebruikersnaam of mailadres is fout");
             return Page();
         }
 
