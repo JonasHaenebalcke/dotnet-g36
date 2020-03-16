@@ -23,6 +23,9 @@
                 <input type="text" asp-for="Barcode" src="..." alt="Or Click Me"><br /><br />
                 <button class="btn btn-secondary ml-1">Voeg toe</button>
             </form><br />
+            <form method="post" asp-action="Sluiten" asp-controller="Sessie" asp-route-id="@Model.SessieID">
+                <button class="btn btn-secondary ml-1">Sluit Sessie</button>
+            </form><br />
             <a href="#">Studentenkaart vergeten?</a>
             <br /><br />
         </div>

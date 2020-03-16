@@ -10,7 +10,6 @@ using System.Globalization;
 using System.Linq;
 //using System.Threading.Timers;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace dotnet_g36.Controllers
 {
@@ -31,27 +30,27 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="alertTime"></param>
         /// <param name="id"></param>
-        private void SetUpTimer(DateTime alertTime, int id)
-        {
-            /*  DateTime current = DateTime.Now;
-              TimeSpan timeToGo = alertTime - current;
-              if (timeToGo < TimeSpan.Zero)
-              {
-                  return;//time already passed
-              }
-              this.timer = new Timer(x =>
-              {
-                  //RedirectToAction(nameof(Sluiten), id);
-                  //Sluiten(id);
-                  Index();
-              }, null, timeT
-              oGo, Timeout.InfiniteTimeSpan);*/
-
-          
-            Task.Delay(alertTime - DateTime.Now).ContinueWith(t => Sluiten(id));
+        //private void SetUpTimer(DateTime alertTime, int id)
+        //{
+        //    /*  DateTime current = DateTime.Now;
+        //      TimeSpan timeToGo = alertTime - current;
+        //      if (timeToGo < TimeSpan.Zero)
+        //      {
+        //          return;//time already passed
+        //      }
+        //      this.timer = new Timer(x =>
+        //      {
+        //          //RedirectToAction(nameof(Sluiten), id);
+        //          //Sluiten(id);
+        //          Index();
+        //      }, null, timeT
+        //      oGo, Timeout.InfiniteTimeSpan);*/
 
 
-        }
+        //    Task.Delay(alertTime - DateTime.Now).ContinueWith(t => Sluiten(id));
+
+
+        //}
 
 
         /// <summary>
@@ -241,7 +240,7 @@ namespace dotnet_g36.Controllers
                 }
 
                 return View(new SessieOpenzettenViewModel(sessies));
-            }
+            
             catch (SessieException e)
             {
                 TempData["error"] = e.Message;
@@ -261,7 +260,7 @@ namespace dotnet_g36.Controllers
 
             try
             {
-               
+
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
                 //Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijke(_userRepository.GetDeelnemerByUsername(User.Identity.Name).Id);
@@ -269,9 +268,9 @@ namespace dotnet_g36.Controllers
 
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
-                SetUpTimer(sessie.StartDatum, id);
-                return RedirectToAction(nameof(Index));
-                //return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+                //  SetUpTimer(sessie.StartDatum, id);
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (SessieException e)
             {
@@ -386,7 +385,7 @@ namespace dotnet_g36.Controllers
             }
             catch (Exception e)
             {
-                TempData["Error"] = e.Message;
+                TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
                 //return View(new MeldAanwezigViewModel(sessie));
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }

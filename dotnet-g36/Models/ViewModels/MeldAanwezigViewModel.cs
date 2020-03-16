@@ -7,7 +7,7 @@ namespace dotnet_g36.Models.ViewModels
     public class MeldAanwezigViewModel
     {
         public String Barcode { get; set; }
-        public int sessieID { get; set; }
+        public int SessieID { get; set; }
         //public ICollection<string> Aanwezigen { get; set; }
         public string Titel { get; set; }
 
@@ -16,7 +16,7 @@ namespace dotnet_g36.Models.ViewModels
         public MeldAanwezigViewModel(Sessie sessie)
         {
             this.sessie = sessie;
-            this.sessieID = sessie.SessieID;
+            this.SessieID = sessie.SessieID;
             this.Titel = sessie.Titel;
             //this.Aanwezigen = sessie.geefAlleAanwezigen();
         }
