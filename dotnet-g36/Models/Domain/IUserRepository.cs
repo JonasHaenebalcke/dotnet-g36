@@ -47,6 +47,13 @@ namespace dotnet_g36.Models.Domain
         Gebruiker GetDeelnemerByID(Guid userID);
 
         /// <summary>
+        /// Geeft de juiste deelnemer/gebruiker aan de hand van barcode
+        /// </summary>
+        /// <param name="barcode">barcode van de gebruiker</param>
+        /// <returns>Gebruiker object</returns>
+        Gebruiker GetDeelnemerByBarcode(String barcode);
+
+        /// <summary>
         /// Geeft de juiste deelnemer/gebruiker aan de hand van een emailadres
         /// </summary>
         /// <param name="emailadres">emailadres van de gebruiker</param>

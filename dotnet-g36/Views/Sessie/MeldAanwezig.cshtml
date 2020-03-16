@@ -14,24 +14,54 @@
     <title>@ViewData["Title"]</title>
 </head>
 <body>
-    <h1>Aanwezigheid Registreren</h1>
-    @*<input />*@
-<form method="post" asp-action="MeldAanwezig" asp-controller="Sessie">
-    <input type="text" asp-for="Barcode" src="..." alt="Or Click Me"><br/>
-    <button class="btn btn-secondary ml-1">Voeg toe</button>
-</form>
+    <h1>Aanwezigheid Registreren voor @Model.Titel</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Gelieve uw studentenkaart te scannen.</h4>
+            @*<input />*@
+            <form method="post" asp-action="MeldAanwezig" asp-controller="Sessie">
+                <input type="text" asp-for="Barcode" src="..." alt="Or Click Me"><br /><br />
+                <button class="btn btn-secondary ml-1">Voeg toe</button>
+            </form><br />
+            <a href="#">Studentenkaart vergeten?</a>
+            <br /><br />
+        </div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @if (TempData["error"] != null)
-            {
-                <div class="alert alert-warning">@TempData["error"]</div>
-            }
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-success">@TempData["message"]</div>
-            }
-        </main>
-    </div>
+        <div class="col-md-8">
+            <table class="table table-striped">
+                <tr>
+                    <th class="text-center">Reeds Aanwezig</th>
+
+                </tr>
+                <!-- loop die door de lijst van aanwezige gebruikers gaat -->
+                @foreach (var aanwezigen in (List<string>)ViewData["Aanwezig"])
+                {
+                    @if (aanwezigen.Count() == 0)
+                    {
+                        <tr>
+                            <td class="text-center">Nog niemand aanwezig.</td>
+
+                        </tr>
+                    }
+                    <tr>
+                        <td class="text-center">@aanwezigen</td>
+
+                    </tr>
+                }
+            </table>
+            </div>
+        </div>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-warning">@TempData["error"]</div>
+                }
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success">@TempData["message"]</div>
+                }
+            </main>
+        </div>
 </body>
 </html>

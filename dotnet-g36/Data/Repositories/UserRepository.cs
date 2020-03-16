@@ -62,7 +62,12 @@ namespace dotnet_g36.Data.Repositories
         {
             return _users.Include(s => s.UserSessies).SingleOrDefault(u => u.Id.Equals(userID));
         }
-       
+
+        public Gebruiker GetDeelnemerByBarcode(String barcode)
+        {
+            return _users.Include(s => s.UserSessies).SingleOrDefault(u => u.Barcode.Equals(barcode));
+        }
+
         /// <summary>
         /// Geeft de hoofdverantwoordelijke
         /// </summary>

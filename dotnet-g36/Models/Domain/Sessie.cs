@@ -101,18 +101,22 @@ namespace dotnet_g36.Models.Domain
         /// <param name="sessie">User Object</param>
         public void MeldAanwezig(Gebruiker user)
         {
+            Boolean succes = false;
             foreach (UserSessie userSessie in UserSessies)
             {
                 if (userSessie.UserID == user.Id)
                 //if (userSessie.UserName == user.UserName)
                 {
                     userSessie.Aanwezig = true;
-                }
-                else
-                {
-                    throw new IngeschrevenException("U bent niet ingeschreven, dus U kan zich niet aanwezig zetten.");
+                    succes = true;
+                    break;
                 }
             }
+            if(!succes)
+            {
+                    throw new IngeschrevenException("U bent niet ingeschreven, dus U kan zich niet aanwezig zetten.");
+            }
+            
 
         }
 
@@ -180,9 +184,17 @@ namespace dotnet_g36.Models.Domain
             List<string> res = new List<string>();
             foreach (UserSessie userSessie in UserSessies)
             {
+                
                 if (userSessie.Aanwezig)
                 {
-                    res.Add(userSessie.User.UserName);
+                    if (userSessie.User is null)
+                    {
+                        res.Add(userSessie.UserID.ToString());
+                    }
+                    else
+                    {
+                        res.Add(userSessie.User.UserName);
+                    }
                 }
             }
             return res;

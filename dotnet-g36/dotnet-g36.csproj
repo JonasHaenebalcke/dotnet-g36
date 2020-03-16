@@ -11,6 +11,7 @@
     <Content Remove="Models\NewFolder1\**" />
     <EmbeddedResource Remove="Models\NewFolder1\**" />
     <None Remove="Models\NewFolder1\**" />
+    <Content Remove="Views\Sessie\Aanwezigheden.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

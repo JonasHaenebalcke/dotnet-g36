@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -186,16 +186,23 @@ namespace dotnet_g36.Controllers
                 //Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijke(_userRepository.GetDeelnemerByUsername(User.Identity.Name).Id);
 
 
+
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
-                return RedirectToAction(nameof(Openzetten)); //Delete wnr meldaanwezig klaar is
-                                                             //return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (SessieException e)
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Openzetten));
             }
+
+            //sessie.SessieOpenZetten(verantwoordelijke);
+            //_sessieRepository.SaveChanges();
+            ////return RedirectToAction(nameof(Openzetten)); //Delete wnr meldaanwezig klaar is
+            //return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+            ////MeldAanwezig(id);
+
         }
 
         /// <summary>
@@ -206,23 +213,27 @@ namespace dotnet_g36.Controllers
         [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
         {
+            Sessie sessie = _sessieRepository.GetByID(id);
             try
             {
-                Sessie sessie = _sessieRepository.GetByID(id);
+                
 
-                if(sessie.StartDatum >= DateTime.Now)
+                if (sessie.StartDatum >= DateTime.Now.AddHours(1))
                 {
                     TempData["Error"] = "U kan zich niet meer aanmelden";
-                    return View(nameof(Index));
+                    //return View(nameof(Openzetten));
+                    
+                    return RedirectToAction(nameof(Openzetten));
                 }
 
-                ViewData["Aanwezig"] = sessie.geefAlleAanwezigen();
+                ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
                 ViewData["Startdatum"] = sessie.StartDatum;
-                return View();
+                return View(new MeldAanwezigViewModel(sessie));
             } catch (Exception e)
             {
                 TempData["Error"] = e.Message;
-                return View();
+                //return View(new MeldAanwezigViewModel(sessie));
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             //catch (GeenActieveGebruikerException e)
             //{
@@ -244,18 +255,19 @@ namespace dotnet_g36.Controllers
         /// <returns>View naar aanwezigheden (aanmelden voor sessie)</returns>
         [HttpPost]
         [Authorize(Policy = "Hoofdverantwoordelijke")]
-        public IActionResult MeldAanwezig(int id, string barcode)
+        public IActionResult MeldAanwezig(int id, MeldAanwezigViewModel model)
         {
+
+            Sessie sessie = _sessieRepository.GetByID(id);
             try
             {
-                Gebruiker gebruiker = new Gebruiker();
+                Gebruiker gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
 
-                Sessie sessie = _sessieRepository.GetByID(id);
 
-                if (sessie.StartDatum >= DateTime.Now)
+                if (sessie.StartDatum >= DateTime.Now.AddHours(1))
                 {
                     TempData["Error"] = "U kan zich niet meer aanmelden";
-                    return View(nameof(Index));
+                    return View(nameof(Openzetten));
                 }
 
                 if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
@@ -264,21 +276,29 @@ namespace dotnet_g36.Controllers
                 }
 
                 sessie.MeldAanwezig(gebruiker);
+                _sessieRepository.SaveChanges();
                 TempData["message"] = "Aanmelden is gelukt!";
 
-                ViewData["Aanwezig"] = sessie.geefAlleAanwezigen();
+                ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
 
-                return View(nameof(MeldAanwezig), id);
+                return View(new MeldAanwezigViewModel(sessie));
             }
             catch (GeenActieveGebruikerException e)
             {
                 TempData["Error"] = e.Message;
-                return View();
+                //return View(new MeldAanwezigViewModel(sessie));
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (IngeschrevenException e)
             {
                 TempData["Error"] = e.Message;
-                return View();
+                //return View(new MeldAanwezigViewModel(sessie));
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+            }catch (Exception e)
+            {
+                TempData["Error"] = e.Message;
+                //return View(new MeldAanwezigViewModel(sessie));
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
         }
 

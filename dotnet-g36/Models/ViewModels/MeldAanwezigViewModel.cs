@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using dotnet_g36.Models.Domain;
 
 namespace dotnet_g36.Models.ViewModels
@@ -6,13 +7,20 @@ namespace dotnet_g36.Models.ViewModels
     public class MeldAanwezigViewModel
     {
         public String Barcode { get; set; }
+        public int sessieID { get; set; }
+        //public ICollection<string> Aanwezigen { get; set; }
+        public string Titel { get; set; }
+
         public Sessie sessie;
-        public MeldAanwezigViewModel() {}
+        public MeldAanwezigViewModel(){}
         public MeldAanwezigViewModel(Sessie sessie)
         {
             this.sessie = sessie;
+            this.sessieID = sessie.SessieID;
+            this.Titel = sessie.Titel;
+            //this.Aanwezigen = sessie.geefAlleAanwezigen();
         }
 
-        
+
     }
 }
