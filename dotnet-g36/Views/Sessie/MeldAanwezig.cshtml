@@ -37,18 +37,24 @@
 
                 </tr>
                 <!-- loop die door de lijst van aanwezige gebruikers gaat -->
-                @foreach (var aanwezigen in (List<string>)ViewData["Aanwezig"])
+                @if (Model.Aanwezigen.Count() == 0)
                 {
-                    @if (aanwezigen.Count() == 0)
-                    {
-                        <tr>
-                            <td class="text-center">Nog niemand aanwezig.</td>
+                    <tr>
+                        <td class="text-center">Nog niemand aanwezig.</td>
+                    </tr>
+                }
+                @*@foreach (var aanwezigen in (List<string>)ViewData["Aanwezig"])*@
+                @foreach (var aanwezigen in Model.Aanwezigen)
+                {
+                    @*@if (aanwezigen.Count() == 0)
+            {
+                <tr>
+                    <td class="text-center">Nog niemand aanwezig.</td>
 
-                        </tr>
-                    }
+                </tr>
+            }*@
                     <tr>
                         <td class="text-center">@aanwezigen</td>
-
                     </tr>
                 }
             </table>

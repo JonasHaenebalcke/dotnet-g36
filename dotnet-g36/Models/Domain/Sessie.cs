@@ -191,16 +191,16 @@ namespace dotnet_g36.Models.Domain
             List<string> res = new List<string>();
             foreach (UserSessie userSessie in UserSessies)
             {
-                
                 if (userSessie.Aanwezig)
                 {
                     if (userSessie.User is null)
                     {
-                        res.Add(userSessie.UserID.ToString());
-                    }
-                    else
-                    {
-                        res.Add(userSessie.User.UserName);
+                        //    res.Add(userSessie.UserID.ToString());
+                        //}
+                        //else
+                        //{
+                        //    res.Add(userSessie.User.UserName);
+                        res.Add(userSessie.UserName);
                     }
                 }
             }

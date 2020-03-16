@@ -72,15 +72,15 @@ namespace dotnet_g36.Data
                 // Jan 
 
                 //vb huidigeMaand
-                //Sessie huidigeMaandSessie = new Sessie(admin, organizer1, "Sessie 3D Printing", "B1.027",
-                //DateTime.Now.AddHours(1), DateTime.Now.AddHours(3),
-                //25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
-                //);
-                //vb huidigeMaand
                 Sessie huidigeMaandSessie = new Sessie(/*admin,*/ organizer1, "Sessie 3D Printing", "B1.027",
-                DateTime.Now.AddMinutes(1   ), DateTime.Now.AddHours(3),
+                DateTime.Now.AddHours(1), DateTime.Now.AddHours(3),
                 25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
+                ////vb huidigeMaand
+                //Sessie huidigeMaandSessie = new Sessie(/*admin,*/ organizer1, "Sessie 3D Printing", "B1.027",
+                //DateTime.Now.AddMinutes(2), DateTime.Now.AddHours(3),
+                //25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+                //);
 
                 //Maart - niet open
                 Sessie sessie1 = new Sessie(/*admin,*/ organizer1, "Sessie 3D Printing", "B1.027",

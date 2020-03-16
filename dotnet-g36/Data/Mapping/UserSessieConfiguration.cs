@@ -17,6 +17,7 @@ namespace dotnet_g36.Data.Mapping
             builder.HasKey(us => new { us.SessieID, us.UserID});
             builder.Property(us => us.SessieID).IsRequired();
             builder.Property(us => us.UserID).IsRequired();
+            //builder.Property(us => us.UserName);
 
             builder.HasOne(s => s.Sessie)
                 .WithMany(s => s.UserSessies)
