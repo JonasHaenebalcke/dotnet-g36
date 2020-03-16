@@ -178,14 +178,24 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult Openzetten(int id)
         {
-            Sessie sessie = _sessieRepository.GetByID(id);
-            Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
-            //Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijke(_userRepository.GetDeelnemerByUsername(User.Identity.Name).Id);
+           
+            try
+            {
+                Sessie sessie = _sessieRepository.GetByID(id);
+                Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
+                //Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijke(_userRepository.GetDeelnemerByUsername(User.Identity.Name).Id);
 
-            sessie.SessieOpenZetten(verantwoordelijke);
-            _sessieRepository.SaveChanges();
-            return RedirectToAction(nameof(Openzetten)); //Delete wnr meldaanwezig klaar is
-            //return RedirectToAction(nameof(MeldAanwezig), id);
+
+                sessie.SessieOpenZetten(verantwoordelijke);
+                _sessieRepository.SaveChanges();
+                return RedirectToAction(nameof(Openzetten)); //Delete wnr meldaanwezig klaar is
+                                                             //return RedirectToAction(nameof(MeldAanwezig), id);
+            }
+            catch (SessieException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Openzetten));
+            }
         }
 
         /// <summary>

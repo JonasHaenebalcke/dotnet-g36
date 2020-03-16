@@ -18,6 +18,11 @@
 
 <body>
 
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-warning">@TempData["error"]</div>
+    }
+
     <h4>Sessies</h4>
     <table class="table table-striped">
         <tr>
