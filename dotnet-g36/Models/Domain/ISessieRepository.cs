@@ -12,8 +12,6 @@ namespace dotnet_g36.Models.Domain
         /// <returns>IEnumerable van Sessie</returns>
         IEnumerable<Sessie> GetAll();
 
-        //ISessieRepository GetByID(int sessieID); //delete?
-
         /// <summary>
         /// Geeft de juiste sessie weer aan de hand van opgegeven sessieID
         /// </summary>
@@ -32,7 +30,7 @@ namespace dotnet_g36.Models.Domain
         /// Geeft alle de toekomstige sessies
         /// </summary>
         /// <returns>IEnumerable van Sessie</returns>
-        IEnumerable<Sessie> GetToekomstige();
+        //IEnumerable<Sessie> GetToekomstige();
 
         /// <summary>
         /// Slaat de veranderingen op in de databank

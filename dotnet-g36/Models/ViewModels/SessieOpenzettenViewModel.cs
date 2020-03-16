@@ -15,7 +15,7 @@ namespace dotnet_g36.Models.ViewModels
         public ICollection<int> OpenPlaatsen { get; set; }
         public ICollection<int> SessieIds { get; set; }
 
-        public SessieOpenzettenViewModel() { }
+        //public SessieOpenzettenViewModel() { }
 
         public SessieOpenzettenViewModel(IEnumerable<Sessie> sessies)
         {

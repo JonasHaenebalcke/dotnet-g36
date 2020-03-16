@@ -95,7 +95,8 @@ namespace dotnet_g36.Controllers
                 bool succes = false;
                 foreach (UserSessie us in sessie.UserSessies)
                 {
-                    if (us.SessieID.Equals(sessie.SessieID))
+                    //if (us.SessieID.Equals(sessie.SessieID))
+                    if(us.UserID.Equals(gebruiker.Id))
                     {
                         sessie.SchrijfUit(gebruiker);
                         succes = true;
@@ -146,6 +147,47 @@ namespace dotnet_g36.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Openzetten()
+        {
+            ICollection<Sessie> sessies = new List<Sessie>();
+            Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
+            //Vult sessies op met gepaste sessies
+            Sessie temp = null;
+            foreach (Sessie s in verantwoordelijke.OpenTeZettenSessies)
+            {
+                if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now < s.StartDatum)
+                {
+                    // "sorteren" op datum
+                    if( temp == null)
+                    {
+                        temp = s;
+                    } else
+                    {
+                        if (temp.StartDatum <= s.StartDatum)
+                        {
+                            sessies.Add(temp);
+                            temp = null;
+                        }
+                        sessies.Add(s);
+                    }
+                }
+            }
+            return View(new SessieOpenzettenViewModel(sessies));
+        }
+
+        [HttpPost]
+        public IActionResult Openzetten(int id)
+        {
+            Sessie sessie = _sessieRepository.GetByID(id);
+            Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
+            //Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijke(_userRepository.GetDeelnemerByUsername(User.Identity.Name).Id);
+
+            sessie.SessieOpenZetten(verantwoordelijke);
+            _sessieRepository.SaveChanges();
+            return RedirectToAction(nameof(Openzetten)); //Delete wnr meldaanwezig klaar is
+            //return RedirectToAction(nameof(MeldAanwezig), id);
+        }
+
         /// <summary>
         /// Om de aanwezigheden op te nemen
         /// </summary>
@@ -162,13 +204,7 @@ namespace dotnet_g36.Controllers
                 {
                     TempData["Error"] = "U kan zich niet meer aanmelden";
                     return View(nameof(Index));
-                    //return View(nameof(Inloggen));
                 }
-
-                //if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
-                //{
-                //    throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
-                //}
 
                 ViewData["Aanwezig"] = sessie.geefAlleAanwezigen();
                 ViewData["Startdatum"] = sessie.StartDatum;
@@ -266,31 +302,6 @@ namespace dotnet_g36.Controllers
         //    }
         //}
 
-        public IActionResult Openzetten()
-        {
-            ICollection<Sessie> sessies = new List<Sessie>();
-            Verantwoordelijke gebruiker = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
-            //Vult sessies op met gepaste sessies
-            foreach (Sessie s in gebruiker.OpenTeZettenSessies)
-            {
-                if (s.StatusSessie.Equals(StatusSessie.NietOpen) && (DateTime.Now >= s.StartDatum.AddHours(/*1*/ -1) && DateTime.Now < s.StartDatum))/* DateTime.Now <= s.StartDatum.AddHours(1))*/
-                {
-                    sessies.Add(s);
-                }
-            }
-            return View(new SessieOpenzettenViewModel(sessies));
-        }
-
-        [HttpPost]
-        public IActionResult Openzetten(int id)
-        {
-            Sessie sessie = _sessieRepository.GetByID(id);
-            Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijke(_userRepository.GetDeelnemerByUsername(User.Identity.Name).Id);
-
-            sessie.SessieOpenZetten(verantwoordelijke);
-            _sessieRepository.SaveChanges();
-            return RedirectToAction(nameof(Openzetten));
-        }
     }
 
 

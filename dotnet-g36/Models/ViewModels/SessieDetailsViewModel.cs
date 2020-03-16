@@ -47,7 +47,7 @@ namespace dotnet_g36.Models.ViewModels
             
             foreach (UserSessie usersessie in sessie.UserSessies)
              {
-                 if (usersessie.UserID == gebruiker.Id)
+                 if (gebruiker != null && usersessie.UserID == gebruiker.Id)
                  {
                      DeelnemerIngeschreven = true;
                      DeelnemerAanwezig = usersessie.Aanwezig;

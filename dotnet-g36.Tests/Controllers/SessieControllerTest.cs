@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using dotnet_g36.Models.Exceptions;
 using dotnet_g36.Models.Domain;
+using dotnet_g36.Models.ViewModels;
 
 namespace dotnet_g36.Tests.Controllers
 {
@@ -21,6 +22,7 @@ namespace dotnet_g36.Tests.Controllers
         private readonly Mock<ISessieRepository> _sessieRepo;
         private readonly Mock<IUserRepository> _userRepo;
         private readonly int huidigeMaand;
+        private Gebruiker _gebruiker;
 
         public SessieControllerTest()
         {
@@ -39,11 +41,13 @@ namespace dotnet_g36.Tests.Controllers
         public void SessieKalender_HuidigeMaand_GeeftModelMetAlle3HuidigeMaandSessieDoorAanDefaultView()
         {
             _sessieRepo.Setup(s => s.GetByMonth(huidigeMaand)).Returns(_context.HuidigeMaand);
+            _userRepo.Setup(s => s.GetDeelnemerByUsername(_context.admin.UserName)).Returns(_context.admin);
             var actionResult = Assert.IsType<ViewResult>(_controller.Index());
 
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            Assert.Equal(4, sessies.Count());
-            Assert.Equal("Sessie 3D Printing", sessies.First().Titel);
+            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
+            Assert.Equal(4, vm.Sessies.Count());
+            Assert.Equal("Sessie 3D Printing", vm.Sessies.First().Titel);
+            Assert.Equal("Sessie 3D Printing", vm.Titels.ElementAt(0));
         }
 
         [Fact]

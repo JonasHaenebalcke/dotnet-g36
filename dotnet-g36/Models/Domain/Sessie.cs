@@ -135,6 +135,8 @@ namespace dotnet_g36.Models.Domain
                 UserSessie usersessie = new UserSessie(this, user);
                 user.UserSessies.Add(usersessie);
                 UserSessies.Add(usersessie);
+                if(!(user is Verantwoordelijke))
+                    AantalOpenPlaatsen--;
             }
             else
             {
@@ -159,6 +161,8 @@ namespace dotnet_g36.Models.Domain
                 {
                     user.UserSessies.Remove(userSessie);
                     UserSessies.Remove(userSessie);
+                    if (!(user is Verantwoordelijke))
+                        AantalOpenPlaatsen++;
                     succes = true;
                     break;
                 }

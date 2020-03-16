@@ -4,7 +4,6 @@
 @using dotnet_g36.Models.Domain
 @inject SignInManager<Gebruiker> SignInManager
 @inject UserManager<Gebruiker> UserManager
-@inject IUserRepository  UserRepository
 
 @{ViewData["Title"] = "SessieOpenzetten";}
 
@@ -39,7 +38,7 @@
                     <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                 </td>
                 <td>
-                    <form asp-controller="SessieOpenzetten" asp-action="Index" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                    <form asp-controller="Sessie" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
                         <button type="submit">Openzetten</button>
                     </form>
                 </td>

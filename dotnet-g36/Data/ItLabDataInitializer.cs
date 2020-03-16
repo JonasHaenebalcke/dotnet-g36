@@ -73,7 +73,7 @@ namespace dotnet_g36.Data
 
                 //vb huidigeMaand
                 Sessie huidigeMaandSessie = new Sessie(admin, organizer1, "Sessie 3D Printing", "B1.027",
-                DateTime.Now, DateTime.Now.AddHours(2),
+                DateTime.Now.AddHours(1), DateTime.Now.AddHours(3),
                 25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
@@ -134,8 +134,8 @@ namespace dotnet_g36.Data
               });
                 _context.SaveChanges();
 
-                admin.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10, sessie11 };
-                organizer1.OpenTeZettenSessies = new List<Sessie>() { sessie1, sessie2, sessie3, sessie5, sessie6 };
+                admin.OpenTeZettenSessies = new List<Sessie>() { huidigeMaandSessie, sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, sessie6, sessie7, sessie8, sessie9, sessie10, sessie11 };
+                organizer1.OpenTeZettenSessies = new List<Sessie>() { huidigeMaandSessie, sessie1, sessie2, sessie3, sessie5, sessie6 };
                 organizer2.OpenTeZettenSessies = new List<Sessie>() { sessie4, sessie9, sessie10, sessie11};
                 _context.SaveChanges();
 

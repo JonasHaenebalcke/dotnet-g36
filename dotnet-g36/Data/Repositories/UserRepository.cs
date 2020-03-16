@@ -106,7 +106,7 @@ namespace dotnet_g36.Data.Repositories
         /// </summary>
         /// <param name="emailadres">emailadres van de gebruiker</param>
         /// <returns>Gebruiker Object</returns>
-        public Gebruiker GetDeelnemerByEmail(string emailadres) // Misschien moet er nog een include in...
+        public Gebruiker GetDeelnemerByEmail(string emailadres)
         {
             return _users.Include(s => s.UserSessies).SingleOrDefault(d => d.Email.Equals(emailadres));
         }
@@ -128,6 +128,7 @@ namespace dotnet_g36.Data.Repositories
         {
             _dbContext.SaveChanges();
         }
+
         /// <summary>
         /// Geeft de juiste Verantwoordelijke aan de hand van een username
         /// </summary>
