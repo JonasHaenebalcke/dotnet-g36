@@ -18,6 +18,10 @@
 <body>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["sluitenMessage"] != null)
+            {
+                <div class="alert alert-success">@TempData["sluitenMessage"]</div>
+            }
             @if (TempData["message"] != null)
             {
                 <div class="alert alert-success">@TempData["message"]</div>
