@@ -28,7 +28,7 @@ namespace dotnet_g36.Controllers
         /// <summary>
         /// Geeft de sessies van de gekozen maand
         /// </summary>
-        /// <param name="maandId">idnummer van de gekozen maand [default maand = 0]</param>
+        /// <param name="maandId">Idnummer van de gekozen maand [default maand = 0]</param>
         /// <returns>View naar kalender van sessies</returns>
         [AllowAnonymous]
         public IActionResult Index(int maandId = 0)
@@ -64,7 +64,7 @@ namespace dotnet_g36.Controllers
         /// <summary>
         /// Geeft de details van de gekozen sessie weer
         /// </summary>
-        /// <param name="id">idnummer van de gekozen sessie</param>
+        /// <param name="id">Idnummer van de gekozen sessie</param>
         /// <returns>View naar nieuwe pagina</returns>
         [AllowAnonymous]
         public IActionResult Detail(int id)
@@ -191,7 +191,7 @@ namespace dotnet_g36.Controllers
         }
 
         /// <summary>
-        /// De Post van MeldAanwezig om de aanwezigheden op te nemen
+        /// De Post van MeldAanwezig Action om de aanwezigheden op te nemen
         /// </summary>
         /// <param name="id">idnummer van de gekozen sessie</param>
         /// <param name="barcode">barcode van gebruiker</param>
@@ -266,6 +266,11 @@ namespace dotnet_g36.Controllers
         //        base.OnActionExecuting(context);
         //    }
         //}
+
+        /// <summary>
+        /// om de sessie open te zetten
+        /// </summary>
+        /// <returns>View van openzetten sessies</returns>
         [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         public IActionResult Openzetten()
         {
@@ -282,6 +287,11 @@ namespace dotnet_g36.Controllers
             return View(new SessieOpenzettenViewModel(sessies));
         }
 
+        /// <summary>
+        /// De Post van Openzetten Action om de sessie open te zetten
+        /// </summary>
+        /// <param name="id">Idnummer van van de sessie</param>
+        /// <returns>View van </returns>
         [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         [HttpPost]
         public IActionResult Openzetten(int id)

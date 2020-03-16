@@ -69,7 +69,6 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Verantwoordelijke Object</returns>
         public Verantwoordelijke GetHoofdverantwoordelijke()
         {
-            // er is maar 1 hoofdvernatwoordelijke die in de lijst van verantwoordelijke zit
             return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
         }
 
@@ -128,6 +127,7 @@ namespace dotnet_g36.Data.Repositories
         {
             _dbContext.SaveChanges();
         }
+
         /// <summary>
         /// Geeft de juiste Verantwoordelijke aan de hand van een username
         /// </summary>
@@ -137,7 +137,6 @@ namespace dotnet_g36.Data.Repositories
         {
             return _verantwoordelijken.Include(s => s.UserSessies).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username));
         }
-
 
         #endregion
     }
