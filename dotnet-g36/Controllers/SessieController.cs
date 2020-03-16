@@ -211,30 +211,31 @@ namespace dotnet_g36.Controllers
                     sessies = _sessieRepository.GetToekomstige();
                 else
                 {
-                //Sessie temp = null;
+                    //Sessie temp = null;
                     foreach (Sessie s in verantwoordelijke.OpenTeZettenSessies)
                     {
                         if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now < s.StartDatum)
                         {
-                        //// "sorteren" op datum
-                        //if (temp == null)
-                        //{
-                        //    temp = s;
-                        //}
-                        //else
-                        //{
-                        //    if (temp.StartDatum <= s.StartDatum)
-                        //    {
-                        //        sessies.Add(temp);
-                        //        temp = null;
-                        //    }
-                                sessies.Add(s);
-                        //}
+                            //// "sorteren" op datum
+                            //if (temp == null)
+                            //{
+                            //    temp = s;
+                            //}
+                            //else
+                            //{
+                            //    if (temp.StartDatum <= s.StartDatum)
+                            //    {
+                            //        sessies.Add(temp);
+                            //        temp = null;
+                            //    }
+                            sessies.Add(s);
+                            //}
+                        }
                     }
                 }
-            }
                 return View(new SessieOpenzettenViewModel(sessies));
-            
+            }
+
             catch (SessieException e)
             {
                 TempData["error"] = e.Message;
