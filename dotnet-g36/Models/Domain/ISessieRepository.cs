@@ -30,7 +30,7 @@ namespace dotnet_g36.Models.Domain
         /// Geeft alle de toekomstige sessies
         /// </summary>
         /// <returns>IEnumerable van Sessie</returns>
-        //IEnumerable<Sessie> GetToekomstige();
+        ICollection<Sessie> GetToekomstige();
 
         /// <summary>
         /// Slaat de veranderingen op in de databank

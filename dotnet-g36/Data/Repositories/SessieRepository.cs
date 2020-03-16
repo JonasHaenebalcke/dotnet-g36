@@ -63,10 +63,10 @@ namespace dotnet_g36.Data.Repositories
         /// Geeft alle de toekomstige sessies, ook die uit feedbacklist, media en usersessie.
         /// </summary>
         /// <returns>IEnumerable van Sessie</returns>
-        //public IEnumerable<Sessie> GetToekomstige()
-        //{
-        //    return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).Where(s => s.StartDatum >= DateTime.Now).ToList();
-        //}
+        public ICollection<Sessie> GetToekomstige()
+        {
+            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).Where(s => s.StartDatum >= DateTime.Now).ToList();
+        }
 
         /// <summary>
         /// Slaat de veranderingen op in de databank

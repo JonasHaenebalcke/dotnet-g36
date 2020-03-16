@@ -9,7 +9,6 @@ namespace dotnet_g36.Tests.Models.Domain
 {
     public class SessieTest
     {
-        //NU: enkel testen met deelnemer, immers User is abstract
         // verantwoordelijken ook testen?
         private Gebruiker _gebruiker;
         private Sessie _sessie;

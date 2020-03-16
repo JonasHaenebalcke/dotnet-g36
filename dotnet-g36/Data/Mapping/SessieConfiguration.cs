@@ -28,6 +28,10 @@ namespace dotnet_g36.Data.Mapping
                 .WithMany(s => s.OpenTeZettenSessies)
                  .OnDelete(DeleteBehavior.Restrict);
 
+            //builder.HasOne(s => s.Hoofdverantwoordelijke)
+            //    .WithMany(s => s.OpenTeZettenSessies)
+            //     .OnDelete(DeleteBehavior.Restrict);
+
             /*builder.HasOne(s => s.Hoofdverantwoordelijke)
                 .WithMany(s => s.OpenTeZettenSessies)
                .IsRequired(false)

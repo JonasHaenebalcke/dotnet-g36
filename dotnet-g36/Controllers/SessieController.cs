@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+//using System.Threading.Timers;
+using System.Threading;
 
 namespace dotnet_g36.Controllers
 {
@@ -17,14 +19,36 @@ namespace dotnet_g36.Controllers
     {
         private readonly ISessieRepository _sessieRepository;
         private readonly IUserRepository _userRepository;
+        private Timer timer;
 
         public SessieController(ISessieRepository sessieRepository, IUserRepository userRepository)
         {
             _sessieRepository = sessieRepository;
             _userRepository = userRepository;
-           
         }
-        
+
+        private void SetUpTimer(DateTime alertTime, int id)
+        {
+            DateTime current = DateTime.Now;
+            TimeSpan timeToGo = alertTime - current;
+            if (timeToGo < TimeSpan.Zero)
+            {
+                return;//time already passed
+            }
+            this.timer = new Timer(x =>
+            {
+                //throw new Exception("Simon sucks");
+                //RedirectToAction(nameof(Sluiten), id);
+                //Sluiten(id);
+                Index();
+            }, null, timeToGo, Timeout.InfiniteTimeSpan);
+        }
+
+        public IActionResult Sluiten(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Geeft de sessies van de gekozen maand
         /// </summary>
@@ -152,26 +176,33 @@ namespace dotnet_g36.Controllers
             ICollection<Sessie> sessies = new List<Sessie>();
             Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
             //Vult sessies op met gepaste sessies
-            Sessie temp = null;
-            foreach (Sessie s in verantwoordelijke.OpenTeZettenSessies)
+            if (verantwoordelijke.IsHoofdverantwoordelijke)
+                sessies = _sessieRepository.GetToekomstige();
+            else
             {
-                if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now < s.StartDatum)
+                Sessie temp = null;
+                foreach (Sessie s in verantwoordelijke.OpenTeZettenSessies)
                 {
-                    // "sorteren" op datum
-                    if( temp == null)
+                    if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now < s.StartDatum)
                     {
-                        temp = s;
-                    } else
-                    {
-                        if (temp.StartDatum <= s.StartDatum)
+                        // "sorteren" op datum
+                        if (temp == null)
                         {
-                            sessies.Add(temp);
-                            temp = null;
+                            temp = s;
                         }
-                        sessies.Add(s);
+                        else
+                        {
+                            if (temp.StartDatum <= s.StartDatum)
+                            {
+                                sessies.Add(temp);
+                                temp = null;
+                            }
+                            sessies.Add(s);
+                        }
                     }
                 }
             }
+
             return View(new SessieOpenzettenViewModel(sessies));
         }
 
@@ -189,6 +220,7 @@ namespace dotnet_g36.Controllers
 
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
+            SetUpTimer(sessie.StartDatum, id);
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (SessieException e)
@@ -213,17 +245,18 @@ namespace dotnet_g36.Controllers
         [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
         {
-            Sessie sessie = _sessieRepository.GetByID(id);
+            
             try
             {
-                
+                Sessie sessie = _sessieRepository.GetByID(id);
 
-                if (sessie.StartDatum >= DateTime.Now.AddHours(1))
+                if(sessie.StartDatum >= DateTime.Now)
                 {
                     TempData["Error"] = "U kan zich niet meer aanmelden";
+                    return View(nameof(Index));
                     //return View(nameof(Openzetten));
                     
-                    return RedirectToAction(nameof(Openzetten));
+                    //return RedirectToAction(nameof(Openzetten));
                 }
 
                 ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
@@ -257,17 +290,16 @@ namespace dotnet_g36.Controllers
         [Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id, MeldAanwezigViewModel model)
         {
-
-            Sessie sessie = _sessieRepository.GetByID(id);
             try
             {
                 Gebruiker gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
 
+                Sessie sessie = _sessieRepository.GetByID(id);
 
-                if (sessie.StartDatum >= DateTime.Now.AddHours(1))
+                if (sessie.StartDatum >= DateTime.Now)
                 {
                     TempData["Error"] = "U kan zich niet meer aanmelden";
-                    return View(nameof(Openzetten));
+                    return View(nameof(Index));
                 }
 
                 if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
@@ -282,6 +314,7 @@ namespace dotnet_g36.Controllers
                 ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
 
                 return View(new MeldAanwezigViewModel(sessie));
+                //return View(nameof(MeldAanwezig), id);
             }
             catch (GeenActieveGebruikerException e)
             {

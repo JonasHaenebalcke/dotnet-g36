@@ -37,7 +37,7 @@ namespace dotnet_g36.Models.ViewModels
             this.FeedbackList = sessie.FeedbackList;
             this.GastSpreker = sessie.Gastspreker;
             this.Verantwoordelijke = sessie.Verantwoordelijke;
-            this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
+            //this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
 
             this.AantalAanwezigen = 0;
             this.gebruiker = gebruiker;

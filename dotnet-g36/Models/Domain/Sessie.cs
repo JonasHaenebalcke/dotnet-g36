@@ -19,7 +19,7 @@ namespace dotnet_g36.Models.Domain
         public IEnumerable<Media> Media { get; set; }
         public IEnumerable<Feedback> FeedbackList { get; set; }
         public ICollection<UserSessie> UserSessies { get; set; }
-        public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
+        //public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }
 
@@ -28,12 +28,17 @@ namespace dotnet_g36.Models.Domain
         #region Constructors
         public Sessie() { }
 
-        public Sessie(Verantwoordelijke hoofdVerantwoordelijke, Verantwoordelijke verantwoordelijke,
+        public Sessie(/*Verantwoordelijke hoofdVerantwoordelijke,*/ Verantwoordelijke verantwoordelijke,
             string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie = StatusSessie.NietOpen,
             string beschrijving = "", string gastspreker = "")
         {
-            this.Verantwoordelijke = verantwoordelijke == null ? hoofdVerantwoordelijke : verantwoordelijke;
-            this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
+            //if (verantwoordelijke == null)
+            //    this.Verantwoordelijke = hoofdVerantwoordelijke;
+            //else
+            //    this.Verantwoordelijke = verantwoordelijke;
+            //this.Verantwoordelijke = verantwoordelijke == null ? hoofdVerantwoordelijke : verantwoordelijke;
+            //this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
+            this.Verantwoordelijke = verantwoordelijke;
             this.Titel = titel;
             this.Lokaal = lokaal;
             this.StartDatum = startDatum;
@@ -56,13 +61,15 @@ namespace dotnet_g36.Models.Domain
         /// <param name="user">Verantwoordelijke Object</param>
         public void SessieOpenZetten(Verantwoordelijke user)
         {
-            if (user.OpenTeZettenSessies.Contains(this) && StatusSessie.Equals(StatusSessie.NietOpen) && (DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum))
+            if (StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum)
             {
+                if(!(user.IsHoofdverantwoordelijke || user.OpenTeZettenSessies.Contains(this)))
+                    throw new SessieException("Sessie kan niet worden opengezet. Controleer of U de rechten hebt om deze sessie open te zetten.");
                 StatusSessie = StatusSessie.Open;
             }
             else
             {
-                throw new SessieException("Sessie kan niet worden opengezet. Controleer of U de rechten hebt om deze sessie open te zetten en of U niet meer dan één uur op voorhand deze sessie wilt openzetten");
+                throw new SessieException("Sessie kan niet worden opengezet. Controleer of U niet meer dan één uur op voorhand deze sessie wilt openzetten");
             }
         }
 

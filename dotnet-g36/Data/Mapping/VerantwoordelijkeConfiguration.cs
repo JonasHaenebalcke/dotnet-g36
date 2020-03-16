@@ -17,9 +17,9 @@ namespace dotnet_g36.Data.Mapping
             builder.Property(u => u.Email)/*.HasMaxLength(50).IsRequired();*/
             builder.Property(u => u.IsHoofdverantwoordelijke).IsRequired();
 
-            builder.HasMany(v => v.OpenTeZettenSessies)
-                .WithOne(s => s.Verantwoordelijke)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasMany(v => v.OpenTeZettenSessies)
+            //    .WithOne(s => s.Verantwoordelijke)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
         }
     }
