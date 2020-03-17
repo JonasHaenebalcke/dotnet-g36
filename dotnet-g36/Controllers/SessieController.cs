@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 //using System.Threading.Timers;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace dotnet_g36.Controllers
 {
@@ -30,27 +31,28 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="alertTime"></param>
         /// <param name="id"></param>
-        //private void SetUpTimer(DateTime alertTime, int id)
-        //{
-        //    /*  DateTime current = DateTime.Now;
-        //      TimeSpan timeToGo = alertTime - current;
-        //      if (timeToGo < TimeSpan.Zero)
-        //      {
-        //          return;//time already passed
-        //      }
-        //      this.timer = new Timer(x =>
-        //      {
-        //          //RedirectToAction(nameof(Sluiten), id);
-        //          //Sluiten(id);
-        //          Index();
-        //      }, null, timeT
-        //      oGo, Timeout.InfiniteTimeSpan);*/
+       /* private async Task SetUpTimer(DateTime alertTime, int id)
+        {
+            *//*  DateTime current = DateTime.Now;
+              TimeSpan timeToGo = alertTime - current;
+              if (timeToGo < TimeSpan.Zero)
+              {
+                  return;//time already passed
+              }
+              this.timer = new Timer(x =>
+              {
+                  //RedirectToAction(nameof(Sluiten), id);
+                  //Sluiten(id);
+                  Index();
+              }, null, timeT
+              oGo, Timeout.InfiniteTimeSpan);*//*
 
 
-        //    Task.Delay(alertTime - DateTime.Now).ContinueWith(t => Sluiten(id));
+            Task.Delay(alertTime - DateTime.Now).ContinueWith(t => Sluiten(id));
 
+           // await Task.Run(() => Sluiten(id, alertTime));
 
-        //}
+        }*/
 
 
         /// <summary>
@@ -58,10 +60,14 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>View naar Kalander van sessies</returns>
-        public IActionResult Sluiten(int id)
+        public IActionResult Sluiten(int id, DateTime alertTime)
         {
             try
             {
+
+                //Thread.Sleep(alertTime - DateTime.Now);
+
+
                 Sessie sessie = _sessieRepository.GetByID(id);
 
                 sessie.SessieSluiten();
@@ -262,7 +268,7 @@ namespace dotnet_g36.Controllers
 
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
-                //SetUpTimer(sessie.StartDatum, id);
+              //  SetUpTimer(sessie.StartDatum, id);
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id }); // id);
             }
             catch (SessieException e)
@@ -295,10 +301,15 @@ namespace dotnet_g36.Controllers
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
+                ICollection<string> users = new List<string>();
+                foreach (Guid aanwezige in sessie.geefAlleAanwezigen())
+                {
+                    users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
+                }
 
                 //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
                 //ViewData["Startdatum"] = sessie.StartDatum;
-                return View(new MeldAanwezigViewModel(sessie));
+                return View(new MeldAanwezigViewModel(sessie, users));
             }
             catch (SessieException e)
             {
@@ -337,19 +348,30 @@ namespace dotnet_g36.Controllers
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
-
+                Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now)
                 {
                     throw new SessieException("U kan zich niet meer aanmelden");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
-
-                Gebruiker gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
+                if (model.Barcode.Contains("@"))
+                {
+                    gebruiker = _userRepository.GetDeelnemerByEmail(model.Barcode);
+                }
+                else
+                {
+                    gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
+                }
 
                 if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
                 {
                     throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
+                }
+                ICollection<string> users = new List<string>();
+                foreach (Guid aanwezige in sessie.geefAlleAanwezigen())
+                {
+                    users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
                 }
 
                 sessie.MeldAanwezig(gebruiker);
@@ -357,8 +379,8 @@ namespace dotnet_g36.Controllers
                 TempData["message"] = "Aanmelden is gelukt!";
 
                 //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
-
-                return View(new MeldAanwezigViewModel(sessie));
+                ModelState.Clear();
+                return View(new MeldAanwezigViewModel(sessie, users));
                 //return View(nameof(MeldAanwezig), id);
             }
             catch (SessieException e)
@@ -398,6 +420,7 @@ namespace dotnet_g36.Controllers
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
         }
+
 
 
     }
