@@ -295,10 +295,15 @@ namespace dotnet_g36.Controllers
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
+                ICollection<string> users = new List<string>();
+                foreach (Guid aanwezige in sessie.geefAlleAanwezigen())
+                {
+                    users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
+                }
 
                 //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
                 //ViewData["Startdatum"] = sessie.StartDatum;
-                return View(new MeldAanwezigViewModel(sessie, _userRepository));
+                return View(new MeldAanwezigViewModel(sessie, users));
             }
             catch (SessieException e)
             {
@@ -357,14 +362,19 @@ namespace dotnet_g36.Controllers
                 {
                     throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
                 }
+                ICollection<string> users = new List<string>();
+                foreach (Guid aanwezige in sessie.geefAlleAanwezigen())
+                {
+                    users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
+                }
 
                 sessie.MeldAanwezig(gebruiker);
                 _sessieRepository.SaveChanges();
                 TempData["message"] = "Aanmelden is gelukt!";
 
                 //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
-
-                return View(new MeldAanwezigViewModel(sessie, _userRepository));
+                ModelState.Clear();
+                return View(new MeldAanwezigViewModel(sessie, users));
                 //return View(nameof(MeldAanwezig), id);
             }
             catch (SessieException e)

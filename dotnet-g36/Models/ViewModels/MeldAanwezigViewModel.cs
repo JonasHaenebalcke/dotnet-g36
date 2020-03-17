@@ -10,23 +10,23 @@ namespace dotnet_g36.Models.ViewModels
         public String Barcode { get; set; }
         public int SessieID { get; set; }
         public String Titel { get; set; }
-        public List<string> Aanwezigen { get; set; }
+        public ICollection<string> Aanwezigen { get; set; }
         public DateTime Start { get; set; }
 
         //public Sessie sessie;
         public MeldAanwezigViewModel() { }
-        public MeldAanwezigViewModel(Sessie sessie, IUserRepository userRepository)
+        public MeldAanwezigViewModel(Sessie sessie, ICollection<string> users)
         {
             Start = sessie.StartDatum;
             //this.sessie = sessie;
             this.SessieID = sessie.SessieID;
             this.Titel = sessie.Titel;
-            this.Aanwezigen = new List<string>();
-            _userRepository = userRepository;
-            foreach (Guid gebruiker in sessie.geefAlleAanwezigen())
-            {
-                this.Aanwezigen.Add(userRepository.GetDeelnemerByID(gebruiker).UserName);
-            }
+            this.Aanwezigen = users;
+            //_userRepository = userRepository;
+            //foreach (Guid gebruiker in sessie.geefAlleAanwezigen())
+            //{
+            //    this.Aanwezigen.Add(userRepository.GetDeelnemerByID(gebruiker).UserName);
+            //}
 
 
         }
