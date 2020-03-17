@@ -11,6 +11,7 @@
 
 <html>
 <head>
+    <br/>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
 </head>
@@ -23,7 +24,7 @@
         <div class="alert alert-warning">@TempData["error"]</div>
     }
 
-    <h4>Sessies</h4>
+    <h4>Open te zetten sessies</h4>
     <table class="table table-striped">
         <tr>
             <th class="text-center">Titel</th>
@@ -42,7 +43,7 @@
                 <td class="text-center">
                     <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                 </td>
-                <td>
+                <td class="text-center">
                     <form asp-controller="Sessie" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
                         <button type="submit">Openzetten</button>
                     </form>

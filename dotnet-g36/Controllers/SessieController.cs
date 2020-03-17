@@ -167,15 +167,18 @@ namespace dotnet_g36.Controllers
                 _sessieRepository.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
-            } catch (ArgumentException e)
+            }
+            catch (ArgumentException e)
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Detail), id);
-            } catch (IngeschrevenException e)
+            }
+            catch (IngeschrevenException e)
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Detail), id);
-            } catch (GeenActieveGebruikerException e)
+            }
+            catch (GeenActieveGebruikerException e)
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Detail), id);
@@ -256,7 +259,7 @@ namespace dotnet_g36.Controllers
 
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
-                
+
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
                 //SetUpTimer(sessie.StartDatum, id);
@@ -281,12 +284,12 @@ namespace dotnet_g36.Controllers
         /// <returns>View naar Aanwezigheden (aanmelden voor sessie)</returns>
         [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
-        { 
+        {
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
 
-                if(sessie.StartDatum <= DateTime.Now)
+                if (sessie.StartDatum <= DateTime.Now)
                 {
                     throw new SessieException("U kan zich niet meer aanmelden");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
@@ -394,8 +397,8 @@ namespace dotnet_g36.Controllers
             var maanden = DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem { Value = (index + 1).ToString(), Text = monthName });
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
+        }
+
+
     }
-
-
-
 }
