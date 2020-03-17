@@ -33,7 +33,7 @@ namespace dotnet_g36.Data
 
                 var ph = new PasswordHasher<Gebruiker>();
                 // Hoofdverantwoordelijke string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief
-                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", /*"123",*/ "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
+                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be",  "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
                 {
                     IsHoofdverantwoordelijke = true
                 };
@@ -41,8 +41,8 @@ namespace dotnet_g36.Data
                 admin.PasswordHash = ph.HashPassword(admin, "123");
                 admin.SecurityStamp = Guid.NewGuid().ToString();
                 //verantwoordelijke
-                organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", /*"123",*/ "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
-                organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be",/* "123", */"Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be","Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
                 organizer1.EmailConfirmed = true;
                 organizer1.PasswordHash = ph.HashPassword(organizer1, "123");
                 organizer1.SecurityStamp = Guid.NewGuid().ToString();
@@ -55,9 +55,9 @@ namespace dotnet_g36.Data
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 // Deelnemers
-                actieveGebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be",/* "123",*/ "Rein", "Daelman", StatusGebruiker.Actief);
-                //nietActieveGebruiker = new Gebruiker("789", "1234az", "kim.jansens@student.hogent.be",/* "123", */"Kim", "jansens", StatusGebruiker.NietActief);
-                //geblokkeerdeGebruiker = new Gebruiker("741", "5678er", "lucifer.deduivel@student.hogent.be",/* "123",*/ "Lucifer", "De Duvel", StatusGebruiker.Geblokkeerd);
+                actieveGebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be","Rein", "Daelman", StatusGebruiker.Actief);
+                //nietActieveGebruiker = new Gebruiker("789", "1234az", "kim.jansens@student.hogent.be","Kim", "jansens", StatusGebruiker.NietActief);
+                //geblokkeerdeGebruiker = new Gebruiker("741", "5678er", "lucifer.deduivel@student.hogent.be", "Lucifer", "De Duvel", StatusGebruiker.Geblokkeerd);
                 actieveGebruiker.EmailConfirmed = true;
                 actieveGebruiker.PasswordHash = ph.HashPassword(actieveGebruiker, "123");
                 actieveGebruiker.SecurityStamp = Guid.NewGuid().ToString();

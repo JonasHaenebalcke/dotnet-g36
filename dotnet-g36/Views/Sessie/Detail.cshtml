@@ -31,16 +31,16 @@
     </div>
 
     <h3>@Model.Titel</h3>
-
+    <br/>
     <div class="col px-md-5"><div class="p-3 border bg-light">@Model.Beschrijving</div></div>
-
+    <br />
     <h6>Datum en uur</h6>
     <div class="row mx-md-n5">
         <div class="col px-md-5"><div class="p-3 border bg-light">@Model.StartDatum</div></div>
         <div class="col px-md-5"><div class="p-3 border bg-light">@Model.EindDatum</div></div>
     </div>
 
-
+    <br />
     <h6>Lokaal</h6>
     <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.Lokaal</div></div>
 
@@ -48,47 +48,52 @@
     @*OPEN PLAATSEN OF AANTAL AANWEZIGEN WEERGEVEN*@
     @if (Model.StartDatum >= DateTime.Now)
     {//HEDEN
+        <br />
         <h6>Open plaatsen</h6>
         <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.OpenPlaatsen</div></div>
 
-
-        <h6>Ingeschreven?</h6>
-        @if (Model.DeelnemerIngeschreven.Equals(true))
-        {
-            <div class="col px-md-5">
-                <div class="p-3 border bg-light">Ja</div>
-            </div>
-        }
-        else
-        {
-            <div class="col px-md-5">
-                <div class="p-3 border bg-light">--</div>
-            </div>
+        @if (SignInManager.IsSignedIn(User))
+        {<br />
+            <h6>Ingeschreven?</h6>
+            @if (Model.DeelnemerIngeschreven.Equals(true))
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">Ja</div>
+                </div>
+            }
+            else
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">--</div>
+                </div>
+            }
         }
     }
     else//VERLEDEN
-    {
+    { <br />
         <h6>Aantal aanwezigen</h6>
         <div class="col px-md-5"><div class="p-3 border bg-light">@Model.AantalAanwezigen</div></div>
 
-
-        <h6>Aanwezig?</h6>
-        @if (Model.DeelnemerAanwezig.Equals(true))
-        {
-            <div class="col px-md-5">
-                <div class="p-3 border bg-light">Ja</div>
-            </div>
-        }
-        else
-        {
-            <div class="col px-md-5">
-                <div class="p-3 border bg-light">--</div>
-            </div>
+        @if (SignInManager.IsSignedIn(User))
+        {<br />
+            <h6>Aanwezig?</h6>
+            @if (Model.DeelnemerAanwezig.Equals(true))
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">Ja</div>
+                </div>
+            }
+            else
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">--</div>
+                </div>
+            }
         }
     }
 
     @if (Model.ListMedia.Count() != 0)
-    {
+    {<br />
         <h6>Media</h6>
         <div>
             <table class="table table-striped">
@@ -118,24 +123,27 @@
         {
             @if (!Model.DeelnemerIngeschreven)
             {<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                    <br />
                     <button type="submit">Inschrijven</button>
                 </form>
             }
             else
             {
                 <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                    <br />
                     <button type="submit">Uitschrijven</button>
                 </form>
             }
         }
         else
-        {
+        { <br/>  
             <h6>Feedback</h6>
 
             <div class="form-group">
                 <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
             </div>
             <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" method="post">
+                <br />
                 <button type="submit">Indienen</button>
             </form>
 
@@ -163,9 +171,10 @@
         }
     }
     else
-    {   
+    {
         <div class="col px-md-5">
-            <div class="p-3 text-danger"> Je zal je moeten inloggen om je in te schrijven voor deze sessie of feedback te kunnen geven.</div></div>
+            <div class="p-3 text-danger">Om je in te schrijven voor deze sessie of feedback te kunnen geven, zal je je moeten inloggen.</div>
+        </div>
 
     }
 </body>

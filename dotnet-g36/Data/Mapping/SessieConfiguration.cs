@@ -21,8 +21,6 @@ namespace dotnet_g36.Data.Mapping
             builder.Property(s => s.Titel).HasMaxLength(100).IsRequired();
             builder.Property(s => s.Beschrijving).HasMaxLength(100).IsRequired(false);
             builder.Property(s => s.Gastspreker).HasMaxLength(100).IsRequired(false);
-            //builder.Property(s => s.Hoofdverantwoordelijke).HasMaxLength(50);
-            //builder.Property(s => s.Verantwoordelijke).HasMaxLength(50);
 
              builder.HasOne(s => s.Verantwoordelijke)
                 .WithMany(s => s.OpenTeZettenSessies)

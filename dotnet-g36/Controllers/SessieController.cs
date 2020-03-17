@@ -106,7 +106,6 @@ namespace dotnet_g36.Controllers
                 }
                 else
                 {
-                    TempData["message"] = "Er zijn sessies";
                     return View(new SessieKalenderViewModel(sessies, GetMaandSelectList(maandId), gebruiker));
                 }
             }
@@ -280,7 +279,7 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="id">idnummer van de sessie</param>
         /// <returns>View naar Aanwezigheden (aanmelden voor sessie)</returns>
-        //[Authorize(Policy = "Hoofdverantwoordelijke")]
+        [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
         { 
             try
@@ -322,13 +321,14 @@ namespace dotnet_g36.Controllers
         }
 
         /// <summary>
-        /// De Post van MeldAanwezig om de aanwezigheden op te nemen
+        /// De Post van MeldAanwezig Action om de aanwezigheden op te nemen
         /// </summary>
         /// <param name="id">idnummer van de gekozen sessie</param>
         /// <param name="barcode">barcode van gebruiker</param>
         /// <returns>View naar aanwezigheden (aanmelden voor sessie)</returns>
+
+        [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         [HttpPost]
-        //[Authorize(Policy = "Hoofdverantwoordelijke")]
         public IActionResult MeldAanwezig(int id, MeldAanwezigViewModel model)
         {
             try
@@ -394,7 +394,6 @@ namespace dotnet_g36.Controllers
             var maanden = DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem { Value = (index + 1).ToString(), Text = monthName });
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
-        }
     }
 
 
