@@ -301,10 +301,15 @@ namespace dotnet_g36.Controllers
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
+                ICollection<string> users = new List<string>();
+                foreach (Guid aanwezige in sessie.geefAlleAanwezigen())
+                {
+                    users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
+                }
 
                 //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
                 //ViewData["Startdatum"] = sessie.StartDatum;
-                return View(new MeldAanwezigViewModel(sessie));
+                return View(new MeldAanwezigViewModel(sessie, users));
             }
             catch (SessieException e)
             {
@@ -343,19 +348,30 @@ namespace dotnet_g36.Controllers
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
-
+                Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now)
                 {
                     throw new SessieException("U kan zich niet meer aanmelden");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
-
-                Gebruiker gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
+                if (model.Barcode.Contains("@"))
+                {
+                    gebruiker = _userRepository.GetDeelnemerByEmail(model.Barcode);
+                }
+                else
+                {
+                    gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
+                }
 
                 if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
                 {
                     throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
+                }
+                ICollection<string> users = new List<string>();
+                foreach (Guid aanwezige in sessie.geefAlleAanwezigen())
+                {
+                    users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
                 }
 
                 sessie.MeldAanwezig(gebruiker);
@@ -363,8 +379,8 @@ namespace dotnet_g36.Controllers
                 TempData["message"] = "Aanmelden is gelukt!";
 
                 //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
-
-                return View(new MeldAanwezigViewModel(sessie));
+                ModelState.Clear();
+                return View(new MeldAanwezigViewModel(sessie, users));
                 //return View(nameof(MeldAanwezig), id);
             }
             catch (SessieException e)
