@@ -69,7 +69,7 @@ namespace dotnet_g36.Controllers
 
 
                 Sessie sessie = _sessieRepository.GetByID(id);
-
+                //TempData["delay"] = (int) (alertTime - DateTime.Now).TotalMilliseconds;
                 sessie.SessieSluiten();
 
                 return RedirectToAction(nameof(Index));

@@ -17,6 +17,15 @@
 <body>
     <br />
     <h1>Aanwezigheid Registreren voor @Model.Titel</h1><br />
+    @*SESSIE AUTOMATISCH SLUITEN MAAR WERKT NIET
+        <p>Deze sessie zal automatisch afsluiten</p>
+    <script>
+        var timer = setTimeout(function () {
+           var id = @Model.SessieID; //if you want to pass an Id parameter
+            window.location.href = '@Url.Action("Sluiten", "Sessie")/' + id;
+        }, 3000);
+        TempData["delay"]
+    </script>*@
     <div class="row">
         <div class="col-md-4">
             <h5>Gelieve uw studentenkaart te scannen of uw e-mail in te geven.</h5><br />
@@ -38,36 +47,36 @@
                     <th class="text-center">Reeds Aanwezig</th>
 
                 </tr>
-                
+
                 @*@foreach (var aanwezigen in (List<string>)ViewData["Aanwezig"])
-                @foreach (var aanwezigen in Model.Aanwezigen)
-                {
-                    @if (aanwezigen.Count() == 0)
-                        {
-                            <tr>
-                                <td class="text-center">Nog niemand aanwezig.</td>
-
-                            </tr>
-                        }
-                    <tr>
-                        <td class="text-center">@aanwezigen</td>
-                    </tr>*@
-
-                    @if (Model.Aanwezigen.Count == 0)
+                    @foreach (var aanwezigen in Model.Aanwezigen)
                     {
+                        @if (aanwezigen.Count() == 0)
+                            {
+                                <tr>
+                                    <td class="text-center">Nog niemand aanwezig.</td>
+
+                                </tr>
+                            }
                         <tr>
+                            <td class="text-center">@aanwezigen</td>
+                        </tr>*@
+
+                @if (Model.Aanwezigen.Count == 0)
+                {
+                    <tr>
                         <td class="text-center">Nog niemand aanwezig.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var aanwezigen in Model.Aanwezigen)
+                    {
+
+                        <tr>
+                            <td class="text-center">@aanwezigen</td>
                         </tr>
                     }
-                    else
-                    {
-                        @foreach (var aanwezigen in Model.Aanwezigen)
-                        {
-
-                            <tr>
-                            <td class="text-center">@aanwezigen</td>
-                            </tr>
-                        }
 
                 }
             </table>
