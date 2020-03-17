@@ -63,7 +63,7 @@ namespace dotnet_g36.Models.Domain
         {
             if (StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum)
             {
-                if(!(user.IsHoofdverantwoordelijke || user.OpenTeZettenSessies.Contains(this)))
+                if (!(user.IsHoofdverantwoordelijke || user.OpenTeZettenSessies.Contains(this)))
                     throw new SessieException("Sessie kan niet worden opengezet. Controleer of U de rechten hebt om deze sessie open te zetten.");
                 StatusSessie = StatusSessie.Open;
             }
@@ -119,11 +119,11 @@ namespace dotnet_g36.Models.Domain
                     break;
                 }
             }
-            if(!succes)
+            if (!succes)
             {
-                    throw new IngeschrevenException("U bent niet ingeschreven, dus U kan zich niet aanwezig zetten.");
+                throw new IngeschrevenException("U bent niet ingeschreven, dus U kan zich niet aanwezig zetten.");
             }
-            
+
 
         }
 
@@ -146,7 +146,7 @@ namespace dotnet_g36.Models.Domain
                 UserSessie usersessie = new UserSessie(this, user);
                 user.UserSessies.Add(usersessie);
                 UserSessies.Add(usersessie);
-                if(!(user is Verantwoordelijke))
+                if (!(user is Verantwoordelijke))
                     AantalOpenPlaatsen--;
             }
             else
@@ -186,22 +186,18 @@ namespace dotnet_g36.Models.Domain
         /// geeft alle usernames van de aanwezigen
         /// </summary>
         /// <returns>List van string</returns>
-        public List<string> geefAlleAanwezigen()
+        public List<Guid> geefAlleAanwezigen()
         {
-            List<string> res = new List<string>();
+            List<Guid> res = new List<Guid>();
             foreach (UserSessie userSessie in UserSessies)
             {
                 if (userSessie.Aanwezig)
                 {
-                    if (userSessie.User is null)
-                    {
-                        //    res.Add(userSessie.UserID.ToString());
-                        //}
-                        //else
-                        //{
-                        //    res.Add(userSessie.User.UserName);
-                        res.Add(userSessie.UserName);
-                    }
+
+
+                    res.Add(userSessie.UserID);
+
+
                 }
             }
             return res;

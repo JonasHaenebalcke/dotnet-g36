@@ -2,11 +2,12 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<Gebruiker> SignInManager
 @inject UserManager<Gebruiker> UserManager
+@*inject IUserRepository  UserRepository*@
 
 @{ViewData["Title"] = "Aanwezigheid Registreren";}
 @*@if (Model >= DateTime.Now) { }*@
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -14,13 +15,14 @@
     <title>@ViewData["Title"]</title>
 </head>
 <body>
-    <h1>Aanwezigheid Registreren voor @Model.Titel</h1>
+    <br />
+    <h1>Aanwezigheid Registreren voor @Model.Titel</h1><br />
     <div class="row">
         <div class="col-md-4">
             <h4>Gelieve uw studentenkaart te scannen.</h4>
             @*<input />*@
             <form method="post" asp-action="MeldAanwezig" asp-controller="Sessie">
-                <input type="text" asp-for="Barcode" src="..." alt="Or Click Me"><br /><br />
+                <input type="text" asp-for="Barcode"><br /><br />
                 <button class="btn btn-secondary ml-1">Voeg toe</button>
             </form><br />
             <form method="post" asp-action="Sluiten" asp-controller="Sessie" asp-route-id="@Model.SessieID">
@@ -36,41 +38,52 @@
                     <th class="text-center">Reeds Aanwezig</th>
 
                 </tr>
-                <!-- loop die door de lijst van aanwezige gebruikers gaat -->
-                @if (Model.Aanwezigen.Count() == 0)
-                {
-                    <tr>
-                        <td class="text-center">Nog niemand aanwezig.</td>
-                    </tr>
-                }
-                @*@foreach (var aanwezigen in (List<string>)ViewData["Aanwezig"])*@
+                
+                @*@foreach (var aanwezigen in (List<string>)ViewData["Aanwezig"])
                 @foreach (var aanwezigen in Model.Aanwezigen)
                 {
-                    @*@if (aanwezigen.Count() == 0)
-            {
-                <tr>
-                    <td class="text-center">Nog niemand aanwezig.</td>
+                    @if (aanwezigen.Count() == 0)
+                        {
+                            <tr>
+                                <td class="text-center">Nog niemand aanwezig.</td>
 
-                </tr>
-            }*@
+                            </tr>
+                        }
                     <tr>
                         <td class="text-center">@aanwezigen</td>
-                    </tr>
+                    </tr>*@
+
+                    @if (Model.Aanwezigen.Count == 0)
+                    {
+                        <tr>
+                        <td class="text-center">Nog niemand aanwezig.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var aanwezigen in Model.Aanwezigen)
+                        {
+
+                            <tr>
+                            <td class="text-center">@aanwezigen</td>
+                            </tr>
+                        }
+
                 }
             </table>
-            </div>
         </div>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @if (TempData["error"] != null)
-                {
-                    <div class="alert alert-warning">@TempData["error"]</div>
-                }
-                @if (TempData["message"] != null)
-                {
-                    <div class="alert alert-success">@TempData["message"]</div>
-                }
-            </main>
-        </div>
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-warning">@TempData["error"]</div>
+            }
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+        </main>
+    </div>
 </body>
 </html>
