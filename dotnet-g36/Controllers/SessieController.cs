@@ -337,15 +337,21 @@ namespace dotnet_g36.Controllers
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
-
+                Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now)
                 {
                     throw new SessieException("U kan zich niet meer aanmelden");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
-
-                Gebruiker gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
+                if (model.Barcode.Contains("@"))
+                {
+                    gebruiker = _userRepository.GetDeelnemerByEmail(model.Barcode);
+                }
+                else
+                {
+                    gebruiker = _userRepository.GetDeelnemerByBarcode(model.Barcode);//getByBarcode in userRepository?
+                }
 
                 if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
                 {

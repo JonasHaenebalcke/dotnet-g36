@@ -19,16 +19,16 @@
     <h1>Aanwezigheid Registreren voor @Model.Titel</h1><br />
     <div class="row">
         <div class="col-md-4">
-            <h4>Gelieve uw studentenkaart te scannen.</h4>
+            <h5>Gelieve uw studentenkaart te scannen of uw e-mail in te geven.</h5><br />
             @*<input />*@
             <form method="post" asp-action="MeldAanwezig" asp-controller="Sessie">
-                <input type="text" asp-for="Barcode"><br /><br />
+                <input type="text" class="form-control" asp-for="Barcode"><br />
                 <button class="btn btn-secondary ml-1">Voeg toe</button>
             </form><br />
             <form method="post" asp-action="Sluiten" asp-controller="Sessie" asp-route-id="@Model.SessieID">
                 <button class="btn btn-secondary ml-1">Sluit Sessie</button>
             </form><br />
-            <a href="#">Studentenkaart vergeten?</a>
+            @*<a href="#">Studentenkaart vergeten?</a>*@
             <br /><br />
         </div>
 

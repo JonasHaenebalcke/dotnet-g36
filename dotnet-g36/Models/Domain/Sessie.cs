@@ -114,9 +114,16 @@ namespace dotnet_g36.Models.Domain
                 if (userSessie.UserID == user.Id)
                 //if (userSessie.UserName == user.UserName)
                 {
-                    userSessie.Aanwezig = true;
-                    succes = true;
-                    break;
+                    if (userSessie.Aanwezig == true)
+                    {
+                        throw new IngeschrevenException("U bent reeds aanwezig.");
+                    }
+                    else
+                    {
+                        userSessie.Aanwezig = true;
+                        succes = true;
+                        break;
+                    }
                 }
             }
             if (!succes)
@@ -193,9 +200,8 @@ namespace dotnet_g36.Models.Domain
             {
                 if (userSessie.Aanwezig)
                 {
-
-
-                    res.Add(userSessie.UserID);
+                    
+                     res.Add(userSessie.UserID);
 
 
                 }
