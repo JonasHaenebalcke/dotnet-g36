@@ -368,15 +368,16 @@ namespace dotnet_g36.Controllers
                 {
                     throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
                 }
+
+                sessie.MeldAanwezig(gebruiker);
+                _sessieRepository.SaveChanges();
+                TempData["message"] = "Aanmelden is gelukt!";
+
                 ICollection<string> users = new List<string>();
                 foreach (Guid aanwezige in sessie.geefAlleAanwezigen())
                 {
                     users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
                 }
-
-                sessie.MeldAanwezig(gebruiker);
-                _sessieRepository.SaveChanges();
-                TempData["message"] = "Aanmelden is gelukt!";
 
                 //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
                 ModelState.Clear();
