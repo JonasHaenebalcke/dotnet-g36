@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 //using System.Threading.Timers;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace dotnet_g36.Controllers
 {
@@ -30,27 +31,28 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="alertTime"></param>
         /// <param name="id"></param>
-        //private void SetUpTimer(DateTime alertTime, int id)
-        //{
-        //    /*  DateTime current = DateTime.Now;
-        //      TimeSpan timeToGo = alertTime - current;
-        //      if (timeToGo < TimeSpan.Zero)
-        //      {
-        //          return;//time already passed
-        //      }
-        //      this.timer = new Timer(x =>
-        //      {
-        //          //RedirectToAction(nameof(Sluiten), id);
-        //          //Sluiten(id);
-        //          Index();
-        //      }, null, timeT
-        //      oGo, Timeout.InfiniteTimeSpan);*/
+       /* private async Task SetUpTimer(DateTime alertTime, int id)
+        {
+            *//*  DateTime current = DateTime.Now;
+              TimeSpan timeToGo = alertTime - current;
+              if (timeToGo < TimeSpan.Zero)
+              {
+                  return;//time already passed
+              }
+              this.timer = new Timer(x =>
+              {
+                  //RedirectToAction(nameof(Sluiten), id);
+                  //Sluiten(id);
+                  Index();
+              }, null, timeT
+              oGo, Timeout.InfiniteTimeSpan);*//*
 
 
-        //    Task.Delay(alertTime - DateTime.Now).ContinueWith(t => Sluiten(id));
+            Task.Delay(alertTime - DateTime.Now).ContinueWith(t => Sluiten(id));
 
+           // await Task.Run(() => Sluiten(id, alertTime));
 
-        //}
+        }*/
 
 
         /// <summary>
@@ -58,10 +60,14 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>View naar Kalander van sessies</returns>
-        public IActionResult Sluiten(int id)
+        public IActionResult Sluiten(int id, DateTime alertTime)
         {
             try
             {
+
+                //Thread.Sleep(alertTime - DateTime.Now);
+
+
                 Sessie sessie = _sessieRepository.GetByID(id);
 
                 sessie.SessieSluiten();
@@ -167,15 +173,18 @@ namespace dotnet_g36.Controllers
                 _sessieRepository.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
-            } catch (ArgumentException e)
+            }
+            catch (ArgumentException e)
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Detail), id);
-            } catch (IngeschrevenException e)
+            }
+            catch (IngeschrevenException e)
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Detail), id);
-            } catch (GeenActieveGebruikerException e)
+            }
+            catch (GeenActieveGebruikerException e)
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Detail), id);
@@ -256,10 +265,10 @@ namespace dotnet_g36.Controllers
 
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
-                
+
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
-                //SetUpTimer(sessie.StartDatum, id);
+              //  SetUpTimer(sessie.StartDatum, id);
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id }); // id);
             }
             catch (SessieException e)
@@ -281,12 +290,12 @@ namespace dotnet_g36.Controllers
         /// <returns>View naar Aanwezigheden (aanmelden voor sessie)</returns>
         [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         public IActionResult MeldAanwezig(int id)
-        { 
+        {
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
 
-                if(sessie.StartDatum <= DateTime.Now)
+                if (sessie.StartDatum <= DateTime.Now)
                 {
                     throw new SessieException("U kan zich niet meer aanmelden");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
@@ -394,8 +403,9 @@ namespace dotnet_g36.Controllers
             var maanden = DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem { Value = (index + 1).ToString(), Text = monthName });
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
+        }
+
+
+
     }
-
-
-
 }
