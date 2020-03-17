@@ -171,24 +171,20 @@ namespace dotnet_g36.Controllers
                     _sessieRepository.SaveChanges();
                 }
                 _sessieRepository.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException e)
             {
                 TempData["error"] = e.Message;
-                return RedirectToAction(nameof(Detail), id);
             }
             catch (IngeschrevenException e)
             {
                 TempData["error"] = e.Message;
-                return RedirectToAction(nameof(Detail), id);
             }
             catch (GeenActieveGebruikerException e)
             {
                 TempData["error"] = e.Message;
-                return RedirectToAction(nameof(Detail), id);
             }
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>

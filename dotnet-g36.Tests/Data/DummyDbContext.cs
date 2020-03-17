@@ -15,7 +15,7 @@ namespace dotnet_g36.Tests.Data
         public  Verantwoordelijke organizer1, organizer2;
         public Sessie verledenSessie;
         public Sessie hedenSessie;
-
+        public Sessie sessie2;
         public DummyDbContext()
         {
         
@@ -50,7 +50,7 @@ namespace dotnet_g36.Tests.Data
                 Kim, Tom
             };
             Sessie huidigeMaandSessie = new Sessie(organizer1, "Sessie 3D Printing", "B1.027",
-               DateTime.Now, DateTime.Now.AddHours(2),
+               DateTime.Now.AddMinutes(2), DateTime.Now.AddHours(2),
                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                );
             // Ik denk ook dat er extra attribuut moet komen voor ingeschreven
@@ -59,7 +59,7 @@ namespace dotnet_g36.Tests.Data
                 25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
-            Sessie sessie2 = new Sessie(organizer1, "Sessie Netflix",  "BCON",
+             sessie2 = new Sessie(organizer1, "Sessie Netflix",  "BCON",
                  new DateTime(2020, 3, 27, 12, 30, 0), new DateTime(2020, 3, 27, 13, 30, 0),
                 150, StatusSessie.NietOpen, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"
                 );
