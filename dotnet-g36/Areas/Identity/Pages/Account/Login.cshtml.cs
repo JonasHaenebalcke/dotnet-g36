@@ -56,7 +56,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
             [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Onthoud gegevens?")]
             public bool RememberMe { get; set; }
         }
 
