@@ -14,5 +14,20 @@ namespace dotnet_g36.Models.Domain
 
         public Gebruiker Auteur { get; set; }
         #endregion
+
+        #region constructor
+        public Feedback(Gebruiker auteur, string content, DateTime tijd)
+        {
+            this.Auteur = auteur;
+            this.NaamAuteur = auteur.Voornaam + " " + auteur.Familienaam;
+            this.Tekst = content;
+            this.TimeWritten = tijd;
+        }
+
+        public Feedback()
+        {
+
+        }
+        #endregion
     }
 }

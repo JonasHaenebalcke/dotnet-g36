@@ -21,6 +21,7 @@ namespace dotnet_g36.Models.ViewModels
         public string GastSpreker { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
+        public string FeedbackContent { get; set; }
         public Gebruiker gebruiker;
         public SessieDetailsViewModel(){ }
 

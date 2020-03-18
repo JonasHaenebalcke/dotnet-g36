@@ -21,11 +21,11 @@
         <main role="main" class="pb-3">
             @if (TempData["message"] != null)
             {
-                <div class="alert alert-success">@TempData["message"]</div>
+            <div class="alert alert-success">@TempData["message"]</div>
             }
             @if (TempData["error"] != null)
             {
-                <div class="alert alert-warning">@TempData["error"]</div>
+            <div class="alert alert-warning">@TempData["error"]</div>
             }
         </main>
     </div>
@@ -140,11 +140,11 @@
             <h6>Feedback</h6>
 
             <div class="form-group">
-                <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
+                <textarea asp-for="FeedbackContent" class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
             </div>
-            <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" method="post">
+            <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID"  method="post">
                 <br />
-                <button type="submit">Indienen</button>
+                <button type="submit">Indienen</button> 
             </form>
 
             @if (Model.FeedbackList.Count() != 0)

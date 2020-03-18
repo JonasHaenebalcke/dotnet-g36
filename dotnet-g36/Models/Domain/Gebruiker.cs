@@ -1,9 +1,7 @@
 ﻿using dotnet_g36.Models.Domain;
-using dotnet_g36.Models.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace dotnet_g36
@@ -19,7 +17,8 @@ namespace dotnet_g36
         public String Voornaam
         {
             get { return _voorNaam; }
-            set {
+            set
+            {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("must have a name");
                 _voorNaam = value;
@@ -59,7 +58,7 @@ namespace dotnet_g36
         public Gebruiker(string barcode, string username, string email,/* string wachtwoord,*/ string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
         {
             Barcode = barcode;
-         //   PasswordHash = wachtwoord;
+            //   PasswordHash = wachtwoord;
             Email = email;
             NormalizedEmail = email;
             AccessFailedCount = 0;
@@ -80,7 +79,7 @@ namespace dotnet_g36
         public void SchrijfUitAlleSessies() //vb indien 3 keer niet aanwezig
         {
             ICollection<UserSessie> userSessies = UserSessies;
-            foreach(UserSessie userSessie in userSessies)
+            foreach (UserSessie userSessie in userSessies)
             {
                 if (userSessie.Sessie.StartDatum >= DateTime.Now) // kan zijn dat dit niet werkt, je verandert list waarover je itereert
                 {
@@ -88,14 +87,18 @@ namespace dotnet_g36
                 }
             }
         }
-        /// <summary>
-        /// Feedback geven op afgelopen sessies
-        /// </summary>
-        public void FeedbackGeven()
+
+        public bool Aanwezig(Sessie sessie)
         {
-            // kan alleen als ingeschreven en aanwezig was
-            throw new System.NotImplementedException();
+            bool aanwezig = false;
+            foreach (UserSessie userSessie in UserSessies)
+            {//Controlleren op sessieID of gwn sessie object?
+                if (userSessie.SessieID.Equals(sessie.SessieID))
+                    aanwezig = true;
+            }
+            return aanwezig;
         }
+
         #endregion
     }
 }
