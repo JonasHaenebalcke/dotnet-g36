@@ -172,7 +172,7 @@ namespace dotnet_g36.Controllers
                 sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker);
                 _sessieRepository.SaveChanges();
                
-                TempData["message"] = "Feedback is toegvoegd!";
+                TempData["message"] = "Feedback is toegevoegd!";
                 return RedirectToAction(nameof(Index));
             }
             catch (AanwezigException e)

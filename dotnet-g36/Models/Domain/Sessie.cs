@@ -213,7 +213,7 @@ namespace dotnet_g36.Models.Domain
         public void FeedbackGeven(string feedbacktxt, Gebruiker gebruiker)
         {
             //Ook controleren op ingeschreven? Lijkt me overbodig maar stond wel in commentaar bij methode
-            if (gebruiker.Aanwezig(this.SessieID))
+            if (gebruiker.Aanwezig(SessieID) )
             {
                 Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now);
                 FeedbackList.Add(feedback);

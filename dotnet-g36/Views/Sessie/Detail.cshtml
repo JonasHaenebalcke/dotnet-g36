@@ -141,13 +141,11 @@
     <h6>Feedback</h6>
     <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
         <div class="form-group">
-            <label asp-for="FeedbackContent">Feedback</label>
-            <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-controlrounded-0"></textarea>
+            <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
             @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
+            <br>
         </div>
-
-        <br />
-        <button type="submit">Indienen</button>
+ <button type="submit">Indienen</button>
     </form>
 
 
@@ -155,6 +153,7 @@
     @if (Model.FeedbackList.Count() != 0)
     {
     <div>
+        <br />
         <table class="table table-striped">
             <tr>
                 <th class="text-center">Auteur</th>
