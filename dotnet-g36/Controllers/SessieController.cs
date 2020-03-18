@@ -220,6 +220,9 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
 
+                if(sessie.StatusSessie == StatusSessie.Open && DateTime.Now < sessie.StartDatum)
+                    return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
               //  SetUpTimer(sessie.StartDatum, id);
@@ -249,7 +252,7 @@ namespace dotnet_g36.Controllers
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
 
-                if (sessie.StartDatum <= DateTime.Now)
+                if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
                 {
                     throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
@@ -298,7 +301,7 @@ namespace dotnet_g36.Controllers
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Gebruiker gebruiker;
-                if (sessie.StartDatum <= DateTime.Now)
+                if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
                 {
                     throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
@@ -349,6 +352,7 @@ namespace dotnet_g36.Controllers
             catch (Exception e)
             {
                 TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
+                
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
         }
@@ -367,7 +371,7 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
                 //TempData["delay"] = (int) (alertTime - DateTime.Now).TotalMilliseconds;
                 sessie.SessieSluiten();
-
+                _sessieRepository.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch (SessieException e)

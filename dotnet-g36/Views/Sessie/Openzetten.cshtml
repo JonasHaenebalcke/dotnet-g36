@@ -11,7 +11,6 @@
 
 <html>
 <head>
-    <br/>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
 </head>
@@ -44,10 +43,13 @@
                     <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                 </td>
                 <td class="text-center">
-                    <form asp-controller="Sessie" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
-                        <button type="submit">Openzetten</button>
-                    </form>
-                </td>
+                    @if (Model.StartDatums.ElementAt(i).AddMinutes(-60) < DateTime.Now && DateTime.Now < Model.StartDatums.ElementAt(i) && !(Model.Gesloten.ElementAt(i)))
+                    {
+                        <form asp-controller="Sessie" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                            <button type="submit">Openzetten</button>
+                        </form>
+                    }
+                    </td>
             </tr>
         }
     </table>
