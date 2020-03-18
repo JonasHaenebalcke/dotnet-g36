@@ -18,6 +18,7 @@ namespace dotnet_g36.Models.ViewModels
         public ICollection<int> Capaciteit { get; set; }
         public ICollection<bool> Ingeschrevenen { get; set; }
         public ICollection<int> SessieIds { get; set; }
+        public ICollection<bool> Gesloten { get; set; }
 
         //public SessieKalenderViewModel() { }
 
@@ -36,6 +37,7 @@ namespace dotnet_g36.Models.ViewModels
             Capaciteit = new List<int>();
             Ingeschrevenen = new List<bool>();
             SessieIds = new List<int>();
+            Gesloten = new List<bool>();
 
             foreach (Sessie sessie in sessies)
             {
@@ -45,6 +47,7 @@ namespace dotnet_g36.Models.ViewModels
                 OpenPlaatsen.Add(sessie.UserSessies.Count - 1);
                 Capaciteit.Add(sessie.Capaciteit);
                 SessieIds.Add(sessie.SessieID);
+                Gesloten.Add(sessie.StatusSessie == StatusSessie.Gesloten);
 
                 bool aanwezig = false, ingeschreven = false;
                 if (gebruiker != null)

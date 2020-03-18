@@ -60,7 +60,7 @@
         <!-- loop die door de lijst van sessies gaat -->
         @for (int i = 0; i < Model.SessieIds.Count(); i++)
         {
-            @if (Model.StartDatums.ElementAt(i) >= DateTime.Now)
+            @if (Model.StartDatums.ElementAt(i) >= DateTime.Now && !(Model.Gesloten.ElementAt(i)))
             {
                 <tr>
                     <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
@@ -103,7 +103,7 @@
 
         @for (int i = 0; i < Model.Titels.Count(); i++)
         {
-            @if (Model.StartDatums.ElementAt(i) < DateTime.Now)
+            @if (Model.StartDatums.ElementAt(i) < DateTime.Now || Model.Gesloten.ElementAt(i))
             {
                 <tr>
                     <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>

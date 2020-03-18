@@ -46,7 +46,7 @@
 
 
     @*OPEN PLAATSEN OF AANTAL AANWEZIGEN WEERGEVEN*@
-    @if (Model.StartDatum >= DateTime.Now)
+    @if (Model.StartDatum >= DateTime.Now && !(Model.Gesloten))
     {//HEDEN
         <br />
         <h6>Aantal Ingeschrevenen</h6>
