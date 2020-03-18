@@ -41,8 +41,7 @@ namespace dotnet_g36.Tests.Controllers
         public void SessieKalender_HuidigeMaand_GeeftModelMetAlle3HuidigeMaandSessieDoorAanDefaultView()
         {
             _sessieRepo.Setup(s => s.GetByMonth(huidigeMaand)).Returns(_context.HuidigeMaand);
-            _userRepo.Setup(s => s.GetDeelnemerByUsername(_context.admin.UserName)).Returns(_context.admin);
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index());
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index(null));
 
             var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
             Assert.Equal(4, vm.Sessies.Count());
@@ -54,20 +53,20 @@ namespace dotnet_g36.Tests.Controllers
         public void SessieKalender_veranderDecemberMaandMet2Sessies_GeeftModelMet2DecemberSessiesDoorAanDefaultView()
         {
             _sessieRepo.Setup(s => s.GetByMonth(12)).Returns(_context.December);
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index(12));
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index(null, 12));
 
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            Assert.Equal(2, sessies.Count());
-            Assert.Equal("Sessie 3D Printing", sessies.First().Titel);
+            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
+            Assert.Equal(2, vm.SessieIds.Count());
+            Assert.Equal("Sessie 3D Printing", vm.Titels.First());
         }
 
         [Fact]
         public void SessieKalender_veranderJanuariMaandZonderSessies_GeeftMeldingenGeenSessiesWeer()
         {
             _sessieRepo.Setup(s => s.GetByMonth(01)).Returns(new List<Sessie>());
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index(01));
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            Assert.Empty(sessies);
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index(null, 01));
+            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
+            Assert.Empty(vm.SessieIds);
         }
     }
 }

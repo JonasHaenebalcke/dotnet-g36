@@ -65,7 +65,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Sessie</returns>
         public ICollection<Sessie> GetToekomstige()
         {
-            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).Where(s => s.StartDatum >= DateTime.Now).ToList();
+            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).Where(s => s.StartDatum >= DateTime.Now).OrderBy(s => s.StartDatum).ToList();
         }
 
         /// <summary>

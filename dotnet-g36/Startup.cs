@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using dotnet_g36.Data.Repositories;
 using dotnet_g36.Models.Domain;
 using System.Security.Claims;
+using dotnet_g036.Filters;
 
 namespace dotnet_g36
 {
@@ -41,6 +42,7 @@ namespace dotnet_g36
             services.AddScoped<ItLabDataInitializer>();
             services.AddScoped<ISessieRepository, SessieRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<GebruikerFilter>();
 
                         services.AddAuthorization(options =>
                         {

@@ -1,3 +1,4 @@
+using dotnet_g036.Filters;
 using dotnet_g36.Models.Domain;
 using dotnet_g36.Models.Exceptions;
 using dotnet_g36.Models.ViewModels;
@@ -18,7 +19,7 @@ namespace dotnet_g36.Controllers
     {
         private readonly ISessieRepository _sessieRepository;
         private readonly IUserRepository _userRepository;
-        private Timer timer;
+        //private Timer timer;
 
         public SessieController(ISessieRepository sessieRepository, IUserRepository userRepository)
         {
@@ -54,49 +55,18 @@ namespace dotnet_g36.Controllers
 
         }*/
 
-
-        /// <summary>
-        /// Sluit de sessie automatisch aan de hand van methode SetUpTimer
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>View naar Kalander van sessies</returns>
-        public IActionResult Sluiten(int id, DateTime alertTime)
-        {
-            try
-            {
-
-                //Thread.Sleep(alertTime - DateTime.Now);
-
-
-                Sessie sessie = _sessieRepository.GetByID(id);
-                //TempData["delay"] = (int) (alertTime - DateTime.Now).TotalMilliseconds;
-                sessie.SessieSluiten();
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch (SessieException e)
-            {
-                TempData["sluitenMessage"] = e.Message;
-                return RedirectToAction(nameof(Openzetten));
-            }
-            catch (Exception e)
-            {
-                TempData["sluitenMessage"] = e.Message;
-                return RedirectToAction(nameof(Openzetten));
-            }
-        }
-
         /// <summary>
         /// Geeft de sessies van de gekozen maand
         /// </summary>
         /// <param name="maandId">idnummer van de gekozen maand [default maand = 0]</param>
         /// <returns>View naar kalender van sessies</returns>
         [AllowAnonymous]
-        public IActionResult Index(int maandId = 0)
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public IActionResult Index(Gebruiker gebruiker, int maandId = 0)
         {
             try
             {
-                Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
+                //Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
 
                 if (maandId == 0)
                 {
@@ -118,7 +88,7 @@ namespace dotnet_g36.Controllers
             catch (SessieException gse)
             {
                 TempData["error"] = gse.Message;
-                return View(new SessieKalenderViewModel(new List<Sessie>(), GetMaandSelectList(maandId), _userRepository.GetDeelnemerByUsername(User.Identity.Name)));
+                return View(new SessieKalenderViewModel(new List<Sessie>(), GetMaandSelectList(maandId), gebruiker));
             }
         }
 
@@ -128,12 +98,13 @@ namespace dotnet_g36.Controllers
         /// <param name="id">idnummer van de gekozen sessie</param>
         /// <returns>View naar nieuwe pagina</returns>
         [AllowAnonymous]
-        public IActionResult Detail(int id)
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public IActionResult Detail(Gebruiker gebruiker, int id)
         {
             Sessie sessie = _sessieRepository.GetByID(id);
-            Gebruiker user = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
+            //Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
 
-            return View(new SessieDetailsViewModel(sessie, user));
+            return View(new SessieDetailsViewModel(sessie, gebruiker));
         }
 
 
@@ -144,13 +115,14 @@ namespace dotnet_g36.Controllers
         /// <param name="sessieDetailsViewModel">sessieDetailsViewModel Object</param>
         /// <returns>View naar kalender van sessies </returns>
         [AllowAnonymous]
+        [ServiceFilter(typeof(GebruikerFilter))]
         [HttpPost]
-        public IActionResult DetailInschrijvenUitschrijven(int id, SessieDetailsViewModel sessieDetailsViewModel)
+        public IActionResult DetailInschrijvenUitschrijven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
-                Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
+                //Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
 
                 bool succes = false;
                 foreach (UserSessie us in sessie.UserSessies)
@@ -199,11 +171,15 @@ namespace dotnet_g36.Controllers
         {
             Sessie sessie = _sessieRepository.GetByID(id);
 
-
             // _sessieRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Geeft View van toekomstige sessies om open te zetten
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>View van toekomstige sessies om open te zetten</returns>
         public IActionResult Openzetten()
         {
             try
@@ -215,31 +191,16 @@ namespace dotnet_g36.Controllers
                     sessies = _sessieRepository.GetToekomstige();
                 else
                 {
-                    //Sessie temp = null;
                     foreach (Sessie s in verantwoordelijke.OpenTeZettenSessies)
                     {
                         if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now < s.StartDatum)
                         {
-                            //// "sorteren" op datum
-                            //if (temp == null)
-                            //{
-                            //    temp = s;
-                            //}
-                            //else
-                            //{
-                            //    if (temp.StartDatum <= s.StartDatum)
-                            //    {
-                            //        sessies.Add(temp);
-                            //        temp = null;
-                            //    }
                             sessies.Add(s);
-                            //}
                         }
                     }
                 }
                 return View(new SessieOpenzettenViewModel(sessies));
             }
-
             catch (SessieException e)
             {
                 TempData["error"] = e.Message;
@@ -249,23 +210,22 @@ namespace dotnet_g36.Controllers
 
 
         /// <summary>
-        /// Geeft View van toekomstige sessies om open te zetten
+        /// Stelt Sessie open
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>View van toekomstige sessies om open te zetten</returns>
+        /// <returns>View om aanwezig te stellen</returns>
         [HttpPost]
         public IActionResult Openzetten(int id)
         {
             try
             {
-
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
 
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
               //  SetUpTimer(sessie.StartDatum, id);
-                return RedirectToAction(nameof(MeldAanwezig), new { @id = id }); // id);
+                return RedirectToAction(nameof(MeldAanwezig), id);
             }
             catch (SessieException e)
             {
@@ -302,9 +262,6 @@ namespace dotnet_g36.Controllers
                 {
                     users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
                 }
-
-                //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
-                //ViewData["Startdatum"] = sessie.StartDatum;
                 return View(new MeldAanwezigViewModel(sessie, users));
             }
             catch (SessieException e)
@@ -315,8 +272,7 @@ namespace dotnet_g36.Controllers
             catch (Exception e)
             {
                 TempData["Error"] = e.Message;
-                //return View(new MeldAanwezigViewModel(sessie));
-                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+                return RedirectToAction(nameof(MeldAanwezig), id);
             }
             //catch (GeenActieveGebruikerException e)
             //{
@@ -336,7 +292,6 @@ namespace dotnet_g36.Controllers
         /// <param name="id">idnummer van de gekozen sessie</param>
         /// <param name="barcode">barcode van gebruiker</param>
         /// <returns>View naar aanwezigheden (aanmelden voor sessie)</returns>
-
         [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         [HttpPost]
         public IActionResult MeldAanwezig(int id, MeldAanwezigViewModel model)
@@ -375,34 +330,57 @@ namespace dotnet_g36.Controllers
                     users.Add(_userRepository.GetDeelnemerByID(aanwezige).UserName);
                 }
 
-                //ViewData["Aanwezig"] = sessie.geefAlleAanwezigen() as List<string>;
                 ModelState.Clear();
                 return View(new MeldAanwezigViewModel(sessie, users));
-                //return View(nameof(MeldAanwezig), id);
             }
             catch (SessieException e)
             {
                 TempData["Error"] = e.Message;
-                //return View(new MeldAanwezigViewModel(sessie));
                 return RedirectToAction(nameof(Index), id);
             }
             catch (GeenActieveGebruikerException e)
             {
                 TempData["Error"] = e.Message;
-                //return View(new MeldAanwezigViewModel(sessie));
-                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+                return RedirectToAction(nameof(MeldAanwezig), id);
             }
             catch (IngeschrevenException e)
             {
                 TempData["Error"] = e.Message;
-                //return View(new MeldAanwezigViewModel(sessie));
-                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+                return RedirectToAction(nameof(MeldAanwezig), id);
             }
             catch (Exception e)
             {
                 TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
-                //return View(new MeldAanwezigViewModel(sessie));
-                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+                return RedirectToAction(nameof(MeldAanwezig), id);
+            }
+        }
+
+        /// <summary>
+        /// Sluit de sessie automatisch aan de hand van methode SetUpTimer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>View naar Kalander van sessies</returns>
+        public IActionResult Sluiten(int id, DateTime alertTime)
+        {
+            try
+            {
+                //Thread.Sleep(alertTime - DateTime.Now);
+
+                Sessie sessie = _sessieRepository.GetByID(id);
+                //TempData["delay"] = (int) (alertTime - DateTime.Now).TotalMilliseconds;
+                sessie.SessieSluiten();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (SessieException e)
+            {
+                TempData["sluitenMessage"] = e.Message;
+                return RedirectToAction(nameof(Openzetten));
+            }
+            catch (Exception e)
+            {
+                TempData["sluitenMessage"] = e.Message;
+                return RedirectToAction(nameof(Openzetten));
             }
         }
 
@@ -417,8 +395,5 @@ namespace dotnet_g36.Controllers
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
         }
-
-
-
     }
 }
