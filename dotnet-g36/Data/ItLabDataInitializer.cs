@@ -134,7 +134,7 @@ namespace dotnet_g36.Data
                 //Maart - gesloten organizer1
                 Sessie sessie3 = new Sessie(/*admin,*/ organizer1, "Omgaan met frustratie problemen", "B4.012",
                     new DateTime(2020, 3, 20, 12, 30, 0), new DateTime(2020, 3, 20, 13, 30, 0),
-                    25, StatusSessie.Gesloten, "Lucas legt in deze lezing uit hoe je moet omgaan met frustratie's uit het dagelijkse leven", "Lucas Van De Haegen"
+                    25, StatusSessie.NietOpen, "Lucas legt in deze lezing uit hoe je moet omgaan met frustratie's uit het dagelijkse leven", "Lucas Van De Haegen"
                     );
 
                 //Mei - 1e niet open organizer2

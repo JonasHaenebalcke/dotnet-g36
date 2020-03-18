@@ -69,7 +69,7 @@ namespace dotnet_g36.Models.Domain
         /// <summary>
         /// Sluit Sessie en controleert op users die 3 keer afwezig waren en blokkeert deze
         /// </summary>
-        public void SessieSluiten()
+        public void SessieSluiten(ICollection<Gebruiker> gebruikers)
         {
             if (StatusSessie.Equals(StatusSessie.Open))
             {
@@ -79,13 +79,20 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (!userSessie.Aanwezig)
                     {
-                        Gebruiker gebruiker = userSessie.User;
-                        if (!(gebruiker is Verantwoordelijke) && gebruiker.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
+                        foreach(Gebruiker g in gebruikers)
                         {
-                            gebruiker.StatusGebruiker = StatusGebruiker.Geblokkeerd;
-                            gebruiker.SchrijfUitAlleSessies();
+                            if (g.Id == userSessie.UserID)
+                            {
+                                //Gebruiker gebruiker = userSessie.User;
+                                if (!(g is Verantwoordelijke) && g.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
+                                {
+                                    g.StatusGebruiker = StatusGebruiker.Geblokkeerd;
+                                    g.SchrijfUitAlleSessies();
+                                }
+                                g.AantalKeerAfwezig++;
+                                break;
+                            }
                         }
-                        gebruiker.AantalKeerAfwezig++;
                     }
                 }
             }

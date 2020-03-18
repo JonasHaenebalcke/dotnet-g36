@@ -342,6 +342,7 @@ namespace dotnet_g36.Controllers
 
                 sessie.MeldAanwezig(gebruiker);
                 _sessieRepository.SaveChanges();
+                _userRepository.SaveChanges();
                 TempData["message"] = "Aanmelden is gelukt!";
 
                 ICollection<string> users = new List<string>();
@@ -389,8 +390,10 @@ namespace dotnet_g36.Controllers
 
                 Sessie sessie = _sessieRepository.GetByID(id);
                 //TempData["delay"] = (int) (alertTime - DateTime.Now).TotalMilliseconds;
-                sessie.SessieSluiten();
+
+                    sessie.SessieSluiten(GetGebruikers(sessie));
                 _sessieRepository.SaveChanges();
+                _userRepository.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch (SessieException e)
@@ -415,6 +418,16 @@ namespace dotnet_g36.Controllers
             var maanden = DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem { Value = (index + 1).ToString(), Text = monthName });
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
+        }
+
+        private ICollection<Gebruiker> GetGebruikers(Sessie sessie)
+        {
+            ICollection<Gebruiker> res = new List<Gebruiker>();
+            foreach (UserSessie uc in sessie.UserSessies)
+            {
+                res.Add(_userRepository.GetDeelnemerByID(uc.UserID)); 
+            }
+            return res;
         }
     }
 }
