@@ -14,6 +14,7 @@ namespace dotnet_g36.Models.ViewModels
         public ICollection<DateTime> StartDatums { get; set; }
         public ICollection<int> OpenPlaatsen { get; set; }
         public ICollection<int> SessieIds { get; set; }
+        public ICollection<bool> Gesloten { get; set; }
 
         //public SessieOpenzettenViewModel() { }
 
@@ -24,14 +25,16 @@ namespace dotnet_g36.Models.ViewModels
             StartDatums = new List<DateTime>();
             OpenPlaatsen = new List<int>();
             SessieIds = new List<int>();
+            Gesloten = new List<bool>();
 
             foreach (Sessie sessie in sessies)
             {
                 Verantwoordelijken.Add(sessie.Verantwoordelijke);
                 Titels.Add(sessie.Titel);
                 StartDatums.Add(sessie.StartDatum);
-                OpenPlaatsen.Add(sessie.AantalOpenPlaatsen);
-                SessieIds.Add(sessie.SessieID);              
+                OpenPlaatsen.Add(sessie.Capaciteit);
+                SessieIds.Add(sessie.SessieID);
+                Gesloten.Add(sessie.StatusSessie == StatusSessie.Gesloten);
             }
         }
     }

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 //using System.Threading.Timers;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dotnet_g36.Controllers
 {
@@ -70,8 +72,6 @@ namespace dotnet_g36.Controllers
                 {
                     maandId = DateTime.Now.Month;
                 }
-
-                ViewData["maanden"] = GetMaandSelectList(maandId);
 
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(maandId);
                 if (sessies.Count().Equals(0))
@@ -167,30 +167,10 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailFeedbackGeven(int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
-            try
-            {
-                Sessie sessie = _sessieRepository.GetByID(id);
-                Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
+            Sessie sessie = _sessieRepository.GetByID(id);
 
-                Feedback feedback = new Feedback(gebruiker, sessieDetailsViewModel.FeedbackContent, DateTime.Now);
-
-
-                sessie.FeedbackGeven(feedback, gebruiker);
-                _sessieRepository.SaveChanges();
-
-                TempData["message"] = "Feedback is toegvoegd!";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (AanwezigException e)
-            {
-                TempData["error"] = e.Message;
-                return RedirectToAction(nameof(Index));
-            }
-            //catch(Exception e)
-            //{
-            //    TempData["error"] = "Er liep iets fout bij het feedback geven...";
-            //    return RedirectToAction(nameof(Index));
-            //}
+            // _sessieRepository.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -240,10 +220,13 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
 
+                if(sessie.StatusSessie == StatusSessie.Open && DateTime.Now < sessie.StartDatum)
+                    return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
+
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
-                //  SetUpTimer(sessie.StartDatum, id);
-                return RedirectToAction(nameof(MeldAanwezig), id);
+              //  SetUpTimer(sessie.StartDatum, id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id});
             }
             catch (SessieException e)
             {
@@ -269,9 +252,9 @@ namespace dotnet_g36.Controllers
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
 
-                if (sessie.StartDatum <= DateTime.Now)
+                if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
                 {
-                    throw new SessieException("U kan zich niet meer aanmelden");
+                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
@@ -290,7 +273,7 @@ namespace dotnet_g36.Controllers
             catch (Exception e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             //catch (GeenActieveGebruikerException e)
             //{
@@ -318,9 +301,9 @@ namespace dotnet_g36.Controllers
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Gebruiker gebruiker;
-                if (sessie.StartDatum <= DateTime.Now)
+                if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
                 {
-                    throw new SessieException("U kan zich niet meer aanmelden");
+                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
@@ -354,22 +337,23 @@ namespace dotnet_g36.Controllers
             catch (SessieException e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(Index), id);
+                return RedirectToAction(nameof(Index), new { @id = id });
             }
             catch (GeenActieveGebruikerException e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (IngeschrevenException e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (Exception e)
             {
                 TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
         }
 
@@ -387,7 +371,7 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
                 //TempData["delay"] = (int) (alertTime - DateTime.Now).TotalMilliseconds;
                 sessie.SessieSluiten();
-
+                _sessieRepository.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch (SessieException e)

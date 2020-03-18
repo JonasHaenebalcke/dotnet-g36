@@ -15,6 +15,7 @@ namespace dotnet_g36.Models.ViewModels
         public int AantalAanwezigen { get; set; }
         public bool DeelnemerAanwezig { get; set; }
         public int OpenPlaatsen { get; set; }
+        public int Capaciteit { get; set; }
         public bool DeelnemerIngeschreven { get; set; }
         public IEnumerable<Media> ListMedia { get; set; }
         public IEnumerable<Feedback> FeedbackList { get; set; }
@@ -33,12 +34,12 @@ namespace dotnet_g36.Models.ViewModels
             this.StartDatum = sessie.StartDatum;
             this.EindDatum = sessie.EindDatum;
             this.Lokaal = sessie.Lokaal;
-            this.OpenPlaatsen = sessie.AantalOpenPlaatsen;
+            this.Capaciteit = sessie.Capaciteit;
+            this.OpenPlaatsen = sessie.UserSessies.Count - 1;
             this.ListMedia = sessie.Media;
             this.FeedbackList = sessie.FeedbackList;
             this.GastSpreker = sessie.Gastspreker;
             this.Verantwoordelijke = sessie.Verantwoordelijke;
-            //this.Hoofdverantwoordelijke = sessie.Hoofdverantwoordelijke;
 
             this.AantalAanwezigen = 0;
             this.gebruiker = gebruiker;

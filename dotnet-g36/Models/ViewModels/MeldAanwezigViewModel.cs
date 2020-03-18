@@ -6,7 +6,7 @@ namespace dotnet_g36.Models.ViewModels
 {
     public class MeldAanwezigViewModel
     {
-        private readonly IUserRepository _userRepository;
+        //private readonly IUserRepository _userRepository;
         public String Barcode { get; set; }
         public int SessieID { get; set; }
         public String Titel { get; set; }

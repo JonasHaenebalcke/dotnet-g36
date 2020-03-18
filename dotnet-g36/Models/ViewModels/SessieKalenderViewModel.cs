@@ -15,6 +15,7 @@ namespace dotnet_g36.Models.ViewModels
         public ICollection<DateTime> StartDatums { get; set; }
         public ICollection<bool> Aanwezigheden { get; set; }
         public ICollection<int> OpenPlaatsen { get; set; }
+        public ICollection<int> Capaciteit { get; set; }
         public ICollection<bool> Ingeschrevenen { get; set; }
         public ICollection<int> SessieIds { get; set; }
 
@@ -32,6 +33,7 @@ namespace dotnet_g36.Models.ViewModels
             StartDatums = new List<DateTime>();
             Aanwezigheden = new List<bool>();
             OpenPlaatsen = new List<int>();
+            Capaciteit = new List<int>();
             Ingeschrevenen = new List<bool>();
             SessieIds = new List<int>();
 
@@ -40,7 +42,8 @@ namespace dotnet_g36.Models.ViewModels
                 GastSprekers.Add(sessie.Gastspreker);
                 Titels.Add(sessie.Titel);
                 StartDatums.Add(sessie.StartDatum);
-                OpenPlaatsen.Add(sessie.AantalOpenPlaatsen);
+                OpenPlaatsen.Add(sessie.UserSessies.Count - 1);
+                Capaciteit.Add(sessie.Capaciteit);
                 SessieIds.Add(sessie.SessieID);
 
                 bool aanwezig = false, ingeschreven = false;
