@@ -16,8 +16,8 @@ namespace dotnet_g36.Models.Domain
         public DateTime EindDatum { get; set; }
         public int Capaciteit { get; set; }
         public string Beschrijving { get; set; }
-        public IEnumerable<Media> Media { get; set; }
-        public IEnumerable<Feedback> FeedbackList { get; set; }
+        public IEnumerable<Media> Media { get; set; }   
+        public ICollection<Feedback> FeedbackList { get; set; }
         public ICollection<UserSessie> UserSessies { get; set; }
         //public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
@@ -197,5 +197,23 @@ namespace dotnet_g36.Models.Domain
             return res;
         }
         #endregion
+
+        /// <summary>
+        /// Feedback geven op afgelopen sessies
+        /// </summary>
+        public void FeedbackGeven(Feedback feedback, Gebruiker gebruiker)
+        {
+            //Ook controleren op ingeschreven? Lijkt me overbodig maar stond wel in commentaar bij methode
+            if (gebruiker.Aanwezig(this))
+            {
+
+                FeedbackList.Add(feedback);
+
+            }
+            else
+            {
+                throw new AanwezigException("Gebruiker was niet aanwezig! ");
+            }
+        }
     }
 }

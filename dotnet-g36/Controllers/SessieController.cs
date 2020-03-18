@@ -10,8 +10,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 //using System.Threading.Timers;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace dotnet_g36.Controllers
 {
@@ -167,11 +165,32 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailFeedbackGeven(int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
-            Sessie sessie = _sessieRepository.GetByID(id);
+            try
+            {
+                Sessie sessie = _sessieRepository.GetByID(id);
+                Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
 
-            // _sessieRepository.SaveChanges();
-            return RedirectToAction(nameof(Index));
+                Feedback feedback = new Feedback(gebruiker, sessieDetailsViewModel.FeedbackContent, DateTime.Now);
+
+
+                sessie.FeedbackGeven(feedback, gebruiker);
+                _sessieRepository.SaveChanges();
+
+                TempData["message"] = "Feedback is toegvoegd!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (AanwezigException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Index));
+            }
+            //catch(Exception e)
+            //{
+            //    TempData["error"] = "Er liep iets fout bij het feedback geven...";
+            //    return RedirectToAction(nameof(Index));
+            //}
         }
+
 
         /// <summary>
         /// Geeft View van toekomstige sessies om open te zetten
@@ -220,13 +239,13 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Verantwoordelijke verantwoordelijke = _userRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
 
-                if(sessie.StatusSessie == StatusSessie.Open && DateTime.Now < sessie.StartDatum)
+                if (sessie.StatusSessie == StatusSessie.Open && DateTime.Now < sessie.StartDatum)
                     return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
 
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
-              //  SetUpTimer(sessie.StartDatum, id);
-                return RedirectToAction(nameof(MeldAanwezig), new { @id = id});
+                //  SetUpTimer(sessie.StartDatum, id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (SessieException e)
             {
@@ -352,7 +371,7 @@ namespace dotnet_g36.Controllers
             catch (Exception e)
             {
                 TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
-                
+
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
         }
