@@ -56,7 +56,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Sessie Oject</returns>
         public Sessie GetByID(int sessieId)
         {
-            return _sessies.Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).SingleOrDefault(s => s.SessieID == sessieId);
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).Include(s => s.Media).Include(s => s.UserSessies).SingleOrDefault(s => s.SessieID == sessieId);
         }
 
         /// <summary>

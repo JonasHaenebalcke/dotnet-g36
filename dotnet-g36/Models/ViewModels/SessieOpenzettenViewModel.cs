@@ -30,7 +30,7 @@ namespace dotnet_g36.Models.ViewModels
                 Verantwoordelijken.Add(sessie.Verantwoordelijke);
                 Titels.Add(sessie.Titel);
                 StartDatums.Add(sessie.StartDatum);
-                OpenPlaatsen.Add(sessie.AantalOpenPlaatsen);
+                OpenPlaatsen.Add(sessie.Capaciteit);
                 SessieIds.Add(sessie.SessieID);              
             }
         }

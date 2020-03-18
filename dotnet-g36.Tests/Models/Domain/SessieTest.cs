@@ -24,7 +24,7 @@ namespace dotnet_g36.Tests.Models.Domain
                 SessieID = 1,
                 UserSessies = new List<UserSessie>(),
                 StartDatum = DateTime.Now.AddMonths(1),
-                AantalOpenPlaatsen = 10
+                Capaciteit = 10
             };
         }
 
@@ -47,7 +47,7 @@ namespace dotnet_g36.Tests.Models.Domain
         [Fact]
         public void InschrijvenSessieGeenPlaatsTest()
         {
-            _sessie.AantalOpenPlaatsen = 0;
+            _sessie.Capaciteit = 0;
             Assert.Throws<ArgumentException>(
                 () => _sessie.SchrijfIn(_gebruiker));
         }

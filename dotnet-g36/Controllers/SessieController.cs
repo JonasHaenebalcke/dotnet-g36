@@ -73,8 +73,6 @@ namespace dotnet_g36.Controllers
                     maandId = DateTime.Now.Month;
                 }
 
-                ViewData["maanden"] = GetMaandSelectList(maandId);
-
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(maandId);
                 if (sessies.Count().Equals(0))
                 {
@@ -225,7 +223,7 @@ namespace dotnet_g36.Controllers
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
               //  SetUpTimer(sessie.StartDatum, id);
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id});
             }
             catch (SessieException e)
             {
@@ -253,7 +251,7 @@ namespace dotnet_g36.Controllers
 
                 if (sessie.StartDatum <= DateTime.Now)
                 {
-                    throw new SessieException("U kan zich niet meer aanmelden");
+                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
@@ -272,7 +270,7 @@ namespace dotnet_g36.Controllers
             catch (Exception e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             //catch (GeenActieveGebruikerException e)
             //{
@@ -302,7 +300,7 @@ namespace dotnet_g36.Controllers
                 Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now)
                 {
-                    throw new SessieException("U kan zich niet meer aanmelden");
+                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
                     //TempData["Error"] = "U kan zich niet meer aanmelden";
                     //return RedirectToAction(nameof(Index));
                 }
@@ -336,22 +334,22 @@ namespace dotnet_g36.Controllers
             catch (SessieException e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(Index), id);
+                return RedirectToAction(nameof(Index), new { @id = id });
             }
             catch (GeenActieveGebruikerException e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (IngeschrevenException e)
             {
                 TempData["Error"] = e.Message;
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (Exception e)
             {
                 TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
-                return RedirectToAction(nameof(MeldAanwezig), id);
+                return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
         }
 

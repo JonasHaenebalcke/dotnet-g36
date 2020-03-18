@@ -50,7 +50,7 @@
             <th class="text-center">Gastspreker</th>
             <th class="text-center">Titel</th>
             <th class="text-center">Startdatum @($"&") uur</th>
-            <th class="text-center">Open plaatsen</th>
+            <th class="text-center">Aantal Ingeschrevenen</th>
             @if (SignInManager.IsSignedIn(User))
             {
                 <th class="text-center">Ingeschreven?</th>
@@ -66,7 +66,7 @@
                     <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                     <td class="text-center">@Model.Titels.ElementAt(i)</td>
                     <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
-                    <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
+                    <td class="text-center"> @Model.OpenPlaatsen.ElementAt(i) / @Model.Capaciteit.ElementAt(i) </td>
                     @if (SignInManager.IsSignedIn(User))
                     {
                         @if (Model.Ingeschrevenen.ElementAt(i))

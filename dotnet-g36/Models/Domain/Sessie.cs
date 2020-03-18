@@ -14,7 +14,7 @@ namespace dotnet_g36.Models.Domain
         public string Lokaal { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
-        public int AantalOpenPlaatsen { get; set; }
+        public int Capaciteit { get; set; }
         public string Beschrijving { get; set; }
         public IEnumerable<Media> Media { get; set; }
         public IEnumerable<Feedback> FeedbackList { get; set; }
@@ -28,29 +28,22 @@ namespace dotnet_g36.Models.Domain
         #region Constructors
         public Sessie() { }
 
-        public Sessie(/*Verantwoordelijke hoofdVerantwoordelijke,*/ Verantwoordelijke verantwoordelijke,
-            string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int aantalOpenPlaatsen, StatusSessie statusSessie = StatusSessie.NietOpen,
+        public Sessie(Verantwoordelijke verantwoordelijke,
+            string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int capaciteit, StatusSessie statusSessie = StatusSessie.NietOpen,
             string beschrijving = "", string gastspreker = "")
         {
-            //if (verantwoordelijke == null)
-            //    this.Verantwoordelijke = hoofdVerantwoordelijke;
-            //else
-            //    this.Verantwoordelijke = verantwoordelijke;
-            //this.Verantwoordelijke = verantwoordelijke == null ? hoofdVerantwoordelijke : verantwoordelijke;
-            //this.Hoofdverantwoordelijke = hoofdVerantwoordelijke;
             this.Verantwoordelijke = verantwoordelijke;
             this.Titel = titel;
             this.Lokaal = lokaal;
             this.StartDatum = startDatum;
             this.EindDatum = eindDatum;
-            this.AantalOpenPlaatsen = aantalOpenPlaatsen;
+            this.Capaciteit = capaciteit;
             this.StatusSessie = statusSessie;
             this.Beschrijving = beschrijving;
             this.Gastspreker = gastspreker;
             this.UserSessies = new List<UserSessie>();
             this.FeedbackList = new List<Feedback>();
             this.Media = new List<Media>();
-
         }
         #endregion
 
@@ -64,12 +57,12 @@ namespace dotnet_g36.Models.Domain
             if (StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum)
             {
                 if (!(user.IsHoofdverantwoordelijke || user.OpenTeZettenSessies.Contains(this)))
-                    throw new SessieException("Sessie kan niet worden opengezet. Controleer of U de rechten hebt om deze sessie open te zetten.");
+                    throw new SessieException("Sessie kan niet worden opengezet. Controleer of je de rechten hebt om deze sessie open te zetten.");
                 StatusSessie = StatusSessie.Open;
             }
             else
             {
-                throw new SessieException("Sessie kan niet worden opengezet. Controleer of U niet meer dan één uur op voorhand deze sessie wilt openzetten");
+                throw new SessieException("Sessie kan niet worden opengezet. Controleer of je niet meer dan één uur op voorhand deze sessie wilt openzetten");
             }
         }
 
@@ -116,7 +109,7 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (userSessie.Aanwezig == true)
                     {
-                        throw new IngeschrevenException("U bent reeds aanwezig.");
+                        throw new IngeschrevenException("Je bent reeds aanwezig.");
                     }
                     else
                     {
@@ -128,10 +121,8 @@ namespace dotnet_g36.Models.Domain
             }
             if (!succes)
             {
-                throw new IngeschrevenException("U bent niet ingeschreven, dus U kan zich niet aanwezig zetten.");
+                throw new IngeschrevenException("Je bent niet ingeschreven, dus je kan zich niet aanwezig zetten.");
             }
-
-
         }
 
         /// <summary>
@@ -140,25 +131,22 @@ namespace dotnet_g36.Models.Domain
         /// <param name="sessie">User Object</param>
         public void SchrijfIn(Gebruiker user)
         {
-            if (StartDatum < DateTime.Now || AantalOpenPlaatsen < 1)
+            if (StartDatum < DateTime.Now || Capaciteit < 1)
                 throw new ArgumentException("je kan je niet inschrijven in een verleden maand.");
             foreach (UserSessie userSessie in UserSessies)
             {
                 if (userSessie.UserID == user.Id)
-                    //if (userSessie.UserName == user.UserName)
-                    throw new IngeschrevenException("U bent al ingeschreven voor deze sessie.");
+                    throw new IngeschrevenException("Je bent al ingeschreven voor deze sessie.");
             }
             if (user.StatusGebruiker == StatusGebruiker.Actief)
             {
                 UserSessie usersessie = new UserSessie(this, user);
                 user.UserSessies.Add(usersessie);
                 UserSessies.Add(usersessie);
-                if (!(user is Verantwoordelijke))
-                    AantalOpenPlaatsen--;
             }
             else
             {
-                throw new GeenActieveGebruikerException("U kan zich niet inschrijven omdat u geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
+                throw new GeenActieveGebruikerException("Je kan zich niet inschrijven omdat je geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
             }
         }
 
@@ -169,7 +157,10 @@ namespace dotnet_g36.Models.Domain
         public void SchrijfUit(Gebruiker user)
         {
             if (StartDatum < DateTime.Now)
-                throw new ArgumentException("je kan je niet uitschreven in een verleden maand.");
+                throw new ArgumentException("Je kan je niet uitschreven in een verleden maand.");
+
+            if (user == Verantwoordelijke)
+                throw new IngeschrevenException("Je kan je niet uitschreven voor een sessie waarvoor je verantwoordelijk bent.");
 
             bool succes = false;
             foreach (UserSessie userSessie in UserSessies)
@@ -180,13 +171,13 @@ namespace dotnet_g36.Models.Domain
                     user.UserSessies.Remove(userSessie);
                     UserSessies.Remove(userSessie);
                     if (!(user is Verantwoordelijke))
-                        AantalOpenPlaatsen++;
+                        Capaciteit++;
                     succes = true;
                     break;
                 }
             }
             if (!succes)
-                throw new IngeschrevenException("U kon niet worden uitgeschreven, omdat u niet ingeschreven bent.");
+                throw new IngeschrevenException("Je kon niet worden uitgeschreven, omdat je niet ingeschreven bent.");
         }
 
         /// <summary>
@@ -200,10 +191,7 @@ namespace dotnet_g36.Models.Domain
             {
                 if (userSessie.Aanwezig)
                 {
-                    
                      res.Add(userSessie.UserID);
-
-
                 }
             }
             return res;

@@ -109,11 +109,11 @@ namespace dotnet_g36.Data
                 //    );
 
                 // Feb - gesloten admin
-                Sessie sessie7 = new Sessie(/*admin,*/ null, "Infosessie Visual Studio", "B1.012",
+                Sessie sessie7 = new Sessie(admin, "Infosessie Visual Studio", "B1.012",
                     new DateTime(2019, 2, 12, 12, 30, 0), new DateTime(2019, 3, 12, 13, 30, 0), 150,
                     StatusSessie.Gesloten, "Alle nodige info over Visual Studio voor dit semster", "Stefaan De Cock");
                 // Feb - gesloten admin
-                Sessie sessie8 = new Sessie(/*admin,*/ null, "Infosessie Visual Studio Code", "B1.013",
+                Sessie sessie8 = new Sessie(admin, "Infosessie Visual Studio Code", "B1.013",
                   new DateTime(2019, 2, 19, 12, 30, 0), new DateTime(2019, 3, 19, 13, 30, 0), 30,
                   StatusSessie.Gesloten, "Alle nodige info over Visual Studio Code voor dit semster", " ");
                 // Feb - niet open organizer2
@@ -172,10 +172,32 @@ namespace dotnet_g36.Data
                 huidigeMaandSessieSluiten.SchrijfIn(gebruiker);
                 //UserSessie us8 = new UserSessie(huidigeMaandSessie, gebruiker);
                 UserSessie us4 = new UserSessie(sessie7, gebruiker) { Aanwezig = true };
-                sessie7.AantalOpenPlaatsen--;
+                sessie7.UserSessies.Add(us4);
                 sessie10.SchrijfIn(gebruiker);
                 UserSessie us6 = new UserSessie(sessie4, gebruiker) { Aanwezig = true };
-                sessie4.AantalOpenPlaatsen--;
+                sessie4.UserSessies.Add(us6);
+
+                UserSessie us8 = new UserSessie(sessie4, organizer2);
+                sessie4.UserSessies.Add(us8);
+                UserSessie us9 = new UserSessie(sessie5, organizer1);
+                sessie5.UserSessies.Add(us9);
+                //UserSessie us10 = new UserSessie(sessie6, organizer1);
+                UserSessie us11 = new UserSessie(sessie7, admin);
+                sessie7.UserSessies.Add(us11);
+                UserSessie us12 = new UserSessie(sessie8, admin);
+                sessie8.UserSessies.Add(us12);
+                UserSessie us13 = new UserSessie(sessie9, organizer2);
+                sessie9.UserSessies.Add(us13);
+                UserSessie us14 = new UserSessie(sessie10, organizer2);
+                sessie10.UserSessies.Add(us14);
+                UserSessie us15 = new UserSessie(sessie11, organizer2);
+                sessie11.UserSessies.Add(us15); 
+                UserSessie us16 = new UserSessie(sessie1, organizer1);
+                sessie1.UserSessies.Add(us16); 
+                UserSessie us17 = new UserSessie(sessie2, organizer1);
+                sessie2.UserSessies.Add(us17);
+                UserSessie us18 = new UserSessie(sessie3, organizer1);
+                sessie3.UserSessies.Add(us18);
 
                 //foreach (UserSessie uc in sessie7.UserSessies)
                 //{
@@ -183,11 +205,10 @@ namespace dotnet_g36.Data
                 //        uc.Aanwezig = true;
                 //}
 
-                _context.SaveChanges();
+                //_context.SaveChanges();
 
                 _context.UserSessies.AddRange(new UserSessie[]{
-                    /*us1,*/ us4, us6
-                    //, us7, us8
+                    us4, us6, us8, us9, us11, us12, us13, us14, us15, us16, us17, us18
                 });
                 _context.SaveChanges();
 
