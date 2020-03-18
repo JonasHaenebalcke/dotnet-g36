@@ -14,5 +14,8 @@ namespace dotnet_g36.Models.Domain
             {
             }
         }
+
+        public string Beschrijving { get; set; }
+        public string Link { get; set; }
     }
 }

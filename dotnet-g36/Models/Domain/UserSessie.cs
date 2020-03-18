@@ -8,39 +8,55 @@ namespace dotnet_g36.Models.Domain
 {
     public class UserSessie
     {
-        #region properties
-        public int UserID { get; set; }
-        public User User { get; set; }
 
-        public int SessieID { get; set; }
-        public Sessie Sessie { get; set; }
-
-        public bool Aanwezig
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public bool Ingeschreven
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        #region Fields
+        private Guid _userID;
+        private string _userName;
+        private int _sessieID;
         #endregion
 
-        #region
-        public UserSessie(Sessie sessie, User user)
+        #region properties
+        public Guid UserID
         {
-            this.SessieID = sessie.SessieID;
-            this.Sessie = sessie;
-            this.UserID = user.UserID;
-            this.User = user;
+            get { return _userID; }
+            set
+            {
+                _userID = User.Id;
+            }
+        }
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                _userName = User.UserName;
+            }
+        }
+        public Gebruiker User { get; set; }
 
-            Ingeschreven = false;
+        public int SessieID
+        {
+            get { return _sessieID; }
+            set
+            {
+                _sessieID = Sessie.SessieID;
+            }
+        }
+        public Sessie Sessie { get; set; }
+
+        public bool Aanwezig { get; set; }
+        #endregion
+
+        #region Constructors
+        public UserSessie()
+        {
+
+        }
+
+        public UserSessie(Sessie sessie, Gebruiker user)
+        {
+            this.Sessie = sessie;
+            this.User = user;
             Aanwezig = false;
         }
         #endregion

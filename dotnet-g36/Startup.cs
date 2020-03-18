@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using dotnet_g36.Data.Repositories;
 using dotnet_g36.Models.Domain;
+using System.Security.Claims;
+using dotnet_g036.Filters;
 
 namespace dotnet_g36
 {
@@ -32,12 +34,58 @@ namespace dotnet_g36
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+           services.AddDefaultIdentity<Gebruiker>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders() ;
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<ItLabDataInitializer>();
             services.AddScoped<ISessieRepository, SessieRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<GebruikerFilter>();
+
+                        services.AddAuthorization(options =>
+                        {
+                            options.AddPolicy("Hoofdverantwoordelijke", policy => policy.RequireClaim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
+                            options.AddPolicy("Verantwoordelijk", policy => policy.RequireClaim(ClaimTypes.Role, "Verantwoordelijke"));
+                            options.AddPolicy("Deelnemer", policy => policy.RequireClaim(ClaimTypes.Role, "Deelnemer"));
+
+                        });
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = false;
+
+                // Required Confirm Email
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
 
 
         }
@@ -72,7 +120,7 @@ namespace dotnet_g36
                 endpoints.MapRazorPages();
             });
 
-            initializer.initializeData();
+            initializer.InitializeData().Wait();
         }
     }
 }

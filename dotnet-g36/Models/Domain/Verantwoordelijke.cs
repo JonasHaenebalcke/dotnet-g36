@@ -2,34 +2,32 @@
 using System.Collections.Generic;
 using System.Text;
 using dotnet_g36.Models.Domain;
+using dotnet_g36.Models.Exceptions;
 
 namespace dotnet_g36
 {
-    public class Verantwoordelijke : User
+    public class Verantwoordelijke : Gebruiker
     {
         #region properties
-        public IEnumerable<Sessie> GeorganiseerdeSessies { get; set; }
+        public ICollection<Sessie> OpenTeZettenSessies { get; set; }
+        public bool IsHoofdverantwoordelijke { get; set; }
         #endregion
 
         #region constructors
-        public Verantwoordelijke(string voornaam, string familienaam, StatusGebruiker statusGebruiker)
-            : base(voornaam, familienaam, statusGebruiker)
+        public Verantwoordelijke() : base() {
+            this.OpenTeZettenSessies = new List<Sessie>();
+            IsHoofdverantwoordelijke = false;
+        }
+        public Verantwoordelijke(string barcode, string username, string email, string voornaam, string familienaam, List<Sessie> openTeZettenSessies, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
+            : base(barcode, username, email,voornaam, familienaam, statusGebruiker)
         {
-            GeorganiseerdeSessies = new List<Sessie>();
+            this.OpenTeZettenSessies = openTeZettenSessies;// new List<Sessie>();
+            IsHoofdverantwoordelijke = false;
         }
         #endregion
 
-        
         #region methods
-        public void SessieOpenZetten(int sessieID)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public void SessieSluiten(int sessieID)
-        {
-            throw new System.NotImplementedException();
-        }
         #endregion
     }
 }
