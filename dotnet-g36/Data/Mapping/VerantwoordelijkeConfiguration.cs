@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dotnet_g36.Data.Mapping
 {
@@ -11,10 +8,12 @@ namespace dotnet_g36.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Verantwoordelijke> builder)
         {
-            builder.ToTable("Verantwoordelijke");
+            builder.Property(u => u.IsHoofdverantwoordelijke).IsRequired();
 
-            builder.HasMany(v => v.GeorganiseerdeSessies)
-                .WithOne(s => s.Verantwoordelijke);
+            //builder.HasMany(v => v.OpenTeZettenSessies)
+            //    .WithOne(s => s.Verantwoordelijke)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

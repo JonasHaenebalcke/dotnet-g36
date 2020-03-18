@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using dotnet_g36.Models.Exceptions;
 using dotnet_g36.Models.Domain;
+using dotnet_g36.Models.ViewModels;
 
 namespace dotnet_g36.Tests.Controllers
 {
@@ -19,16 +20,18 @@ namespace dotnet_g36.Tests.Controllers
         private readonly SessieController _controller;
         private readonly DummyDbContext _context;
         private readonly Mock<ISessieRepository> _sessieRepo;
-        //private readonly Month huidigeMaand;
+        private readonly Mock<IUserRepository> _userRepo;
         private readonly int huidigeMaand;
+        private Gebruiker _gebruiker;
 
         public SessieControllerTest()
         {
-            //huidigeMaand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
             huidigeMaand = DateTime.Now.Month;
             _context = new DummyDbContext();
             _sessieRepo = new Mock<ISessieRepository>();
-            _controller = new SessieController(_sessieRepo.Object)
+            _userRepo = new Mock<IUserRepository>();
+
+            _controller = new SessieController(_sessieRepo.Object, _userRepo.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -37,43 +40,33 @@ namespace dotnet_g36.Tests.Controllers
         [Fact]
         public void SessieKalender_HuidigeMaand_GeeftModelMetAlle3HuidigeMaandSessieDoorAanDefaultView()
         {
-            //Month maand = (Month)Enum.Parse(typeof(Month), DateTime.Now.Month.ToString());
-            //_sessieRepo.Setup(s => s.GetByMonth(maand)).Returns(_context.HuidigeMaand);
             _sessieRepo.Setup(s => s.GetByMonth(huidigeMaand)).Returns(_context.HuidigeMaand);
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index());
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index(null));
 
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            Assert.Equal(3, sessies.Count());
-            Assert.Equal("Sessie 3D Printing", sessies.First().Titel);
+            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
+            Assert.Equal(4, vm.Sessies.Count());
+            Assert.Equal("Sessie 3D Printing", vm.Sessies.First().Titel);
+            Assert.Equal("Sessie 3D Printing", vm.Titels.ElementAt(0));
         }
 
         [Fact]
         public void SessieKalender_veranderDecemberMaandMet2Sessies_GeeftModelMet2DecemberSessiesDoorAanDefaultView()
         {
-            //_sessieRepo.Setup(s => s.GetByMonth(Month.December)).Returns(_context.December);
             _sessieRepo.Setup(s => s.GetByMonth(12)).Returns(_context.December);
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index((int)Month.December));
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index(null, 12));
 
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            Assert.Equal(2, sessies.Count());
-            Assert.Equal("Sessie 3D Printing", sessies.First().Titel);
+            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
+            Assert.Equal(2, vm.SessieIds.Count());
+            Assert.Equal("Sessie 3D Printing", vm.Titels.First());
         }
 
         [Fact]
         public void SessieKalender_veranderJanuariMaandZonderSessies_GeeftMeldingenGeenSessiesWeer()
         {
-            //_sessieRepo.Setup(s => s.GetByMonth(Month.Januari)).Throws<ArgumentNullException>(); //Custom Exception? //(_context.huidigeMaandSessies);
-            _sessieRepo.Setup(s => s.GetByMonth(01)).Throws<ArgumentNullException>(); //Custom Exception? //(_context.huidigeMaandSessies);
-            //var actionResult = Assert.IsType<ViewResult>(_controller.Index((int)Month.Januari));
-            var actionResult = Assert.IsType<ViewResult>(_controller.Index(01));
-            var sessies = Assert.IsAssignableFrom<IEnumerable<Sessie>>(actionResult.Model);
-            Assert.Empty(sessies);
-        }
-
-        [Fact] //geschreven door Rein, doel vd test?
-        public void KiesSessieTest()
-        {
-
+            _sessieRepo.Setup(s => s.GetByMonth(01)).Returns(new List<Sessie>());
+            var actionResult = Assert.IsType<ViewResult>(_controller.Index(null, 01));
+            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
+            Assert.Empty(vm.SessieIds);
         }
     }
 }
