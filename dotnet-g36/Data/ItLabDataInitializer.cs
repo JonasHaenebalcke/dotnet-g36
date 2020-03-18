@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -16,16 +15,17 @@ namespace dotnet_g36.Data
         private Verantwoordelijke organizer1;
         private Verantwoordelijke organizer2;
         private Gebruiker gebruiker;
-       // private Gebruiker nietActieveGebruiker;
-       // private Gebruiker geblokkeerdeGebruiker;
-        
-        public ItLabDataInitializer(ApplicationDbContext context , UserManager<Gebruiker> userManager)
+        // private Gebruiker nietActieveGebruiker;
+        // private Gebruiker geblokkeerdeGebruiker;
+
+        public ItLabDataInitializer(ApplicationDbContext context, UserManager<Gebruiker> userManager)
         {
             _context = context;
-           _userManager = userManager;
+            _userManager = userManager;
         }
 
-        public async Task InitializeData() {
+        public async Task InitializeData()
+        {
             _context.Database.EnsureDeleted();
 
             if (_context.Database.EnsureCreated())
@@ -33,7 +33,7 @@ namespace dotnet_g36.Data
 
                 var ph = new PasswordHasher<Gebruiker>();
                 // Hoofdverantwoordelijke string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief
-                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be",  "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
+                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
                 {
                     IsHoofdverantwoordelijke = true
                 };
@@ -143,9 +143,9 @@ namespace dotnet_g36.Data
                  StatusSessie.NietOpen, "Sessie over MySQL", " ");
                 //Mei - 2e niet open organizer2
                 Sessie sessie11 = new Sessie(/*admin,*/ organizer2, "Sessie Databanken", "BCON",
-                    new DateTime(2020, 05, 10, 12, 30, 0), new DateTime(2020, 05, 10, 12, 45, 0), 50, 
+                    new DateTime(2020, 05, 10, 12, 30, 0), new DateTime(2020, 05, 10, 12, 45, 0), 50,
                     StatusSessie.NietOpen, "Databanken enzo", "De Data Expert");
-               
+
 
                 _context.Sessies.AddRange(new Sessie[]
               {
@@ -163,9 +163,9 @@ namespace dotnet_g36.Data
 
                 //UserSessie us1 = new UserSessie(sessie1, actieveGebruiker);
 
-                huidigeMaandSessie.SchrijfIn( organizer1);
-                 huidigeMaandSessieAdmin.SchrijfIn(admin);
-                 huidigeMaandSessieSluiten.SchrijfIn(organizer1);
+                huidigeMaandSessie.SchrijfIn(organizer1);
+                huidigeMaandSessieAdmin.SchrijfIn(admin);
+                huidigeMaandSessieSluiten.SchrijfIn(organizer1);
                 huidigeMaandSessieSluiten.SchrijfIn(admin);
                 huidigeMaandSessieSluiten.SchrijfIn(organizer2);
                 //UserSessie us7 = new UserSessie(huidigeMaandSessie, organizer2);
@@ -177,7 +177,7 @@ namespace dotnet_g36.Data
                 UserSessie us6 = new UserSessie(sessie4, gebruiker) { Aanwezig = true };
                 sessie4.UserSessies.Add(us6);
 
-                UserSessie us8 = new UserSessie(sessie4, organizer2);
+                UserSessie us8 = new UserSessie(sessie4, organizer2) { Aanwezig = true };
                 sessie4.UserSessies.Add(us8);
                 UserSessie us9 = new UserSessie(sessie5, organizer1);
                 sessie5.UserSessies.Add(us9);
@@ -191,9 +191,9 @@ namespace dotnet_g36.Data
                 UserSessie us14 = new UserSessie(sessie10, organizer2);
                 sessie10.UserSessies.Add(us14);
                 UserSessie us15 = new UserSessie(sessie11, organizer2);
-                sessie11.UserSessies.Add(us15); 
+                sessie11.UserSessies.Add(us15);
                 UserSessie us16 = new UserSessie(sessie1, organizer1);
-                sessie1.UserSessies.Add(us16); 
+                sessie1.UserSessies.Add(us16);
                 UserSessie us17 = new UserSessie(sessie2, organizer1);
                 sessie2.UserSessies.Add(us17);
                 UserSessie us18 = new UserSessie(sessie3, organizer1);
@@ -212,25 +212,30 @@ namespace dotnet_g36.Data
                 });
                 _context.SaveChanges();
 
+                sessie4.FeedbackGeven("Intressante sessie", gebruiker);//gebruiker, "Intressante sessie", DateTime.Now.AddDays(-4));
+                //sessie4.FeedbackGeven("yeet", organizer2);//admin, "yeet", DateTime.Now);
+
+                //_context.Feedbacks.AddRange(feedback1, feedback2);
+                _context.SaveChanges();
             }
         }
         private async Task InitializeDeelnemersEnVerantwoordelijke()
         {
-            
-           // await _userManager.CreateAsync(admin, "123");
+
+            // await _userManager.CreateAsync(admin, "123");
             await _userManager.AddClaimAsync(admin, new Claim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
 
 
             //await _userManager.CreateAsync(organizer1, "123");
             await _userManager.AddClaimAsync(organizer1, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
 
-           // await _userManager.CreateAsync(organizer2, "123");
+            // await _userManager.CreateAsync(organizer2, "123");
             await _userManager.AddClaimAsync(organizer2, new Claim(ClaimTypes.Role, "Verantwoordelijke"));
 
-           // await _userManager.CreateAsync(actieveGebruiker, "123");
+            // await _userManager.CreateAsync(actieveGebruiker, "123");
             await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, "Deelnemer"));
-    }
+        }
     }
 }
-    
+
 

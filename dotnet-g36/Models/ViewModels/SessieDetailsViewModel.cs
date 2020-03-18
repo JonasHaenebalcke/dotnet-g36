@@ -23,6 +23,7 @@ namespace dotnet_g36.Models.ViewModels
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public bool Gesloten { get; set; }
+        public string FeedbackContent { get; set; }
 
         public Gebruiker gebruiker;
         public SessieDetailsViewModel(){ }
@@ -42,6 +43,8 @@ namespace dotnet_g36.Models.ViewModels
             this.GastSpreker = sessie.Gastspreker;
             this.Verantwoordelijke = sessie.Verantwoordelijke;
             this.Gesloten = sessie.StatusSessie == StatusSessie.Gesloten;
+           // this.FeedbackContent = "";
+           
 
             this.AantalAanwezigen = 0;
             this.gebruiker = gebruiker;

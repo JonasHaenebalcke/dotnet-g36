@@ -162,20 +162,16 @@ namespace dotnet_g36.Controllers
         /// <param name="sessieDetailsViewModel">sessieDetailsViewModel Object</param>
         /// <returns>View naar kalender van sessies</returns>
         [AllowAnonymous]
+        [ServiceFilter(typeof(GebruikerFilter))]
         [HttpPost]
-        public IActionResult DetailFeedbackGeven(int id, SessieDetailsViewModel sessieDetailsViewModel)
+        public IActionResult DetailFeedbackGeven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
-                Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
-
-                Feedback feedback = new Feedback(gebruiker, sessieDetailsViewModel.FeedbackContent, DateTime.Now);
-
-
-                sessie.FeedbackGeven(feedback, gebruiker);
+                sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker);
                 _sessieRepository.SaveChanges();
-
+               
                 TempData["message"] = "Feedback is toegvoegd!";
                 return RedirectToAction(nameof(Index));
             }
@@ -184,11 +180,11 @@ namespace dotnet_g36.Controllers
                 TempData["error"] = e.Message;
                 return RedirectToAction(nameof(Index));
             }
-            //catch(Exception e)
-            //{
-            //    TempData["error"] = "Er liep iets fout bij het feedback geven...";
-            //    return RedirectToAction(nameof(Index));
-            //}
+            catch (Exception e)
+            {
+                TempData["error"] = "Er liep iets fout bij het feedback geven...";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
 

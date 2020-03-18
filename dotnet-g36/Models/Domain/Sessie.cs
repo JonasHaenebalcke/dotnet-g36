@@ -206,20 +206,21 @@ namespace dotnet_g36.Models.Domain
         #endregion
 
         /// <summary>
-        /// Feedback geven op afgelopen sessies
+        /// Feedback geven op de afgelopen sessie
         /// </summary>
-        public void FeedbackGeven(Feedback feedback, Gebruiker gebruiker)
+        /// <param name="feedbacktxt">feedback tekst</param>
+        /// <param name="gebruiker">Gebruiker Object</param>
+        public void FeedbackGeven(string feedbacktxt, Gebruiker gebruiker)
         {
             //Ook controleren op ingeschreven? Lijkt me overbodig maar stond wel in commentaar bij methode
-            if (gebruiker.Aanwezig(this))
+            if (gebruiker.Aanwezig(this.SessieID))
             {
-
+                Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now);
                 FeedbackList.Add(feedback);
-
             }
             else
             {
-                throw new AanwezigException("Gebruiker was niet aanwezig! ");
+                throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
             }
         }
     }

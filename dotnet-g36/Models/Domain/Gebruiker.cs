@@ -88,12 +88,12 @@ namespace dotnet_g36
             }
         }
 
-        public bool Aanwezig(Sessie sessie)
+        public bool Aanwezig(int sessieID)
         {
             bool aanwezig = false;
             foreach (UserSessie userSessie in UserSessies)
             {//Controlleren op sessieID of gwn sessie object?
-                if (userSessie.SessieID.Equals(sessie.SessieID))
+                if (userSessie.SessieID.Equals(sessieID))
                     aanwezig = true;
             }
             return aanwezig;
