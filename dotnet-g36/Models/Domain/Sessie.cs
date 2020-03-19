@@ -177,8 +177,6 @@ namespace dotnet_g36.Models.Domain
                 {
                     user.UserSessies.Remove(userSessie);
                     UserSessies.Remove(userSessie);
-                    if (!(user is Verantwoordelijke))
-                        Capaciteit++;
                     succes = true;
                     break;
                 }
@@ -203,7 +201,6 @@ namespace dotnet_g36.Models.Domain
             }
             return res;
         }
-        #endregion
 
         /// <summary>
         /// Feedback geven op de afgelopen sessie
@@ -223,5 +220,6 @@ namespace dotnet_g36.Models.Domain
                 throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
             }
         }
+        #endregion
     }
 }

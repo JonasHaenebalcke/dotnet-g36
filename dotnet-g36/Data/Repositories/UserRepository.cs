@@ -50,7 +50,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Gebruiker</returns>
         public IEnumerable<Gebruiker> GetAll()
         {
-            return _users.Include(s => s.UserSessies).ToList();
+            return _users.Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).ToList();
         }
 
         /// <summary>
@@ -60,12 +60,12 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Gebruiker object</returns>
         public Gebruiker GetDeelnemerByID(Guid userID)
         {
-            return _users.Include(s => s.UserSessies).SingleOrDefault(u => u.Id.Equals(userID));
+            return _users.Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).SingleOrDefault(u => u.Id.Equals(userID));
         }
 
         public Gebruiker GetDeelnemerByBarcode(String barcode)
         {
-            return _users.Include(s => s.UserSessies).SingleOrDefault(u => u.Barcode.Equals(barcode));
+            return _users.Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).SingleOrDefault(u => u.Barcode.Equals(barcode));
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Verantwoordelijke Object</returns>
         public Verantwoordelijke GetHoofdverantwoordelijke()
         {
-            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
+            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Verantwoordelijke Object</returns>
         public Verantwoordelijke GetVerantwoordelijke(Guid userID)
         {
-            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).SingleOrDefault(v => v.Id.Equals(userID));
+            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).SingleOrDefault(v => v.Id.Equals(userID));
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Gebruiker</returns>
         public IEnumerable<Gebruiker> GetDeelnemers()
         {
-            return _users.Include(s => s.UserSessies).Where(d => d.GetType().Equals("Deelnemer")).ToList();
+            return _users.Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).Where(d => d.GetType().Equals("Deelnemer")).ToList();
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Gebruiker Object</returns>
         public Gebruiker GetDeelnemerByEmail(string emailadres)
         {
-            return _users.Include(s => s.UserSessies).SingleOrDefault(d => d.Email.Equals(emailadres));
+            return _users.Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).SingleOrDefault(d => d.Email.Equals(emailadres));
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Gebruiker Object</returns>
         public Gebruiker GetDeelnemerByUsername(string username)
         {
-            return _users.Include(s => s.UserSessies).SingleOrDefault(d => d.UserName.Equals(username));
+            return _users.Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).SingleOrDefault(d => d.UserName.Equals(username));
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Verantwoordelijke object</returns>
         public Verantwoordelijke GetVerantwoordelijkeByUsername(string username)
         {
-            return _verantwoordelijken.Include(s => s.UserSessies).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username));
+            return _verantwoordelijken.Include(s => s.UserSessies).ThenInclude(usl => usl.Select(us => us.User)).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username));
         }
 
         #endregion
