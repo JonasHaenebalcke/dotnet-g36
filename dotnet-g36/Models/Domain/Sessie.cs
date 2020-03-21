@@ -61,15 +61,13 @@ namespace dotnet_g36.Models.Domain
                 StatusSessie = StatusSessie.Open;
             }
             else
-            {
                 throw new SessieException("Sessie kan niet worden opengezet. Controleer of je niet meer dan één uur op voorhand deze sessie wilt openzetten");
-            }
         }
 
         /// <summary>
         /// Sluit Sessie en controleert op users die 3 keer afwezig waren en blokkeert deze
         /// </summary>
-        public void SessieSluiten(ICollection<Gebruiker> gebruikers)
+        public void SessieSluiten()
         {
             if (StatusSessie.Equals(StatusSessie.Open))
             {
@@ -79,40 +77,34 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (!gebruikerSessie.Aanwezig)
                     {
-                        foreach (Gebruiker g in gebruikers)
+                        Gebruiker gebruiker = gebruikerSessie.Gebruiker;
+                        if (!(gebruiker is Verantwoordelijke) && gebruiker.AantalKeerAfwezig >= 2) //Verantwoordelijken niet blokkeren
                         {
-                            if (g.Id == gebruikerSessie.UserID)
-                            {
-                                //Gebruiker gebruiker = userSessie.User;
-                                if (!(g is Verantwoordelijke) && g.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
-                                {
-                                    g.StatusGebruiker = StatusGebruiker.Geblokkeerd;
-                                    g.SchrijfUitAlleSessies();
-                                }
-                                g.AantalKeerAfwezig++;
-                                break;
-                            }
+                            gebruiker.StatusGebruiker = StatusGebruiker.Geblokkeerd;
+                            gebruiker.SchrijfUitAlleSessies();
                         }
+                        gebruiker.AantalKeerAfwezig++;
+                        break;
                     }
                 }
             }
             else
-            {
                 throw new SessieException("Sessie kan niet gesloten worden.");
-            }
         }
 
         /// <summary>
-        /// De user wordt aanwezig gemeld
+        /// De gebruiker wordt aanwezig gemeld
         /// </summary>
-        /// <param name="sessie">User Object</param>
-        public void MeldAanwezig(Gebruiker user)
+        /// <param name="sessie">Gebruiker Object</param>
+        public void MeldAanwezig(Gebruiker gebruiker)
         {
-            Boolean succes = false;
+            if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
+                throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
+
+            bool succes = false;
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (gebruikerSessie.UserID == user.Id)
-                //if (userSessie.UserName == user.UserName)
+                if (gebruikerSessie.Gebruiker == gebruiker)
                 {
                     if (gebruikerSessie.Aanwezig == true)
                     {
@@ -140,11 +132,13 @@ namespace dotnet_g36.Models.Domain
         {
             if (StartDatum < DateTime.Now || Capaciteit < 1)
                 throw new ArgumentException("je kan je niet inschrijven in een verleden maand.");
+
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (gebruikerSessie.UserID == gebruiker.Id)
+                if (gebruikerSessie.Gebruiker == gebruiker)
                     throw new IngeschrevenException("Je bent al ingeschreven voor deze sessie.");
             }
+
             if (gebruiker.StatusGebruiker == StatusGebruiker.Actief)
             {
                 GebruikerSessie gebruikersessie = new GebruikerSessie(this, gebruiker);
@@ -152,9 +146,7 @@ namespace dotnet_g36.Models.Domain
                 GebruikerSessies.Add(gebruikersessie);
             }
             else
-            {
                 throw new GeenActieveGebruikerException("Je kan zich niet inschrijven omdat je geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
-            }
         }
 
         /// <summary>
@@ -172,8 +164,7 @@ namespace dotnet_g36.Models.Domain
             bool succes = false;
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (gebruikerSessie.UserID == gebruiker.Id)
-                //if (userSessie.UserName == user.UserName)
+                if (gebruikerSessie.Gebruiker == gebruiker)
                 {
                     gebruiker.GebruikerSessies.Remove(gebruikerSessie);
                     GebruikerSessies.Remove(gebruikerSessie);
@@ -189,15 +180,13 @@ namespace dotnet_g36.Models.Domain
         /// geeft alle usernames van de aanwezigen
         /// </summary>
         /// <returns>List van string</returns>
-        public List<Guid> geefAlleAanwezigen()
+        public List<Gebruiker> geefAlleAanwezigen()
         {
-            List<Guid> res = new List<Guid>();
+            List<Gebruiker> res = new List<Gebruiker>();
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
                 if (gebruikerSessie.Aanwezig)
-                {
-                    res.Add(gebruikerSessie.UserID);
-                }
+                    res.Add(gebruikerSessie.Gebruiker);
             }
             return res;
         }
@@ -211,23 +200,17 @@ namespace dotnet_g36.Models.Domain
         {
             foreach (Feedback f in FeedbackList)
             {
-                if (f.AuteursNaam == gebruiker)
+                if (f.Auteur == gebruiker)
                     throw new ArgumentException("Gebruiker heeft al feedback gegeven.");
-                if (gebruiker.Aanwezig(SessieID))
-                    throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
-                Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now);
-                FeedbackList.Add(feedback);
             }
-            //Ook controleren op ingeschreven? Lijkt me overbodig maar stond wel in commentaar bij methode
-            if (gebruiker.Aanwezig(SessieID))
+
+            if (gebruiker.Aanwezig(this))
             {
                 Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now);
                 FeedbackList.Add(feedback);
             }
             else
-            {
                 throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
-            }
         }
         #endregion
     }

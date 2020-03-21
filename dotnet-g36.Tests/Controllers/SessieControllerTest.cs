@@ -20,7 +20,7 @@ namespace dotnet_g36.Tests.Controllers
         private readonly SessieController _controller;
         private readonly DummyDbContext _context;
         private readonly Mock<ISessieRepository> _sessieRepo;
-        private readonly Mock<IUserRepository> _userRepo;
+        private readonly Mock<IGebruikerRepository> _userRepo;
         private readonly int huidigeMaand;
         private Gebruiker _gebruiker;
 
@@ -29,7 +29,7 @@ namespace dotnet_g36.Tests.Controllers
             huidigeMaand = DateTime.Now.Month;
             _context = new DummyDbContext();
             _sessieRepo = new Mock<ISessieRepository>();
-            _userRepo = new Mock<IUserRepository>();
+            _userRepo = new Mock<IGebruikerRepository>();
 
             _controller = new SessieController(_sessieRepo.Object, _userRepo.Object)
             {

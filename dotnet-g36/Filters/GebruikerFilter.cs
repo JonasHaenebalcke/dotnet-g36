@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dotnet_g036.Filters
+namespace dotnet_g36.Filters
 {
     [AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
     public class GebruikerFilter : ActionFilterAttribute
     {
-        private readonly IUserRepository _gebruikerRepository;
+        private readonly IGebruikerRepository _gebruikerRepository;
 
-        public GebruikerFilter(IUserRepository gebruikerRepository)
+        public GebruikerFilter(IGebruikerRepository gebruikerRepository)
         {
             _gebruikerRepository = gebruikerRepository;
         }

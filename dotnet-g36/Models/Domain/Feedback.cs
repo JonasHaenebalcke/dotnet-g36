@@ -10,21 +10,18 @@ namespace dotnet_g36.Models.Domain
         public int FeedbackID { get; set; }
         public string Tekst { get; set; }
         public DateTime TimeWritten { get; set; }
-
-        public string AuteursNaam { get; set; }
+        public Gebruiker Auteur { get; set; }
         #endregion
 
         #region constructor
+
+        public Feedback() { }
+
         public Feedback(Gebruiker auteur, string content, DateTime tijd)
         {
-            this.AuteursNaam = auteur.GeefVolledigeNaam();
+            this.Auteur = auteur;
             this.Tekst = content;
             this.TimeWritten = tijd;
-        }
-
-        public Feedback()
-        {
-
         }
         #endregion
     }

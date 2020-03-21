@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 using dotnet_g36.Data.Repositories;
 using dotnet_g36.Models.Domain;
 using System.Security.Claims;
-using dotnet_g036.Filters;
+using dotnet_g36.Filters;
 
 namespace dotnet_g36
 {
@@ -41,10 +41,11 @@ namespace dotnet_g36
             services.AddRazorPages();
             services.AddScoped<ItLabDataInitializer>();
             services.AddScoped<ISessieRepository, SessieRepository>();
-            services.AddScoped<IUserRepository, GebruikerRepository>();
+            services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<GebruikerFilter>();
+            services.AddScoped<VerantwoordelijkeFilter>();
 
-                        services.AddAuthorization(options =>
+            services.AddAuthorization(options =>
                         {
                             options.AddPolicy("Hoofdverantwoordelijke", policy => policy.RequireClaim(ClaimTypes.Role, "Hoofdverantwoordelijke"));
                             options.AddPolicy("Verantwoordelijk", policy => policy.RequireClaim(ClaimTypes.Role, "Verantwoordelijke"));

@@ -8,31 +8,30 @@ namespace dotnet_g36.Models.Domain
 {
     public class GebruikerSessie
     {
-
         #region Fields
-        private Guid _userID;
-        private string _userName;
+        private Guid _GebruikerID;
         private int _sessieID;
+        //private string _gebruikerName;
         #endregion
 
         #region properties
-        public Guid UserID
+        public Guid GebruikerID
         {
-            get { return _userID; }
+            get { return _GebruikerID; }
             set
             {
-                _userID = User.Id;
+                _GebruikerID = Gebruiker.Id;
             }
         }
-        public string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                _userName = User.UserName;
-            }
-        }
-        public Gebruiker User { get; set; }
+        //public string GebruikerName
+        //{
+        //    get { return _gebruikerName; }
+        //    set
+        //    {
+        //        _gebruikerName = Gebruiker.UserName;
+        //    }
+        //}
+        public Gebruiker Gebruiker { get; set; }
 
         public int SessieID
         {
@@ -53,10 +52,10 @@ namespace dotnet_g36.Models.Domain
 
         }
 
-        public GebruikerSessie(Sessie sessie, Gebruiker user)
+        public GebruikerSessie(Sessie sessie, Gebruiker gebruiker)
         {
             this.Sessie = sessie;
-            this.User = user;
+            this.Gebruiker = gebruiker;
             Aanwezig = false;
         }
         #endregion

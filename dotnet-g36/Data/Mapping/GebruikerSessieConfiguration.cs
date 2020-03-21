@@ -14,9 +14,9 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("GebruikerSessie");
 
-            builder.HasKey(us => new { us.SessieID, us.UserID});
+            builder.HasKey(us => new { us.SessieID, us.GebruikerID});
             builder.Property(us => us.SessieID).IsRequired();
-            builder.Property(us => us.UserID).IsRequired();
+            builder.Property(us => us.GebruikerID).IsRequired();
             //builder.Property(us => us.UserName);
 
             builder.HasOne(s => s.Sessie)
@@ -24,9 +24,9 @@ namespace dotnet_g36.Data.Mapping
                 .HasForeignKey(us => us.SessieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(s => s.User)
+            builder.HasOne(s => s.Gebruiker)
                 .WithMany(s => s.GebruikerSessies)
-                .HasForeignKey(us => us.UserID)
+                .HasForeignKey(us => us.GebruikerID)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

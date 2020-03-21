@@ -39,11 +39,6 @@ namespace dotnet_g36
         public ICollection<GebruikerSessie> GebruikerSessies { get; set; }
 
         public string Barcode { get; set; }
-
-        //public string GebruikersNaam { get; set; }
-
-        //public string Wachtwoord { get; set; }
-
         public StatusGebruiker StatusGebruiker { get; set; }
 
         public int AantalKeerAfwezig { get; set; }
@@ -88,21 +83,24 @@ namespace dotnet_g36
         public void SchrijfUitAlleSessies() //vb indien 3 keer niet aanwezig
         {
             ICollection<GebruikerSessie> gebruikerSessies = GebruikerSessies;
-            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
+            foreach (GebruikerSessie gebruikerSessie in gebruikerSessies)
             {
-                if (gebruikerSessie.Sessie.StartDatum >= DateTime.Now) // kan zijn dat dit niet werkt, je verandert list waarover je itereert
-                {
+                if (gebruikerSessie.Sessie.StartDatum >= DateTime.Now)
                     gebruikerSessie.Sessie.SchrijfUit(this);
-                }
             }
         }
 
-        public bool Aanwezig(int sessieID)
+        /// <summary>
+        /// Controleert of de Gebruiker aanwezig was op een sessie
+        /// </summary>
+        /// <param name="sessie">Sessie Object</param>
+        /// <returns>bool aanwezig</returns>
+        public bool Aanwezig(Sessie sessie)
         {
             bool aanwezig = false;
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
-            {//Controlleren op sessieID of gwn sessie object?
-                 if (gebruikerSessie.SessieID.Equals(sessieID)  && gebruikerSessie.Aanwezig) { 
+            {
+                 if (gebruikerSessie.Sessie.Equals(sessie)  && gebruikerSessie.Aanwezig) { 
                     aanwezig = true;
                     break;
                 }
