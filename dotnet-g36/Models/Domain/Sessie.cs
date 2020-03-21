@@ -16,9 +16,9 @@ namespace dotnet_g36.Models.Domain
         public DateTime EindDatum { get; set; }
         public int Capaciteit { get; set; }
         public string Beschrijving { get; set; }
-        public IEnumerable<Media> Media { get; set; }   
+        public IEnumerable<Media> Media { get; set; }
         public ICollection<Feedback> FeedbackList { get; set; }
-        public ICollection<UserSessie> UserSessies { get; set; }
+        public ICollection<GebruikerSessie> GebruikerSessies { get; set; }
         //public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }
@@ -41,7 +41,7 @@ namespace dotnet_g36.Models.Domain
             this.StatusSessie = statusSessie;
             this.Beschrijving = beschrijving;
             this.Gastspreker = gastspreker;
-            this.UserSessies = new List<UserSessie>();
+            this.GebruikerSessies = new List<GebruikerSessie>();
             this.FeedbackList = new List<Feedback>();
             this.Media = new List<Media>();
         }
@@ -75,13 +75,13 @@ namespace dotnet_g36.Models.Domain
             {
                 StatusSessie = StatusSessie.Gesloten;
                 //controleert op users die 3 keer afwezig waren en blokkeert deze
-                foreach (UserSessie userSessie in UserSessies)
+                foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
                 {
-                    if (!userSessie.Aanwezig)
+                    if (!gebruikerSessie.Aanwezig)
                     {
-                        foreach(Gebruiker g in gebruikers)
+                        foreach (Gebruiker g in gebruikers)
                         {
-                            if (g.Id == userSessie.UserID)
+                            if (g.Id == gebruikerSessie.UserID)
                             {
                                 //Gebruiker gebruiker = userSessie.User;
                                 if (!(g is Verantwoordelijke) && g.AantalKeerAfwezig >= 2) //Verantwoordelijke niet blokkeren
@@ -109,18 +109,18 @@ namespace dotnet_g36.Models.Domain
         public void MeldAanwezig(Gebruiker user)
         {
             Boolean succes = false;
-            foreach (UserSessie userSessie in UserSessies)
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (userSessie.UserID == user.Id)
+                if (gebruikerSessie.UserID == user.Id)
                 //if (userSessie.UserName == user.UserName)
                 {
-                    if (userSessie.Aanwezig == true)
+                    if (gebruikerSessie.Aanwezig == true)
                     {
                         throw new IngeschrevenException("Je bent reeds aanwezig.");
                     }
                     else
                     {
-                        userSessie.Aanwezig = true;
+                        gebruikerSessie.Aanwezig = true;
                         succes = true;
                         break;
                     }
@@ -136,20 +136,20 @@ namespace dotnet_g36.Models.Domain
         /// User wordt ingeschreven bij de sessie
         /// </summary>
         /// <param name="sessie">User Object</param>
-        public void SchrijfIn(Gebruiker user)
+        public void SchrijfIn(Gebruiker gebruiker)
         {
             if (StartDatum < DateTime.Now || Capaciteit < 1)
                 throw new ArgumentException("je kan je niet inschrijven in een verleden maand.");
-            foreach (UserSessie userSessie in UserSessies)
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (userSessie.UserID == user.Id)
+                if (gebruikerSessie.UserID == gebruiker.Id)
                     throw new IngeschrevenException("Je bent al ingeschreven voor deze sessie.");
             }
-            if (user.StatusGebruiker == StatusGebruiker.Actief)
+            if (gebruiker.StatusGebruiker == StatusGebruiker.Actief)
             {
-                UserSessie usersessie = new UserSessie(this, user);
-                user.UserSessies.Add(usersessie);
-                UserSessies.Add(usersessie);
+                GebruikerSessie gebruikersessie = new GebruikerSessie(this, gebruiker);
+                gebruiker.GebruikerSessies.Add(gebruikersessie);
+                GebruikerSessies.Add(gebruikersessie);
             }
             else
             {
@@ -161,22 +161,22 @@ namespace dotnet_g36.Models.Domain
         /// User wordt uitgeschreven bij de sessie
         /// </summary>
         /// <param name="sessie">User object</param>
-        public void SchrijfUit(Gebruiker user)
+        public void SchrijfUit(Gebruiker gebruiker)
         {
             if (StartDatum < DateTime.Now)
                 throw new ArgumentException("Je kan je niet uitschreven in een verleden maand.");
 
-            if (user == Verantwoordelijke)
+            if (gebruiker == Verantwoordelijke)
                 throw new IngeschrevenException("Je kan je niet uitschreven voor een sessie waarvoor je verantwoordelijk bent.");
 
             bool succes = false;
-            foreach (UserSessie userSessie in UserSessies)
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (userSessie.UserID == user.Id)
+                if (gebruikerSessie.UserID == gebruiker.Id)
                 //if (userSessie.UserName == user.UserName)
                 {
-                    user.UserSessies.Remove(userSessie);
-                    UserSessies.Remove(userSessie);
+                    gebruiker.GebruikerSessies.Remove(gebruikerSessie);
+                    GebruikerSessies.Remove(gebruikerSessie);
                     succes = true;
                     break;
                 }
@@ -192,11 +192,11 @@ namespace dotnet_g36.Models.Domain
         public List<Guid> geefAlleAanwezigen()
         {
             List<Guid> res = new List<Guid>();
-            foreach (UserSessie userSessie in UserSessies)
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (userSessie.Aanwezig)
+                if (gebruikerSessie.Aanwezig)
                 {
-                     res.Add(userSessie.UserID);
+                    res.Add(gebruikerSessie.UserID);
                 }
             }
             return res;
@@ -209,8 +209,17 @@ namespace dotnet_g36.Models.Domain
         /// <param name="gebruiker">Gebruiker Object</param>
         public void FeedbackGeven(string feedbacktxt, Gebruiker gebruiker)
         {
+            foreach (Feedback f in FeedbackList)
+            {
+                if (f.AuteursNaam == gebruiker)
+                    throw new ArgumentException("Gebruiker heeft al feedback gegeven.");
+                if (gebruiker.Aanwezig(SessieID))
+                    throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
+                Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now);
+                FeedbackList.Add(feedback);
+            }
             //Ook controleren op ingeschreven? Lijkt me overbodig maar stond wel in commentaar bij methode
-            if (gebruiker.Aanwezig(SessieID) )
+            if (gebruiker.Aanwezig(SessieID))
             {
                 Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now);
                 FeedbackList.Add(feedback);

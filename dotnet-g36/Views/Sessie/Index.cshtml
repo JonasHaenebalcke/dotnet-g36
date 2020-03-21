@@ -71,7 +71,9 @@
                     {
                         @if (Model.Ingeschrevenen.ElementAt(i))
                         {
-                            <td class="text-center">Ja</td>
+                <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                    <input type="checkbox" onchange="this.form.submit()" checked id="ingeschreven" @*name=""*@ value="uitschrijven">
+                </form>
                         }
                         else
                         {

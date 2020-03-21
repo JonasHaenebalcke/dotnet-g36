@@ -171,33 +171,33 @@ namespace dotnet_g36.Data
                 //UserSessie us7 = new UserSessie(huidigeMaandSessie, organizer2);
                 huidigeMaandSessieSluiten.SchrijfIn(gebruiker);
                 //UserSessie us8 = new UserSessie(huidigeMaandSessie, gebruiker);
-                UserSessie us4 = new UserSessie(sessie7, gebruiker) { Aanwezig = true };
-                sessie7.UserSessies.Add(us4);
+                GebruikerSessie us4 = new GebruikerSessie(sessie7, gebruiker) { Aanwezig = true };
+                sessie7.GebruikerSessies.Add(us4);
                 sessie10.SchrijfIn(gebruiker);
-                UserSessie us6 = new UserSessie(sessie4, gebruiker) { Aanwezig = true };
-                sessie4.UserSessies.Add(us6);
+                GebruikerSessie us6 = new GebruikerSessie(sessie4, gebruiker) { Aanwezig = true };
+                sessie4.GebruikerSessies.Add(us6);
 
-                UserSessie us8 = new UserSessie(sessie4, organizer2) { Aanwezig = true };
-                sessie4.UserSessies.Add(us8);
-                UserSessie us9 = new UserSessie(sessie5, organizer1);
-                sessie5.UserSessies.Add(us9);
+                GebruikerSessie us8 = new GebruikerSessie(sessie4, organizer2) { Aanwezig = true };
+                sessie4.GebruikerSessies.Add(us8);
+                GebruikerSessie us9 = new GebruikerSessie(sessie5, organizer1);
+                sessie5.GebruikerSessies.Add(us9);
                 //UserSessie us10 = new UserSessie(sessie6, organizer1);
-                UserSessie us11 = new UserSessie(sessie7, admin);
-                sessie7.UserSessies.Add(us11);
-                UserSessie us12 = new UserSessie(sessie8, admin);
-                sessie8.UserSessies.Add(us12);
-                UserSessie us13 = new UserSessie(sessie9, organizer2);
-                sessie9.UserSessies.Add(us13);
-                UserSessie us14 = new UserSessie(sessie10, organizer2);
-                sessie10.UserSessies.Add(us14);
-                UserSessie us15 = new UserSessie(sessie11, organizer2);
-                sessie11.UserSessies.Add(us15);
-                UserSessie us16 = new UserSessie(sessie1, organizer1);
-                sessie1.UserSessies.Add(us16);
-                UserSessie us17 = new UserSessie(sessie2, organizer1);
-                sessie2.UserSessies.Add(us17);
-                UserSessie us18 = new UserSessie(sessie3, organizer1);
-                sessie3.UserSessies.Add(us18);
+                GebruikerSessie us11 = new GebruikerSessie(sessie7, admin);
+                sessie7.GebruikerSessies.Add(us11);
+                GebruikerSessie us12 = new GebruikerSessie(sessie8, admin);
+                sessie8.GebruikerSessies.Add(us12);
+                GebruikerSessie us13 = new GebruikerSessie(sessie9, organizer2);
+                sessie9.GebruikerSessies.Add(us13);
+                GebruikerSessie us14 = new GebruikerSessie(sessie10, organizer2);
+                sessie10.GebruikerSessies.Add(us14);
+                GebruikerSessie us15 = new GebruikerSessie(sessie11, organizer2);
+                sessie11.GebruikerSessies.Add(us15);
+                GebruikerSessie us16 = new GebruikerSessie(sessie1, organizer1);
+                sessie1.GebruikerSessies.Add(us16);
+                GebruikerSessie us17 = new GebruikerSessie(sessie2, organizer1);
+                sessie2.GebruikerSessies.Add(us17);
+                GebruikerSessie us18 = new GebruikerSessie(sessie3, organizer1);
+                sessie3.GebruikerSessies.Add(us18);
 
                 //foreach (UserSessie uc in sessie7.UserSessies)
                 //{
@@ -207,7 +207,7 @@ namespace dotnet_g36.Data
 
                 //_context.SaveChanges();
 
-                _context.UserSessies.AddRange(new UserSessie[]{
+                _context.GebruikerSessies.AddRange(new GebruikerSessie[]{
                     us4, us6, us8, us9, us11, us12, us13, us14, us15, us16, us17, us18
                 });
                 _context.SaveChanges();

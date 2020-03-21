@@ -121,9 +121,9 @@ namespace dotnet_g36.Controllers
                 //Gebruiker gebruiker = _userRepository.GetDeelnemerByUsername(User.Identity.Name);
 
                 bool succes = false;
-                foreach (UserSessie us in sessie.UserSessies)
+                foreach (GebruikerSessie gs in sessie.GebruikerSessies)
                 {
-                    if (us.UserID.Equals(gebruiker.Id))
+                    if (gs.UserID.Equals(gebruiker.Id))
                     {
                         sessie.SchrijfUit(gebruiker);
                         succes = true;
@@ -419,9 +419,9 @@ namespace dotnet_g36.Controllers
         private ICollection<Gebruiker> GetGebruikers(Sessie sessie)
         {
             ICollection<Gebruiker> res = new List<Gebruiker>();
-            foreach (UserSessie uc in sessie.UserSessies)
+            foreach (GebruikerSessie gs in sessie.GebruikerSessies)
             {
-                res.Add(_userRepository.GetDeelnemerByID(uc.UserID)); 
+                res.Add(_userRepository.GetDeelnemerByID(gs.UserID)); 
             }
             return res;
         }

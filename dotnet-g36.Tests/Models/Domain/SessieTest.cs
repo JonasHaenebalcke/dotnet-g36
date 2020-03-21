@@ -17,12 +17,12 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _gebruiker = new Gebruiker() {
                 //UserID = 1,
-                UserSessies = new List<UserSessie>(),
+                GebruikerSessies = new List<GebruikerSessie>(),
                 StatusGebruiker = StatusGebruiker.Actief
             };
             _sessie = new Sessie() {
                 SessieID = 1,
-                UserSessies = new List<UserSessie>(),
+                GebruikerSessies = new List<GebruikerSessie>(),
                 StartDatum = DateTime.Now.AddMonths(1),
                 Capaciteit = 10
             };
@@ -32,8 +32,8 @@ namespace dotnet_g36.Tests.Models.Domain
         public void InschrijvenSessieTest()
         {
             _sessie.SchrijfIn(_gebruiker);
-            Assert.Equal(1, _sessie.UserSessies.Count);
-            Assert.Equal(1, _gebruiker.UserSessies.Count);
+            Assert.Equal(1, _sessie.GebruikerSessies.Count);
+            Assert.Equal(1, _gebruiker.GebruikerSessies.Count);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace dotnet_g36.Tests.Models.Domain
 
             _sessie.SchrijfUit(_gebruiker);
 
-            Assert.Empty(_sessie.UserSessies);
+            Assert.Empty(_sessie.GebruikerSessies);
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace dotnet_g36.Tests.Models.Domain
                 () => _sessie.SchrijfUit(_gebruiker));
         }
 
-        [Fact(Skip = " ")] //fout, use usersessie
+        [Fact(Skip = " ")] //fout, use gebruikerSessie
         public void FeedbackGevenTest()
         {
             _sessie.StartDatum = DateTime.Now.AddHours(-2);

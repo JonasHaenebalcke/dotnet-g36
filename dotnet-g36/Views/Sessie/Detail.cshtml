@@ -21,11 +21,11 @@
         <main role="main" class="pb-3">
             @if (TempData["message"] != null)
             {
-            <div class="alert alert-success">@TempData["message"]</div>
+                <div class="alert alert-success">@TempData["message"]</div>
             }
             @if (TempData["error"] != null)
             {
-            <div class="alert alert-warning">@TempData["error"]</div>
+                <div class="alert alert-warning">@TempData["error"]</div>
             }
         </main>
     </div>
@@ -48,138 +48,147 @@
     @*OPEN PLAATSEN OF AANTAL AANWEZIGEN WEERGEVEN*@
     @if (Model.StartDatum >= DateTime.Now && !(Model.Gesloten))
     {//HEDEN
-    <br />
-    <h6>Aantal Personen</h6>
-    <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.OpenPlaatsen / @Model.Capaciteit </div></div>
+        <br />
+        <h6>Aantal Personen</h6>
+        <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.OpenPlaatsen / @Model.Capaciteit </div></div>
 
-    @if (SignInManager.IsSignedIn(User))
-    {<br />
-    <h6>Ingeschreven?</h6>
-    @if (Model.DeelnemerIngeschreven.Equals(true))
-    {
-    <div class="col px-md-5">
-        <div class="p-3 border bg-light">Ja</div>
-    </div>
-    }
-    else
-    {
-    <div class="col px-md-5">
-        <div class="p-3 border bg-light">--</div>
-    </div>
-    }
-    }
+        @if (SignInManager.IsSignedIn(User))
+        {<br />
+            <h6>Ingeschreven?</h6>
+            @if (Model.DeelnemerIngeschreven.Equals(true))
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">Ja</div>
+                </div>
+            }
+            else
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">--</div>
+                </div>
+            }
+        }
     }
     else//VERLEDEN
     { <br />
-    <h6>Aantal aanwezigen</h6>
-    <div class="col px-md-5"><div class="p-3 border bg-light">@Model.AantalAanwezigen</div></div>
+        <h6>Aantal aanwezigen</h6>
+        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.AantalAanwezigen</div></div>
 
-    @if (SignInManager.IsSignedIn(User))
-    {<br />
-    <h6>Aanwezig?</h6>
-    @if (Model.DeelnemerAanwezig.Equals(true))
-    {
-    <div class="col px-md-5">
-        <div class="p-3 border bg-light">Ja</div>
-    </div>
-    }
-    else
-    {
-    <div class="col px-md-5">
-        <div class="p-3 border bg-light">--</div>
-    </div>
-    }
-    }
+        @if (SignInManager.IsSignedIn(User))
+        {<br />
+            <h6>Aanwezig?</h6>
+            @if (Model.DeelnemerAanwezig.Equals(true))
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">Ja</div>
+                </div>
+            }
+            else
+            {
+                <div class="col px-md-5">
+                    <div class="p-3 border bg-light">--</div>
+                </div>
+            }
+        }
     }
 
     @if (Model.ListMedia.Count() != 0)
     {<br />
-    <h6>Media</h6>
-    <div>
-        <table class="table table-striped">
-            <tr>
-                <th class="text-center">Media</th>
-                <th class="text-center">Link</th>
+        <h6>Media</h6>
+        <div>
+            <table class="table table-striped">
+                <tr>
+                    <th class="text-center">Media</th>
+                    <th class="text-center">Link</th>
 
-            </tr>
-            <!-- loop die door de lijst van Media gaat -->
-            @foreach (var media in Model.ListMedia)
-            {
-            <tr>
-                <td class="text-center">media.Beschrijving</td>
-                <td class="text-center">media.Link</td>
-            </tr>
-            }
+                </tr>
+                <!-- loop die door de lijst van Media gaat -->
+                @foreach (var media in Model.ListMedia)
+                {
+                    <tr>
+                        <td class="text-center">media.Beschrijving</td>
+                        <td class="text-center">media.Link</td>
+                    </tr>
+                }
 
-        </table>
-    </div>
+            </table>
+        </div>
     }
 
-    @if (SignInManager.IsSignedIn(User))
-    {
+
 
     @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
     @if (Model.StartDatum > DateTime.Now && !(Model.Gesloten))
     {
-    @if (!Model.DeelnemerIngeschreven)
-    {<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
-        <br />
-        <button type="submit">Inschrijven</button>
-    </form>
-    }
-    else
-    {
-    <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
-        <br />
-        <button type="submit">Uitschrijven</button>
-    </form>
-    }
-    }
-    else
-    {
-    <br />
-    <h6>Feedback</h6>
-    <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
-        <div class="form-group">
-            <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
-            @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
-            <br>
-        </div>
- <button type="submit">Indienen</button>
-    </form>
-
-
-
-    @if (Model.FeedbackList.Count() != 0)
-    {
-    <div>
-        <br />
-        <table class="table table-striped">
-            <tr>
-                <th class="text-center">Auteur</th>
-                <th class="text-center">Feedback</th>
-
-            </tr>
-            <!-- loop die door de lijst van Feedback gaat -->
-            @foreach (var feedback in Model.FeedbackList)
-            {
-            <tr>
-                <td class="text-center">@feedback.NaamAuteur</td>
-                <td class="text-center">@feedback.Tekst</td>
-            </tr>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (!Model.DeelnemerIngeschreven)
+            {<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                    <br />
+                    <button type="submit">Inschrijven</button>
+                </form>
             }
-
-        </table>
-    </div>
-    }
-    }
+            else
+            {
+                <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                    <br />
+                    <button type="submit">Uitschrijven</button>
+                </form>
+            }
+        }
+        else
+        {
+            <form asp-area="Identity" asp-page="/Account/Login">
+                <br />
+                <button type="submit">Inschrijven</button>
+            </form>
+        }
     }
     else
     {
-    <div class="col px-md-5">
-        <div class="p-3 text-danger">Om je in te schrijven voor deze sessie of feedback te kunnen geven, zal je je moeten inloggen.</div>
-    </div>
+        <br />
+        <h6>Feedback</h6>
+        <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
+            <div class="form-group">
+                <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
+                @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
+                <br>
+            </div>
+            <button type="submit">Indienen</button>
+        </form>
 
+
+
+        @if (Model.FeedbackList.Count() != 0)
+        {
+            <div>
+                <br />
+                <table class="table table-striped">
+                    <tr>
+                        <th class="text-center">Auteur</th>
+                        <th class="text-center">Feedback</th>
+
+                    </tr>
+                    <!-- loop die door de lijst van Feedback gaat -->
+                    @foreach (var feedback in Model.FeedbackList)
+                    {
+                        <tr>
+                            <td class="text-center">@feedback.AuteursNaam</td>
+                            <td class="text-center">@feedback.Tekst</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        }
     }
+    @*}
+        else
+        {
+        <div class="col px-md-5">
+            <div class="p-3 text-danger">Om je in te schrijven voor deze sessie of feedback te kunnen geven, zal je je moeten inloggen.</div>
+        </div>
+
+        }*@
 </body>
 </html>

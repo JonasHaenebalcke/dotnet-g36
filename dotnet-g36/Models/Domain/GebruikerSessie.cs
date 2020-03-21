@@ -6,7 +6,7 @@ using System.Text;
 
 namespace dotnet_g36.Models.Domain
 {
-    public class UserSessie
+    public class GebruikerSessie
     {
 
         #region Fields
@@ -48,12 +48,12 @@ namespace dotnet_g36.Models.Domain
         #endregion
 
         #region Constructors
-        public UserSessie()
+        public GebruikerSessie()
         {
 
         }
 
-        public UserSessie(Sessie sessie, Gebruiker user)
+        public GebruikerSessie(Sessie sessie, Gebruiker user)
         {
             this.Sessie = sessie;
             this.User = user;

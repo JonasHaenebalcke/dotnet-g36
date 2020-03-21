@@ -37,7 +37,7 @@ namespace dotnet_g36.Models.ViewModels
             this.EindDatum = sessie.EindDatum;
             this.Lokaal = sessie.Lokaal;
             this.Capaciteit = sessie.Capaciteit;
-            this.OpenPlaatsen = sessie.UserSessies.Count - 1;
+            this.OpenPlaatsen = sessie.GebruikerSessies.Count - 1;
             this.ListMedia = sessie.Media;
             this.FeedbackList = sessie.FeedbackList;
             this.GastSpreker = sessie.Gastspreker;
@@ -52,14 +52,14 @@ namespace dotnet_g36.Models.ViewModels
             DeelnemerIngeschreven = false;
 
             
-            foreach (UserSessie usersessie in sessie.UserSessies)
+            foreach (GebruikerSessie gebruikersessie in sessie.GebruikerSessies)
              {
-                 if (gebruiker != null && usersessie.UserID == gebruiker.Id)
+                 if (gebruiker != null && gebruikersessie.UserID == gebruiker.Id)
                  {
                      DeelnemerIngeschreven = true;
-                     DeelnemerAanwezig = usersessie.Aanwezig;
+                     DeelnemerAanwezig = gebruikersessie.Aanwezig;
                  }
-                 if (usersessie.Aanwezig)
+                 if (gebruikersessie.Aanwezig)
                      AantalAanwezigen++;
              }
         }

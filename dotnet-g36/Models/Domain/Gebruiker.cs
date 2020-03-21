@@ -36,7 +36,7 @@ namespace dotnet_g36
             }
         }
 
-        public ICollection<UserSessie> UserSessies { get; set; }
+        public ICollection<GebruikerSessie> GebruikerSessies { get; set; }
 
         public string Barcode { get; set; }
 
@@ -67,23 +67,32 @@ namespace dotnet_g36
             this.Voornaam = voornaam;
             this.Familienaam = familienaam;
             this.StatusGebruiker = statusGebruiker;
-            this.UserSessies = new List<UserSessie>();
+            this.GebruikerSessies = new List<GebruikerSessie>();
             AantalKeerAfwezig = 0;
         }
         #endregion
 
         #region methods
         /// <summary>
+        ///  Geeft de Volledige naam van de gebruiker
+        /// </summary>
+        /// <returns>string volledige naam</returns>
+        public string GeefVolledigeNaam()
+        {
+            return Voornaam + ' ' + Familienaam;
+        }
+
+        /// <summary>
         /// Schrijft de gebruiker/user uit alle sessies
         /// </summary>
         public void SchrijfUitAlleSessies() //vb indien 3 keer niet aanwezig
         {
-            ICollection<UserSessie> userSessies = UserSessies;
-            foreach (UserSessie userSessie in userSessies)
+            ICollection<GebruikerSessie> gebruikerSessies = GebruikerSessies;
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (userSessie.Sessie.StartDatum >= DateTime.Now) // kan zijn dat dit niet werkt, je verandert list waarover je itereert
+                if (gebruikerSessie.Sessie.StartDatum >= DateTime.Now) // kan zijn dat dit niet werkt, je verandert list waarover je itereert
                 {
-                    userSessie.Sessie.SchrijfUit(this);
+                    gebruikerSessie.Sessie.SchrijfUit(this);
                 }
             }
         }
@@ -91,9 +100,9 @@ namespace dotnet_g36
         public bool Aanwezig(int sessieID)
         {
             bool aanwezig = false;
-            foreach (UserSessie userSessie in UserSessies)
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {//Controlleren op sessieID of gwn sessie object?
-                 if (userSessie.SessieID.Equals(sessieID)  && userSessie.Aanwezig) { 
+                 if (gebruikerSessie.SessieID.Equals(sessieID)  && gebruikerSessie.Aanwezig) { 
                     aanwezig = true;
                     break;
                 }

@@ -41,7 +41,7 @@ namespace dotnet_g36
             services.AddRazorPages();
             services.AddScoped<ItLabDataInitializer>();
             services.AddScoped<ISessieRepository, SessieRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, GebruikerRepository>();
             services.AddScoped<GebruikerFilter>();
 
                         services.AddAuthorization(options =>

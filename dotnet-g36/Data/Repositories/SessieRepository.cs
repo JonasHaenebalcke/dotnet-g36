@@ -46,7 +46,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Sessie</returns>
         public IEnumerable<Sessie> GetAll()
         {
-            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.Auteur)).Include(s => s.Media).Include(s => s.UserSessies).ThenInclude(f => f.Select(d => d.User)).OrderBy(m => m.StartDatum); //.ToList()
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.AuteursNaam)).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Select(d => d.User)).OrderBy(m => m.StartDatum); //.ToList()
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Sessie Oject</returns>
         public Sessie GetByID(int sessieId)
         {
-            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.Auteur)).Include(s => s.Media).Include(s => s.UserSessies).ThenInclude(f => f.Select(d => d.User)).SingleOrDefault(s => s.SessieID == sessieId);
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.AuteursNaam)).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Select(d => d.User)).SingleOrDefault(s => s.SessieID == sessieId);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Sessie</returns>
         public ICollection<Sessie> GetToekomstige()
         {
-            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.Auteur)).Include(s => s.Media).Include(s => s.UserSessies).ThenInclude(f => f.Select(d => d.User)).Where(s => s.StartDatum >= DateTime.Now).OrderBy(s => s.StartDatum).ToList();
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.AuteursNaam)).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Select(d => d.User)).Where(s => s.StartDatum >= DateTime.Now).OrderBy(s => s.StartDatum).ToList();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Sessie</returns>
         IEnumerable<Sessie> ISessieRepository.GetByMonth(int month)
         {
-            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.Auteur)).Include(s => s.Media).Include(s => s.UserSessies).ThenInclude(f => f.Select(d => d.User)).Where(s => s.StartDatum.Month == month).OrderBy(m => m.StartDatum);
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Select(d => d.AuteursNaam)).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Select(d => d.User)).Where(s => s.StartDatum.Month == month).OrderBy(m => m.StartDatum);
         }
         #endregion
     }

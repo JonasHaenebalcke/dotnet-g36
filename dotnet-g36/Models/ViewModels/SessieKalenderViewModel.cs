@@ -44,7 +44,7 @@ namespace dotnet_g36.Models.ViewModels
                 GastSprekers.Add(sessie.Gastspreker);
                 Titels.Add(sessie.Titel);
                 StartDatums.Add(sessie.StartDatum);
-                OpenPlaatsen.Add(sessie.UserSessies.Count - 1);
+                OpenPlaatsen.Add(sessie.GebruikerSessies.Count - 1);
                 Capaciteit.Add(sessie.Capaciteit);
                 SessieIds.Add(sessie.SessieID);
                 Gesloten.Add(sessie.StatusSessie == StatusSessie.Gesloten);
@@ -52,11 +52,11 @@ namespace dotnet_g36.Models.ViewModels
                 bool aanwezig = false, ingeschreven = false;
                 if (gebruiker != null)
                 {
-                    foreach (UserSessie userSessie in sessie.UserSessies)
+                    foreach (GebruikerSessie gebruikerSessie in sessie.GebruikerSessies)
                     {
-                        if (userSessie.UserID == gebruiker.Id)
+                        if (gebruikerSessie.UserID == gebruiker.Id)
                         {
-                            aanwezig = userSessie.Aanwezig;
+                            aanwezig = gebruikerSessie.Aanwezig;
                             ingeschreven = true;
                             break;
                         }
