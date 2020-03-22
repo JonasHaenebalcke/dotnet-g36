@@ -98,16 +98,15 @@
         <div>
             <table class="table table-striped">
                 <tr>
-                    <th class="text-center">Media</th>
-                    <th class="text-center">Link</th>
-
+                    <th class="text-center">Titel</th>
+                    <th class="text-center">Omschrijving</th>
                 </tr>
                 <!-- loop die door de lijst van Media gaat -->
                 @foreach (var media in Model.ListMedia)
                 {
                     <tr>
-                        <td class="text-center">media.Beschrijving</td>
-                        <td class="text-center">media.Link</td>
+                        <td class="text-center"><a href="@media.Link" target="_blank">@media.Titel</a></td>
+                        <td class="text-center">@media.Beschrijving</td>
                     </tr>
                 }
 

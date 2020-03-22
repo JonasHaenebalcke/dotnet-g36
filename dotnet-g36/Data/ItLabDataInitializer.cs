@@ -73,8 +73,8 @@ namespace dotnet_g36.Data
                 
 
                 //Media
-                Media media1 = new Media("How to link", "https://www.w3schools.com/tags/att_a_target.asp", "Nuttige link");
-                Media media2 = new Media("How to link video", "https://www.youtube.com/watch?v=-fkdrgFiaeI", "Skere video met mogelijks nuttige info");
+                Media media1 = new Media("Nuttige link", "https://www.w3schools.com/tags/att_a_target.asp", "Link naar W3Schools");
+                Media media2 = new Media("C# Tutorial", "https://www.youtube.com/watch?v=gfkTfcpWqAY", "C# uitgelegd in een video");
                 Media media3 = new Media("Algemene Vragen", "/Files/DOCX/Algemene Vragen.docx", "Word bestand van algemene vragen");
                 Media media4 = new Media("Algemene Vragen", "/Files/PDF/Algemene Vragen.pdf", "Pdf bestand van algemene vragen");
                 Media media5 = new Media("Algemene Vragen", "/Files/PPTX/Algemene Vragen.pptx", "Poweroint bestand van algemene vragen");
