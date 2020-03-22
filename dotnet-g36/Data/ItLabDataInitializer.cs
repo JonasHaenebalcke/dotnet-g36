@@ -70,7 +70,17 @@ namespace dotnet_g36.Data
                 _context.SaveChanges();
                 _context.SaveChanges();
                 await InitializeDeelnemersEnVerantwoordelijke();
+                
 
+                //Media
+                Media media1 = new Media("How to link", "https://www.w3schools.com/tags/att_a_target.asp", "Nuttige link");
+                Media media2 = new Media("How to link video", "https://www.youtube.com/watch?v=-fkdrgFiaeI", "Skere video met mogelijks nuttige info");
+                Media media3 = new Media("Algemene Vragen", "/Files/DOCX/Algemene Vragen.docx", "Word bestand van algemene vragen");
+                Media media4 = new Media("Algemene Vragen", "/Files/PDF/Algemene Vragen.pdf", "Pdf bestand van algemene vragen");
+                Media media5 = new Media("Algemene Vragen", "/Files/PPTX/Algemene Vragen.pptx", "Poweroint bestand van algemene vragen");
+                List<Media> mediaList = new List<Media>() { media1, media2, media3, media4, media5 };
+                // Media media3 = new Media("");
+                
                 //Sessies
 
                 // huidigeMaand Nietopen Organizer1
@@ -96,6 +106,8 @@ namespace dotnet_g36.Data
                      new DateTime(2019, 12, 24, 7, 30, 0), new DateTime(2019, 12, 24, 9, 30, 0),
                     25, StatusSessie.Gesloten, "Een sessie over wat slechte Java is", " "
                     );
+
+
                 //Dec - 2e gesloten
                 Sessie sessie5 = new Sessie(/*admin,*/ organizer1, "Sessie Java", "BCON",
                      new DateTime(2019, 12, 27, 12, 30, 0), new DateTime(2019, 12, 27, 13, 30, 0),
@@ -126,6 +138,10 @@ namespace dotnet_g36.Data
                    new DateTime(2020, 3, 1, 7, 30, 0), new DateTime(2020, 3, 1, 9, 30, 0),
                     25, StatusSessie.Gesloten, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                     );
+
+                sessie1.Media = mediaList;
+
+
                 //Maart - niet open toekomst organizer1
                 Sessie sessie2 = new Sessie(/*admin,*/ organizer1, "Sessie Netflix", "BCON",
                    new DateTime(2020, 3, 27, 12, 30, 0), new DateTime(2020, 3, 27, 13, 30, 0),

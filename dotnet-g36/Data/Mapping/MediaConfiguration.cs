@@ -13,7 +13,12 @@ namespace dotnet_g36.Data.Mapping
         public void Configure(EntityTypeBuilder<Media> builder)
         {
             builder.ToTable("Media");
+
             builder.HasKey(m => m.MediaID);
+            builder.Property(m => m.Link)
+                .IsRequired();
+            builder.Property(m => m.Titel)
+                .IsRequired();
         }
 
        
