@@ -45,7 +45,7 @@
                 <td class="text-center">
                     @if (Model.StartDatums.ElementAt(i).AddMinutes(-60) < DateTime.Now && DateTime.Now < Model.StartDatums.ElementAt(i) && !(Model.Gesloten.ElementAt(i)))
                     {
-                        <form asp-controller="Sessie" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                        <form asp-controller="SessieOpenzetten" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
                             <button type="submit">Openzetten</button>
                         </form>
                     }

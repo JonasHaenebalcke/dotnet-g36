@@ -54,7 +54,7 @@
 
         @if (SignInManager.IsSignedIn(User))
         {<br />
-            <h6>Ingeschreven?</h6>
+            <h6>Ingeschreven</h6>
             @if (Model.DeelnemerIngeschreven.Equals(true))
             {
                 <div class="col px-md-5">
@@ -76,7 +76,7 @@
 
         @if (SignInManager.IsSignedIn(User))
         {<br />
-            <h6>Aanwezig?</h6>
+            <h6>Aanwezig</h6>
             @if (Model.DeelnemerAanwezig.Equals(true))
             {
                 <div class="col px-md-5">
@@ -123,14 +123,14 @@
         @if (SignInManager.IsSignedIn(User))
         {
             @if (!Model.DeelnemerIngeschreven)
-            {<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+            {<form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
                     <br />
                     <button type="submit">Inschrijven</button>
                 </form>
             }
             else
             {
-                <form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
                     <br />
                     <button type="submit">Uitschrijven</button>
                 </form>
@@ -148,7 +148,7 @@
     {
         <br />
         <h6>Feedback</h6>
-        <form asp-controller="Sessie" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
+        <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
             <div class="form-group">
                 <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
                 @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@

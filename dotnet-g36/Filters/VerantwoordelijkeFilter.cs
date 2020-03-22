@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace dotnet_g36.Filters
 {
-    public class VerantwoordelijkeFilter
+    [AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
+    public class VerantwoordelijkeFilter : ActionFilterAttribute
     {
-        [AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
-        public class GebruikerFilter : ActionFilterAttribute
+        private readonly IGebruikerRepository _gebruikerRepository;
+
+        public VerantwoordelijkeFilter(IGebruikerRepository gebruikerRepository)
         {
-            private readonly IGebruikerRepository _gebruikerRepository;
+            _gebruikerRepository = gebruikerRepository;
+        }
 
-            public GebruikerFilter(IGebruikerRepository gebruikerRepository)
-            {
-                _gebruikerRepository = gebruikerRepository;
-            }
-
-            public override void OnActionExecuting(ActionExecutingContext context)
-            {
-                context.ActionArguments["gebruiker"] = context.HttpContext.User.Identity.IsAuthenticated ?
-                        _gebruikerRepository.GetVerantwoordelijkeByUsername(context.HttpContext.User.Identity.Name) : null;
-                base.OnActionExecuting(context);
-            }
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            context.ActionArguments["verantwoordelijke"] = context.HttpContext.User.Identity.IsAuthenticated ?
+                    _gebruikerRepository.GetVerantwoordelijkeByUsername(context.HttpContext.User.Identity.Name) : null;
+            base.OnActionExecuting(context);
         }
     }
+
+
+
 }
