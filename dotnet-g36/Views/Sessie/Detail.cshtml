@@ -12,6 +12,7 @@
 
 <html>
 <head>
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
 </head>
@@ -149,6 +150,17 @@
         <h6>Feedback</h6>
         <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
             <div class="form-group">
+                <div>
+                    @for (int i = 0; i < 5; i++)
+                    {
+                    <span class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold"></span>}
+
+                    @*<span class="iconify" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;" ></span>
+                      <-- volle ster
+                    *@
+                </div>
+
+                <br />
                 <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
                 @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
                 <br>

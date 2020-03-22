@@ -48,12 +48,12 @@ namespace dotnet_g36.Controllers
                 //   return RedirectToAction(nameof(Index));
                 return RedirectToAction("Index", "Sessie");
             }
-            catch (Exception e)
+            /*catch (Exception e)
             {
-                TempData["error"] = "Er liep iets fout bij het feedback geven...";
+                TempData["error"] = e.Message; // "Er liep iets fout bij het feedback geven...";
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction("Index", "Sessie");
-            }
+            }*/
         }
 
     }

@@ -61,7 +61,8 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Gebruiker Object</returns>
         public Gebruiker GetDeelnemerByUsername(string username)
         {
-            return _users.Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Gebruiker).SingleOrDefault(d => d.UserName.Equals(username));
+            return _users.Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Gebruiker)
+                .Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Sessie).SingleOrDefault(d => d.UserName.Equals(username));
         }
 
         /// <summary>
@@ -79,7 +80,8 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>Verantwoordelijke object</returns>
         public Verantwoordelijke GetVerantwoordelijkeByUsername(string username)
         {
-            return _verantwoordelijken.Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Gebruiker).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username));
+            return _verantwoordelijken.Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Gebruiker)
+                .Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Sessie).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username));
         }
 
         #endregion

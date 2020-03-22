@@ -212,6 +212,15 @@ namespace dotnet_g36.Models.Domain
             else
                 throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
         }
+        /// <summary>
+        /// Rating geven op de afgelopen sessie
+        /// </summary>
+        /// <param name="gebruiker">Gebruiker Object</param>
+        public void ratingGeven(Gebruiker gebruiker)
+        {
+
+        }
+
         #endregion
     }
 }
