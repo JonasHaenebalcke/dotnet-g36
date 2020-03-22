@@ -39,7 +39,7 @@ namespace dotnet_g36.Models.Domain
         #endregion
 
         #region Constructors
-        public GebruikerSessie() { }; 
+        public GebruikerSessie() { } 
 
         public GebruikerSessie(Sessie sessie, Gebruiker gebruiker)
         {

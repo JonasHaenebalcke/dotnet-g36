@@ -31,7 +31,7 @@ namespace dotnet_g36.Models.ViewModels
         //public ICollection<bool> GeslotenList { get; set; }
         //public ICollection<string> StartDatumsFormatted { get; set; }
 
-        //public SessieKalenderViewModel() { }
+        public SessieKalenderViewModel() { }
         public SessieKalenderViewModel(Sessie sessie, Gebruiker gebruiker) //ALLES IN EEN
         {
             GastSpreker = sessie.Gastspreker;

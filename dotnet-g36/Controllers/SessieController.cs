@@ -36,6 +36,7 @@ namespace dotnet_g36.Controllers
             {
                 if (maandNr == 0)
                     maandNr = DateTime.Now.Month;
+                ViewData["maanden"] = GetMaandSelectList(maandNr);
 
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(maandNr);
                 if (sessies.Count() == 0)
@@ -46,15 +47,14 @@ namespace dotnet_g36.Controllers
                     res.Add(new SessieKalenderViewModel(sessie, gebruiker));
                 }
 
-                ViewData["maanden"] = GetMaandSelectList(maandNr);
-
                 return View(res);
                 //return View(new SessieKalenderViewModel(sessies, gebruiker, maandNr));
             }
             catch (SessieException gse)
             {
                 TempData["error"] = gse.Message;
-                return View(new SessieKalenderViewModel(new List<Sessie>(), gebruiker, maandNr));
+                return View(new List<SessieKalenderViewModel>());
+                //return View(new SessieKalenderViewModel(new List<Sessie>(), gebruiker, maandNr));
             }
         }
 
