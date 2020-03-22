@@ -62,7 +62,7 @@ namespace dotnet_g36.Controllers
         {
             Sessie sessie = _sessieRepository.GetByID(id);
 
-            return View(new SessieDetailsViewModel(sessie, gebruiker, _gebruikerRepository.GetHoofdverantwoordelijke()));
+            return View(new SessieDetailsViewModel(sessie, gebruiker));
         }
 
 

@@ -20,14 +20,13 @@ namespace dotnet_g36.Models.ViewModels
         public IEnumerable<Media> ListMedia { get; set; }
         public IEnumerable<Feedback> FeedbackList { get; set; }
         public string GastSpreker { get; set; }
-        public Verantwoordelijke Verantwoordelijke { get; set; }
-        public Verantwoordelijke HoofdVerantwoordelijke { get; set; }
+        public string NaamVerantwoordelijke { get; set; }
         public bool Gesloten { get; set; }
         public string FeedbackContent { get; set; }
 
         public SessieDetailsViewModel(){ }
 
-        public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker, Verantwoordelijke hoofdVerantwoordelijke)
+        public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker/*, Verantwoordelijke hoofdVerantwoordelijke*/)
         {
             sessieID = sessie.SessieID;
             Titel = sessie.Titel;
@@ -40,9 +39,8 @@ namespace dotnet_g36.Models.ViewModels
             ListMedia = sessie.Media;
             FeedbackList = sessie.FeedbackList;
             GastSpreker = sessie.Gastspreker;
-            Verantwoordelijke = sessie.Verantwoordelijke;
-            HoofdVerantwoordelijke = hoofdVerantwoordelijke;
             Gesloten = sessie.StatusSessie == StatusSessie.Gesloten;
+            NaamVerantwoordelijke = sessie.Verantwoordelijke.GeefVolledigeNaam();
            
 
             AantalAanwezigen = 0;
