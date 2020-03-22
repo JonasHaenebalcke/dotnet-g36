@@ -17,6 +17,7 @@ namespace dotnet_g36.Models.ViewModels
             Start = sessie.StartDatum;
             this.SessieID = sessie.SessieID;
             this.Titel = sessie.Titel;
+            this.Aanwezigen = new List<string>();
             foreach (Gebruiker gebruiker in sessie.geefAlleAanwezigen())
             {
                 this.Aanwezigen.Add(gebruiker.GeefVolledigeNaam());
