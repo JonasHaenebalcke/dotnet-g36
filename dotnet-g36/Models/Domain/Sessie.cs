@@ -16,7 +16,7 @@ namespace dotnet_g36.Models.Domain
         public DateTime EindDatum { get; set; }
         public int Capaciteit { get; set; }
         public string Beschrijving { get; set; }
-        public IEnumerable<Media> Media { get; set; }   
+        public ICollection<Media> Media { get; set; }
         public ICollection<Feedback> FeedbackList { get; set; }
         public ICollection<UserSessie> UserSessies { get; set; }
         //public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
@@ -79,7 +79,7 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (!userSessie.Aanwezig)
                     {
-                        foreach(Gebruiker g in gebruikers)
+                        foreach (Gebruiker g in gebruikers)
                         {
                             if (g.Id == userSessie.UserID)
                             {
@@ -198,7 +198,7 @@ namespace dotnet_g36.Models.Domain
             {
                 if (userSessie.Aanwezig)
                 {
-                     res.Add(userSessie.UserID);
+                    res.Add(userSessie.UserID);
                 }
             }
             return res;
