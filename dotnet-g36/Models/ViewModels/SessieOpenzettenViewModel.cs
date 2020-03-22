@@ -16,6 +16,7 @@ namespace dotnet_g36.Models.ViewModels
         public ICollection<int> SessieIds { get; set; }
         public ICollection<bool> Gesloten { get; set; }
 
+
         //public SessieOpenzettenViewModel() { }
 
         public SessieOpenzettenViewModel(IEnumerable<Sessie> sessies)
@@ -26,6 +27,7 @@ namespace dotnet_g36.Models.ViewModels
             OpenPlaatsen = new List<int>();
             SessieIds = new List<int>();
             Gesloten = new List<bool>();
+           
 
             foreach (Sessie sessie in sessies)
             {

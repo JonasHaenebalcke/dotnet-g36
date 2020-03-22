@@ -37,6 +37,7 @@ namespace dotnet_g36.Models.ViewModels
             Ingeschrevenen = new List<bool>();
             SessieIds = new List<int>();
             Gesloten = new List<bool>();
+            
 
             foreach (Sessie sessie in sessies)
             {
@@ -47,6 +48,7 @@ namespace dotnet_g36.Models.ViewModels
                 Capaciteit.Add(sessie.Capaciteit);
                 SessieIds.Add(sessie.SessieID);
                 Gesloten.Add(sessie.StatusSessie == StatusSessie.Gesloten);
+              
 
                 bool aanwezig = false, ingeschreven = false;
                 if (gebruiker != null)

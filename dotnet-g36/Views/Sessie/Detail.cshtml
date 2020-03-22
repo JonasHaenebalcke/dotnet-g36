@@ -35,10 +35,14 @@
     <br />
     <div class="col px-md-5"><div class="p-3 border bg-light">@Model.Beschrijving</div></div>
     <br />
+    <h6>Verantwoordelijke</h6>
+    <br />
+    <div class="col px-md-5"><div class="p-3 border bg-light">@Model.NaamVerantwoordelijke</div></div>
+    <br />
     <h6>Datum en uur</h6>
     <div class="row mx-md-n5">
-        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.StartDatum</div></div>
-        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.EindDatum</div></div>
+        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.StartDatum.ToString("dd/MM/yyyy H:mm")</div></div>
+        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.EindDatum.ToString("dd/MM/yyyy H:mm")</div></div>
     </div>
 
     <br />

@@ -43,126 +43,130 @@
         </div>
     </form>
     <br />
-    <h4>Geplande sessies</h4>
-    <table class="table table-striped">
-        <tr>
-            <th class="text-center">Gastspreker</th>
-            <th class="text-center">Titel</th>
-            <th class="text-center">Startdatum @($"&") uur</th>
-            <th class="text-center">Aantal Personen</th>
-            @if (SignInManager.IsSignedIn(User))
+    @if (!Model.StartDatums.Where(s => s > DateTime.Now).Count().Equals(0))
+    {
+        <h4>Geplande sessies</h4>
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">Gastspreker</th>
+                <th class="text-center">Titel</th>
+                <th class="text-center">Startdatum @($"&") uur</th>
+                <th class="text-center">Aantal Personen</th>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <th class="text-center">Ingeschreven</th>
+                }
+                <th class="text-center">Details</th>
+            </tr>
+            <!-- loop die door de lijst van sessies gaat -->
+            @for (int i = 0; i < Model.SessieIds.Count(); i++)
             {
-                <th class="text-center">Ingeschreven</th>
-            }
-            <th class="text-center">Details</th>
-        </tr>
-        <!-- loop die door de lijst van sessies gaat -->
-        @for (int i = 0; i < Model.SessieIds.Count(); i++)
-        {
-            @if (Model.StartDatums.ElementAt(i) >= DateTime.Now && !(Model.Gesloten.ElementAt(i)))
-            {
-                <tr>
-                    <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
-                    <td class="text-center">@Model.Titels.ElementAt(i)</td>
-                    <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
-                    <td class="text-center"> @Model.OpenPlaatsen.ElementAt(i) / @Model.Capaciteit.ElementAt(i) </td>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
+                @if (Model.StartDatums.ElementAt(i) >= DateTime.Now && !(Model.Gesloten.ElementAt(i)))
+                {
+                    <tr>
+                        <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
+                        <td class="text-center">@Model.Titels.ElementAt(i)</td>
+                        <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy H:mm")</td>
+                        <td class="text-center"> @Model.OpenPlaatsen.ElementAt(i) / @Model.Capaciteit.ElementAt(i) </td>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
 
-                        <td class="text-center">
-                            <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
-                                @if (Model.Ingeschrevenen.ElementAt(i))
+                            <td class="text-center">
+                                <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                                    @if (Model.Ingeschrevenen.ElementAt(i))
+                                    {
+
+                                        <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven">
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven">
+
+                                    }
+
+                                </form>
+                            </td>
+                            @* @if (Model.Ingeschrevenen.ElementAt(i))
                                 {
 
-                                    <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven">
+                                    @*<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                                        <input type="checkbox" onchange="this.form.submit()" checked id="ingeschreven" @*name=""  value="uitschrijven">
+                                    </form>
+
+
+                                     <td class="text-center">Ja</td>
                                 }
                                 else
                                 {
-                                    <input  type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven">
+                                    <td class="text-center">--</td>
+                                } *@
+                        }
+                        <td class="text-center">
+                            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+    <br />
+    @if (!Model.StartDatums.Where(s => s < DateTime.Now).Count().Equals(0))
+    {
+        <h4>Afgelopen sessies</h4>
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">Gastspreker</th>
+                <th class="text-center">Titel</th>
+                <th class="text-center">Startdatum @($"&") uur</th>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <th class="text-center">Aanwezig</th>
+                }
+                <th class="text-center">Details</th>
+            </tr>
+
+            @for (int i = 0; i < Model.Titels.Count(); i++)
+            {
+                @if (Model.StartDatums.ElementAt(i) < DateTime.Now || Model.Gesloten.ElementAt(i))
+                {
+                    <tr>
+                        <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
+                        <td class="text-center">@Model.Titels.ElementAt(i)</td>
+                        <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy H:mm")</td>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+
+
+                            <td class="text-center">
+                                @if (Model.Aanwezigheden.ElementAt(i))
+                                {
+
+                                    <input checked type="checkbox" disabled="disabled" id="Aanwezig" value="NietAanwezig">
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled="disabled" id="NietAanwezig" value="Aanwezig">
 
                                 }
 
-                            </form>
+                            </td>
+
+                            @*            @if (Model.Aanwezigheden.ElementAt(i))
+                                {
+                                    <td class="text-center">Ja</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">--</td>
+                                }*@
+                        }
+                        <td class="text-center">
+                            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
                         </td>
-                        @* @if (Model.Ingeschrevenen.ElementAt(i))
-                            {
-
-                                @*<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
-                                    <input type="checkbox" onchange="this.form.submit()" checked id="ingeschreven" @*name=""  value="uitschrijven">
-                                </form>
-
-
-                                 <td class="text-center">Ja</td>
-                            }
-                            else
-                            {
-                                <td class="text-center">--</td>
-                            } *@
-                    }
-                    <td class="text-center">
-                        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
-                    </td>
-                </tr>
+                    </tr>
+                }
             }
-        }
-
-
-    </table>
-    <br />
-    <h4>Afgelopen sessies</h4>
-    <table class="table table-striped">
-        <tr>
-            <th class="text-center">Gastspreker</th>
-            <th class="text-center">Titel</th>
-            <th class="text-center">Startdatum @($"&") uur</th>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <th class="text-center">Aanwezig</th>
-            }
-            <th class="text-center">Details</th>
-        </tr>
-
-        @for (int i = 0; i < Model.Titels.Count(); i++)
-        {
-            @if (Model.StartDatums.ElementAt(i) < DateTime.Now || Model.Gesloten.ElementAt(i))
-            {
-    <tr>
-        <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
-        <td class="text-center">@Model.Titels.ElementAt(i)</td>
-        <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
-        @if (SignInManager.IsSignedIn(User))
-        {
-
-
-            <td class="text-center">
-                    @if (Model.Aanwezigheden.ElementAt(i))
-                    {
-
-                        <input checked type="checkbox" disabled="disabled"  id="Aanwezig" value="NietAanwezig">
-                    }
-                    else
-                    {
-                        <input type="checkbox"  disabled="disabled"  id="NietAanwezig" value="Aanwezig">
-
-                    }
-
-            </td>
-
-@*            @if (Model.Aanwezigheden.ElementAt(i))
-            {
-                <td class="text-center">Ja</td>
-            }
-            else
-            {
-                <td class="text-center">--</td>
-            }*@
-        }
-        <td class="text-center">
-            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
-        </td>
-    </tr>
-            }
-        }
-    </table>
+        </table>
+    }
 </body>
 </html>
