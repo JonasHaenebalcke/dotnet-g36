@@ -38,17 +38,21 @@ namespace dotnet_g36.Controllers
                 _sessieRepository.SaveChanges();
 
                 TempData["message"] = "Feedback is toegevoegd!";
-                return RedirectToAction(nameof(Index));
+                //  return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Sessie");
+
             }
             catch (AanwezigException e)
             {
                 TempData["error"] = e.Message;
-                return RedirectToAction(nameof(Index));
+                //   return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Sessie");
             }
             catch (Exception e)
             {
                 TempData["error"] = "Er liep iets fout bij het feedback geven...";
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Sessie");
             }
         }
 

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using dotnet_g36.Filters;
 using dotnet_g36.Models.Domain;
 using dotnet_g36.Models.Exceptions;
@@ -10,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_g36.Controllers
 { // Sessie openzetten en sessie sluiten
+
     public class SessieOpenzettenController : Controller
     {
         private readonly ISessieRepository _sessieRepository;
@@ -20,11 +19,7 @@ namespace dotnet_g36.Controllers
             _sessieRepository = sessieRepository;
             _gebruikerRepository = gebruikerRepository;
         }
-        /* public IActionResult Index()
-         {
-             return View();
-         }
-         */
+       
 
         /// <summary>
         /// Geeft View van toekomstige sessies om open te zetten
@@ -74,11 +69,13 @@ namespace dotnet_g36.Controllers
                 //Verantwoordelijke verantwoordelijke = _gebruikerRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
 
                 if (sessie.StatusSessie == StatusSessie.Open && DateTime.Now < sessie.StartDatum)
-                    return RedirectToAction(nameof(MeldAanwezigController.MeldAanwezig), new { @id = id });
+                    return RedirectToAction("MeldAanwezig", "MeldAanwezig", new { @id = id });
 
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
-                return RedirectToAction(nameof(MeldAanwezigController.MeldAanwezig), new { @id = id });
+                return RedirectToAction("MeldAanwezig", "MeldAanwezig", new { @id = id });
+
+                //   return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (SessieException e)
             {
@@ -106,17 +103,19 @@ namespace dotnet_g36.Controllers
                 sessie.SessieSluiten();
                 _sessieRepository.SaveChanges();
                 _gebruikerRepository.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+
+               return RedirectToAction("Index", "Sessie");
             }
             catch (SessieException e)
             {
                 TempData["sluitenMessage"] = e.Message;
-                return RedirectToAction(nameof(SessieOpenzettenController.Openzetten));
+                return RedirectToAction(nameof(Openzetten));
             }
             catch (Exception e)
             {
                 TempData["sluitenMessage"] = e.Message;
-                return RedirectToAction(nameof(SessieOpenzettenController.Openzetten));
+                return RedirectToAction(nameof(Openzetten));
             }
         }
     }

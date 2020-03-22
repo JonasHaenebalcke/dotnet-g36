@@ -70,7 +70,8 @@ namespace dotnet_g36.Controllers
             {
                 TempData["error"] = e.Message;
             }
-            return RedirectToAction(nameof(Index));
+            // return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Sessie");
         }
 
     }

@@ -50,6 +50,7 @@ namespace dotnet_g36.Controllers
             }
         }
 
+
         /// <summary>
         /// Geeft de details van de gekozen sessie weer
         /// </summary>
