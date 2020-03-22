@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace dotnet_g36.Controllers
@@ -34,14 +35,21 @@ namespace dotnet_g36.Controllers
             try
             {
                 if (maandNr == 0)
-                {
                     maandNr = DateTime.Now.Month;
-                }
 
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(maandNr);
                 if (sessies.Count() == 0)
                     throw new SessieException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
-                return View(new SessieKalenderViewModel(sessies, gebruiker, maandNr));
+                ICollection<SessieKalenderViewModel> res = new List<SessieKalenderViewModel>();
+                foreach(Sessie sessie in sessies)
+                {
+                    res.Add(new SessieKalenderViewModel(sessie, gebruiker));
+                }
+
+                ViewData["maanden"] = GetMaandSelectList(maandNr);
+
+                return View(res);
+                //return View(new SessieKalenderViewModel(sessies, gebruiker, maandNr));
             }
             catch (SessieException gse)
             {
@@ -65,8 +73,18 @@ namespace dotnet_g36.Controllers
             return View(new SessieDetailsViewModel(sessie, gebruiker));
         }
 
+        /// <summary>
+        /// Retourneert selectlist van alle sessies in de opgegeven maand
+        /// </summary>
+        /// <param name="maandId">nummer van de opgegeven maand</param>
+        /// <returns>Selectlist van sessies</returns>
+        private SelectList GetMaandSelectList(int maandId/* = 0*/)
+        {
+            var maanden = DateTimeFormatInfo.CurrentInfo.MonthNames.Select((monthName, index) => new SelectListItem { Value = (index + 1).ToString(), Text = monthName });
+            SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
+            return result;
+        }
 
-      
 
 
     }

@@ -47,22 +47,20 @@ namespace dotnet_g36
 
         #region Constructors
 
-        public Gebruiker()
-        {
-        }
-        public Gebruiker(string barcode, string username, string email,/* string wachtwoord,*/ string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
+        public Gebruiker() { }
+
+        public Gebruiker(string barcode, string username, string email, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
         {
             Barcode = barcode;
-            //   PasswordHash = wachtwoord;
             Email = email;
             NormalizedEmail = email;
             AccessFailedCount = 0;
             UserName = username;
             NormalizedUserName = username;
-            this.Voornaam = voornaam;
-            this.Familienaam = familienaam;
-            this.StatusGebruiker = statusGebruiker;
-            this.GebruikerSessies = new List<GebruikerSessie>();
+            Voornaam = voornaam;
+            Familienaam = familienaam;
+            StatusGebruiker = statusGebruiker;
+            GebruikerSessies = new List<GebruikerSessie>();
             AantalKeerAfwezig = 0;
         }
         #endregion
@@ -107,7 +105,6 @@ namespace dotnet_g36
             }
             return aanwezig;
         }
-
         #endregion
     }
 }

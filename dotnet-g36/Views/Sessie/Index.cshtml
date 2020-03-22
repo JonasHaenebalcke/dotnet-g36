@@ -1,7 +1,7 @@
-﻿@model dotnet_g36.Models.ViewModels.SessieKalenderViewModel
+﻿@model ICollection<dotnet_g36.Models.ViewModels.SessieKalenderViewModel>
 
 @using Microsoft.AspNetCore.Identity
-@using dotnet_g36.Models.Domain
+@using dotnet_g36.Models.ViewModels
 @inject SignInManager<Gebruiker> SignInManager
 @inject UserManager<Gebruiker> UserManager
 
@@ -31,19 +31,19 @@
             }
         </main>
     </div>
+
     <!--Dropdown voor keuze van maand-->
 
     <form>
         <div class="form-inline">
             <div class="form-group">
                 <label for="maandId"></label>
-                <select onchange="this.form.submit()" id="maandNr" name="maandNr" asp-items="@Model.Maanden" class="form-control">
-                </select>
+                <select onchange="this.form.submit()" id="maandNr" name="maandNr" asp-items=@(ViewData["maanden"] as SelectList) class="form-control"> </select>
             </div>
         </div>
     </form>
     <br />
-    @if (!Model.StartDatums.Where(s => s > DateTime.Now).Count().Equals(0))
+    @if (!Model.Where(s => s.StartDatum > DateTime.Now).Count().Equals(0))
     {
         <h4>Geplande sessies</h4>
         <table class="table table-striped">
@@ -58,59 +58,37 @@
                 }
                 <th class="text-center">Details</th>
             </tr>
-            <!-- loop die door de lijst van sessies gaat -->
-            @for (int i = 0; i < Model.SessieIds.Count(); i++)
+            @foreach (SessieKalenderViewModel sessieKalenderViewModel in Model.Where(s => s.StartDatum > DateTime.Now && !s.Gesloten))
             {
-                @if (Model.StartDatums.ElementAt(i) >= DateTime.Now && !(Model.Gesloten.ElementAt(i)))
-                {
-                    <tr>
-                        <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
-                        <td class="text-center">@Model.Titels.ElementAt(i)</td>
-                        <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy H:mm")</td>
-                        <td class="text-center"> @Model.OpenPlaatsen.ElementAt(i) / @Model.Capaciteit.ElementAt(i) </td>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-
-                            <td class="text-center">
-                                <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
-                                    @if (Model.Ingeschrevenen.ElementAt(i))
-                                    {
-
-                                        <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven">
-                                    }
-                                    else
-                                    {
-                                        <input type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven">
-
-                                    }
-
-                                </form>
-                            </td>
-                            @* @if (Model.Ingeschrevenen.ElementAt(i))
+                <tr>
+                    <td class="text-center">@sessieKalenderViewModel.GastSpreker</td>
+                    <td class="text-center">@sessieKalenderViewModel.Titel</td>
+                    <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy hh:mm")</td>
+                    <td class="text-center"> @sessieKalenderViewModel.OpenPlaats / @sessieKalenderViewModel.Capaciteit </td>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <td class="text-center">
+                            <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@sessieKalenderViewModel.SessieId" method="post">
+                                @if (sessieKalenderViewModel.Ingeschreven)
                                 {
-
-                                    @*<form asp-controller="Sessie" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
-                                        <input type="checkbox" onchange="this.form.submit()" checked id="ingeschreven" @*name=""  value="uitschrijven">
-                                    </form>
-
-
-                                     <td class="text-center">Ja</td>
+                                    <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven">
                                 }
                                 else
                                 {
-                                    <td class="text-center">--</td>
-                                } *@
-                        }
-                        <td class="text-center">
-                            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
+                                    <input type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven">
+                                }
+                            </form>
                         </td>
-                    </tr>
-                }
+                    }
+                    <td class="text-center">
+                        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@sessieKalenderViewModel.SessieId">Details</a>
+                    </td>
+                </tr>
             }
         </table>
     }
     <br />
-    @if (!Model.StartDatums.Where(s => s < DateTime.Now).Count().Equals(0))
+    @if (!Model.Where(s => s.StartDatum < DateTime.Now).Count().Equals(0))
     {
         <h4>Afgelopen sessies</h4>
         <table class="table table-striped">
@@ -125,46 +103,29 @@
                 <th class="text-center">Details</th>
             </tr>
 
-            @for (int i = 0; i < Model.Titels.Count(); i++)
+            @foreach (SessieKalenderViewModel sessieKalenderViewModel in Model.Where(s => s.StartDatum < DateTime.Now && s.Gesloten))
             {
-                @if (Model.StartDatums.ElementAt(i) < DateTime.Now || Model.Gesloten.ElementAt(i))
-                {
-                    <tr>
-                        <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
-                        <td class="text-center">@Model.Titels.ElementAt(i)</td>
-                        <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy H:mm")</td>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-
-
-                            <td class="text-center">
-                                @if (Model.Aanwezigheden.ElementAt(i))
-                                {
-
-                                    <input checked type="checkbox" disabled="disabled" id="Aanwezig" value="NietAanwezig">
-                                }
-                                else
-                                {
-                                    <input type="checkbox" disabled="disabled" id="NietAanwezig" value="Aanwezig">
-
-                                }
-
-                            </td>
-
-                            @*            @if (Model.Aanwezigheden.ElementAt(i))
-                                {
-                                    <td class="text-center">Ja</td>
-                                }
-                                else
-                                {
-                                    <td class="text-center">--</td>
-                                }*@
-                        }
+                <tr>
+                    <td class="text-center">@sessieKalenderViewModel.GastSpreker</td>
+                    <td class="text-center">@sessieKalenderViewModel.Titel</td>
+                    <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy hh:mm")</td>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
                         <td class="text-center">
-                            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
+                            @if (sessieKalenderViewModel.Aanwezigheid)
+                            {
+                                <input checked type="checkbox" disabled="disabled" id="Aanwezig" value="NietAanwezig">
+                            }
+                            else
+                            {
+                                <input type="checkbox" disabled="disabled" id="NietAanwezig" value="Aanwezig">
+                            }
                         </td>
-                    </tr>
-                }
+                    }
+                    <td class="text-center">
+                        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@sessieKalenderViewModel.SessieId">Details</a>
+                    </td>
+                </tr>
             }
         </table>
     }

@@ -201,7 +201,7 @@ namespace dotnet_g36.Models.Domain
             foreach (Feedback f in FeedbackList)
             {
                 if (f.Auteur == gebruiker)
-                    throw new ArgumentException("Gebruiker heeft al feedback gegeven.");
+                    throw new FeedbackException("Gebruiker heeft al feedback gegeven.");
             }
 
             if (gebruiker.Aanwezig(this))
@@ -211,6 +211,32 @@ namespace dotnet_g36.Models.Domain
             }
             else
                 throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
+        }
+
+        /// <summary>
+        /// Verwijderd de meegeven feedback
+        /// </summary>
+        /// <param name="feedbackId">int feedbackId</param>
+        /// <param name="gebruiker">Gebruiker object</param>
+        public void VerwijderFeedback(int feedbackId, Gebruiker gebruiker)
+        {
+            bool succes = false;
+            foreach (Feedback feedback in FeedbackList)
+            {
+                if (feedback.FeedbackID == feedbackId )
+                {
+                    if (gebruiker == feedback.Auteur || (gebruiker is Verantwoordelijke && (gebruiker as Verantwoordelijke).IsHoofdverantwoordelijke == true))
+                    {
+                        succes = true;
+                        FeedbackList.Remove(feedback);
+                        break;
+                    }
+                    else
+                        throw new FeedbackException("Feedback is niet verwijderd. Controleer of je de auteur bent van de gekozen feedback of de juiste rechten hebt.");
+                }
+            }
+            if (!succes)
+                throw new FeedbackException("Feedback kon niet gevonden worden. Feedback is niet verwijderd.");
         }
         /// <summary>
         /// Rating geven op de afgelopen sessie

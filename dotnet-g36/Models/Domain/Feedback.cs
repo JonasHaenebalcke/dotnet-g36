@@ -19,9 +19,9 @@ namespace dotnet_g36.Models.Domain
 
         public Feedback(Gebruiker auteur, string content, DateTime tijd)
         {
-            this.Auteur = auteur;
-            this.Tekst = content;
-            this.TimeWritten = tijd;
+            Auteur = auteur;
+            Tekst = content;
+            TimeWritten = tijd;
         }
         #endregion
     }
