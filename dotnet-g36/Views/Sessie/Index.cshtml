@@ -64,7 +64,7 @@
                 <tr>
                     <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
                     <td class="text-center">@Model.Titels.ElementAt(i)</td>
-                    <td class="text-center">@Model.StartDatumsFormatted.ElementAt(i)</td>
+                    <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy H:mm")</td>
                     <td class="text-center"> @Model.OpenPlaatsen.ElementAt(i) / @Model.Capaciteit.ElementAt(i) </td>
                     @if (SignInManager.IsSignedIn(User))
                     {
@@ -129,7 +129,7 @@
     <tr>
         <td class="text-center">@Model.GastSprekers.ElementAt(i)</td>
         <td class="text-center">@Model.Titels.ElementAt(i)</td>
-        <td class="text-center">@Model.StartDatumsFormatted.ElementAt(i)</td>
+        <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy H:mm")</td>
         @if (SignInManager.IsSignedIn(User))
         {
 
