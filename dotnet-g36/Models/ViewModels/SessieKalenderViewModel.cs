@@ -20,6 +20,7 @@ namespace dotnet_g36.Models.ViewModels
         public ICollection<bool> Ingeschrevenen { get; set; }
         public ICollection<int> SessieIds { get; set; }
         public ICollection<bool> Gesloten { get; set; }
+        public ICollection<string> StartDatumsFormatted { get; set; }
 
         //public SessieKalenderViewModel() { }
 
@@ -37,6 +38,8 @@ namespace dotnet_g36.Models.ViewModels
             Ingeschrevenen = new List<bool>();
             SessieIds = new List<int>();
             Gesloten = new List<bool>();
+            StartDatumsFormatted = new List<string>();
+            
 
             foreach (Sessie sessie in sessies)
             {
@@ -47,6 +50,9 @@ namespace dotnet_g36.Models.ViewModels
                 Capaciteit.Add(sessie.Capaciteit);
                 SessieIds.Add(sessie.SessieID);
                 Gesloten.Add(sessie.StatusSessie == StatusSessie.Gesloten);
+
+                StartDatumsFormatted.Add(sessie.StartDatum.ToShortDateString() + " " + sessie.StartDatum.Hour + ":" + sessie.StartDatum.Minute);
+              
 
                 bool aanwezig = false, ingeschreven = false;
                 if (gebruiker != null)

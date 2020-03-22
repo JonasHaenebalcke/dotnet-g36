@@ -11,6 +11,8 @@ namespace dotnet_g36.Models.ViewModels
         public string Beschrijving { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
+        public string StartDatumFormatted { get; set; }
+        public string EindDatumFormatted { get; set; }
         public string Lokaal { get; set; }
         public int AantalAanwezigen { get; set; }
         public bool DeelnemerAanwezig { get; set; }
@@ -24,7 +26,7 @@ namespace dotnet_g36.Models.ViewModels
         public bool Gesloten { get; set; }
         public string FeedbackContent { get; set; }
 
-        public SessieDetailsViewModel(){ }
+        public SessieDetailsViewModel() { }
 
         public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker/*, Verantwoordelijke hoofdVerantwoordelijke*/)
         {
@@ -33,6 +35,8 @@ namespace dotnet_g36.Models.ViewModels
             Beschrijving = sessie.Beschrijving;
             StartDatum = sessie.StartDatum;
             EindDatum = sessie.EindDatum;
+            StartDatumFormatted = sessie.StartDatum.ToShortDateString() + " " + sessie.StartDatum.Hour + ":" + sessie.StartDatum.Minute;
+            EindDatumFormatted = sessie.StartDatum.ToShortDateString() + " " + sessie.StartDatum.Hour + ":" + sessie.StartDatum.Minute;
             Lokaal = sessie.Lokaal;
             Capaciteit = sessie.Capaciteit;
             OpenPlaatsen = sessie.GebruikerSessies.Count - 1;
@@ -41,23 +45,23 @@ namespace dotnet_g36.Models.ViewModels
             GastSpreker = sessie.Gastspreker;
             Gesloten = sessie.StatusSessie == StatusSessie.Gesloten;
             NaamVerantwoordelijke = sessie.Verantwoordelijke.GeefVolledigeNaam();
-           
+
 
             AantalAanwezigen = 0;
             DeelnemerAanwezig = false;
             DeelnemerIngeschreven = false;
 
-            
+
             foreach (GebruikerSessie gebruikersessie in sessie.GebruikerSessies)
-             {
-                 if (gebruiker != null && gebruikersessie.Gebruiker == gebruiker)
-                 {
-                     DeelnemerIngeschreven = true;
-                     DeelnemerAanwezig = gebruikersessie.Aanwezig;
-                 }
-                 if (gebruikersessie.Aanwezig)
-                     AantalAanwezigen++;
-             }
+            {
+                if (gebruiker != null && gebruikersessie.Gebruiker == gebruiker)
+                {
+                    DeelnemerIngeschreven = true;
+                    DeelnemerAanwezig = gebruikersessie.Aanwezig;
+                }
+                if (gebruikersessie.Aanwezig)
+                    AantalAanwezigen++;
+            }
         }
     }
 }
