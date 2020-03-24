@@ -127,14 +127,14 @@
         @if (SignInManager.IsSignedIn(User))
         {
             @if (!Model.DeelnemerIngeschreven)
-            {<form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+            {<form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
                     <br />
                     <button type="submit">Inschrijven</button>
                 </form>
             }
             else
             {
-                <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.sessieID" method="post">
+                <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
                     <br />
                     <button type="submit">Uitschrijven</button>
                 </form>
@@ -152,22 +152,27 @@
     {
         <br />
         <h6>Feedback</h6>
-        <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
+        <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.SessieID" method="post">
             <div class="form-group">
-                <div>
-                    @for (int i = 0; i < 5; i++)
-                    {
-                    <span class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold"></span>}
+                @*<div>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                        <span class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold"></span>}
 
-                    @*<span class="iconify" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;" ></span>
-                      <-- volle ster
-                    *@
-                </div>
+                        <span class="iconify" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;" ></span>
+                          <-- volle ster
+
+                    </div>*@
+
+                <label>Score</label>
+                <select style="width: 80px;" asp-for="Score" asp-items="@ViewData["scores"] as SelectList" class="form-control"></select>
+                <span asp-validation-for="Score" class="text-danger"></span>
 
                 <br />
                 <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
                 @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
                 <br>
+                <span asp-validation-for="FeedbackContent" class="text-danger"></span>
             </div>
             <button type="submit">Indienen</button>
         </form>
@@ -180,17 +185,19 @@
                 <br />
                 <table class="table table-striped">
                     <tr>
-                        <th class="text-center">Auteur</th>
-                        <th class="text-center">Feedback</th>
                         <th class="text-center">Datum</th>
+                        <th class="text-center">Auteur</th>
+                        <th class="text-center">Score</th>
+                        <th class="text-center">Feedback</th>
                     </tr>
                     <!-- loop die door de lijst van Feedback gaat -->
                     @foreach (var feedback in Model.FeedbackList)
                     {
                         <tr>
-                            <td class="text-center">@feedback.Auteur.GeefVolledigeNaam()</td>
-                            <td class="text-center">@feedback.Tekst</td>
                             <td class="text-center">@feedback.TimeWritten.ToString("dd/MM/yyyy H:mm")</td>
+                            <td class="text-center">@feedback.Auteur.GeefVolledigeNaam()</td>
+                            <td class="text-center">@feedback.Score/5</td>
+                            <td class="text-center">@feedback.Tekst</td>
                         </tr>
                     }
 
@@ -208,3 +215,8 @@
         }*@
 </body>
 </html>
+
+@section scripts {
+    <script asp-src-include="lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

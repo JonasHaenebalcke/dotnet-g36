@@ -8,6 +8,7 @@ using dotnet_g36.Models.Exceptions;
 using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dotnet_g36.Controllers
 {
@@ -31,29 +32,40 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailFeedbackGeven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
-            try
-            {
-                Sessie sessie = _sessieRepository.GetByID(id);
-                sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker);
-                _sessieRepository.SaveChanges();
+            //if (ModelState.IsValid)
+            //{
+                try
+                {
+                    Sessie sessie = _sessieRepository.GetByID(id);
+                    sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker, sessieDetailsViewModel.Score);
+                    _sessieRepository.SaveChanges();
 
-                TempData["message"] = "Feedback is toegevoegd!";
-                //  return RedirectToAction(nameof(Index));
-                return RedirectToAction("Index", "Sessie");
+                    List<int> scores = new List<int>()
+                {
+                   0,1,2,3,4,5
+                };
+                    SelectList scoresSelectList = new SelectList(scores);
+                    ViewData["scores"] = scoresSelectList;
+                    TempData["message"] = "Feedback is toegevoegd!";
+                    //  return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Sessie");
 
-            }
-            catch (AanwezigException e)
-            {
-                TempData["error"] = e.Message;
-                //   return RedirectToAction(nameof(Index));
-                return RedirectToAction("Index", "Sessie");
-            }
-            /*catch (Exception e)
-            {
-                TempData["error"] = e.Message; // "Er liep iets fout bij het feedback geven...";
-                //return RedirectToAction(nameof(Index));
-                return RedirectToAction("Index", "Sessie");
-            }*/
+                }
+                catch (AanwezigException e)
+                {
+                    TempData["error"] = e.Message;
+                    //   return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Sessie");
+                }
+                /*catch (Exception e)
+                {
+                    TempData["error"] = e.Message; // "Er liep iets fout bij het feedback geven...";
+                    //return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Sessie");
+                }*/
+            //}
+            //TempData["error"] =  "Er liep iets fout bij het feedback geven...";
+            //return RedirectToAction("Index", "Sessie");
         }
 
     }
