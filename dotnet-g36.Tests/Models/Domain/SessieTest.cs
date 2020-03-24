@@ -9,22 +9,20 @@ namespace dotnet_g36.Tests.Models.Domain
 {
     public class SessieTest
     {
-        // verantwoordelijken ook testen?
         private Gebruiker _gebruiker;
         private Sessie _sessie;
 
         public SessieTest()
         {
             _gebruiker = new Gebruiker() {
-                //UserID = 1,
                 GebruikerSessies = new List<GebruikerSessie>(),
                 StatusGebruiker = StatusGebruiker.Actief
             };
             _sessie = new Sessie() {
-                SessieID = 1,
                 GebruikerSessies = new List<GebruikerSessie>(),
                 StartDatum = DateTime.Now.AddMonths(1),
-                Capaciteit = 10
+                Capaciteit = 10,
+                FeedbackList = new List<Feedback>()
             };
         }
 
@@ -37,7 +35,7 @@ namespace dotnet_g36.Tests.Models.Domain
         }
 
         [Fact]
-        public void InschrijvenSessieOngeligeMaandTest()
+        public void InschrijvenSessie_VerledenMaandTest()
         {
             _sessie.StartDatum = DateTime.Now.AddMonths(-2);
             Assert.Throws<ArgumentException>(
@@ -48,7 +46,7 @@ namespace dotnet_g36.Tests.Models.Domain
         public void InschrijvenSessieGeenPlaatsTest()
         {
             _sessie.Capaciteit = 0;
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<IngeschrevenException>(
                 () => _sessie.SchrijfIn(_gebruiker));
         }
 
@@ -61,18 +59,12 @@ namespace dotnet_g36.Tests.Models.Domain
                 () => _sessie.SchrijfIn(_gebruiker));
         }
 
-        [Fact]
-        public void InschrijvenSessieGebruikerNietActiefTest()
+        [Theory]
+        [InlineData (StatusGebruiker.NietActief)]
+        [InlineData(StatusGebruiker.Geblokkeerd)]
+        public void InschrijvenSessie_GeenActieveGebruikerTest_melding(StatusGebruiker status)
         {
-            _gebruiker.StatusGebruiker = StatusGebruiker.NietActief;
-            Assert.Throws<GeenActieveGebruikerException>(
-                () => _sessie.SchrijfIn(_gebruiker));
-        }
-
-        [Fact]
-        public void InschrijvenSessieGebruikerGeblokkeerdTest()
-        {
-            _gebruiker.StatusGebruiker = StatusGebruiker.Geblokkeerd;
+            _gebruiker.StatusGebruiker = status;
             Assert.Throws<GeenActieveGebruikerException>(
                 () => _sessie.SchrijfIn(_gebruiker));
         }
@@ -85,52 +77,89 @@ namespace dotnet_g36.Tests.Models.Domain
             _sessie.SchrijfUit(_gebruiker);
 
             Assert.Empty(_sessie.GebruikerSessies);
+            Assert.Empty(_gebruiker.GebruikerSessies);
         }
 
         [Fact]
-        public void UitschrijvenSessieNietIngeschrevenTest()
+        public void UitschrijvenSessie_NietIngeschrevenTest_melding()
         {
+            Assert.Empty(_sessie.GebruikerSessies);
             Assert.Throws<IngeschrevenException>(
                 () => _sessie.SchrijfUit(_gebruiker));
-
         }
 
         [Fact]
-        public void SessieUitschrijvenReedsGestartTest()
+        public void SessieUitschrijven_VerledenSessie_melding()
         {
             _sessie.StartDatum = DateTime.Now.AddMonths(-2);
             Assert.Throws<ArgumentException>(
                 () => _sessie.SchrijfUit(_gebruiker));
         }
 
-        [Fact(Skip = " ")] //fout, use gebruikerSessie
+        [Fact] //fout, use gebruikerSessie
         public void FeedbackGevenTest()
         {
             _sessie.StartDatum = DateTime.Now.AddHours(-2);
             _sessie.StatusSessie = StatusSessie.Gesloten;
-            _sessie.MeldAanwezig(_gebruiker);
-            //_sessie.FeedbackGeven(_Deelnemer);
+            GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = true };
+            _sessie.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.GebruikerSessies.Add(gebruikerSessie);
+            _sessie.FeedbackGeven("test",_gebruiker);
+            Assert.Equal(1, _sessie.FeedbackList.Count);
+            Feedback feedback = null;
+            foreach (Feedback f in _sessie.FeedbackList)
+                feedback = f;
+            Assert.Equal("test", feedback.Tekst);
         }
 
-        [Fact(Skip = " ")]
+        [Theory]
+        [InlineData(StatusGebruiker.NietActief)]
+        [InlineData(StatusGebruiker.Geblokkeerd)]
+        public void FeedbackGeven_NietActieveGebruikerTest_Fout(StatusGebruiker status)
+        {
+            _sessie.StartDatum = DateTime.Now.AddHours(-2);
+            _sessie.StatusSessie = StatusSessie.Gesloten;
+            GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = true };
+            _sessie.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.StatusGebruiker = status;
+            Assert.Throws<GeenActieveGebruikerException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Empty(_sessie.FeedbackList);
+        }
+
+        [Fact]
+        public void FeedbackGevenGebruikerNietIngeschrevenTest()
+        {
+            _sessie.StartDatum = DateTime.Now.AddHours(-2);
+            _sessie.StatusSessie = StatusSessie.Gesloten;
+            Assert.Throws<AanwezigException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Empty(_sessie.FeedbackList);
+        }
+
+        [Fact]
         public void FeedbackGevenGebruikerNietAanwezigTest()
         {
             _sessie.StartDatum = DateTime.Now.AddHours(-2);
-            //Assert.Throws<ArgumentException>(
-                //() => _sessie.FeedbackGeven(_Deelnemer));
+            _sessie.StatusSessie = StatusSessie.Gesloten;
+            GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = false };
+            _sessie.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.GebruikerSessies.Add(gebruikerSessie);
+            Assert.Throws<AanwezigException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Empty(_sessie.FeedbackList);
         }
 
-        [Fact(Skip = " ")]
-        public void FeedbackGevenSessieNogNietGestartTest()
+        [Theory]
+        [InlineData(StatusSessie.NietOpen)]
+        [InlineData(StatusSessie.Open)]
+        public void FeedbackGevenSessieNogNietGestartTest(StatusSessie status)
         {
             _sessie.StartDatum = DateTime.Now.AddHours(2);
-            _sessie.MeldAanwezig(_gebruiker);
-            //Assert.Throws<ArgumentException>(
-            //    () => _sessie.FeedbackGeven(_Deelnemer));
+            _sessie.StatusSessie = status;
+            GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = true };
+            _sessie.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.GebruikerSessies.Add(gebruikerSessie);
+            Assert.Throws<FeedbackException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Empty(_sessie.FeedbackList);
         }
-        /* gebruiker.Status: bool?
-        * sessie.SchrijfIn: SessieID? -> gebruiker?
-        * 
-        */
     }
 }

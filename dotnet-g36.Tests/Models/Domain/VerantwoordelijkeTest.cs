@@ -52,25 +52,13 @@ namespace dotnet_g36.Tests.Models.Domain
         [Fact]
         public void SessieOpenzetten_VerantwoordelijkeAangemaakt_1sessieOpenzetten_gelukt()
         {
-            hedenSessie.StartDatum.AddMinutes(30);
+            hedenSessie.StartDatum = hedenSessie.StartDatum.AddMinutes(30);
             Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
             _organizer1.OpenTeZettenSessies.Add(hedenSessie);
             hedenSessie.SessieOpenZetten(_organizer1);
             Assert.Equal(StatusSessie.Open, hedenSessie.StatusSessie);
         }
 
-        //[Fact]
-        //public void SessieOpenzetten_VerantwoordelijkeAngemaakt_DieAlOpenStaat_melding()
-        //{
-        //    hedenSessie = _context.hedenSessie;
-        //    hedenSessie.StatusSessie = StatusSessie.Open;
-        //    Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
-        //    _organizer1.OpenTeZettenSessies.Add(hedenSessie);
-        //    Assert.Throws<SessieException>(() => { hedenSessie.SessieOpenZetten(_organizer1); });
-
-        //}
-
-        //[Fact]s
         [Theory]
         [InlineData(StatusSessie.Open)]
         [InlineData(StatusSessie.Gesloten)]
@@ -88,8 +76,7 @@ namespace dotnet_g36.Tests.Models.Domain
             Assert.Equal(_organizer2, verledenSessie.Verantwoordelijke);
             _organizer2.OpenTeZettenSessies.Add(verledenSessie);
             Assert.NotEqual(DateTime.Now.Year, verledenSessie.StartDatum.Year);
-            Assert.Throws<NullReferenceException>(() => { hedenSessie.SessieOpenZetten(_organizer2); });
-
+            Assert.Throws<SessieException>(() => { hedenSessie.SessieOpenZetten(_organizer2); });
         }
 
         [Fact]
@@ -97,21 +84,15 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             Assert.NotEqual(_organizer2, hedenSessie.Verantwoordelijke);
             Assert.Throws<SessieException>(() => { hedenSessie.SessieOpenZetten(_organizer2); });
-
-
         }
+
         [Theory]
         [InlineData(50)]
         [InlineData(60)]
         [InlineData(5)]
         public void SessieOpenzetten_VerantwoordelijkeAngemaakt_MinutenVoorStart_gelukt(int i)
         {
-            DateTime datum = DateTime.Now.AddMinutes(i);
-            //hedenSessie = new Sessie(_organizer1, "Sessie 3D Printing", "B1.027",
-            //datum, datum.AddHours(2),
-            //25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
-            //);
-            hedenSessie.StartDatum = datum;
+            hedenSessie.StartDatum = DateTime.Now.AddMinutes(i);
             Assert.Equal(_organizer1, hedenSessie.Verantwoordelijke);
             _organizer1.OpenTeZettenSessies.Add(hedenSessie);
             hedenSessie.SessieOpenZetten(_organizer1);
