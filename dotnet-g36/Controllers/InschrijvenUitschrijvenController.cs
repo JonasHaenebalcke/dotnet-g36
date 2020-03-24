@@ -72,6 +72,7 @@ namespace dotnet_g36.Controllers
             }
             // return RedirectToAction(nameof(Index));
             return RedirectToAction("Index", "Sessie");
+         
         }
 
     }

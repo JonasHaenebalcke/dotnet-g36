@@ -47,11 +47,12 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Moet ingevuld zijn")]
+            
             [Display(Name = "Gebruikersnaam of email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Moet ingevuld zijn")]
             [DataType(DataType.Password)]
             [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
@@ -81,7 +82,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             // ik heb gekeken of dit wordt gecheckt , ik denk van niet want als ik iets fout ingeef dan mocht de specifieke melding niet.
-            /*if (Input.Email.IndexOf('@') > -1)
+          /*  if (Input.Email.IndexOf('@') > -1)
             {
                 //Validate email format
                 string emailRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +

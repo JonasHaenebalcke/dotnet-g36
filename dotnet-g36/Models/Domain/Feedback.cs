@@ -11,6 +11,7 @@ namespace dotnet_g36.Models.Domain
         public string Tekst { get; set; }
         public DateTime TimeWritten { get; set; }
         public Gebruiker Auteur { get; set; }
+        public int Rating { get; set; }
         #endregion
 
         #region constructor
@@ -25,4 +26,4 @@ namespace dotnet_g36.Models.Domain
         }
         #endregion
     }
-}
+} 

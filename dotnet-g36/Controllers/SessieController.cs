@@ -41,6 +41,7 @@ namespace dotnet_g36.Controllers
                 IEnumerable<Sessie> sessies = _sessieRepository.GetByMonth(maandNr);
                 if (sessies.Count() == 0)
                     throw new SessieException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
+
                 ICollection<SessieKalenderViewModel> res = new List<SessieKalenderViewModel>();
                 foreach(Sessie sessie in sessies)
                 {

@@ -12,7 +12,9 @@
 
 <html>
 <head>
-    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    @*<script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>  voor de span van de sterren *@
+    <script>
+    </script>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
 </head>
@@ -57,22 +59,22 @@
         <h6>Aantal Personen</h6>
         <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.OpenPlaatsen / @Model.Capaciteit </div></div>
 
-        @if (SignInManager.IsSignedIn(User))
-        {<br />
-            <h6>Ingeschreven</h6>
-            @if (Model.DeelnemerIngeschreven.Equals(true))
-            {
-                <div class="col px-md-5">
-                    <div class="p-3 border bg-light">Ja</div>
-                </div>
-            }
-            else
-            {
-                <div class="col px-md-5">
-                    <div class="p-3 border bg-light">--</div>
-                </div>
-            }
-        }
+        @*       @if (SignInManager.IsSignedIn(User))
+            {<br />
+                <h6>Ingeschreven</h6>
+                @if (Model.DeelnemerIngeschreven.Equals(true))
+                {
+                    <div class="col px-md-5">
+                        <div class="p-3 border bg-light">Ja</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col px-md-5">
+                        <div class="p-3 border bg-light">--</div>
+                    </div>
+                }
+            }*@
     }
     else//VERLEDEN
     { <br />
@@ -150,29 +152,47 @@
     }
     else
     {
-        <br />
-        <h6>Feedback</h6>
-        <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
-            <div class="form-group">
-                <div>
-                    @for (int i = 0; i < 5; i++)
-                    {
-                    <span class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold"></span>}
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <br />
+            <h6>Feedback</h6>
+            <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.sessieID" method="post">
+                <div class="form-group">
+                    @*  <div class="ratingSessie ">
 
-                    @*<span class="iconify" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;" ></span>
-                      <-- volle ster
-                    *@
+                        for (int i = 0; i < 5; i++)
+                            {   <dot:RadioButton id="star@(i)" CheckedItem="{value: Rating}" CheckedValue="@(i)" />
+
+                        <span id="star@(i)" class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold" alt="ster @(i)" data-value="@(5 - i)"></span>
+                                    <span id="starE1" class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold" alt="ster @(1)" data-value="@(5)">
+                        </span>
+                        <span id="starE2" class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold" alt="ster @(2)" data-value="@(5 - 1)">
+                        </span>
+                        <span id="starE3" class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold" alt="ster @(3)" data-value="@(5 - 2)">
+                        </span>
+                        <span id="starE4" class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold" alt="ster @(4)" data-value="@(5 - 3)">
+                        </span>
+                        <span id="starE5" class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold" alt="ster @(5)" data-value="@(5 - 4)">
+                        </span>
+                                    <span class="starFade" id="Rate1" onclick="CRate(1)" onmouseover="CRateOver(1)" onmouseout="CRateOut(1)"></span>
+                        <span class="starFade" id="Rate2" onclick="CRate(2)" onmouseover="CRateOver(2)" onmouseout="CRateOut(2)"></span>
+                        <span class="starFade" id="Rate3" onclick="CRate(3)" onmouseover="CRateOver(3)" onmouseout="CRateOut(3)"></span>
+                        <span class="starFade" id="Rate4" onclick="CRate(4)" onmouseover="CRateOver(4)" onmouseout="CRateOut(4)"></span>
+                        <span class="starFade" id="Rate5" onclick="CRate(5)" onmouseover="CRateOver(5)" onmouseout="CRateOut(5)"></span>
+
+                                    <span class="iconify1" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;"></span>
+
+                                </div> *@
+
+                    <br />
+                    <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
+                    @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
+                    <br>
                 </div>
+                <button type="submit">Indienen</button>
+            </form>
 
-                <br />
-                <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
-                @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
-                <br>
-            </div>
-            <button type="submit">Indienen</button>
-        </form>
-
-
+        }
 
         @if (Model.FeedbackList.Count() != 0)
         {

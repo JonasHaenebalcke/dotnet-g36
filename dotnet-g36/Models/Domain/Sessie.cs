@@ -242,8 +242,9 @@ namespace dotnet_g36.Models.Domain
         /// Rating geven op de afgelopen sessie
         /// </summary>
         /// <param name="gebruiker">Gebruiker Object</param>
-        public void ratingGeven(Gebruiker gebruiker)
+        public void ratingGeven(Gebruiker gebruiker, int rating)
         {
+
 
         }
 

@@ -23,6 +23,7 @@ namespace dotnet_g36.Models.ViewModels
         public string NaamVerantwoordelijke { get; set; }
         public bool Gesloten { get; set; }
         public string FeedbackContent { get; set; }
+        public int SessieRating {get; set; } // Rating van de sessie
 
         public SessieDetailsViewModel() { }
 

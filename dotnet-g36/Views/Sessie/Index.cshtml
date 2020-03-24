@@ -71,11 +71,11 @@
                             <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@sessieKalenderViewModel.SessieId" method="post">
                                 @if (sessieKalenderViewModel.Ingeschreven)
                                 {
-                                    <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven">
+                                    <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven" style="width: 17px; height: 17px;">
                                 }
                                 else
                                 {
-                                    <input type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven">
+                                    <input type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven" style="width: 17px; height: 17px;">
                                 }
                             </form>
                         </td>
@@ -114,11 +114,11 @@
                         <td class="text-center">
                             @if (sessieKalenderViewModel.Aanwezigheid)
                             {
-                                <input checked type="checkbox" disabled="disabled" id="Aanwezig" value="NietAanwezig">
+                                <input checked type="checkbox" disabled="disabled" id="Aanwezig" value="NietAanwezig" style="width: 17px; height: 17px;">
                             }
                             else
                             {
-                                <input type="checkbox" disabled="disabled" id="NietAanwezig" value="Aanwezig">
+                                <input type="checkbox" disabled="disabled" id="NietAanwezig" value="Aanwezig" style="width: 17px; height: 17px;">
                             }
                         </td>
                     }
