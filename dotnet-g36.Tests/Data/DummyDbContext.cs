@@ -60,7 +60,7 @@ namespace dotnet_g36.Tests.Data
 
             verledenSessie = new Sessie(organizer2, "Sessie 3D Printing", "B1.027",
                  //new DateTime(2019, 12, 24, 7, 30, 0),  new DateTime(2019, 12, 24, 9, 30, 0),
-                 DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(-1).AddHours(2),
+                 DateTime.Now.AddYears(-1), DateTime.Now.AddYears(-1).AddHours(2),
                 25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 

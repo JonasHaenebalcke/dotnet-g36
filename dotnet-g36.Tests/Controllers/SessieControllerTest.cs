@@ -53,9 +53,9 @@ namespace dotnet_g36.Tests.Controllers
             _sessieRepo.Setup(s => s.GetByMonth(12)).Returns(_context.december);
             var actionResult = Assert.IsType<ViewResult>(_controller.Index(null, 12));
 
-            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
-            Assert.Equal(2, vm.SessieIds.Count());
-            Assert.Equal("Sessie 3D Printing", vm.Titels.First());
+            var vm = Assert.IsAssignableFrom<ICollection<SessieKalenderViewModel>>(actionResult.Model);
+            Assert.Equal(2, vm.Count());
+            Assert.Equal("Sessie 3D Printing", vm.First().Titel);
         }
 
         [Fact]
@@ -63,8 +63,8 @@ namespace dotnet_g36.Tests.Controllers
         {
             _sessieRepo.Setup(s => s.GetByMonth(01)).Returns(new List<Sessie>());
             var actionResult = Assert.IsType<ViewResult>(_controller.Index(null, 01));
-            var vm = Assert.IsAssignableFrom<SessieKalenderViewModel>(actionResult.Model);
-            Assert.Empty(vm.SessieIds);
+            var vm = Assert.IsAssignableFrom<ICollection<SessieKalenderViewModel>>(actionResult.Model);
+            Assert.Empty(vm);
         }
     }
 }
