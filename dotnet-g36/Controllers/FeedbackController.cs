@@ -8,6 +8,7 @@ using dotnet_g36.Models.Exceptions;
 using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dotnet_g36.Controllers
 {
@@ -31,32 +32,30 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailFeedbackGeven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
-            Sessie sessie = _sessieRepository.GetByID(id);
-                
-            try
-            {
-                sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker);
-                _sessieRepository.SaveChanges();
+                try
+                {
+                Sessie sessie = _sessieRepository.GetByID(id);
+                    sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker, sessieDetailsViewModel.Score);
+                    _sessieRepository.SaveChanges();
 
-                TempData["message"] = "Feedback is toegevoegd!";
-                //  return RedirectToAction("Index", "Sessie");
-                //   return RedirectToAction("Index", "Sessie", new { gebruiker, maandNr = sessie.StartDatum.Month });
+                    List<int> scores = new List<int>()
+                {
+                   0,1,2,3,4,5
+                };
+                    SelectList scoresSelectList = new SelectList(scores);
+                    ViewData["scores"] = scoresSelectList;
+                    TempData["message"] = "Feedback is toegevoegd!";
                 return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
             }
             catch (FeedbackException e)
             {
                 TempData["error"] = e.Message;
-                //  return RedirectToAction("Index", "Sessie");
-                // return RedirectToAction("Index", "Sessie", new { gebruiker, maandNr = sessie.StartDatum.Month });
                 return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
 
-            }
-            catch (AanwezigException e)
-            {
-                TempData["error"] = e.Message;
-                //   return RedirectToAction(nameof(Index));
-                //  return RedirectToAction("Index", "Sessie");
-                //  return RedirectToAction("Index", "Sessie", new { gebruiker, maandNr = sessie.StartDatum.Month });
+                }
+                catch (AanwezigException e)
+                {
+                    TempData["error"] = e.Message;
                 return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
 
             }
@@ -64,36 +63,17 @@ namespace dotnet_g36.Controllers
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
-            }
-            /*catch (Exception e)
-            {
-                TempData["error"] = e.Message; // "Er liep iets fout bij het feedback geven...";
-                //return RedirectToAction(nameof(Index));
-                return RedirectToAction("Index", "Sessie");
-            }*/
+                }
+                /*catch (Exception e)
+                {
+                    TempData["error"] = e.Message; // "Er liep iets fout bij het feedback geven...";
+                    //return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Sessie");
+                }*/
+            //}
+            //TempData["error"] =  "Er liep iets fout bij het feedback geven...";
+            //return RedirectToAction("Index", "Sessie");
         }
 
-
-        /// <summary>
-        /// De Post van Detail Action als gebruiker een rating geeft
-        /// </summary>
-        /// <param name="gebruiker">Gebruiker Object</param>
-        /// <param name="id">idnummer van de sessie</param>
-        /// <param name="sessieDetailsViewModel">SessieDetailViewModel Object</param>
-        /// <returns></returns>
-        [HttpPost]
-        public IActionResult RatingGeven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
-        {
-            Sessie sessie = _sessieRepository.GetByID(id);
-            sessie.ratingGeven(gebruiker, sessieDetailsViewModel.SessieRating);
-            
-            _sessieRepository.SaveChanges();
-
-            TempData["message"] = "Feedback is toegevoegd!";
-            int maandSessie = sessie.StartDatum.Month;
-
-            return RedirectToAction("Index", "Sessie", new { gebruiker,  maandNr = sessie.StartDatum.Month });
-         //     return RedirectToAction("Index", "Sessie");
-        }
     }
 }

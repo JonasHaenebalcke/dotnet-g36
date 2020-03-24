@@ -71,6 +71,13 @@ namespace dotnet_g36.Controllers
         {
             Sessie sessie = _sessieRepository.GetByID(id);
 
+            List<int> scores = new List<int>()
+                {
+                   0,1,2,3,4,5
+                };
+            SelectList scoresSelectList = new SelectList(scores);
+            ViewData["scores"] = scoresSelectList;
+
             return View(new SessieDetailsViewModel(sessie, gebruiker));
         }
 

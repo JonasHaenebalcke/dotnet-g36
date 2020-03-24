@@ -130,8 +130,10 @@ namespace dotnet_g36.Models.Domain
         /// <param name="sessie">User Object</param>
         public void SchrijfIn(Gebruiker gebruiker)
         {
-            if (StartDatum < DateTime.Now || Capaciteit < 1)
+            if (StartDatum < DateTime.Now)
                 throw new ArgumentException("je kan je niet inschrijven in een verleden maand.");
+            if (GebruikerSessies.Count >= Capaciteit)
+                throw new IngeschrevenException("je kan je niet meer inschrijven in deze sessie. De sessie is volzet.");
 
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
@@ -196,8 +198,13 @@ namespace dotnet_g36.Models.Domain
         /// </summary>
         /// <param name="feedbacktxt">feedback tekst</param>
         /// <param name="gebruiker">Gebruiker Object</param>
-        public void FeedbackGeven(string feedbacktxt, Gebruiker gebruiker)
+        public void FeedbackGeven(string feedbacktxt, Gebruiker gebruiker, int score)
         {
+            if (StatusSessie != StatusSessie.Gesloten)
+                throw new ArgumentException("Je kan geen feedback geven op een niet afgelopen sessie.");
+            if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
+                throw new GeenActieveGebruikerException("Je moet een actieve gebruiker zijn om feedback te kunnen geven");
+
             foreach (Feedback f in FeedbackList)
             {
                 if (f.Auteur == gebruiker)
@@ -206,11 +213,11 @@ namespace dotnet_g36.Models.Domain
 
             if (gebruiker.Aanwezig(this))
             {
-                Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now);
+                Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now, score);
                 FeedbackList.Add(feedback);
             }
             else
-                throw new AanwezigException("Gebruiker was niet aanwezig en kan dus geen feedback geven!");
+                throw new AanwezigException("Gebruiker was niet aanwezig of niet ingeschreven en kan dus geen feedback geven!");
         }
 
         /// <summary>
@@ -223,7 +230,7 @@ namespace dotnet_g36.Models.Domain
             bool succes = false;
             foreach (Feedback feedback in FeedbackList)
             {
-                if (feedback.FeedbackID == feedbackId )
+                if (feedback.FeedbackID == feedbackId)
                 {
                     if (gebruiker == feedback.Auteur || (gebruiker is Verantwoordelijke && (gebruiker as Verantwoordelijke).IsHoofdverantwoordelijke == true))
                     {
