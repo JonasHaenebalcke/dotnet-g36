@@ -182,14 +182,15 @@
                     <tr>
                         <th class="text-center">Auteur</th>
                         <th class="text-center">Feedback</th>
-
+                        <th class="text-center">Datum</th>
                     </tr>
                     <!-- loop die door de lijst van Feedback gaat -->
                     @foreach (var feedback in Model.FeedbackList)
                     {
                         <tr>
-                            <td class="text-center">@feedback.Auteur</td>
+                            <td class="text-center">@feedback.Auteur.GeefVolledigeNaam()</td>
                             <td class="text-center">@feedback.Tekst</td>
+                            <td class="text-center">@feedback.TimeWritten.ToString("dd/MM/yyyy H:mm")</td>
                         </tr>
                     }
 
