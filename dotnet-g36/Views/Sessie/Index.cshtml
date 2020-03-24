@@ -1,4 +1,5 @@
-﻿@model ICollection<dotnet_g36.Models.ViewModels.SessieKalenderViewModel>
+@model ICollection<dotnet_g36.Models.ViewModels.SessieKalenderViewModel>
+@*@model ICollection<dotnet_g36.Models.ViewModels.SessieKalenderViewModel>*@
 
 @using Microsoft.AspNetCore.Identity
 @using dotnet_g36.Models.ViewModels
@@ -33,21 +34,25 @@
     </div>
 
     <!--Dropdown voor keuze van maand-->
+    <div class="row">
+        <form class="col-md-4 align-top">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="maandId"></label>
+                    <select onchange="this.form.submit()" id="maandNr" name="maandNr" asp-items=@(ViewData["maanden"] as SelectList) class="form-control"> </select>
 
-    <form>
-        <div class="form-inline">
-            <div class="form-group">
-                <label for="maandId"></label>
-                <select onchange="this.form.submit()" id="maandNr" name="maandNr" asp-items=@(ViewData["maanden"] as SelectList) class="form-control"> </select>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+        <h4 class="col-md-4 text-center">Geplande sessies</h4>
+        <br />
+    </div>
     <br />
     @if (!Model.Where(s => s.StartDatum > DateTime.Now).Count().Equals(0))
     {
-        <h4>Geplande sessies</h4>
-        <table class="table table-striped">
-            <tr>
+        <table class="table">
+            <tr class="text-light bg-primary">
+
                 <th class="text-center">Gastspreker</th>
                 <th class="text-center">Titel</th>
                 <th class="text-center">Startdatum @($"&") uur</th>
@@ -60,39 +65,45 @@
             </tr>
             @foreach (SessieKalenderViewModel sessieKalenderViewModel in Model.Where(s => s.StartDatum > DateTime.Now && !s.Gesloten))
             {
-                <tr>
-                    <td class="text-center">@sessieKalenderViewModel.GastSpreker</td>
-                    <td class="text-center">@sessieKalenderViewModel.Titel</td>
-                    <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy hh:mm")</td>
-                    <td class="text-center"> @sessieKalenderViewModel.OpenPlaats / @sessieKalenderViewModel.Capaciteit </td>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
+                {
+                    <tr>
+                        <td class="text-center">@sessieKalenderViewModel.GastSpreker</td>
+                        <td class="text-center">@sessieKalenderViewModel.Titel</td>
+                        <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy hh:mm")</td>
+                        <td class="text-center"> @sessieKalenderViewModel.OpenPlaats / @sessieKalenderViewModel.Capaciteit </td>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <td class="text-center">
+                                <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@sessieKalenderViewModel.SessieId" method="post">
+                                    @if (sessieKalenderViewModel.Ingeschreven)
+                                    {
+                                        <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven" style="width: 17px; height: 17px;">
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven" style="width: 17px; height: 17px;">
+                                    }
+                                </form>
+                            </td>
+                        }
                         <td class="text-center">
-                            <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@sessieKalenderViewModel.SessieId" method="post">
-                                @if (sessieKalenderViewModel.Ingeschreven)
-                                {
-                                    <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven" style="width: 17px; height: 17px;">
-                                }
-                                else
-                                {
-                                    <input type="checkbox" onchange="this.form.submit()" id="uitschrijven" value="inschrijven" style="width: 17px; height: 17px;">
-                                }
-                            </form>
+                            <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@sessieKalenderViewModel.SessieId">Details</a>
                         </td>
-                    }
-                    <td class="text-center">
-                        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@sessieKalenderViewModel.SessieId">Details</a>
-                    </td>
-                </tr>
+                    </tr>
+                }
             }
         </table>
     }
     <br />
     @if (!Model.Where(s => s.StartDatum < DateTime.Now).Count().Equals(0))
     {
-        <h4>Afgelopen sessies</h4>
-        <table class="table table-striped">
-            <tr>
+        <h4 class="text-center">Afgelopen sessies</h4>
+
+
+        <br />
+        <table class="table">
+            <tr class="text-light bg-primary">
+
                 <th class="text-center">Gastspreker</th>
                 <th class="text-center">Titel</th>
                 <th class="text-center">Startdatum @($"&") uur</th>
@@ -102,6 +113,7 @@
                 }
                 <th class="text-center">Details</th>
             </tr>
+
 
             @foreach (SessieKalenderViewModel sessieKalenderViewModel in Model.Where(s => s.StartDatum < DateTime.Now && s.Gesloten))
             {
@@ -127,6 +139,9 @@
                     </td>
                 </tr>
             }
+
+
+
         </table>
     }
 </body>

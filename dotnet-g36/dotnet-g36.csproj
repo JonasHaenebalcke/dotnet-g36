@@ -12,6 +12,14 @@
     <EmbeddedResource Remove="Models\NewFolder1\**" />
     <None Remove="Models\NewFolder1\**" />
     <Content Remove="Views\Sessie\Aanwezigheden.cshtml" />
+    <None Remove=".DS_Store" />
+    <None Remove="Models\.DS_Store" />
+    <None Remove="Models\ViewModels\.DS_Store" />
+    <None Remove="Models\Domain\.DS_Store" />
+    <None Remove="Views\.DS_Store" />
+    <None Remove="Views\Sessie\.DS_Store" />
+    <Content Remove="wwwroot\css\EmptyCSSFile.css" />
+    <Content Remove="wwwroot\Files\Images\LogoItLab.png" />
   </ItemGroup>
 
   <ItemGroup>

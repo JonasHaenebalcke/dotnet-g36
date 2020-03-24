@@ -11,8 +11,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - dotnet_g36</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/stylesheet.css" />
 </head>
 <body>
     <header>
@@ -22,10 +24,10 @@
         }
         else
         {
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
                 <div class="container">
                     <a class="navbar-brand" asp-area="" asp-controller="Sessie" asp-action="Index">
-                        <img src="~/Files/Images/ItLabLogo.jpg">
+                        <img src="~/Files/Images/Itlablogo.png" class="navbar-logo">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +37,7 @@
                         <partial name="_LoginPartial" />
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Sessie" asp-action="Index">Sessies</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Sessie" asp-action="Index">Sessies</a>
                             </li>
                             <!--Moet nog gecontrolleerd worden of dat ingelogde hoofd- of vernatwoordelijke is en dan mag het ook zichtbaar zijn anders niet.-->
                             <!-- && (UserRepository.GetDeelnemerByUsername(User.IsInRole("Hoofdverantwoordelijke"))
@@ -44,7 +46,7 @@
                             {@if (User.IsInRole("Hoofdverantwoordelijke").Equals(true) || User.IsInRole("Verantwoordelijke").Equals(true))
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-controller="SessieOpenzetten" asp-action="Openzetten">Sessies openzetten</a>
+                                        <a class="nav-link text-light" asp-controller="SessieOpenzetten" asp-action="Openzetten">Sessies openzetten</a>
                                     </li>
                                 }
                             }
