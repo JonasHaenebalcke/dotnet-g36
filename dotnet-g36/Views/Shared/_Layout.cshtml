@@ -39,9 +39,6 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Sessie" asp-action="Index">Sessies</a>
                             </li>
-                            <!--Moet nog gecontrolleerd worden of dat ingelogde hoofd- of vernatwoordelijke is en dan mag het ook zichtbaar zijn anders niet.-->
-                            <!-- && (UserRepository.GetDeelnemerByUsername(User.IsInRole("Hoofdverantwoordelijke"))
-                        (UserManager. IsSignedIn(User.IsInRole("Hoofdverantwoordelijke")) || (SignInManager.IsSignedIn(User.IsInRole("Verantwoordelijke"))))) -->
                             @if (SignInManager.IsSignedIn(User))
                             {@if (User.IsInRole("Hoofdverantwoordelijke").Equals(true) || User.IsInRole("Verantwoordelijke").Equals(true))
                                 {
