@@ -153,7 +153,7 @@ namespace dotnet_g36.Models.Domain
                 GebruikerSessies.Add(gebruikersessie);
             }
             else
-                throw new GeenActieveGebruikerException("Je kan zich niet inschrijven omdat je geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
+                throw new GeenActieveGebruikerException("Je kan je niet inschrijven omdat je geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
         }
 
         /// <summary>

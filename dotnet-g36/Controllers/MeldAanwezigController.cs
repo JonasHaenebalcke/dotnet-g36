@@ -36,7 +36,7 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
 
                 if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
-                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
+                    throw new SessieException("Je kan je niet meer aanmelden in deze sessie.");
 
                 return View(new MeldAanwezigViewModel(sessie));
             }
@@ -67,7 +67,7 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
-                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
+                    throw new SessieException("Je kan je niet meer aanmelden in deze sessie.");
                 //if (model.Barcode.Contains("@"))
                 //{
                 //    gebruiker = _gebruikerRepository.GetDeelnemerByEmail(model.Barcode);
@@ -113,7 +113,7 @@ namespace dotnet_g36.Controllers
                 TempData["Error"] = e.Message;
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //  TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
                 TempData["Error"] = e.Message;

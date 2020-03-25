@@ -15,8 +15,8 @@ namespace dotnet_g36.Data
         private Verantwoordelijke organizer1;
         private Verantwoordelijke organizer2;
         private Gebruiker gebruiker;
-        // private Gebruiker nietActieveGebruiker;
-        // private Gebruiker geblokkeerdeGebruiker;
+         private Gebruiker nietActieveGebruiker;
+         private Gebruiker geblokkeerdeGebruiker;
 
         public ItLabDataInitializer(ApplicationDbContext context, UserManager<Gebruiker> userManager)
         {
@@ -58,14 +58,20 @@ namespace dotnet_g36.Data
                 _context.Verantwoordelijken.Add(organizer2);
                 // Deelnemers
                 gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.Actief);
-                //gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.NietActief);
-                //gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.Geblokkeerd);
+                nietActieveGebruiker = new Gebruiker("1103720665999", "859523sb", "simon.bettens@student.hogent.be", "Simon", "Bettens", StatusGebruiker.NietActief);
+                geblokkeerdeGebruiker = new Gebruiker("119928724994", "859359cc", "chloë.cornelis@student.hogent.be", "Chloë", "Cornelis", StatusGebruiker.Geblokkeerd);
                 gebruiker.EmailConfirmed = true;
                 gebruiker.PasswordHash = ph.HashPassword(gebruiker, "123");
                 gebruiker.SecurityStamp = Guid.NewGuid().ToString();
+                nietActieveGebruiker.EmailConfirmed = true;
+                nietActieveGebruiker.PasswordHash = ph.HashPassword(nietActieveGebruiker, "123");
+                nietActieveGebruiker.SecurityStamp = Guid.NewGuid().ToString();
+                geblokkeerdeGebruiker.EmailConfirmed = true;
+                geblokkeerdeGebruiker.PasswordHash = ph.HashPassword(geblokkeerdeGebruiker, "123");
+                geblokkeerdeGebruiker.SecurityStamp = Guid.NewGuid().ToString();
 
                 _context.Gebruikers.AddRange(new Gebruiker[]
-                {gebruiker  });
+                {gebruiker, nietActieveGebruiker, geblokkeerdeGebruiker  });
                 //nietActieveGebruiker, geblokkeerdeGebruiker
                 _context.SaveChanges();
                 _context.SaveChanges();
@@ -250,6 +256,8 @@ namespace dotnet_g36.Data
 
             // await _userManager.CreateAsync(actieveGebruiker, "123");
             await _userManager.AddClaimAsync(gebruiker, new Claim(ClaimTypes.Role, "Deelnemer"));
+            await _userManager.AddClaimAsync(nietActieveGebruiker, new Claim(ClaimTypes.Role, "Deelnemer"));
+            await _userManager.AddClaimAsync(geblokkeerdeGebruiker, new Claim(ClaimTypes.Role, "Deelnemer"));
         }
     }
 }
