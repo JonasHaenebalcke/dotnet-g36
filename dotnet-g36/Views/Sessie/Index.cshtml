@@ -78,7 +78,7 @@
                                 <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@sessieKalenderViewModel.SessieId" method="post">
                                     @if (sessieKalenderViewModel.Ingeschreven)
                                     {
-                                        <input  type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven" style="width: 17px; height: 17px;">
+                                        <input  checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven" style="width: 17px; height: 17px;">
                                     }
                                     else
                                     {

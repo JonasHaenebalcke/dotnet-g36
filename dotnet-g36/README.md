@@ -46,19 +46,18 @@ Je kan je inloggen met een HoGentmailadres of een HoGent gebruikersnaam en het g
 
 ## Senario's die je kan uitvoeren
 
-De algemene stappen
+De algemene stappen, worden verder aangevuld naargelang je ....
 1. Klik bovenaan rechts op 'Login'. Je komt op het inlogscherm terecht
 2. Probeer in te loggen.
-3. Bekijk de details van de eerste sessie in de lijst van 'Geplande sessies', 
+3. Probeer de details van een sessie in de lijst van 'Geplande sessies', 
    door helemaal rechts te klikken op 'Details'. Je wordt herleid naar de detail pagina van de gekozen sessie.
 4. Klik linksbovenaan op 'Sessies' om terug naar de sessies van de huidige maand te gaan.
 5. Klik op de naam van de huige maand.
-6. klik nu op de maand 'December'.
+6. Probeer een ander maand te kiezen.
 7. Klik op 'Details' van de eerste sessie in de lijst van 'Afgelopen sessies'.
 8. Schrijf iets in het tekstvak van feedback.
 9. Klik op 'Indienen'.
-10. Klik bovenaan links op "Sessies".
-11. Klik bovenaan rechts op 'Logout'. Nu ben je afgemeld van de webapplicatie en is de knop bovenaanrechts verandert naar 'Login'.
+10. Probeer je uit te loggen, door bovenaan rechts op 'Logout' knop te klikken. 
 
 
 ALS HOOFDVERANTWOORDELIJKE
