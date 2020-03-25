@@ -63,7 +63,7 @@ namespace dotnet_g36.Controllers
         public IActionResult MeldAanwezig(int id, string aanwezig, MeldAanwezigViewModel model)
         {
             try
-            {
+           {
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
@@ -74,27 +74,28 @@ namespace dotnet_g36.Controllers
                 //}
                 //else
                 //{
-              
+
                 gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(aanwezig);
                 //}
 
+
                 if (sessie.geefAlleAanwezigen().Contains(gebruiker))
                 {
-                    sessie.MeldAanwezigAfwezig(gebruiker);
-                    _sessieRepository.SaveChanges();
-                    _gebruikerRepository.SaveChanges();
-                    TempData["message"] = "Afmelden is gelukt!";
 
-                    ModelState.Clear();
-                    return View(new MeldAanwezigViewModel(sessie));
+                    TempData["message"] = gebruiker.GeefVolledigeNaam() + " is afwezig gezet!";
+
                 }
+                else
+                {
+                    TempData["message"] = gebruiker.GeefVolledigeNaam() + "  is aanwezig gezet!";
 
+                }
                 sessie.MeldAanwezigAfwezig(gebruiker);
                 _sessieRepository.SaveChanges();
                 _gebruikerRepository.SaveChanges();
-                TempData["message"] = "Aanmelden is gelukt!";
 
-                ModelState.Clear();
+               // model.Barcode = null;
+                //ModelState.Clear();
                 return View(new MeldAanwezigViewModel(sessie));
             }
             catch (SessieException e)

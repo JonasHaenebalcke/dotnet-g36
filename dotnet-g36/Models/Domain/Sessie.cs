@@ -109,18 +109,20 @@ namespace dotnet_g36.Models.Domain
                     if (gebruikerSessie.Aanwezig == true)
                     {
                         gebruikerSessie.Aanwezig = false;
+                        succes = true;
                     }
                     else
                     {
                         gebruikerSessie.Aanwezig = true;
                         succes = true;
-                        break;
+                        
                     }
+                    break;
                 }
             }
             if (!succes)
             {
-                throw new IngeschrevenException("Je bent niet ingeschreven, dus je kan zich niet aanwezig zetten.");
+                throw new IngeschrevenException("Je bent niet ingeschreven, dus je kan je niet aanwezig zetten.");
             }
         }
 

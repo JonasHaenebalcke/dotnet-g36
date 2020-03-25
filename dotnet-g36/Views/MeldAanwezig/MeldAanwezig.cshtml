@@ -14,6 +14,18 @@
 </head>
 <body>
     <br />
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-warning">@TempData["error"]</div>
+            }
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+        </main>
+    </div>
     <h2 class="text-center">Aanwezigheid Registreren voor @Model.Titel</h2><br />
     <div class="row">
         <div class="col-md-4">
@@ -38,24 +50,26 @@
                 {
                     <tr>
                         <td class="text-center">@ingeschrevenen.Key</td>
-
                         <td class="text-center">
                             <form asp-controller="MeldAanwezig" asp-action="MeldAanwezig" asp-route-id="@Model.SessieID" name="aanwezig" method="post">
-                                @if (!Model.Aanwezigen.Contains(ingeschrevenen.Key))
-                                {<input type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;">
-
+                                @if (Model.Aanwezigen.Contains(ingeschrevenen.Key))
+                                {
+                                    <input disabled type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;" checked>
                                 }
                                 else
-                                { <input checked disabled="disabled" type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;">
+                                {
+                                    <input  type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;">
                                 }
+                                @*<input type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;">*@
                             </form>
                         </td>
+
                     </tr>
                 }
             </table>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-4">
             <table class="table ">
                 <tr>
                     <th class="text-center bg-primary text-light">Lijst aanwezigen</th>
@@ -78,17 +92,6 @@
             </table>
         </div>
     </div>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @if (TempData["error"] != null)
-            {
-                <div class="alert alert-warning">@TempData["error"]</div>
-            }
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-success">@TempData["message"]</div>
-            }
-        </main>
-    </div>
+
 </body>
 </html>

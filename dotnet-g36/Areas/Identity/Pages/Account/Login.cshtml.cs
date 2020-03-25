@@ -131,7 +131,7 @@ namespace dotnet_g36.Areas.Identity.Pages.Account
                     var result = await _signInManager.PasswordSignInAsync(/*email*/user.UserName, Input.Password, false, true);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User is ingelogd.");
+                        _logger.LogInformation("Gebruiker is ingelogd.");
                         return LocalRedirect(returnUrl);
                     }
                     if (result.RequiresTwoFactor)
