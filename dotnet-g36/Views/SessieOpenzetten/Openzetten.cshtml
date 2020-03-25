@@ -40,7 +40,7 @@
         {
             <tr>
                 <td class="text-center">@Model.Titels.ElementAt(i)</td>
-                <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("HH:mm")</td>
+                <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy hh:mm")</td>
                 <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
                 <td class="text-center">
                     <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
