@@ -1,53 +1,53 @@
-Er zijn drie rollen die de applicatie heeft.
-1 hoofdverantwoordelijke, 2 verantwoordelijke en 3 gebruikers, 
-een actieve gebruiker, een geblokkerde gebruiker en een niet actieve gebruiker.
+#Projecten-Workshops II - Programmeren, DotNet
 
+Er zijn drie rollen die de applicatie heeft.\
+1 hoofdverantwoordelijke, 2 verantwoordelijke en 3 gebruikers
+(een actieve gebruiker, een geblokkerde gebruiker en een niet actieve gebruiker).
 
 In deze applicaties is Lucas Van Der Haegen de hoofdverantwoordelijke,
 Audrey Behiels en Jonas Haenebalcke zijn de verantwoordelijke.
 Rein Dealman is een gebruiker/student.
 
------------------------
 
-De login gegevens:
-Je kan je inloggen met een HoGentmailadres of een HoGent gebruikersnaam.
+##Inlog gegevens
+Je kan je inloggen met een HoGentmailadres of een HoGent gebruikersnaam en het gegeven wachtwoord.
 
-HOOFDVERANTWOORDELIJKE
-  HoGentmailadres: lucas.vanderhaegen@student.hogent.be
-  HoGent gebruikersnaam: 862159lv
-  ww: 123
+##Hoofdverantwoordelijke
+  HoGentmailadres: lucas.vanderhaegen@student.hogent.be\
+  HoGent gebruikersnaam: 862159lv\
+  ww: 123\
 
 
-VERANTWOORDELIJKEN
-  HoGentmailadres: audrey.behiels@student.hogent.be
-  HoGent gebruikersnaam: 860443ab
-  ww: 123
-  HoGentmailadres: jonas.haenebalcke@student.hogent.be
-  HoGent gebruikersnaam: 860444jh
-  ww: 123
+##Verantwoordelijke
+  HoGentmailadres: audrey.behiels@student.hogent.be\
+  HoGent gebruikersnaam: 860443ab\
+  ww: 123\
 
-GEBRUIKERS
- --- actieve gebruiker ---
-  HoGentmailadres: rein.daelman@student.hogent.be
-  HoGent gebruikersnaam: 752460rd 
-  ww: 123
+  HoGentmailadres: jonas.haenebalcke@student.hogent.be\
+  HoGent gebruikersnaam: 860444jh\
+  ww: 123\
 
- --- niet actieve gebruiker ---
-  HoGentmailadres: ...
-  HoGent gebruikersnaam: ... 
-  ww: 123
+##Gebruikers
+--- actieve gebruiker ---\
+  HoGentmailadres: rein.daelman@student.hogent.be\
+  HoGent gebruikersnaam: 752460rd \
+  ww: 123\
 
- --- geblokeerde gebruiker ---
-  HoGentmailadres: ...  
-  HoGent gebruikersnaam: ...
-  ww: 123
+ --- niet actieve gebruiker ---\
+  HoGentmailadres: ...\
+  HoGent gebruikersnaam: ... \
+  ww: 123\
 
--------------------
+ --- geblokeerde gebruiker ---\
+  HoGentmailadres: ...  \
+  HoGent gebruikersnaam: ...\
+  ww: 123\
 
-Senario's die u kan uitvoeren
 
-ALGEMENE STAPPEN
-1. Klik bovenaan rechts op 'Login'. Je komt op het inlog scherm terecht
+##Senario's die je kan uitvoeren
+
+De algemene stappen
+1. Klik bovenaan rechts op 'Login'. Je komt op het inlogscherm terecht
 2. Probeer in te loggen.
 3. Bekijk de details van de eerste sessie in de lijst van 'Geplande sessies', 
    door helemaal rechts te klikken op 'Details'. Je ziet nu de details van die sessie.
@@ -67,18 +67,18 @@ ALGEMENE STAPPEN
 
 
 ALS HOOFDVERANTWOORDELIJKE
-- volg de algemene stappen van hierboven, tenzij een aanpassing in een stap. 
+- Volg de algemene stappen van hierboven, tenzij een aanpassing in een stap. 
 - Bij stap 2: inloggen als de hoofdverantwoordelijke, Lucas Van Derhaegen.
 - Ga naar stap 3, volg de rest van de stappen
 
 ALS VERANTWOORDELIJKE
-- volg de stappen van hierboven, tenzij een aanpassing in een stap.
+- Volg de stappen van hierboven, tenzij een aanpassing in een stap.
 - Bij stap 2: inloggen als de verantwoordelijke, Audrey Behiels.
 - Ga naar stap 3, volg de rest van de stappen
 - Bij stap 9, wordt er een foutmelding gegeven omdat je niet aanwezig of ingeschreven was voor die sessie.
 
 ALS GEBRUIKER
-- volg de stappen van hierboven, tenzij een aanpassing in een stap. 
+- Volg de stappen van hierboven, tenzij een aanpassing in een stap. 
 - Bij stap 2 moet je u inloggen als de Verantwoordelijke Rein Daelman.
 - Na stap 3 moet je op de knop 'Inschrijven' klikken om je in te schrijven in de sessie.
 - Volg nu de stappen stap 5 t.e.m. 8, klik op 'Indienen', 
