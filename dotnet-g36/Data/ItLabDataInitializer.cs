@@ -57,8 +57,7 @@ namespace dotnet_g36.Data
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 // Deelnemers
-                //gebruiker = new Gebruiker
-                
+                gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.Actief);
                 nietActieveGebruiker = new Gebruiker("1103720665999", "859523sb", "simon.bettens@student.hogent.be", "Simon", "Bettens", StatusGebruiker.NietActief);
                 geblokkeerdeGebruiker = new Gebruiker("119928724994", "859359cc", "chloë.cornelis@student.hogent.be", "Chloë", "Cornelis", StatusGebruiker.Geblokkeerd);
                 gebruiker.EmailConfirmed = true;
