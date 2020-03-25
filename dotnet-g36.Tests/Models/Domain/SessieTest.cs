@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using dotnet_g36.Models.Domain;
 using dotnet_g36.Models.Exceptions;
@@ -177,55 +178,60 @@ namespace dotnet_g36.Tests.Models.Domain
         [Fact]
         public void AanwezigheidRegistrerenTest()
         {
-            _gebruiker.Barcode = "123";
-            _sessie.StartDatum = DateTime.Now.AddHours(-2);
-            _sessie.StatusSessie = StatusSessie.Gesloten;
+            _sessie.StartDatum = DateTime.Now.AddMinutes(50);
+            _sessie.StatusSessie = StatusSessie.Open;
             GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = false };
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
 
             _sessie.MeldAanwezig(_gebruiker);
-            Assert.Equal("123", _gebruiker.Barcode);
-            
+            Assert.Equal(1, _sessie.GebruikerSessies.Count);
+            Assert.True(_sessie.GebruikerSessies.Single().Aanwezig);
+            Assert.Single(_sessie.geefAlleAanwezigen());
         }
 
         [Fact]
-        public void AanwezigheidRegistrerenReedsAanwezigTest()
+        public void AanwezigheidRegistreren_ReedsAanwezigTest()
         {
-            _sessie.StartDatum = DateTime.Now.AddHours(-2);
-            _sessie.StatusSessie = StatusSessie.Gesloten;
+            _sessie.StartDatum = DateTime.Now.AddMinutes(50);
+            _sessie.StatusSessie = StatusSessie.Open;
             GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = true };
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
 
-            
+            Assert.Equal(1, _sessie.GebruikerSessies.Count);
+
             Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezig(_gebruiker));
+            Assert.True(_sessie.GebruikerSessies.Single().Aanwezig);
+            Assert.Single(_sessie.geefAlleAanwezigen());
         }
 
         [Theory]
         [InlineData(StatusGebruiker.Geblokkeerd)]
         [InlineData(StatusGebruiker.NietActief)]
-        public void AanwezigheidRegistrerenGebruikerNietActiefTest(StatusGebruiker status)
+        public void AanwezigheidRegistreren_GebruikerNietActiefTest(StatusGebruiker status)
         {
             _gebruiker.StatusGebruiker = status;
-            _sessie.StartDatum = DateTime.Now.AddHours(-2);
-            _sessie.StatusSessie = StatusSessie.Gesloten;
+            _sessie.StartDatum = DateTime.Now.AddMinutes(50);
+            _sessie.StatusSessie = StatusSessie.Open;
             GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = false };
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
 
-
             Assert.Throws<GeenActieveGebruikerException>(() => _sessie.MeldAanwezig(_gebruiker));
+            Assert.False(_sessie.GebruikerSessies.Single().Aanwezig);
+            Assert.Empty(_sessie.geefAlleAanwezigen());
         }
 
         [Fact]
-        public void AanwezigheidRegistrerenNietIngeschrevenTest()
+        public void AanwezigheidRegistreren_NietIngeschrevenTest()
         {
-            _sessie.StartDatum = DateTime.Now.AddHours(-2);
-            _sessie.StatusSessie = StatusSessie.Gesloten;
+            _sessie.StartDatum = DateTime.Now.AddMinutes(50);
+            _sessie.StatusSessie = StatusSessie.Open;
 
 
             Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezig(_gebruiker));
+            Assert.Empty(_sessie.geefAlleAanwezigen());
         }
     }
 }
