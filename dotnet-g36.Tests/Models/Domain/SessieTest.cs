@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using dotnet_g36.Models.Domain;
@@ -173,5 +173,60 @@ namespace dotnet_g36.Tests.Models.Domain
             Assert.Throws<FeedbackException>(() => _sessie.FeedbackGeven("test", _gebruiker, value));
             Assert.Empty(_sessie.FeedbackList);
         }
+
+        [Fact]
+        public void AanwezigheidRegistrerenTest()
+        {
+            _gebruiker.Barcode = "123";
+            _sessie.StartDatum = DateTime.Now.AddHours(-2);
+            _sessie.StatusSessie = StatusSessie.Gesloten;
+            GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = false };
+            _sessie.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.GebruikerSessies.Add(gebruikerSessie);
+
+            _sessie.MeldAanwezig(_gebruiker);
+            Assert.Equal("123", _gebruiker.Barcode);
+            
+        }
+
+        [Fact]
+        public void AanwezigheidRegistrerenReedsAanwezigTest()
+        {
+            _sessie.StartDatum = DateTime.Now.AddHours(-2);
+            _sessie.StatusSessie = StatusSessie.Gesloten;
+            GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = true };
+            _sessie.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.GebruikerSessies.Add(gebruikerSessie);
+
+            
+            Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezig(_gebruiker));
+        }
+
+        [Theory]
+        [InlineData(StatusGebruiker.Geblokkeerd)]
+        [InlineData(StatusGebruiker.NietActief)]
+        public void AanwezigheidRegistrerenGebruikerNietActiefTest(StatusGebruiker status)
+        {
+            _gebruiker.StatusGebruiker = status;
+            _sessie.StartDatum = DateTime.Now.AddHours(-2);
+            _sessie.StatusSessie = StatusSessie.Gesloten;
+            GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = false };
+            _sessie.GebruikerSessies.Add(gebruikerSessie);
+            _gebruiker.GebruikerSessies.Add(gebruikerSessie);
+
+
+            Assert.Throws<GeenActieveGebruikerException>(() => _sessie.MeldAanwezig(_gebruiker));
+        }
+
+        [Fact]
+        public void AanwezigheidRegistrerenNietIngeschrevenTest()
+        {
+            _sessie.StartDatum = DateTime.Now.AddHours(-2);
+            _sessie.StatusSessie = StatusSessie.Gesloten;
+
+
+            Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezig(_gebruiker));
+        }
     }
 }
+
