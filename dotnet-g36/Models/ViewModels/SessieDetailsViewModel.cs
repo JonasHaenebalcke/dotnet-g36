@@ -32,9 +32,6 @@ namespace dotnet_g36.Models.ViewModels
         [Range(1, 5, ErrorMessage = "Score moet tussen 1-5 liggen")]
         public int Score { get; set; }
 
-        [Range(1, 5, ErrorMessage = "Score moet tussen 1-5 liggen")]
-        public int Score { get; set; }
-
         public SessieDetailsViewModel() { }
 
         public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker/*, Verantwoordelijke hoofdVerantwoordelijke*/)
