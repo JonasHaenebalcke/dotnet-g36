@@ -95,12 +95,12 @@ namespace dotnet_g36.Controllers
                 TempData["Error"] = e.Message;
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
-            catch (IngeschrevenException e)
+            catch (SchrijfInSchrijfUitException e)
             {
                 TempData["Error"] = e.Message;
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
 

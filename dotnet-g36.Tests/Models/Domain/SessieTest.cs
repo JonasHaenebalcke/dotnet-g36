@@ -38,7 +38,7 @@ namespace dotnet_g36.Tests.Models.Domain
         public void InschrijvenSessie_VerledenMaandTest()
         {
             _sessie.StartDatum = DateTime.Now.AddMonths(-2);
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<SchrijfInSchrijfUitException>(
                 () => _sessie.SchrijfIn(_gebruiker));
         }
 
@@ -46,7 +46,7 @@ namespace dotnet_g36.Tests.Models.Domain
         public void InschrijvenSessieGeenPlaatsTest()
         {
             _sessie.Capaciteit = 0;
-            Assert.Throws<IngeschrevenException>(
+            Assert.Throws<SchrijfInSchrijfUitException>(
                 () => _sessie.SchrijfIn(_gebruiker));
         }
 
@@ -55,7 +55,7 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _sessie.SchrijfIn(_gebruiker);
 
-            Assert.Throws<IngeschrevenException>(
+            Assert.Throws<SchrijfInSchrijfUitException>(
                 () => _sessie.SchrijfIn(_gebruiker));
         }
 
@@ -84,7 +84,7 @@ namespace dotnet_g36.Tests.Models.Domain
         public void UitschrijvenSessie_NietIngeschrevenTest_melding()
         {
             Assert.Empty(_sessie.GebruikerSessies);
-            Assert.Throws<IngeschrevenException>(
+            Assert.Throws<SchrijfInSchrijfUitException>(
                 () => _sessie.SchrijfUit(_gebruiker));
         }
 
@@ -92,11 +92,11 @@ namespace dotnet_g36.Tests.Models.Domain
         public void SessieUitschrijven_VerledenSessie_melding()
         {
             _sessie.StartDatum = DateTime.Now.AddMonths(-2);
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<SchrijfInSchrijfUitException>(
                 () => _sessie.SchrijfUit(_gebruiker));
         }
 
-        [Fact] //fout, use gebruikerSessie
+        [Fact]
         public void FeedbackGevenTest()
         {
             _sessie.StartDatum = DateTime.Now.AddHours(-2);
@@ -104,7 +104,7 @@ namespace dotnet_g36.Tests.Models.Domain
             GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = true };
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
-            _sessie.FeedbackGeven("test",_gebruiker);
+            _sessie.FeedbackGeven("test",_gebruiker, 3);
             Assert.Equal(1, _sessie.FeedbackList.Count);
             Feedback feedback = null;
             foreach (Feedback f in _sessie.FeedbackList)
@@ -123,7 +123,7 @@ namespace dotnet_g36.Tests.Models.Domain
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.StatusGebruiker = status;
-            Assert.Throws<GeenActieveGebruikerException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Throws<GeenActieveGebruikerException>(() => _sessie.FeedbackGeven("test", _gebruiker, 3));
             Assert.Empty(_sessie.FeedbackList);
         }
 
@@ -132,7 +132,7 @@ namespace dotnet_g36.Tests.Models.Domain
         {
             _sessie.StartDatum = DateTime.Now.AddHours(-2);
             _sessie.StatusSessie = StatusSessie.Gesloten;
-            Assert.Throws<AanwezigException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Throws<AanwezigException>(() => _sessie.FeedbackGeven("test", _gebruiker, 3));
             Assert.Empty(_sessie.FeedbackList);
         }
 
@@ -144,7 +144,7 @@ namespace dotnet_g36.Tests.Models.Domain
             GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = false };
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
-            Assert.Throws<AanwezigException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Throws<AanwezigException>(() => _sessie.FeedbackGeven("test", _gebruiker, 3));
             Assert.Empty(_sessie.FeedbackList);
         }
 
@@ -158,7 +158,19 @@ namespace dotnet_g36.Tests.Models.Domain
             GebruikerSessie gebruikerSessie = new GebruikerSessie(_sessie, _gebruiker) { Aanwezig = true };
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
-            Assert.Throws<FeedbackException>(() => _sessie.FeedbackGeven("test", _gebruiker));
+            Assert.Throws<FeedbackException>(() => _sessie.FeedbackGeven("test", _gebruiker, 3));
+            Assert.Empty(_sessie.FeedbackList);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(-5)]
+        [InlineData(6)]
+        [InlineData(10)]
+        public void FeedbackGevenScoreOngeldig(int value)
+        {
+            Assert.Throws<FeedbackException>(() => _sessie.FeedbackGeven("test", _gebruiker, value));
             Assert.Empty(_sessie.FeedbackList);
         }
     }

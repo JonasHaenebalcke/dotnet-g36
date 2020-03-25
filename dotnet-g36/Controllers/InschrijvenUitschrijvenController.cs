@@ -62,7 +62,7 @@ namespace dotnet_g36.Controllers
             {
                 TempData["error"] = e.Message;
             }
-            catch (IngeschrevenException e)
+            catch (SchrijfInSchrijfUitException e)
             {
                 TempData["error"] = e.Message;
             }

@@ -108,7 +108,7 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (gebruikerSessie.Aanwezig == true)
                     {
-                        throw new IngeschrevenException("Je bent reeds aanwezig.");
+                        throw new SchrijfInSchrijfUitException("Je bent reeds aanwezig.");
                     }
                     else
                     {
@@ -120,7 +120,7 @@ namespace dotnet_g36.Models.Domain
             }
             if (!succes)
             {
-                throw new IngeschrevenException("Je bent niet ingeschreven, dus je kan zich niet aanwezig zetten.");
+                throw new SchrijfInSchrijfUitException("Je bent niet ingeschreven, dus je kan zich niet aanwezig zetten.");
             }
         }
 
@@ -131,14 +131,14 @@ namespace dotnet_g36.Models.Domain
         public void SchrijfIn(Gebruiker gebruiker)
         {
             if (StartDatum < DateTime.Now)
-                throw new ArgumentException("je kan je niet inschrijven in een verleden maand.");
+                throw new SchrijfInSchrijfUitException("je kan je niet inschrijven in een verleden maand.");
             if (GebruikerSessies.Count >= Capaciteit)
-                throw new IngeschrevenException("je kan je niet meer inschrijven in deze sessie. De sessie is volzet.");
+                throw new SchrijfInSchrijfUitException("je kan je niet meer inschrijven in deze sessie. De sessie is volzet.");
 
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
                 if (gebruikerSessie.Gebruiker == gebruiker)
-                    throw new IngeschrevenException("Je bent al ingeschreven voor deze sessie.");
+                    throw new SchrijfInSchrijfUitException("Je bent al ingeschreven voor deze sessie.");
             }
 
             if (gebruiker.StatusGebruiker == StatusGebruiker.Actief)
@@ -158,10 +158,10 @@ namespace dotnet_g36.Models.Domain
         public void SchrijfUit(Gebruiker gebruiker)
         {
             if (StartDatum < DateTime.Now)
-                throw new ArgumentException("Je kan je niet uitschreven in een verleden maand.");
+                throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven in een verleden maand.");
 
             if (gebruiker == Verantwoordelijke)
-                throw new IngeschrevenException("Je kan je niet uitschreven voor een sessie waarvoor je verantwoordelijk bent.");
+                throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven voor een sessie waarvoor je verantwoordelijk bent.");
 
             bool succes = false;
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
@@ -175,7 +175,7 @@ namespace dotnet_g36.Models.Domain
                 }
             }
             if (!succes)
-                throw new IngeschrevenException("Je kon niet worden uitgeschreven, omdat je niet ingeschreven bent.");
+                throw new SchrijfInSchrijfUitException("Je kon niet worden uitgeschreven, omdat je niet ingeschreven bent.");
         }
 
         /// <summary>
@@ -200,10 +200,13 @@ namespace dotnet_g36.Models.Domain
         /// <param name="gebruiker">Gebruiker Object</param>
         public void FeedbackGeven(string feedbacktxt, Gebruiker gebruiker, int score)
         {
+            
             if (StatusSessie != StatusSessie.Gesloten)
-                throw new ArgumentException("Je kan geen feedback geven op een niet afgelopen sessie.");
+                throw new FeedbackException("Je kan geen feedback geven op een niet afgelopen sessie.");
             if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
                 throw new GeenActieveGebruikerException("Je moet een actieve gebruiker zijn om feedback te kunnen geven");
+            if (score < 1 || score > 5)
+                throw new FeedbackException("Score moet tussen 1 en 5 liggen");
 
             foreach (Feedback f in FeedbackList)
             {
@@ -244,15 +247,6 @@ namespace dotnet_g36.Models.Domain
             }
             if (!succes)
                 throw new FeedbackException("Feedback kon niet gevonden worden. Feedback is niet verwijderd.");
-        }
-        /// <summary>
-        /// Rating geven op de afgelopen sessie
-        /// </summary>
-        /// <param name="gebruiker">Gebruiker Object</param>
-        public void ratingGeven(Gebruiker gebruiker, int rating)
-        {
-
-
         }
 
         #endregion
