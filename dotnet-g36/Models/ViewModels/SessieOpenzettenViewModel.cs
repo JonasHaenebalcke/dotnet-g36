@@ -26,11 +26,14 @@ namespace dotnet_g36.Models.ViewModels
 
             foreach (Sessie sessie in sessies)
             {
-                Titels.Add(sessie.Titel);
-                StartDatums.Add(sessie.StartDatum);
-                OpenPlaatsen.Add(sessie.Capaciteit);
-                SessieIds.Add(sessie.SessieID);
-                Gesloten.Add(sessie.StatusSessie == StatusSessie.Gesloten);
+                if (sessie.StatusSessie != StatusSessie.Gesloten)
+                {
+                    Titels.Add(sessie.Titel);
+                    StartDatums.Add(sessie.StartDatum);
+                    OpenPlaatsen.Add(sessie.Capaciteit);
+                    SessieIds.Add(sessie.SessieID);
+                    Gesloten.Add(sessie.StatusSessie == StatusSessie.Gesloten);
+                }
             }
         }
     }
