@@ -82,15 +82,15 @@ namespace dotnet_g36
             bool succes = false;
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                if (gebruikerSessie.Sessie.StartDatum > DateTime.Now)
+                if (gebruikerSessie.Sessie.StartDatum > DateTime.Now && gebruikerSessie.Sessie.StatusSessie == StatusSessie.Gesloten)
                 {
-                    gebruikerSessie.Sessie.SchrijfUit(this);
+                   // gebruikerSessie.Sessie.SchrijfUit(this);
                     succes = true;
                     break;
                 }
             }
-            if (succes)
-                SchrijfUitAlleSessies();
+          //  if (succes)
+              //  SchrijfUitAlleSessies();
         }
 
         /// <summary>
