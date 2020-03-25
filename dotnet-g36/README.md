@@ -1,4 +1,4 @@
-#Projecten-Workshops II - Programmeren, DotNet
+# Projecten-Workshops II - Programmeren, DotNet
 
 Er zijn drie rollen die de applicatie heeft.\
 1 hoofdverantwoordelijke, 2 verantwoordelijke en 3 gebruikers
@@ -9,42 +9,42 @@ Audrey Behiels en Jonas Haenebalcke zijn de verantwoordelijke.
 Rein Dealman is een gebruiker/student.
 
 
-##Inlog gegevens
+## Inlog gegevens
 Je kan je inloggen met een HoGentmailadres of een HoGent gebruikersnaam en het gegeven wachtwoord.
 
-##Hoofdverantwoordelijke
+## Hoofdverantwoordelijke
   HoGentmailadres: lucas.vanderhaegen@student.hogent.be\
   HoGent gebruikersnaam: 862159lv\
-  ww: 123\
+  ww: 123
 
 
-##Verantwoordelijke
+## Verantwoordelijke
   HoGentmailadres: audrey.behiels@student.hogent.be\
   HoGent gebruikersnaam: 860443ab\
-  ww: 123\
+  ww: 123
 
   HoGentmailadres: jonas.haenebalcke@student.hogent.be\
   HoGent gebruikersnaam: 860444jh\
-  ww: 123\
+  ww: 123
 
-##Gebruikers
---- actieve gebruiker ---\
+## Gebruikers
+--- Actieve gebruiker ---\
   HoGentmailadres: rein.daelman@student.hogent.be\
   HoGent gebruikersnaam: 752460rd \
-  ww: 123\
+  ww: 123
 
- --- niet actieve gebruiker ---\
+ --- Niet actieve gebruiker ---\
   HoGentmailadres: ...\
   HoGent gebruikersnaam: ... \
-  ww: 123\
+  ww: 123
 
- --- geblokeerde gebruiker ---\
+ --- Geblokeerde gebruiker ---\
   HoGentmailadres: ...  \
   HoGent gebruikersnaam: ...\
-  ww: 123\
+  ww: 123
 
 
-##Senario's die je kan uitvoeren
+## Senario's die je kan uitvoeren
 
 De algemene stappen
 1. Klik bovenaan rechts op 'Login'. Je komt op het inlogscherm terecht
