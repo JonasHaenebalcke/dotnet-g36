@@ -60,10 +60,10 @@ namespace dotnet_g36.Controllers
         /// <returns>View naar aanwezigheden (aanmelden voor sessie)</returns>
         [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         [HttpPost]
-        public IActionResult MeldAanwezig(int id, MeldAanwezigViewModel model)
+        public IActionResult MeldAanwezig(int id, string aanwezig, MeldAanwezigViewModel model)
         {
             try
-            {
+           {
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
@@ -74,15 +74,28 @@ namespace dotnet_g36.Controllers
                 //}
                 //else
                 //{
-                gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(model.Barcode);
+
+                gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(aanwezig);
                 //}
 
-                sessie.MeldAanwezig(gebruiker);
+
+                if (sessie.geefAlleAanwezigen().Contains(gebruiker))
+                {
+
+                    TempData["message"] = gebruiker.GeefVolledigeNaam() + " is afwezig gezet!";
+
+                }
+                else
+                {
+                    TempData["message"] = gebruiker.GeefVolledigeNaam() + "  is aanwezig gezet!";
+
+                }
+                sessie.MeldAanwezigAfwezig(gebruiker);
                 _sessieRepository.SaveChanges();
                 _gebruikerRepository.SaveChanges();
-                TempData["message"] = "Aanmelden is gelukt!";
 
-                ModelState.Clear();
+               // model.Barcode = null;
+                //ModelState.Clear();
                 return View(new MeldAanwezigViewModel(sessie));
             }
             catch (SessieException e)
@@ -102,7 +115,8 @@ namespace dotnet_g36.Controllers
             }
             catch (Exception)
             {
-                TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
+                //  TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
+                TempData["Error"] = e.Message;
 
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }

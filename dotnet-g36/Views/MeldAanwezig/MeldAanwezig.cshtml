@@ -14,21 +14,62 @@
 </head>
 <body>
     <br />
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-warning">@TempData["error"]</div>
+            }
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+        </main>
+    </div>
     <h2 class="text-center">Aanwezigheid Registreren voor @Model.Titel</h2><br />
     <div class="row">
         <div class="col-md-4">
             <h5>Gelieve uw studentenkaart te scannen of uw e-mail in te geven.</h5><br />
-            <form method="post" asp-controller="MeldAanwezig" asp-action="MeldAanwezig" >
+            <form method="post" asp-controller="MeldAanwezig" asp-action="MeldAanwezig">
                 <input type="text" class="form-control" asp-for="Barcode"><br />
                 <button class="btn btn-primary">Voeg Toe</button>
             </form><br />
-            <form method="post"  asp-controller="SessieOpenzetten" asp-action="Sluiten" asp-route-id="@Model.SessieID">
+            <form method="post" asp-controller="SessieOpenzetten" asp-action="Sluiten" asp-route-id="@Model.SessieID">
                 <button class="btn btn-danger">Sluit Sessie</button>
             </form><br />
             <br /><br />
         </div>
-
         <div class="col-md-8">
+            <table class="table">
+                <tr>
+                    <th class="text-center bg-primary text-light">Lijst ingeschrevenen</th>
+                    <th class="text-center bg-primary text-light">Aanwezig zetten</th>
+                </tr>
+                @*@foreach (var ingeschrevenen in Model.Ingeschrevenen)*@
+                @foreach (var ingeschrevenen in Model.Test)
+                {
+                    <tr>
+                        <td class="text-center">@ingeschrevenen.Key</td>
+                        <td class="text-center">
+                            <form asp-controller="MeldAanwezig" asp-action="MeldAanwezig" asp-route-id="@Model.SessieID" name="aanwezig" method="post">
+                                @if (Model.Aanwezigen.Contains(ingeschrevenen.Key))
+                                {
+                                    <input disabled type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;" checked>
+                                }
+                                else
+                                {
+                                    <input  type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;">
+                                }
+                                @*<input type="checkbox" onchange="this.form.submit()" id="aanwezig" name="aanwezig" value=@ingeschrevenen.Value style="width: 17px; height: 17px;">*@
+                            </form>
+                        </td>
+
+                    </tr>
+                }
+            </table>
+        </div>
+
+        <div class="col-md-4">
             <table class="table ">
                 <tr>
                     <th class="text-center bg-primary text-light">Lijst aanwezigen</th>
@@ -51,17 +92,6 @@
             </table>
         </div>
     </div>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @if (TempData["error"] != null)
-            {
-                <div class="alert alert-warning">@TempData["error"]</div>
-            }
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-success">@TempData["message"]</div>
-            }
-        </main>
-    </div>
+
 </body>
 </html>

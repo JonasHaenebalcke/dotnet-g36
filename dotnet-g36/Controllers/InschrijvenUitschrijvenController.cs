@@ -33,10 +33,10 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailInschrijvenUitschrijven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
+            Sessie sessie = _sessieRepository.GetByID(id);
             try
             {
-                Sessie sessie = _sessieRepository.GetByID(id);
-
+              
                 bool succes = false;
                 foreach (GebruikerSessie gs in sessie.GebruikerSessies)
                 {
@@ -71,7 +71,7 @@ namespace dotnet_g36.Controllers
                 TempData["error"] = e.Message;
             }
             // return RedirectToAction(nameof(Index));
-            return RedirectToAction("Index", "Sessie");
+            return RedirectToAction("Index", "Sessie", new { gebruiker, sessie.StartDatum.Month });
          
         }
 
