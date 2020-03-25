@@ -96,7 +96,7 @@ namespace dotnet_g36.Models.Domain
         /// De gebruiker wordt aanwezig gemeld
         /// </summary>
         /// <param name="sessie">Gebruiker Object</param>
-        public void MeldAanwezig(Gebruiker gebruiker)
+        public void MeldAanwezigAfwezig(Gebruiker gebruiker)
         {
             if (gebruiker.StatusGebruiker != StatusGebruiker.Actief)
                 throw new GeenActieveGebruikerException("Gebruiker is niet actief.");
@@ -108,7 +108,7 @@ namespace dotnet_g36.Models.Domain
                 {
                     if (gebruikerSessie.Aanwezig == true)
                     {
-                        throw new IngeschrevenException("Je bent reeds aanwezig.");
+                        gebruikerSessie.Aanwezig = false;
                     }
                     else
                     {
@@ -123,6 +123,9 @@ namespace dotnet_g36.Models.Domain
                 throw new IngeschrevenException("Je bent niet ingeschreven, dus je kan zich niet aanwezig zetten.");
             }
         }
+
+
+      
 
         /// <summary>
         /// User wordt ingeschreven bij de sessie
@@ -191,6 +194,15 @@ namespace dotnet_g36.Models.Domain
                     res.Add(gebruikerSessie.Gebruiker);
             }
             return res;
+        }
+        public List<string> geefAlleIngeschrevenenNamen()
+        {
+            List<string> temp = new List<string>();
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
+            {   
+                temp.Add(gebruikerSessie.Gebruiker.GeefVolledigeNaam());
+            }
+            return temp;
         }
 
         /// <summary>

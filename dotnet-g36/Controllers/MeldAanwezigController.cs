@@ -60,7 +60,7 @@ namespace dotnet_g36.Controllers
         /// <returns>View naar aanwezigheden (aanmelden voor sessie)</returns>
         [Authorize(Roles = "Hoofdverantwoordelijke, Verantwoordelijke")]
         [HttpPost]
-        public IActionResult MeldAanwezig(int id, MeldAanwezigViewModel model)
+        public IActionResult MeldAanwezig(int id, string aanwezig, MeldAanwezigViewModel model)
         {
             try
             {
@@ -74,10 +74,22 @@ namespace dotnet_g36.Controllers
                 //}
                 //else
                 //{
-                gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(model.Barcode);
+              
+                gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(aanwezig);
                 //}
 
-                sessie.MeldAanwezig(gebruiker);
+                if (sessie.geefAlleAanwezigen().Contains(gebruiker))
+                {
+                    sessie.MeldAanwezigAfwezig(gebruiker);
+                    _sessieRepository.SaveChanges();
+                    _gebruikerRepository.SaveChanges();
+                    TempData["message"] = "Afmelden is gelukt!";
+
+                    ModelState.Clear();
+                    return View(new MeldAanwezigViewModel(sessie));
+                }
+
+                sessie.MeldAanwezigAfwezig(gebruiker);
                 _sessieRepository.SaveChanges();
                 _gebruikerRepository.SaveChanges();
                 TempData["message"] = "Aanmelden is gelukt!";
@@ -102,7 +114,8 @@ namespace dotnet_g36.Controllers
             }
             catch (Exception e)
             {
-                TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
+                //  TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
+                TempData["Error"] = e.Message;
 
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
