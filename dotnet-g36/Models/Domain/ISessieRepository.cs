@@ -36,8 +36,5 @@ namespace dotnet_g36.Models.Domain
         /// Slaat de veranderingen op in de databank
         /// </summary>
         void SaveChanges();
-
-        //void Add(Sessie sessie);
-        //void Delete(string sessie);
     }
 }

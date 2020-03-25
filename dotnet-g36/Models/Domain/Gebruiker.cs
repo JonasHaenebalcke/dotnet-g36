@@ -37,10 +37,8 @@ namespace dotnet_g36
         }
 
         public ICollection<GebruikerSessie> GebruikerSessies { get; set; }
-
         public string Barcode { get; set; }
         public StatusGebruiker StatusGebruiker { get; set; }
-
         public int AantalKeerAfwezig { get; set; }
 
         #endregion
@@ -83,7 +81,7 @@ namespace dotnet_g36
             ICollection<GebruikerSessie> gebruikerSessies = GebruikerSessies;
             foreach (GebruikerSessie gebruikerSessie in gebruikerSessies)
             {
-                if (gebruikerSessie.Sessie.StartDatum >= DateTime.Now)
+                if (gebruikerSessie.Sessie.StartDatum > DateTime.Now)
                     gebruikerSessie.Sessie.SchrijfUit(this);
             }
         }
@@ -98,7 +96,8 @@ namespace dotnet_g36
             bool aanwezig = false;
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
-                 if (gebruikerSessie.Sessie.Equals(sessie)  && gebruikerSessie.Aanwezig) { 
+                if (gebruikerSessie.Sessie.Equals(sessie) && gebruikerSessie.Aanwezig)
+                {
                     aanwezig = true;
                     break;
                 }

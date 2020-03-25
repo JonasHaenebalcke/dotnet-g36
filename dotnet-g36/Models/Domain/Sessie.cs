@@ -84,7 +84,6 @@ namespace dotnet_g36.Models.Domain
                             gebruiker.SchrijfUitAlleSessies();
                         }
                         gebruiker.AantalKeerAfwezig++;
-                        break;
                     }
                 }
             }
@@ -162,8 +161,8 @@ namespace dotnet_g36.Models.Domain
         /// <param name="sessie">User object</param>
         public void SchrijfUit(Gebruiker gebruiker)
         {
-            if (StartDatum < DateTime.Now)
-                throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven in een verleden maand.");
+            if (StartDatum <= DateTime.Now)
+                throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven in een sessie die gepasseerd is.");
 
             if (gebruiker == Verantwoordelijke)
                 throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven voor een sessie waarvoor je verantwoordelijk bent.");

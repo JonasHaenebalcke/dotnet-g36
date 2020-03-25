@@ -91,8 +91,6 @@
 
                 }
 
-
-
             </div>
             <div class="row col-md-9">
                 <div class="col-md-12">
@@ -102,10 +100,8 @@
                 <div class="col-md-12">
                     <div class="row p-3 border bg-light text-center">
                         <h6 class="col-md-4">Datum en uur</h6>
-                        @*<div class="col-md-4">@Model.StartDatum.ToString("dd/MM/yyyy H:mm")</div>
-                            <div class="col-md-4">@Model.EindDatum.ToString("dd/MM/yyyy H:mm")</div>*@
                         <div class="col-md-4">@Model.StartDatum.ToString("dd/MM/yyyy")</div>
-                        <p class="col-md-4">@Model.StartDatum.ToString("H:mm") tot @Model.EindDatum.ToString("H:mm")</p>
+                        <p class="col-md-4">@Model.StartDatum.ToString("HH:mm") tot @Model.EindDatum.ToString("HH:mm")</p>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -132,107 +128,43 @@
                         </div>
                     }
                 </div>
-
-
-
             </div>
         </div>
     </div>
-    @*<div class="col px-md-5"><div class="p-3 border bg-light">@Model.NaamVerantwoordelijke</div></div>*@
     <br />
-
-
-
-
-    @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN
+    <div class="container col-md-12 text-left">
+        @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
         @if (Model.StartDatum > DateTime.Now && !(Model.Gesloten))
         {
-            @if (SignInManager.IsSignedIn(User))
-            {
-                @if (!Model.DeelnemerIngeschreven)
-                {<form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
-                        <br />
-                        <button type="submit">Inschrijven</button>
-                    </form>
-                }
-                else
+            <div class="col-md-12">
+                @if (SignInManager.IsSignedIn(User))
                 {
-                    <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
-                        <br />
-                        <button type="submit">Uitschrijven</button>
-                    </form>
-                }
-            }
-            else
-            {
-                <form asp-area="Identity" asp-page="/Account/Login">
-                    <br />
-                    <button type="submit">Inschrijven</button>
-                </form>
-            }
-        }
-        else
-        {
-            <br />
-            <h6>Feedback</h6>
-            <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.SessieID" method="post">
-                <div class="form-group">
-                    @*<div>
-                            @for (int i = 0; i < 5; i++)
-                            {
-                            <span class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold"></span>}
-
-                            <span class="iconify" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;" ></span>
-                              <-- volle ster
-
-                        </div>*@ @*
-
-        <label>Score</label>
-        <select style="width: 80px;" asp-for="Score" asp-items="@ViewData["scores"] as SelectList" class="form-control"></select>
-        <span asp-validation-for="Score" class="text-danger"></span>
-
-        <br />
-        <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
-        @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@@*
-                                    <br>
-                                    <span asp-validation-for="FeedbackContent" class="text-danger"></span>
-                                </div>
-                                <button type="submit">Indienen</button>
-                            </form>
-        *@
-
-        <div class="container col-md-12 text-left">
-
-            @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
-            @if (Model.StartDatum > DateTime.Now && !(Model.Gesloten))
-            {
-                <div class="col-md-12">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        @if (!Model.DeelnemerIngeschreven)
-                        {<form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
-                                <br />
-                                <button type="submit" class="btn bg-primary text-light">Inschrijven</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
-                                <br />
-                                <button type="submit" class="btn bg-primary text-light">Uitschrijven</button>
-                            </form>
-                        }
-                    }
-                    else
-                    {
-                        <form asp-area="Identity" asp-page="/Account/Login">
+                    @if (!Model.DeelnemerIngeschreven)
+                    {<form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
                             <br />
                             <button type="submit" class="btn bg-primary text-light">Inschrijven</button>
                         </form>
                     }
-                </div>
-            }
-            else
+                    else
+                    {
+                        <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
+                            <br />
+                            <button type="submit" class="btn bg-primary text-light">Uitschrijven</button>
+                        </form>
+                    }
+                }
+                else
+                {
+                    <form asp-area="Identity" asp-page="/Account/Login">
+                        <br />
+                        <button type="submit" class="btn bg-primary text-light">Inschrijven</button>
+                    </form>
+                }
+            </div>
+        }
+        else
+        {
+            @if (SignInManager.IsSignedIn(User))
             {
                 <div class="container col-md-10 text-center">
                     <br />
@@ -257,18 +189,11 @@
                             </div>
                             <br />
                             <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
-                            @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
                             <br>
                             <span asp-validation-for="FeedbackContent" class="text-danger"></span>
                         </div>
                         <button type="submit" class="btn bg-primary text-light">Indienen</button>
                     </form>
-
-
-
-
-
-
 
                     @if (Model.FeedbackList.Count() != 0)
                     {
@@ -297,25 +222,8 @@
                     }
                 </div>
             }
-        </div>
-        @*}
-                else
-                {
-                <div class="col px-md-5">
-                    <div class="p-3 text-danger">Om je in te schrijven voor deze sessie of feedback te kunnen geven, zal je je moeten inloggen.</div>
-                </div>
-
-
-            }*@
-
-
-
-
-
-        <br />
-    </body>
+        }
+    </div>
+    <br />
+</body>
 </html>
-@*@section scripts {
-        <script asp-src-include="lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    }*@

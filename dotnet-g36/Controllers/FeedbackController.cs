@@ -16,7 +16,7 @@ namespace dotnet_g36.Controllers
     {
         private readonly ISessieRepository _sessieRepository;
 
-        public FeedbackController(ISessieRepository sessieRepository, IGebruikerRepository gebruikerRepository)
+        public FeedbackController(ISessieRepository sessieRepository)
         {
             _sessieRepository = sessieRepository;
         }
@@ -32,47 +32,37 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailFeedbackGeven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
-                try
-                {
+            try
+            {
                 Sessie sessie = _sessieRepository.GetByID(id);
-                    sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker, sessieDetailsViewModel.Score);
-                    _sessieRepository.SaveChanges();
+                sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker, sessieDetailsViewModel.Score);
+                _sessieRepository.SaveChanges();
 
-                    List<int> scores = new List<int>()
+                List<int> scores = new List<int>()
                 {
                    0,1,2,3,4,5
                 };
-                    SelectList scoresSelectList = new SelectList(scores);
-                    ViewData["scores"] = scoresSelectList;
-                    TempData["message"] = "Feedback is toegevoegd!";
-                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
+                SelectList scoresSelectList = new SelectList(scores);
+                ViewData["scores"] = scoresSelectList;
+                TempData["message"] = "Feedback is toegevoegd!";
             }
             catch (FeedbackException e)
             {
                 TempData["error"] = e.Message;
-                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
-
-                }
-                catch (AanwezigException e)
-                {
-                    TempData["error"] = e.Message;
-                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
-
             }
-            catch(GeenActieveGebruikerException e)
+            catch (AanwezigException e)
             {
                 TempData["error"] = e.Message;
-                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
-                }
-                /*catch (Exception e)
-                {
-                    TempData["error"] = e.Message; // "Er liep iets fout bij het feedback geven...";
-                    //return RedirectToAction(nameof(Index));
-                    return RedirectToAction("Index", "Sessie");
-                }*/
-            //}
-            //TempData["error"] =  "Er liep iets fout bij het feedback geven...";
-            //return RedirectToAction("Index", "Sessie");
+            }
+            catch (GeenActieveGebruikerException e)
+            {
+                TempData["error"] = e.Message;
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = "Er liep iets fout bij het feedback geven...";
+            }
+            return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
         }
 
     }

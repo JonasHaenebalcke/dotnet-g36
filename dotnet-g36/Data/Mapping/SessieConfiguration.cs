@@ -22,18 +22,9 @@ namespace dotnet_g36.Data.Mapping
             builder.Property(s => s.Beschrijving).HasMaxLength(100).IsRequired(false);
             builder.Property(s => s.Gastspreker).HasMaxLength(100).IsRequired(false);
 
-             builder.HasOne(s => s.Verantwoordelijke)
-                .WithMany(s => s.OpenTeZettenSessies)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.HasOne(s => s.Hoofdverantwoordelijke)
-            //    .WithMany(s => s.OpenTeZettenSessies)
-            //     .OnDelete(DeleteBehavior.Restrict);
-
-            /*builder.HasOne(s => s.Hoofdverantwoordelijke)
-                .WithMany(s => s.OpenTeZettenSessies)
-               .IsRequired(false)
-               .OnDelete(DeleteBehavior.Restrict);*/
+            builder.HasOne(s => s.Verantwoordelijke)
+               .WithMany(s => s.OpenTeZettenSessies)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(s => s.FeedbackList)
                 .WithOne()

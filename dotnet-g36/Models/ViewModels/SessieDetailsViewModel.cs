@@ -27,14 +27,14 @@ namespace dotnet_g36.Models.ViewModels
 
         [Required(ErrorMessage = "Dit veld is verplicht")]
         public string FeedbackContent { get; set; }
-        public int SessieRating {get; set; } // Rating van de sessie
+        public int SessieRating { get; set; }
 
         [Range(1, 5, ErrorMessage = "Score moet tussen 1-5 liggen")]
         public int Score { get; set; }
 
         public SessieDetailsViewModel() { }
 
-        public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker/*, Verantwoordelijke hoofdVerantwoordelijke*/)
+        public SessieDetailsViewModel(Sessie sessie, Gebruiker gebruiker)
         {
             SessieID = sessie.SessieID;
             Titel = sessie.Titel;
@@ -50,11 +50,9 @@ namespace dotnet_g36.Models.ViewModels
             Gesloten = sessie.StatusSessie == StatusSessie.Gesloten;
             NaamVerantwoordelijke = sessie.Verantwoordelijke.GeefVolledigeNaam();
 
-
             AantalAanwezigen = 0;
             DeelnemerAanwezig = false;
             DeelnemerIngeschreven = false;
-
 
             foreach (GebruikerSessie gebruikersessie in sessie.GebruikerSessies)
             {

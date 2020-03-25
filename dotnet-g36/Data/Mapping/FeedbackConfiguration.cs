@@ -14,11 +14,10 @@ namespace dotnet_g36.Data.Mapping
         {
             builder.ToTable("Feedback");
             builder.HasKey(f => f.FeedbackID);
-
-            // effe in commentaar gezet
-          /*  builder.HasOne(f => f.Auteur)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);*/
+            
+            builder.HasOne(f => f.Auteur)
+                   .WithOne()
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

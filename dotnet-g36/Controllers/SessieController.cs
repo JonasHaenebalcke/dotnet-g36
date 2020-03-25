@@ -43,19 +43,17 @@ namespace dotnet_g36.Controllers
                     throw new SessieException("Er zijn geen sessies voor de gekozen maand. Kies een andere periode.");
 
                 ICollection<SessieKalenderViewModel> res = new List<SessieKalenderViewModel>();
-                foreach(Sessie sessie in sessies)
+                foreach (Sessie sessie in sessies)
                 {
                     res.Add(new SessieKalenderViewModel(sessie, gebruiker));
                 }
 
                 return View(res);
-                //return View(new SessieKalenderViewModel(sessies, gebruiker, maandNr));
             }
             catch (SessieException gse)
             {
                 TempData["error"] = gse.Message;
                 return View(new List<SessieKalenderViewModel>());
-                //return View(new SessieKalenderViewModel(new List<Sessie>(), gebruiker, maandNr));
             }
         }
 
@@ -92,8 +90,5 @@ namespace dotnet_g36.Controllers
             SelectList result = new SelectList(maanden.SkipLast(1), "Value", "Text", maandId);
             return result;
         }
-
-
-
     }
 }

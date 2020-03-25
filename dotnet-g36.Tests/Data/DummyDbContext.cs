@@ -38,20 +38,12 @@ namespace dotnet_g36.Tests.Data
             //Gebruiker Lucifer = new Gebruiker("1254", "1293ld", "lucifer.deduivel@student.hogent.be", "Lucifer", "De Duvel", StatusGebruiker.Actief);
             nietActieveGebruiker = new Gebruiker("9874", "6541kj", "kim.jansens@student.hogent.be", "Kim", "jansens", StatusGebruiker.NietActief);
             geblokkeerdeGebruiker = new Gebruiker("9634", "5486tt", "tom.tomsens@student.hogent.be", "Tom", "Tomsens", StatusGebruiker.Geblokkeerd);
-
-            //IEnumerable<Gebruiker> ActieveDeelnemers = new List<Gebruiker>
-            //{
-            //    ActieveGebruiker,
-            //    Aaron,
-            //    Lucifer
-            //};
-
+            
             hedenSessie = new Sessie(organizer1, "Sessie 3D Printing", "B1.027",
                DateTime.Now.AddMinutes(2), DateTime.Now.AddHours(2),
                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                );
-
-
+            
             toekomstSessie = new Sessie(organizer1, "Sessie Netflix",  "BCON",
                  //new DateTime(2020, 3, 27, 12, 30, 0), new DateTime(2020, 3, 27, 13, 30, 0),
                  DateTime.Now.AddMonths(1), DateTime.Now.AddMonths(1).AddHours(1),
