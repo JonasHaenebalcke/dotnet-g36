@@ -137,7 +137,7 @@ namespace dotnet_g36.Models.Domain
         {
             if (StartDatum < DateTime.Now)
                 throw new SchrijfInSchrijfUitException("je kan je niet inschrijven in een verleden maand.");
-            if (GebruikerSessies.Count >= Capaciteit)
+            if (GebruikerSessies.Count > Capaciteit)
                 throw new SchrijfInSchrijfUitException("je kan je niet meer inschrijven in deze sessie. De sessie is volzet.");
 
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)

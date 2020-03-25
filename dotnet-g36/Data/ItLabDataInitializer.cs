@@ -57,7 +57,9 @@ namespace dotnet_g36.Data
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 // Deelnemers
-                gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.Actief);
+                gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.Actief)
+                { AantalKeerAfwezig = 2 };
+                
                 nietActieveGebruiker = new Gebruiker("1103720665999", "859523sb", "simon.bettens@student.hogent.be", "Simon", "Bettens", StatusGebruiker.NietActief);
                 geblokkeerdeGebruiker = new Gebruiker("119928724994", "859359cc", "chloë.cornelis@student.hogent.be", "Chloë", "Cornelis", StatusGebruiker.Geblokkeerd);
                 gebruiker.EmailConfirmed = true;
@@ -98,7 +100,7 @@ namespace dotnet_g36.Data
                 // huidigeMaand Nietopen Admin
                 Sessie huidigeMaandSessieAdmin = new Sessie(admin, /*organizer1,*/ "Sessie DotNet", "B1.027",
                 DateTime.Now.AddHours(1), DateTime.Now.AddHours(3),
-                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+                2, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
                 // huidigeMaand NietOpen Admin DirectSluiten
