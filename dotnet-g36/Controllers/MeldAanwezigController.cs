@@ -74,8 +74,9 @@ namespace dotnet_g36.Controllers
                 //}
                 //else
                 //{
-
-                gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(aanwezig);
+                if (aanwezig != null)
+                    model.Barcode = aanwezig;
+                gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(model.Barcode);
                 //}
 
 
@@ -94,7 +95,7 @@ namespace dotnet_g36.Controllers
                 _sessieRepository.SaveChanges();
                 _gebruikerRepository.SaveChanges();
 
-               // model.Barcode = null;
+                model.Barcode = null;
                 //ModelState.Clear();
                 return View(new MeldAanwezigViewModel(sessie));
             }
@@ -115,8 +116,8 @@ namespace dotnet_g36.Controllers
             }
             catch (Exception e)
             {
-                //  TempData["Error"] = "Gebruiker kon niet worden ingeschreven";
-                TempData["Error"] = e.Message;
+                TempData["Error"] = "Gebruiker kon niet worden aanwezig gesteld";
+                //TempData["Error"] = e.Message;
 
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
