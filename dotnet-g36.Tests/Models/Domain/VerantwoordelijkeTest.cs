@@ -11,34 +11,21 @@ namespace dotnet_g36.Tests.Models.Domain
 {
     public class VerantwoordelijkeTest
     {
-        private readonly Verantwoordelijke _admin, _organizer1, _organizer2, _nietActieveVerantwoordelijke, _geblokkeerdeVerantwoordelijke;
+        private readonly Verantwoordelijke _admin, _organizer1, _organizer2;
         private readonly DummyDbContext _context;
-        private Sessie hedenSessie, verledenSessie, toekomstSessie;
-
-        /* Sessie huidigeMaandSessie = new Sessie(admin, organizer1, "Sessie 3D Printing", "B1.027",
-               DateTime.Now, DateTime.Now.AddHours(2),
-               25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
-               );*/
+        private Sessie hedenSessie, verledenSessie;
 
         public VerantwoordelijkeTest()
         {
-            //_admin = new Verantwoordelijke()
-            //{
-            //    IsHoofdverantwoordelijke = true,
-            //};
-
             _context = new DummyDbContext();
 
             _admin = _context.admin;
 
             _organizer1 = _context.organizer1;
             _organizer2 = _context.organizer2;
-            _nietActieveVerantwoordelijke = _context.nietActieveVerantwoordelijke;
-            _geblokkeerdeVerantwoordelijke = _context.geblokkeerdeVerantwoordelijke;
 
             hedenSessie = _context.hedenSessie;
             verledenSessie = _context.verledenSessie;
-            toekomstSessie = _context.toekomstSessie;
         }
 
         #region VerantwoordelijkeTesten

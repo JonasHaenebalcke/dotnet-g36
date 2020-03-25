@@ -22,7 +22,6 @@ namespace dotnet_g36.Controllers
             _gebruikerRepository = gebruikerRepository;
         }
 
-
         /// <summary>
         /// Om de aanwezigheden op te nemen
         /// </summary>
@@ -36,7 +35,7 @@ namespace dotnet_g36.Controllers
                 Sessie sessie = _sessieRepository.GetByID(id);
 
                 if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
-                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
+                    throw new SessieException("Je kan je niet meer aanmelden in deze sessie.");
 
                 return View(new MeldAanwezigViewModel(sessie));
             }
@@ -47,7 +46,7 @@ namespace dotnet_g36.Controllers
             }
             catch (Exception e)
             {
-                TempData["Error"] = e.Message;
+                TempData["Error"] = "Er was een fout bij het openen van de aanwezigheden.";
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
         }
@@ -63,40 +62,29 @@ namespace dotnet_g36.Controllers
         public IActionResult MeldAanwezig(int id, string aanwezig, MeldAanwezigViewModel model)
         {
             try
-           {
+            {
                 Sessie sessie = _sessieRepository.GetByID(id);
                 Gebruiker gebruiker;
                 if (sessie.StartDatum <= DateTime.Now && sessie.StatusSessie != StatusSessie.Gesloten)
-                    throw new SessieException("Je kan zich niet meer aanmelden in deze sessie.");
-                //if (model.Barcode.Contains("@"))
-                //{
-                //    gebruiker = _gebruikerRepository.GetDeelnemerByEmail(model.Barcode);
-                //}
-                //else
-                //{
+                    throw new SessieException("Je kan je niet meer aanmelden in deze sessie.");
                 if (aanwezig != null)
                     model.Barcode = aanwezig;
                 gebruiker = _gebruikerRepository.GetDeelnemerByBarcode(model.Barcode);
-                //}
-
 
                 if (sessie.geefAlleAanwezigen().Contains(gebruiker))
                 {
 
                     TempData["message"] = gebruiker.GeefVolledigeNaam() + " is afwezig gezet!";
-
                 }
                 else
                 {
                     TempData["message"] = gebruiker.GeefVolledigeNaam() + "  is aanwezig gezet!";
-
                 }
                 sessie.MeldAanwezigAfwezig(gebruiker);
                 _sessieRepository.SaveChanges();
                 _gebruikerRepository.SaveChanges();
 
                 model.Barcode = null;
-                //ModelState.Clear();
                 return View(new MeldAanwezigViewModel(sessie));
             }
             catch (SessieException e)
@@ -117,7 +105,6 @@ namespace dotnet_g36.Controllers
             catch (Exception e)
             {
                 TempData["Error"] = "Gebruiker kon niet worden aanwezig gesteld";
-                //TempData["Error"] = e.Message;
 
                 return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }

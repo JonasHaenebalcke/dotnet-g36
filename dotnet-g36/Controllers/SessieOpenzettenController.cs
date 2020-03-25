@@ -7,8 +7,7 @@ using dotnet_g36.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_g36.Controllers
-{ // Sessie openzetten en sessie sluiten
-
+{
     public class SessieOpenzettenController : Controller
     {
         private readonly ISessieRepository _sessieRepository;
@@ -19,8 +18,7 @@ namespace dotnet_g36.Controllers
             _sessieRepository = sessieRepository;
             _gebruikerRepository = gebruikerRepository;
         }
-       
-
+        
         /// <summary>
         /// Geeft View van toekomstige sessies om open te zetten
         /// </summary>
@@ -32,7 +30,6 @@ namespace dotnet_g36.Controllers
             try
             {
                 ICollection<Sessie> sessies = new List<Sessie>();
-                //Verantwoordelijke verantwoordelijke = _gebruikerRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
                 //Vult sessies op met gepaste sessies
                 if (verantwoordelijke.IsHoofdverantwoordelijke)
                     sessies = _sessieRepository.GetToekomstige();
@@ -66,7 +63,6 @@ namespace dotnet_g36.Controllers
             try
             {
                 Sessie sessie = _sessieRepository.GetByID(id);
-                //Verantwoordelijke verantwoordelijke = _gebruikerRepository.GetVerantwoordelijkeByUsername(User.Identity.Name);
 
                 if (sessie.StatusSessie == StatusSessie.Open && DateTime.Now < sessie.StartDatum)
                     return RedirectToAction("MeldAanwezig", "MeldAanwezig", new { @id = id });
@@ -74,8 +70,6 @@ namespace dotnet_g36.Controllers
                 sessie.SessieOpenZetten(verantwoordelijke);
                 _sessieRepository.SaveChanges();
                 return RedirectToAction("MeldAanwezig", "MeldAanwezig", new { @id = id });
-
-                //   return RedirectToAction(nameof(MeldAanwezig), new { @id = id });
             }
             catch (SessieException e)
             {
@@ -103,9 +97,8 @@ namespace dotnet_g36.Controllers
                 sessie.SessieSluiten();
                 _sessieRepository.SaveChanges();
                 _gebruikerRepository.SaveChanges();
-                //return RedirectToAction(nameof(Index));
 
-               return RedirectToAction("Index", "Sessie");
+                return RedirectToAction("Index", "Sessie");
             }
             catch (SessieException e)
             {

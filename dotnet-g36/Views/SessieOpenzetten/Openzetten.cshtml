@@ -27,50 +27,34 @@
 
     <br />
     <table class="table">
-            <tr class="text-light bg-primary">
-                <th class="text-center">Titel</th>
-                <th class="text-center">Startdatum @($"&") uur</th>
-                <th class="text-center">Open plaatsen</th>
-                <th class="text-center">Details</th>
-                <th class="text-center">Openzetten</th>
+        <tr class="text-light bg-primary">
+            <th class="text-center">Titel</th>
+            <th class="text-center">Startdatum @($"&") uur</th>
+            <th class="text-center">Open plaatsen</th>
+            <th class="text-center">Details</th>
+            <th class="text-center">Openzetten</th>
 
+        </tr>
+        <!-- loop die door de lijst van sessies gaat -->
+        @for (int i = 0; i < Model.SessieIds.Count(); i++)
+        {
+            <tr>
+                <td class="text-center">@Model.Titels.ElementAt(i)</td>
+                <td class="text-center">@Model.StartDatums.ElementAt(i).ToString("dd/MM/yyyy hh:mm")</td>
+                <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
+                <td class="text-center">
+                    <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
+                </td>
+                <td class="text-center">
+                    @if (Model.StartDatums.ElementAt(i).AddMinutes(-60) < DateTime.Now && DateTime.Now < Model.StartDatums.ElementAt(i) && !(Model.Gesloten.ElementAt(i)))
+                    {
+                        <form asp-controller="SessieOpenzetten" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
+                            <button type="submit" class="btn btn-primary">Openzetten</button>
+                        </form>
+                    }
+                </td>
             </tr>
-            <!-- loop die door de lijst van sessies gaat -->
-            @for (int i = 0; i < Model.SessieIds.Count(); i++)
-            {
-                <tr>
-                    <td class="text-center">@Model.Titels.ElementAt(i)</td>
-                    <td class="text-center">@Model.StartDatums.ElementAt(i)</td>
-                    <td class="text-center">@Model.OpenPlaatsen.ElementAt(i)</td>
-                    <td class="text-center">
-                        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@Model.SessieIds.ElementAt(i)">Details</a>
-                    </td>
-                    <td class="text-center">
-                        @if (Model.StartDatums.ElementAt(i).AddMinutes(-60) < DateTime.Now && DateTime.Now < Model.StartDatums.ElementAt(i) && !(Model.Gesloten.ElementAt(i)))
-                        {
-                            <form asp-controller="SessieOpenzetten" asp-action="Openzetten" asp-route-id="@Model.SessieIds.ElementAt(i)" method="post">
-                                <button type="submit" class="btn btn-primary">Openzetten</button>
-                            </form>
-                        }
-                    </td>
-                </tr>
-            }
+        }
     </table>
 </body>
 </html>
-
-
-@*<tr>
-    <td class="text-center">@item.Verantwoordelijke.Voornaam</td>
-    <td class="text-center">@item.Titel</td>
-    <td class="text-center">@item.StartDatum</td>
-    <td class="text-center">@item.AantalOpenPlaatsen</td>
-    <td class="text-center">
-        <a asp-controller="Sessie" asp-action="Detail" asp-route-id="@item.SessieID">Details</a>
-    </td>
-    <td>
-        <form asp-controller="SessieOpenzetten" asp-action="Index" asp-route-id="@item.SessieID" method="post">
-            <button type="submit">Openzetten</button>
-        </form>
-      </td>
-     </tr>*@

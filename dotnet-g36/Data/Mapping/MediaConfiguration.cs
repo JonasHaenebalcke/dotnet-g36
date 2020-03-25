@@ -20,7 +20,5 @@ namespace dotnet_g36.Data.Mapping
             builder.Property(m => m.Titel)
                 .IsRequired();
         }
-
-       
     }
 }

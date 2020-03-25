@@ -1,5 +1,4 @@
 @model ICollection<dotnet_g36.Models.ViewModels.SessieKalenderViewModel>
-@*@model ICollection<dotnet_g36.Models.ViewModels.SessieKalenderViewModel>*@
 
 @using Microsoft.AspNetCore.Identity
 @using dotnet_g36.Models.ViewModels
@@ -44,13 +43,14 @@
                 </div>
             </div>
         </form>
-       
         <br />
     </div>
     <br />
-    @if (!Model.Where(s => s.StartDatum > DateTime.Now).Count().Equals(0))
+    @if (!Model.Where(s => s.StartDatum > DateTime.Now).Count().Equals(0) || !Model.Where(s => !s.Gesloten).Count().Equals(0))
     {
+
         <h4 class="text-center">Geplande sessies</h4>
+        <br />
         <table class="table">
             <tr class="text-light bg-primary">
 
@@ -70,7 +70,7 @@
                     <tr>
                         <td class="text-center">@sessieKalenderViewModel.GastSpreker</td>
                         <td class="text-center">@sessieKalenderViewModel.Titel</td>
-                        <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy hh:mm")</td>
+                        <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy HH:mm")</td>
                         <td class="text-center"> @sessieKalenderViewModel.OpenPlaats / @sessieKalenderViewModel.Capaciteit </td>
                         @if (SignInManager.IsSignedIn(User))
                         {
@@ -78,7 +78,7 @@
                                 <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@sessieKalenderViewModel.SessieId" method="post">
                                     @if (sessieKalenderViewModel.Ingeschreven)
                                     {
-                                        <input  checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven" style="width: 17px; height: 17px;">
+                                        <input checked type="checkbox" onchange="this.form.submit()" id="ingeschreven" value="uitschrijven" style="width: 17px; height: 17px;">
                                     }
                                     else
                                     {
@@ -96,7 +96,7 @@
         </table>
     }
     <br />
-    @if (!Model.Where(s => s.StartDatum < DateTime.Now).Count().Equals(0))
+    @if (!Model.Where(s => s.StartDatum <= DateTime.Now).Count().Equals(0) || !Model.Where(s => s.Gesloten).Count().Equals(0))
     {
         <h4 class="text-center">Afgelopen sessies</h4>
 
@@ -115,13 +115,12 @@
                 <th class="text-center">Details</th>
             </tr>
 
-
-            @foreach (SessieKalenderViewModel sessieKalenderViewModel in Model.Where(s => s.StartDatum < DateTime.Now && s.Gesloten))
+            @foreach (SessieKalenderViewModel sessieKalenderViewModel in Model.Where(s => s.StartDatum <= DateTime.Now || s.Gesloten))
             {
                 <tr>
                     <td class="text-center">@sessieKalenderViewModel.GastSpreker</td>
                     <td class="text-center">@sessieKalenderViewModel.Titel</td>
-                    <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy hh:mm")</td>
+                    <td class="text-center">@sessieKalenderViewModel.StartDatum.ToString("dd/MM/yyyy HH:mm")</td>
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <td class="text-center">
@@ -140,9 +139,6 @@
                     </td>
                 </tr>
             }
-
-
-
         </table>
     }
 </body>

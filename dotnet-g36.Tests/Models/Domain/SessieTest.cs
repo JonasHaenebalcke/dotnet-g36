@@ -184,7 +184,7 @@ namespace dotnet_g36.Tests.Models.Domain
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
 
-            _sessie.MeldAanwezig(_gebruiker);
+            _sessie.MeldAanwezigAfwezig(_gebruiker);
             Assert.Equal(1, _sessie.GebruikerSessies.Count);
             Assert.True(_sessie.GebruikerSessies.Single().Aanwezig);
             Assert.Single(_sessie.geefAlleAanwezigen());
@@ -201,7 +201,7 @@ namespace dotnet_g36.Tests.Models.Domain
 
             Assert.Equal(1, _sessie.GebruikerSessies.Count);
 
-            Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezig(_gebruiker));
+            Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezigAfwezig(_gebruiker));
             Assert.True(_sessie.GebruikerSessies.Single().Aanwezig);
             Assert.Single(_sessie.geefAlleAanwezigen());
         }
@@ -218,7 +218,7 @@ namespace dotnet_g36.Tests.Models.Domain
             _sessie.GebruikerSessies.Add(gebruikerSessie);
             _gebruiker.GebruikerSessies.Add(gebruikerSessie);
 
-            Assert.Throws<GeenActieveGebruikerException>(() => _sessie.MeldAanwezig(_gebruiker));
+            Assert.Throws<GeenActieveGebruikerException>(() => _sessie.MeldAanwezigAfwezig(_gebruiker));
             Assert.False(_sessie.GebruikerSessies.Single().Aanwezig);
             Assert.Empty(_sessie.geefAlleAanwezigen());
         }
@@ -230,7 +230,7 @@ namespace dotnet_g36.Tests.Models.Domain
             _sessie.StatusSessie = StatusSessie.Open;
 
 
-            Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezig(_gebruiker));
+            Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezigAfwezig(_gebruiker));
             Assert.Empty(_sessie.geefAlleAanwezigen());
         }
     }

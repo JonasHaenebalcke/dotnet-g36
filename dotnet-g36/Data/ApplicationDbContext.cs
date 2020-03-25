@@ -17,8 +17,8 @@ namespace dotnet_g36.Data
                 }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           var connectionString = @"Server=40.68.196.74;Database=ItLabTest;user id=jonas.haenebalcke;password=5e39b@2D8905;Integrated Security=True;Trusted_Connection=False;";
-          // var connectionString = @"Server=.;Database=ItLabTest;Integrated Security=True;";
+            var connectionString = @"Server=40.68.196.74;Database=ItLabTest;user id=jonas.haenebalcke;password=5e39b@2D8905;Integrated Security=True;Trusted_Connection=False;";
+            //var connectionString = @"Server=.;Database=ItLabTest;Integrated Security=True;";
             //var connectionString = @"Server=.,1433;Database=ItLabTest;User Id=SA;Password=Rein1234;Integrated Security=True;Trusted_Connection=False;";
             //var connectionString = @"Server=40.68.196.74;Database=ItLabTest;User Id=lucas.vanderhaegen;Password=57eC@2e81d57;Integrated Security=True;Trusted_Connection=False;";
             optionsBuilder.UseSqlServer(connectionString);
@@ -30,9 +30,7 @@ namespace dotnet_g36.Data
         public DbSet<Verantwoordelijke> Hoofdverantwoordelijke { get; set; }
         public DbSet<GebruikerSessie> GebruikerSessies { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
-
-
-
+               
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -42,8 +40,6 @@ namespace dotnet_g36.Data
             modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
             modelBuilder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
 
-
         }
-        
     }
 }

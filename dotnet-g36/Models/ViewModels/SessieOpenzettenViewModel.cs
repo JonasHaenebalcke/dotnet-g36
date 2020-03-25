@@ -9,29 +9,23 @@ namespace dotnet_g36.Models.ViewModels
 {
     public class SessieOpenzettenViewModel
     {
-        public ICollection<Verantwoordelijke> Verantwoordelijken { get; set; }
+        //kan ook worden herschreven als een List<SessieOpenZettenViewModel> zonder ICollections, juist zoals bij SessieKalenderViewModel
         public ICollection<string> Titels { get; set; }
         public ICollection<DateTime> StartDatums { get; set; }
         public ICollection<int> OpenPlaatsen { get; set; }
         public ICollection<int> SessieIds { get; set; }
         public ICollection<bool> Gesloten { get; set; }
 
-
-        //public SessieOpenzettenViewModel() { }
-
         public SessieOpenzettenViewModel(IEnumerable<Sessie> sessies)
         {
-            Verantwoordelijken = new List<Verantwoordelijke>();
             Titels = new List<string>();
             StartDatums = new List<DateTime>();
             OpenPlaatsen = new List<int>();
             SessieIds = new List<int>();
             Gesloten = new List<bool>();
-           
 
             foreach (Sessie sessie in sessies)
             {
-                Verantwoordelijken.Add(sessie.Verantwoordelijke);
                 Titels.Add(sessie.Titel);
                 StartDatums.Add(sessie.StartDatum);
                 OpenPlaatsen.Add(sessie.Capaciteit);

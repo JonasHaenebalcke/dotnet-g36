@@ -14,14 +14,6 @@ namespace dotnet_g36
     {
         public static void Main(string[] args)
         {
-           //Dit staat in de slides maar niet in vb examen 
-            
-         /*   using (ApplicationDbContext context = new ApplicationDbContext())
-          {
-                new ItLabDataInitializer(context).initializeData();
-           Console.WriteLine("Database created");
-          }*/
-
             CreateHostBuilder(args).Build().Run();
         }
 

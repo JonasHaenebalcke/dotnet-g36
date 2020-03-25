@@ -36,7 +36,6 @@ namespace dotnet_g36.Controllers
             Sessie sessie = _sessieRepository.GetByID(id);
             try
             {
-              
                 bool succes = false;
                 foreach (GebruikerSessie gs in sessie.GebruikerSessies)
                 {
@@ -70,10 +69,7 @@ namespace dotnet_g36.Controllers
             {
                 TempData["error"] = e.Message;
             }
-            // return RedirectToAction(nameof(Index));
             return RedirectToAction("Index", "Sessie", new { @maandNr = sessie.StartDatum.Month });
-         
         }
-
     }
 }

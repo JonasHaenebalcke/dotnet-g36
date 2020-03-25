@@ -84,7 +84,6 @@ namespace dotnet_g36.Models.Domain
                             gebruiker.SchrijfUitAlleSessies();
                         }
                         gebruiker.AantalKeerAfwezig++;
-                        break;
                     }
                 }
             }
@@ -137,7 +136,7 @@ namespace dotnet_g36.Models.Domain
         {
             if (StartDatum < DateTime.Now)
                 throw new SchrijfInSchrijfUitException("je kan je niet inschrijven in een verleden maand.");
-            if (GebruikerSessies.Count >= Capaciteit)
+            if (GebruikerSessies.Count > Capaciteit)
                 throw new SchrijfInSchrijfUitException("je kan je niet meer inschrijven in deze sessie. De sessie is volzet.");
 
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
@@ -153,7 +152,7 @@ namespace dotnet_g36.Models.Domain
                 GebruikerSessies.Add(gebruikersessie);
             }
             else
-                throw new GeenActieveGebruikerException("Je kan zich niet inschrijven omdat je geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
+                throw new GeenActieveGebruikerException("Je kan je niet inschrijven omdat je geen actieve gebruiker bent. Gelieve contact op te nemen met de hoofdverantwoordelijk.");
         }
 
         /// <summary>
@@ -162,8 +161,8 @@ namespace dotnet_g36.Models.Domain
         /// <param name="sessie">User object</param>
         public void SchrijfUit(Gebruiker gebruiker)
         {
-            if (StartDatum < DateTime.Now)
-                throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven in een verleden maand.");
+            if (StartDatum <= DateTime.Now)
+                throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven in een sessie die gepasseerd is.");
 
             if (gebruiker == Verantwoordelijke)
                 throw new SchrijfInSchrijfUitException("Je kan je niet uitschreven voor een sessie waarvoor je verantwoordelijk bent.");

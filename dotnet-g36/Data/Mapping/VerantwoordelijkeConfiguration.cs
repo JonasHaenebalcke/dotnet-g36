@@ -9,11 +9,6 @@ namespace dotnet_g36.Data.Mapping
         public void Configure(EntityTypeBuilder<Verantwoordelijke> builder)
         {
             builder.Property(u => u.IsHoofdverantwoordelijke).IsRequired();
-
-            //builder.HasMany(v => v.OpenTeZettenSessies)
-            //    .WithOne(s => s.Verantwoordelijke)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }
