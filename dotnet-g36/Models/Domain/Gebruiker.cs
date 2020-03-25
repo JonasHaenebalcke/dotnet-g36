@@ -14,7 +14,7 @@ namespace dotnet_g36
         #endregion
 
         #region properties
-        public String Voornaam
+        public string Voornaam
         {
             get { return _voorNaam; }
             set
@@ -25,7 +25,7 @@ namespace dotnet_g36
             }
         }
 
-        public String Familienaam
+        public string Familienaam
         {
             get { return _familieNaam; }
             set
@@ -40,6 +40,7 @@ namespace dotnet_g36
         public string Barcode { get; set; }
         public StatusGebruiker StatusGebruiker { get; set; }
         public int AantalKeerAfwezig { get; set; }
+        public ICollection<Feedback> FeedbackList { get; set; }
 
         #endregion
 
@@ -78,12 +79,18 @@ namespace dotnet_g36
         /// </summary>
         public void SchrijfUitAlleSessies() //vb indien 3 keer niet aanwezig
         {
-            ICollection<GebruikerSessie> gebruikerSessies = GebruikerSessies;
-            foreach (GebruikerSessie gebruikerSessie in gebruikerSessies)
+            bool succes = false;
+            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
             {
                 if (gebruikerSessie.Sessie.StartDatum > DateTime.Now)
+                {
                     gebruikerSessie.Sessie.SchrijfUit(this);
+                    succes = true;
+                    break;
+                }
             }
+            if (succes)
+                SchrijfUitAlleSessies();
         }
 
         /// <summary>
