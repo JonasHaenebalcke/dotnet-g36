@@ -44,12 +44,13 @@
                 </div>
             </div>
         </form>
-        <h4 class="col-md-4 text-center">Geplande sessies</h4>
+       
         <br />
     </div>
     <br />
     @if (!Model.Where(s => s.StartDatum > DateTime.Now).Count().Equals(0))
     {
+        <h4 class="text-center">Geplande sessies</h4>
         <table class="table">
             <tr class="text-light bg-primary">
 

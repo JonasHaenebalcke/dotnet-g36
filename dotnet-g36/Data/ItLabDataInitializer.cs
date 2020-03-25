@@ -228,7 +228,7 @@ namespace dotnet_g36.Data
                 });
                 _context.SaveChanges();
 
-                sessie4.FeedbackGeven("Intressante sessie", gebruiker);//gebruiker, "Intressante sessie", DateTime.Now.AddDays(-4));
+                sessie4.FeedbackGeven("Intressante sessie", gebruiker, 4);//gebruiker, "Intressante sessie", DateTime.Now.AddDays(-4));
                 //sessie4.FeedbackGeven("yeet", organizer2);//admin, "yeet", DateTime.Now);
 
                 //_context.Feedbacks.AddRange(feedback1, feedback2);
