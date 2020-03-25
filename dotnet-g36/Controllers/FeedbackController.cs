@@ -32,11 +32,9 @@ namespace dotnet_g36.Controllers
         [HttpPost]
         public IActionResult DetailFeedbackGeven(Gebruiker gebruiker, int id, SessieDetailsViewModel sessieDetailsViewModel)
         {
-            //if (ModelState.IsValid)
-            //{
                 try
                 {
-                    Sessie sessie = _sessieRepository.GetByID(id);
+                Sessie sessie = _sessieRepository.GetByID(id);
                     sessie.FeedbackGeven(sessieDetailsViewModel.FeedbackContent, gebruiker, sessieDetailsViewModel.Score);
                     _sessieRepository.SaveChanges();
 
@@ -47,15 +45,24 @@ namespace dotnet_g36.Controllers
                     SelectList scoresSelectList = new SelectList(scores);
                     ViewData["scores"] = scoresSelectList;
                     TempData["message"] = "Feedback is toegevoegd!";
-                    //  return RedirectToAction(nameof(Index));
-                    return RedirectToAction("Index", "Sessie");
+                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
+            }
+            catch (FeedbackException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
 
                 }
                 catch (AanwezigException e)
                 {
                     TempData["error"] = e.Message;
-                    //   return RedirectToAction(nameof(Index));
-                    return RedirectToAction("Index", "Sessie");
+                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
+
+            }
+            catch(GeenActieveGebruikerException e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Detail", "Sessie", new { gebruiker, id });
                 }
                 /*catch (Exception e)
                 {

@@ -1,127 +1,150 @@
-﻿@model dotnet_g36.Models.ViewModels.SessieDetailsViewModel
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<Gebruiker> SignInManager
-@inject UserManager<Gebruiker> UserManager
-@{
-    ViewData["Title"] = "Sessie Details";
-}
+    @model dotnet_g36.Models.ViewModels.SessieDetailsViewModel
+    @using Microsoft.AspNetCore.Identity
+    @inject SignInManager<Gebruiker> SignInManager
+    @inject UserManager<Gebruiker> UserManager
+    @{
+        ViewData["Title"] = "Sessie Details";
+     }
 
-@*SOURCE OPMAAK: https://getbootstrap.com/docs/4.4/utilities/spacing/*@
-@*SOURCE BUTTON EN FEEDBACK GEVEN: https://docs.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1#the-textarea-tag-helper*@
-<!DOCTYPE html>
+    @*SOURCE OPMAAK: https://getbootstrap.com/docs/4.4/utilities/spacing/*@
+    @*SOURCE BUTTON EN FEEDBACK GEVEN: https://docs.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1#the-textarea-tag-helper*@
+    <!DOCTYPE html>
 
-<html>
-<head>
-    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewData["Title"]</title>
-</head>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewData["Title"]</title>
+    </head>
 
-<body>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-success">@TempData["message"]</div>
-            }
-            @if (TempData["error"] != null)
-            {
-                <div class="alert alert-warning">@TempData["error"]</div>
-            }
-        </main>
-    </div>
-
-    <h3>@Model.Titel</h3>
-    <br />
-    <div class="col px-md-5"><div class="p-3 border bg-light">@Model.Beschrijving</div></div>
-    <br />
-    <h6>Verantwoordelijke</h6>
-    <br />
-    <div class="col px-md-5"><div class="p-3 border bg-light">@Model.NaamVerantwoordelijke</div></div>
-    <br />
-    <h6>Datum en uur</h6>
-    <div class="row mx-md-n5">
-        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.StartDatum.ToString("dd/MM/yyyy H:mm")</div></div>
-        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.EindDatum.ToString("dd/MM/yyyy H:mm")</div></div>
-    </div>
-
-    <br />
-    <h6>Lokaal</h6>
-    <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.Lokaal</div></div>
-
-
-    @*OPEN PLAATSEN OF AANTAL AANWEZIGEN WEERGEVEN*@
-    @if (Model.StartDatum >= DateTime.Now && !(Model.Gesloten))
-    {//HEDEN
-        <br />
-        <h6>Aantal Personen</h6>
-        <div class="col px-md-5"><div class="p-3 border bg-light"> @Model.OpenPlaatsen / @Model.Capaciteit </div></div>
-
-        @if (SignInManager.IsSignedIn(User))
-        {<br />
-            <h6>Ingeschreven</h6>
-            @if (Model.DeelnemerIngeschreven.Equals(true))
-            {
-                <div class="col px-md-5">
-                    <div class="p-3 border bg-light">Ja</div>
-                </div>
-            }
-            else
-            {
-                <div class="col px-md-5">
-                    <div class="p-3 border bg-light">--</div>
-                </div>
-            }
-        }
-    }
-    else//VERLEDEN
-    { <br />
-        <h6>Aantal aanwezigen</h6>
-        <div class="col px-md-5"><div class="p-3 border bg-light">@Model.AantalAanwezigen</div></div>
-
-        @if (SignInManager.IsSignedIn(User))
-        {<br />
-            <h6>Aanwezig</h6>
-            @if (Model.DeelnemerAanwezig.Equals(true))
-            {
-                <div class="col px-md-5">
-                    <div class="p-3 border bg-light">Ja</div>
-                </div>
-            }
-            else
-            {
-                <div class="col px-md-5">
-                    <div class="p-3 border bg-light">--</div>
-                </div>
-            }
-        }
-    }
-
-    @if (Model.ListMedia.Count() != 0)
-    {<br />
-        <h6>Media</h6>
-        <div>
-            <table class="table table-striped">
-                <tr>
-                    <th class="text-center">Titel</th>
-                    <th class="text-center">Omschrijving</th>
-                </tr>
-                <!-- loop die door de lijst van Media gaat -->
-                @foreach (var media in Model.ListMedia)
+    <body>
+        <div class="container position-absolute">
+            <main role="main" class="pb-3">
+                @if (TempData["message"] != null)
                 {
-                    <tr>
-                        <td class="text-center"><a href="@media.Link" target="_blank">@media.Titel</a></td>
-                        <td class="text-center">@media.Beschrijving</td>
-                    </tr>
+                    <div class="alert alert-success">@TempData["message"]</div>
                 }
-
-            </table>
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-warning">@TempData["error"]</div>
+                }
+            </main>
         </div>
-    }
+
+        <h3 class="text-center">@Model.Titel</h3>
+        <br />
+        <div class="container text-left">
+            <div class="row">
+                <div class="row col-md-3 display-fixed">
+                    <div class="col-md-12 p-3 border bg-light">
+                        <h6 class="col-12">Verantwoordelijke</h6>
+                        <p class="col-12">@Model.NaamVerantwoordelijke</p>
+                    </div>
+                    <div class="col-md-12 row p-3 border bg-light">
+                        <h6 class="col-md-7">Lokaal</h6>
+                        <div class="col-md-12 col-lg-5"> @Model.Lokaal</div>
+                    </div>
+
+                    @*OPEN PLAATSEN OF AANTAL AANWEZIGEN WEERGEVEN*@
+                    @if (Model.StartDatum >= DateTime.Now && !(Model.Gesloten))
+                    {//HEDEN
+                        <br />
+                        <div class="col-md-12 row p-3 border bg-light">
+                            <h6 class="col-md-7">Aantal Personen</h6>
+                            <div class="col-md-12 col-lg-5">@Model.OpenPlaatsen / @Model.Capaciteit</div>
+                        </div>
+                        @if (SignInManager.IsSignedIn(User))
+                        {<br />
+                            <div class="col-md-12 row p-3 border bg-light">
+                                <h6 class="col-md-7">Ingeschreven</h6>
+                                @if (Model.DeelnemerIngeschreven.Equals(true))
+                                {
+                                    <div class="col-md-12 col-lg-5">Ja</div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12 col-lg-5">--</div>
+                                }
+                            </div>
+                        }
+                    }
+                    else//VERLEDEN
+                    { <br />
+                        <div class="col-md-12 row p-3 border bg-light">
+                            <h6 class="col-md-7">Aantal aanwezigen</h6>
+                            <div class="col-md-12 col-lg-5">@Model.AantalAanwezigen</div>
+                        </div>
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {<br />
+                         <div class="col-md-12 row p-3 border bg-light">
+                             <h6 class="col-md-7">Aanwezig</h6>
+                             @if (Model.DeelnemerAanwezig.Equals(true))
+                             {
+                                 <div class="col-md-12 col-lg-5">Ja</div>
+                             }
+                             else
+                             {
+                                 <div class="col-md-12 col-lg-5">--</div>
+                             }
+                         </div>
+                                }
+                        
+                        }
 
 
 
-    @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
+                    </div>
+                        <div class="row col-md-9">
+                            <div class="col-md-12">
+                                <div class="row p-3 border bg-light">@Model.Beschrijving</div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="row p-3 border bg-light text-center">
+                                    <h6 class="col-md-4">Datum en uur</h6>
+                                    @*<div class="col-md-4">@Model.StartDatum.ToString("dd/MM/yyyy H:mm")</div>
+                            <div class="col-md-4">@Model.EindDatum.ToString("dd/MM/yyyy H:mm")</div>*@
+                                    <div class="col-md-4">@Model.StartDatum.ToString("dd/MM/yyyy")</div>
+                                    <p class="col-md-4">@Model.StartDatum.ToString("H:mm") tot @Model.EindDatum.ToString("H:mm")</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                @if (Model.ListMedia.Count() != 0)
+                                {<br />
+                                    <h6 class="text-center">Media</h6>
+                                    <br />
+                                    <div>
+                                        <table class="table">
+                                            <tr class="bg-primary text-left text-light">
+                                                <th>Titel</th>
+                                                <th>Omschrijving</th>
+                                            </tr>
+                                            <!-- loop die door de lijst van Media gaat -->
+                                            @foreach (var media in Model.ListMedia)
+                                            {
+                                                <tr>
+                                                    <td class="text-left"><a href="@media.Link" target="_blank">@media.Titel</a></td>
+                                                    <td class="text-left">@media.Beschrijving</td>
+                                                </tr>
+                                            }
+
+                                        </table>
+                                    </div>
+                                }
+                            </div>
+
+
+
+                        </div>
+                    </div>
+        </div>
+            @*<div class="col px-md-5"><div class="p-3 border bg-light">@Model.NaamVerantwoordelijke</div></div>*@
+            <br />
+
+
+
+
+    @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN
     @if (Model.StartDatum > DateTime.Now && !(Model.Gesloten))
     {
         @if (SignInManager.IsSignedIn(User))
@@ -162,7 +185,7 @@
                         <span class="iconify" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;" ></span>
                           <-- volle ster
 
-                    </div>*@
+                    </div>*@ @*
 
                 <label>Score</label>
                 <select style="width: 80px;" asp-for="Score" asp-items="@ViewData["scores"] as SelectList" class="form-control"></select>
@@ -170,12 +193,80 @@
 
                 <br />
                 <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
-                @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
+                @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@@*
                 <br>
                 <span asp-validation-for="FeedbackContent" class="text-danger"></span>
             </div>
             <button type="submit">Indienen</button>
         </form>
+        *@
+
+    <div class="container col-md-12 text-left">
+
+        @*BUTTON INSCHRIJVEN / FEEDBACK INDIENDEN*@
+        @if (Model.StartDatum > DateTime.Now && !(Model.Gesloten))
+        {
+            <div class="col-md-12">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (!Model.DeelnemerIngeschreven)
+                    {<form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
+                            <br />
+                            <button type="submit" class="btn bg-primary text-light">Inschrijven</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="InschrijvenUitschrijven" asp-action="DetailInschrijvenUitschrijven" asp-route-id="@Model.SessieID" method="post">
+                            <br />
+                            <button type="submit" class="btn bg-primary text-light">Uitschrijven</button>
+                        </form>
+                    }
+                }
+                else
+                {
+                    <form asp-area="Identity" asp-page="/Account/Login">
+                        <br />
+                        <button type="submit" class="btn bg-primary text-light">Inschrijven</button>
+                    </form>
+                }
+            </div>
+        }
+        else
+        {
+    <div class="container col-md-10 text-center">
+        <br />
+        <h6 class="text-left">Feedback</h6>
+        <br />
+        <form asp-controller="Feedback" asp-action="DetailFeedbackGeven" asp-route-id="@Model.SessieID" method="post">
+            <div class="form-group text-left">
+
+                @*<div>
+                    @for (int i = 0; i < 5; i++)
+                    {
+                    <span class="iconify" data-icon="bytesize:star" data-inline="false" style="width: 30px; height: 30px; color:gold"></span>}
+
+                    <span class="iconify" data-icon="el:star" data-inline="false" style="width: 30px; height: 30px; color:gold;" ></span>
+                      <-- volle ster
+
+                </div>*@
+                <div class="row">
+                    <label class="align-bottom">Score &nbsp;</label>
+                    <select style="width: 80px;" asp-for="Score" asp-items="@ViewData["scores"] as SelectList" class="form-control"></select>
+                    <span asp-validation-for="Score" class="text-danger"></span>
+                </div>
+                <br />
+                <textarea asp-for="FeedbackContent" asp-validation-for="FeedbackContent" class="form-control rounded-0" rows="3" style="resize:none"></textarea>
+                @*<textarea asp-for="FeedbackContent" class="form-control rounded-0" id="FeedbackContent" rows="3"></textarea>*@
+                <br>
+                <span asp-validation-for="FeedbackContent" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn bg-primary text-light">Indienen</button>
+        </form>
+
+
+
+
 
 
 
@@ -183,14 +274,14 @@
         {
             <div>
                 <br />
-                <table class="table table-striped">
-                    <tr>
+                <table class="table">
+                    <tr class="bg-primary text-light">
                         <th class="text-center">Datum</th>
                         <th class="text-center">Auteur</th>
                         <th class="text-center">Score</th>
-                        <th class="text-center">Feedback</th>
+                        <th class="text-center col-md-6">Feedback</th>
                     </tr>
-                    <!-- loop die door de lijst van Feedback gaat -->
+                    <!-- loop die door de lijst van Feedback ga10at -->
                     @foreach (var feedback in Model.FeedbackList)
                     {
                         <tr>
@@ -204,19 +295,27 @@
                 </table>
             </div>
         }
-    }
-    @*}
-        else
-        {
-        <div class="col px-md-5">
-            <div class="p-3 text-danger">Om je in te schrijven voor deze sessie of feedback te kunnen geven, zal je je moeten inloggen.</div>
-        </div>
+    </div>
+        }
+    </div>
+            @*}
+            else
+            {
+            <div class="col px-md-5">
+                <div class="p-3 text-danger">Om je in te schrijven voor deze sessie of feedback te kunnen geven, zal je je moeten inloggen.</div>
+            </div>
+
 
         }*@
-</body>
-</html>
 
+@*
 @section scripts {
     <script asp-src-include="lib/jquery-validation/dist/jquery.validate.js"></script>
     <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-}
+}*@
+        
+        
+        <br />
+    </body>
+    </html>
+

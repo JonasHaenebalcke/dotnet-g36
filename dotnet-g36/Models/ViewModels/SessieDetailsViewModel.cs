@@ -27,6 +27,10 @@ namespace dotnet_g36.Models.ViewModels
 
         [Required(ErrorMessage = "Dit veld is verplicht")]
         public string FeedbackContent { get; set; }
+        public int SessieRating {get; set; } // Rating van de sessie
+
+        [Range(1, 5, ErrorMessage = "Score moet tussen 1-5 liggen")]
+        public int Score { get; set; }
 
         [Range(1, 5, ErrorMessage = "Score moet tussen 1-5 liggen")]
         public int Score { get; set; }

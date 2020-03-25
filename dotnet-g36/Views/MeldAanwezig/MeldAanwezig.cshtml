@@ -14,24 +14,24 @@
 </head>
 <body>
     <br />
-    <h1>Aanwezigheid Registreren voor @Model.Titel</h1><br />
+    <h2 class="text-center">Aanwezigheid Registreren voor @Model.Titel</h2><br />
     <div class="row">
         <div class="col-md-4">
             <h5>Gelieve uw studentenkaart te scannen of uw e-mail in te geven.</h5><br />
             <form method="post" asp-controller="MeldAanwezig" asp-action="MeldAanwezig" >
                 <input type="text" class="form-control" asp-for="Barcode"><br />
-                <button class="btn btn-secondary ml-1">Voeg toe</button>
+                <button class="btn btn-primary">Voeg Toe</button>
             </form><br />
             <form method="post"  asp-controller="SessieOpenzetten" asp-action="Sluiten" asp-route-id="@Model.SessieID">
-                <button class="btn btn-secondary ml-1">Sluit Sessie</button>
+                <button class="btn btn-danger">Sluit Sessie</button>
             </form><br />
             <br /><br />
         </div>
 
         <div class="col-md-8">
-            <table class="table table-striped">
+            <table class="table ">
                 <tr>
-                    <th class="text-center">Lijst aanwezigen</th>
+                    <th class="text-center bg-primary text-light">Lijst aanwezigen</th>
                 </tr>
                 @if (Model.Aanwezigen.Count == 0)
                 {
