@@ -29,7 +29,7 @@ namespace dotnet_g36.Models.Domain
         public Sessie() { }
 
         public Sessie(Verantwoordelijke verantwoordelijke,
-            string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int capaciteit, StatusSessie statusSessie = StatusSessie.NietOpen,
+            string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int capaciteit, StatusSessie statusSessie = StatusSessie.InschrijvingenOpen,
             string beschrijving = "", string gastspreker = "")
         {
             this.Verantwoordelijke = verantwoordelijke;
@@ -54,7 +54,7 @@ namespace dotnet_g36.Models.Domain
         /// <param name="user">Verantwoordelijke Object</param>
         public void SessieOpenZetten(Verantwoordelijke user)
         {
-            if (StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum)
+            if (StatusSessie.Equals(StatusSessie.InschrijvingenOpen) && DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum)
             {
                 if (!(user.IsHoofdverantwoordelijke || user.OpenTeZettenSessies.Contains(this)))
                     throw new SessieException("Sessie kan niet worden opengezet. Controleer of je de rechten hebt om deze sessie open te zetten.");
@@ -136,7 +136,7 @@ namespace dotnet_g36.Models.Domain
         {
             if (StartDatum < DateTime.Now)
                 throw new SchrijfInSchrijfUitException("je kan je niet inschrijven in een verleden maand.");
-            if (GebruikerSessies.Count > Capaciteit)
+            if (GebruikerSessies.Count >= Capaciteit)
                 throw new SchrijfInSchrijfUitException("je kan je niet meer inschrijven in deze sessie. De sessie is volzet.");
 
             foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)

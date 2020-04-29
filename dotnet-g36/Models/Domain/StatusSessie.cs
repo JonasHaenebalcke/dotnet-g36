@@ -8,6 +8,7 @@ namespace dotnet_g36.Models.Domain
     {
         Open = 1,
         Gesloten = 2,
-        NietOpen = 3
+        InschrijvingenOpen = 3,
+        NietOpen = 4
     }
 }

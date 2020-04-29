@@ -28,7 +28,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Sessie</returns>
         public IEnumerable<Sessie> GetAll()
         {
-            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Auteur).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Gebruiker).OrderBy(m => m.StartDatum); //.ToList()
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Auteur).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Gebruiker).Where(s => s.StatusSessie != StatusSessie.NietOpen).OrderBy(m => m.StartDatum); //.ToList()
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Sessie</returns>
         public ICollection<Sessie> GetToekomstige()
         {
-            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Auteur).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Gebruiker).Where(s => s.StartDatum >= DateTime.Now).OrderBy(s => s.StartDatum).ToList();
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Auteur).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Gebruiker).Where(s => s.StartDatum >= DateTime.Now && s.StatusSessie != StatusSessie.NietOpen).OrderBy(s => s.StartDatum).ToList();
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace dotnet_g36.Data.Repositories
         /// <returns>IEnumerable van Sessie</returns>
         IEnumerable<Sessie> ISessieRepository.GetByMonth(int month)
         {
-            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Auteur).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Gebruiker).Where(s => s.StartDatum.Month == month).OrderBy(m => m.StartDatum);
+            return _sessies.Include(s => s.Verantwoordelijke).Include(s => s.FeedbackList).ThenInclude(f => f.Auteur).Include(s => s.Media).Include(s => s.GebruikerSessies).ThenInclude(f => f.Gebruiker).Where(s => s.StartDatum.Month == month && s.StatusSessie != StatusSessie.NietOpen).OrderBy(m => m.StartDatum);
         }
         #endregion
     }

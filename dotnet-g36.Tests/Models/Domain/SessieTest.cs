@@ -150,7 +150,7 @@ namespace dotnet_g36.Tests.Models.Domain
         }
 
         [Theory]
-        [InlineData(StatusSessie.NietOpen)]
+        [InlineData(StatusSessie.InschrijvingenOpen)]
         [InlineData(StatusSessie.Open)]
         public void FeedbackGevenSessieNogNietGestartTest(StatusSessie status)
         {
@@ -201,9 +201,9 @@ namespace dotnet_g36.Tests.Models.Domain
 
             Assert.Equal(1, _sessie.GebruikerSessies.Count);
 
-            Assert.Throws<SchrijfInSchrijfUitException>(() => _sessie.MeldAanwezigAfwezig(_gebruiker));
-            Assert.True(_sessie.GebruikerSessies.Single().Aanwezig);
-            Assert.Single(_sessie.geefAlleAanwezigen());
+            _sessie.MeldAanwezigAfwezig(_gebruiker);
+            Assert.False(_sessie.GebruikerSessies.Single().Aanwezig);
+            Assert.Empty(_sessie.geefAlleAanwezigen());
         }
 
         [Theory]

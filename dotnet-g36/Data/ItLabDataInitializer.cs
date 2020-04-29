@@ -92,19 +92,19 @@ namespace dotnet_g36.Data
                 // huidigeMaand Nietopen Organizer1
                 Sessie huidigeMaandSessie = new Sessie(organizer1, "Sessie Java", "B1.027",
                 DateTime.Now.AddHours(1), DateTime.Now.AddHours(3),
-                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+                25, StatusSessie.InschrijvingenOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
                 // huidigeMaand Nietopen Admin
                 Sessie huidigeMaandSessieAdmin = new Sessie(admin, "Sessie DotNet", "B1.027",
                 DateTime.Now.AddHours(1), DateTime.Now.AddHours(3),
-                2, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+                2, StatusSessie.InschrijvingenOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
                 // huidigeMaand NietOpen Admin DirectSluiten
                 Sessie huidigeMaandSessieSluiten = new Sessie(admin, "Omgaan met frustratie problemen", "B1.027",
                 DateTime.Now.AddSeconds(90), DateTime.Now.AddHours(3),
-                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+                25, StatusSessie.InschrijvingenOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
                 // Dec - 1e gesloten
@@ -137,7 +137,7 @@ namespace dotnet_g36.Data
                 // Feb - niet open organizer2
                 Sessie sessie9 = new Sessie(organizer2, "Infosessie Eclipse", "B1.013",
                  new DateTime(2019, 2, 26, 12, 30, 0), new DateTime(2019, 3, 26, 13, 30, 0), 25,
-                 StatusSessie.NietOpen, "Alle nodige info om met Eclipe te werken", " ");
+                 StatusSessie.InschrijvingenOpen, "Alle nodige info om met Eclipe te werken", " ");
 
                 //Maart - gesloten Verleden organizer1
                 Sessie sessie1 = new Sessie(organizer1, "Sessie 3D Printing", "B1.027",
@@ -150,22 +150,22 @@ namespace dotnet_g36.Data
                 //Maart - niet open toekomst organizer1
                 Sessie sessie2 = new Sessie(organizer1, "Sessie Netflix", "BCON",
                    new DateTime(2020, 3, 27, 12, 30, 0), new DateTime(2020, 3, 27, 13, 30, 0),
-                  150, StatusSessie.NietOpen, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"
+                  150, StatusSessie.InschrijvingenOpen, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"
                   );
                 //Maart - gesloten organizer1
                 Sessie sessie3 = new Sessie(organizer1, "Omgaan met frustratie problemen", "B4.012",
                     new DateTime(2020, 3, 20, 12, 30, 0), new DateTime(2020, 3, 20, 13, 30, 0),
-                    25, StatusSessie.NietOpen, "Lucas legt in deze lezing uit hoe je moet omgaan met frustratie's uit het dagelijkse leven", "Lucas Van De Haegen"
+                    25, StatusSessie.InschrijvingenOpen, "Lucas legt in deze lezing uit hoe je moet omgaan met frustratie's uit het dagelijkse leven", "Lucas Van De Haegen"
                     );
 
                 //Mei - 1e niet open organizer2
                 Sessie sessie10 = new Sessie(organizer2, "Sessie MySQL", "B4.013",
                  new DateTime(2020, 5, 5, 12, 30, 0), new DateTime(2020, 5, 5, 13, 30, 0), 50,
-                 StatusSessie.NietOpen, "Sessie over MySQL", " ");
+                 StatusSessie.InschrijvingenOpen, "Sessie over MySQL", " ");
                 //Mei - 2e niet open organizer2
                 Sessie sessie11 = new Sessie(organizer2, "Sessie Databanken", "BCON",
                     new DateTime(2020, 05, 10, 12, 30, 0), new DateTime(2020, 05, 10, 12, 45, 0), 50,
-                    StatusSessie.NietOpen, "Databanken enzo", "De Data Expert");
+                    StatusSessie.InschrijvingenOpen, "Databanken enzo", "De Data Expert");
 
 
                 _context.Sessies.AddRange(new Sessie[]

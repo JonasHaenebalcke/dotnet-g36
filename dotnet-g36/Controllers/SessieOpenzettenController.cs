@@ -37,7 +37,7 @@ namespace dotnet_g36.Controllers
                 {
                     foreach (Sessie s in verantwoordelijke.OpenTeZettenSessies)
                     {
-                        if (s.StatusSessie.Equals(StatusSessie.NietOpen) && DateTime.Now < s.StartDatum)
+                        if (s.StatusSessie.Equals(StatusSessie.InschrijvingenOpen) && DateTime.Now < s.StartDatum)
                             sessies.Add(s);
                     }
                 }

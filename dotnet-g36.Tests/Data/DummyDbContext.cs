@@ -41,19 +41,19 @@ namespace dotnet_g36.Tests.Data
             
             hedenSessie = new Sessie(organizer1, "Sessie 3D Printing", "B1.027",
                DateTime.Now.AddMinutes(2), DateTime.Now.AddHours(2),
-               25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+               25, StatusSessie.InschrijvingenOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                );
             
             toekomstSessie = new Sessie(organizer1, "Sessie Netflix",  "BCON",
                  //new DateTime(2020, 3, 27, 12, 30, 0), new DateTime(2020, 3, 27, 13, 30, 0),
                  DateTime.Now.AddMonths(1), DateTime.Now.AddMonths(1).AddHours(1),
-                150, StatusSessie.NietOpen, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"
+                150, StatusSessie.InschrijvingenOpen, "Een lezing over Netflix, door een Netflix expert: Jonas Haenebalcke", "Jonas Haenebalcke"
                 );
 
             verledenSessie = new Sessie(organizer2, "Sessie 3D Printing", "B1.027",
                  //new DateTime(2019, 12, 24, 7, 30, 0),  new DateTime(2019, 12, 24, 9, 30, 0),
                  DateTime.Now.AddYears(-1), DateTime.Now.AddYears(-1).AddHours(2),
-                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+                25, StatusSessie.InschrijvingenOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
             Sessie sessie5 = new Sessie(organizer1, "Sessie Netflix",  "BCON",
@@ -67,7 +67,7 @@ namespace dotnet_g36.Tests.Data
 
             Sessie sessie1 = new Sessie(organizer1, "Sessie 3D Printing", "B1.027",
                new DateTime(2020, 3, 01, 7, 30, 0), new DateTime(2020, 3, 01, 9, 30, 0),
-                25, StatusSessie.NietOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
+                25, StatusSessie.InschrijvingenOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
             Sessie sessie3 = new Sessie(organizer1, "Omgaan met frustratie problemen", "B4.012",
