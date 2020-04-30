@@ -42,6 +42,8 @@ namespace dotnet_g36
         public int AantalKeerAfwezig { get; set; }
         public ICollection<Feedback> FeedbackList { get; set; }
 
+        public String PasswordHashJava { get; set; }
+
         #endregion
 
         #region Constructors
