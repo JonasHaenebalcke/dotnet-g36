@@ -21,8 +21,8 @@ namespace dotnet_g36.Data.Mapping
 
             //Dit is voor de overevering, er hoort nu
             //een extra kolom 'type' te komen met gepaste waarde in
-            builder.HasDiscriminator<string>("Type")
-                .HasValue<Verantwoordelijke>("Verantwoordelijke");
+            //builder.HasDiscriminator<string>("Type")
+            //    .HasValue<Verantwoordelijke>("Verantwoordelijke");
         }
     }
 }

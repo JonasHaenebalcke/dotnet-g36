@@ -12,7 +12,7 @@ namespace dotnet_g36.Data.Repositories
         #region Fields
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<Gebruiker> _users;
-        private readonly DbSet<Verantwoordelijke> _verantwoordelijken;
+        private readonly DbSet<Gebruiker> _verantwoordelijken;
         #endregion
 
         #region Constructors
@@ -39,9 +39,9 @@ namespace dotnet_g36.Data.Repositories
         /// Geeft de hoofdverantwoordelijke
         /// </summary>
         /// <returns>Verantwoordelijke Object</returns>
-        public Verantwoordelijke GetHoofdverantwoordelijke()
+        public Gebruiker GetHoofdverantwoordelijke()
         {
-            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Gebruiker).SingleOrDefault(h => h.IsHoofdverantwoordelijke == true);
+            return _verantwoordelijken.Include(s => s.OpenTeZettenSessies).Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Gebruiker).SingleOrDefault(h => h.TypeGebruiker == TypeGebruiker.Hoofdverantwoordelijke);
         }
 
         ///// <summary>
@@ -78,10 +78,10 @@ namespace dotnet_g36.Data.Repositories
         /// </summary>
         /// <param name="username"></param>
         /// <returns>Verantwoordelijke object</returns>
-        public Verantwoordelijke GetVerantwoordelijkeByUsername(string username)
+        public Gebruiker GetVerantwoordelijkeByUsername(string username)
         {
             return _verantwoordelijken.Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Gebruiker)
-                .Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Sessie).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username));
+                .Include(s => s.GebruikerSessies).ThenInclude(usl => usl.Sessie).Include(s => s.OpenTeZettenSessies).SingleOrDefault(d => d.UserName.Equals(username) && d.TypeGebruiker != TypeGebruiker.Gebruiker);
         }
 
         #endregion

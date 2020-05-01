@@ -24,18 +24,18 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="id">idnummer van de gekozen sessie</param>
         /// <returns>View van toekomstige sessies om open te zetten</returns>
-        [ServiceFilter(typeof(VerantwoordelijkeFilter))]
-        public IActionResult Openzetten(Verantwoordelijke verantwoordelijke)
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public IActionResult Openzetten(Gebruiker gebruiker)
         {
             try
             {
                 ICollection<Sessie> sessies = new List<Sessie>();
                 //Vult sessies op met gepaste sessies
-                if (verantwoordelijke.IsHoofdverantwoordelijke)
+                if (gebruiker.TypeGebruiker == TypeGebruiker.Hoofdverantwoordelijke)
                     sessies = _sessieRepository.GetToekomstige();
                 else
                 {
-                    foreach (Sessie s in verantwoordelijke.OpenTeZettenSessies)
+                    foreach (Sessie s in gebruiker.OpenTeZettenSessies)
                     {
                         if (s.StatusSessie.Equals(StatusSessie.InschrijvingenOpen) && DateTime.Now < s.StartDatum)
                             sessies.Add(s);
@@ -56,9 +56,9 @@ namespace dotnet_g36.Controllers
         /// </summary>
         /// <param name="id">idnummer van de gekozen sessie</param>
         /// <returns>View om aanwezig te stellen</returns>
-        [ServiceFilter(typeof(VerantwoordelijkeFilter))]
+        [ServiceFilter(typeof(GebruikerFilter))]
         [HttpPost]
-        public IActionResult Openzetten(Verantwoordelijke verantwoordelijke, int id)
+        public IActionResult Openzetten(Gebruiker gebruiker, int id)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace dotnet_g36.Controllers
                 if (sessie.StatusSessie == StatusSessie.Open && DateTime.Now < sessie.StartDatum)
                     return RedirectToAction("MeldAanwezig", "MeldAanwezig", new { @id = id });
 
-                sessie.SessieOpenZetten(verantwoordelijke);
+                sessie.SessieOpenZetten(gebruiker);
                 _sessieRepository.SaveChanges();
                 return RedirectToAction("MeldAanwezig", "MeldAanwezig", new { @id = id });
             }

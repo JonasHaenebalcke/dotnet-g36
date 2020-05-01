@@ -36,6 +36,8 @@ namespace dotnet_g36.Models.Domain
         public Sessie Sessie { get; set; }
 
         public bool Aanwezig { get; set; }
+
+        public DateTime InschrijvingsDatum { get; set; }
         #endregion
 
         #region Constructors
@@ -46,6 +48,7 @@ namespace dotnet_g36.Models.Domain
             this.Sessie = sessie;
             this.Gebruiker = gebruiker;
             Aanwezig = false;
+            InschrijvingsDatum = DateTime.Now;
         }
         #endregion
     }

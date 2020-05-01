@@ -26,8 +26,8 @@ namespace dotnet_g36.Data
 
         public DbSet<Sessie> Sessies { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
-        public DbSet<Verantwoordelijke> Verantwoordelijken { get; set; }
-        public DbSet<Verantwoordelijke> Hoofdverantwoordelijke { get; set; }
+        public DbSet<Gebruiker> Verantwoordelijken { get; set; }
+        public DbSet<Gebruiker> Hoofdverantwoordelijke { get; set; }
         public DbSet<GebruikerSessie> GebruikerSessies { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
                
@@ -38,8 +38,8 @@ namespace dotnet_g36.Data
             modelBuilder.ApplyConfiguration(new GebruikerConfiguration());
             modelBuilder.ApplyConfiguration(new GebruikerSessieConfiguration());
             modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
-            modelBuilder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
-
+/*            modelBuilder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
+*/
         }
     }
 }

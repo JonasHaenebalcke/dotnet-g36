@@ -46,7 +46,7 @@
         <br />
     </div>
     <br />
-    @if (!Model.Where(s => s.StartDatum > DateTime.Now).Count().Equals(0) || !Model.Where(s => !s.Gesloten).Count().Equals(0))
+    @if (!Model.Where(s => s.StartDatum > DateTime.Now && !s.Gesloten).Count().Equals(0) /*&& !Model.Where(s => ).Count().Equals(0)*/)
     {
 
         <h4 class="text-center">Geplande sessies</h4>
@@ -96,7 +96,7 @@
         </table>
     }
     <br />
-    @if (!Model.Where(s => s.StartDatum <= DateTime.Now).Count().Equals(0) || !Model.Where(s => s.Gesloten).Count().Equals(0))
+    @if (!Model.Where(s => s.StartDatum <= DateTime.Now || s.Gesloten).Count().Equals(0) /*|| !Model.Where(s => s.Gesloten).Count().Equals(0)*/)
     {
         <h4 class="text-center">Afgelopen sessies</h4>
 

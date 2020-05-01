@@ -20,7 +20,7 @@ namespace dotnet_g36.Models.Domain
         public ICollection<Feedback> FeedbackList { get; set; }
         public ICollection<GebruikerSessie> GebruikerSessies { get; set; }
         //public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
-        public Verantwoordelijke Verantwoordelijke { get; set; }
+        public Gebruiker Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }
 
         #endregion
@@ -28,7 +28,7 @@ namespace dotnet_g36.Models.Domain
         #region Constructors
         public Sessie() { }
 
-        public Sessie(Verantwoordelijke verantwoordelijke,
+        public Sessie(Gebruiker verantwoordelijke,
             string titel, string lokaal, DateTime startDatum, DateTime eindDatum, int capaciteit, StatusSessie statusSessie = StatusSessie.InschrijvingenOpen,
             string beschrijving = "", string gastspreker = "")
         {
@@ -51,12 +51,12 @@ namespace dotnet_g36.Models.Domain
         /// <summary>
         /// Zet Sessie open
         /// </summary>
-        /// <param name="user">Verantwoordelijke Object</param>
-        public void SessieOpenZetten(Verantwoordelijke user)
+        /// <param name="gebruiker">Verantwoordelijke Object</param>
+        public void SessieOpenZetten(Gebruiker gebruiker)
         {
             if (StatusSessie.Equals(StatusSessie.InschrijvingenOpen) && DateTime.Now >= StartDatum.AddHours(-1) && DateTime.Now < StartDatum)
             {
-                if (!(user.IsHoofdverantwoordelijke || user.OpenTeZettenSessies.Contains(this)))
+                if (!(gebruiker.TypeGebruiker == TypeGebruiker.Hoofdverantwoordelijke || gebruiker.OpenTeZettenSessies.Contains(this)))
                     throw new SessieException("Sessie kan niet worden opengezet. Controleer of je de rechten hebt om deze sessie open te zetten.");
                 StatusSessie = StatusSessie.Open;
             }
@@ -78,7 +78,7 @@ namespace dotnet_g36.Models.Domain
                     if (!gebruikerSessie.Aanwezig)
                     {
                         Gebruiker gebruiker = gebruikerSessie.Gebruiker;
-                        if (!(gebruiker is Verantwoordelijke) && gebruiker.AantalKeerAfwezig >= 2) //Verantwoordelijken niet blokkeren
+                        if (gebruiker.TypeGebruiker == TypeGebruiker.Gebruiker && gebruiker.AantalKeerAfwezig >= 2) //Verantwoordelijken niet blokkeren
                         {
                             gebruiker.StatusGebruiker = StatusGebruiker.Geblokkeerd;
                             gebruiker.SchrijfUitAlleSessies();
@@ -229,7 +229,7 @@ namespace dotnet_g36.Models.Domain
 
             if (gebruiker.Aanwezig(this))
             {
-                Feedback feedback = new Feedback(gebruiker, feedbacktxt, DateTime.Now, score);
+                Feedback feedback = new Feedback(gebruiker, feedbacktxt, score);
                 FeedbackList.Add(feedback);
             }
             else
@@ -248,7 +248,7 @@ namespace dotnet_g36.Models.Domain
             {
                 if (feedback.FeedbackID == feedbackId)
                 {
-                    if (gebruiker == feedback.Auteur || (gebruiker is Verantwoordelijke && (gebruiker as Verantwoordelijke).IsHoofdverantwoordelijke == true))
+                    if (gebruiker == feedback.Auteur || gebruiker.TypeGebruiker != TypeGebruiker.Gebruiker)
                     {
                         succes = true;
                         FeedbackList.Remove(feedback);

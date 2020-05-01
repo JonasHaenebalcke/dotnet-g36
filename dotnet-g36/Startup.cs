@@ -43,7 +43,7 @@ namespace dotnet_g36
             services.AddScoped<ISessieRepository, SessieRepository>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<GebruikerFilter>();
-            services.AddScoped<VerantwoordelijkeFilter>();
+            //services.AddScoped<VerantwoordelijkeFilter>();
 
             services.AddAuthorization(options =>
                         {

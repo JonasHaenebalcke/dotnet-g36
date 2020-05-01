@@ -11,9 +11,9 @@ namespace dotnet_g36.Data
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Gebruiker> _userManager;
-        private Verantwoordelijke admin;
-        private Verantwoordelijke organizer1;
-        private Verantwoordelijke organizer2;
+        private Gebruiker admin;
+        private Gebruiker organizer1;
+        private Gebruiker organizer2;
         private Gebruiker gebruiker;
          private Gebruiker nietActieveGebruiker;
          private Gebruiker geblokkeerdeGebruiker;
@@ -33,16 +33,13 @@ namespace dotnet_g36.Data
 
                 var ph = new PasswordHasher<Gebruiker>();
                 // Hoofdverantwoordelijke string barcode, string username, string email, string wachtwoord, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief
-                admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
-                {
-                    IsHoofdverantwoordelijke = true
-                };
+                admin = new Gebruiker("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "Lucas", "Van Der Haegen", StatusGebruiker.Actief, TypeGebruiker.Hoofdverantwoordelijke);
                 admin.EmailConfirmed = true;
                 admin.PasswordHash = ph.HashPassword(admin, "123");
                 admin.SecurityStamp = Guid.NewGuid().ToString();
                 //verantwoordelijke
-                organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
-                organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
+                organizer1 = new Gebruiker("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "Audrey", "De SubAdmin1", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke);
+                organizer2 = new Gebruiker("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke);
                 //organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.NietActief);
                 //organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Geblokkeerd);
                 organizer1.EmailConfirmed = true;

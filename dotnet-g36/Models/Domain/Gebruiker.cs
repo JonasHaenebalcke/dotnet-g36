@@ -42,6 +42,10 @@ namespace dotnet_g36
         public int AantalKeerAfwezig { get; set; }
         public ICollection<Feedback> FeedbackList { get; set; }
 
+        //java
+        public TypeGebruiker TypeGebruiker { get; set; }
+        public ICollection<Sessie> OpenTeZettenSessies { get; set; }
+
         public String PasswordHashJava { get; set; }
 
         #endregion
@@ -50,7 +54,7 @@ namespace dotnet_g36
 
         public Gebruiker() { }
 
-        public Gebruiker(string barcode, string username, string email, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief)
+        public Gebruiker(string barcode, string username, string email, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief, TypeGebruiker typeGebruiker = TypeGebruiker.Gebruiker)
         {
             Barcode = barcode;
             Email = email;
@@ -63,10 +67,21 @@ namespace dotnet_g36
             StatusGebruiker = statusGebruiker;
             GebruikerSessies = new List<GebruikerSessie>();
             AantalKeerAfwezig = 0;
+            TypeGebruiker = typeGebruiker;
+            OpenTeZettenSessies = new List<Sessie>();
         }
         #endregion
 
         #region methods
+        public void AddSessieLijst(List<Sessie> sessies)
+        {
+            OpenTeZettenSessies = sessies;
+        }
+
+        public void AddSessie(Sessie sessie)
+        {
+            OpenTeZettenSessies.Add(sessie);
+        }
         /// <summary>
         ///  Geeft de Volledige naam van de gebruiker
         /// </summary>

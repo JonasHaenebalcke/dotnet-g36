@@ -18,11 +18,11 @@ namespace dotnet_g36.Models.Domain
 
         public Feedback() { }
 
-        public Feedback(Gebruiker auteur, string content, DateTime tijd, int score)
+        public Feedback(Gebruiker auteur, string content, int score)
         {
             Auteur = auteur;
             Tekst = content;
-            TimeWritten = tijd;
+            TimeWritten = DateTime.Now;
             Score = score;
         }
         #endregion
