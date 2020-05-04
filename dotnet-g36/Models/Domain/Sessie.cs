@@ -22,6 +22,7 @@ namespace dotnet_g36.Models.Domain
         //public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Gebruiker Verantwoordelijke { get; set; }
         public StatusSessie StatusSessie { get; set; }
+        public SessieKalender SessieKalender { get; set; }
 
         #endregion
 

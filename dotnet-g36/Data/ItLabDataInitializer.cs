@@ -164,12 +164,30 @@ namespace dotnet_g36.Data
                     new DateTime(2020, 05, 10, 12, 30, 0), new DateTime(2020, 05, 10, 12, 45, 0), 50,
                     StatusSessie.InschrijvingenOpen, "Databanken enzo", "De Data Expert");
 
-
                 _context.Sessies.AddRange(new Sessie[]
               {
                    huidigeMaandSessie, sessie1, sessie2, sessie3, sessie4, sessie5, /*sessie6,*/ sessie7, sessie8, sessie9, sessie10, sessie11,
                    huidigeMaandSessieAdmin, huidigeMaandSessieSluiten
               });
+                _context.SaveChanges();
+
+                SessieKalender sessieKalender = new SessieKalender(new DateTime(2019, 9, 1), new DateTime(2020, 8, 1));
+
+                sessieKalender.AddSessie(huidigeMaandSessie);
+                sessieKalender.AddSessie(sessie1);
+                sessieKalender.AddSessie(sessie2);
+                sessieKalender.AddSessie(sessie3);
+                sessieKalender.AddSessie(sessie4);
+                sessieKalender.AddSessie(sessie5);
+                sessieKalender.AddSessie(sessie7);
+                sessieKalender.AddSessie(sessie8);
+                sessieKalender.AddSessie(sessie9);
+                sessieKalender.AddSessie(sessie10);
+                sessieKalender.AddSessie(sessie11);
+                sessieKalender.AddSessie(huidigeMaandSessieAdmin);
+                sessieKalender.AddSessie(huidigeMaandSessieSluiten);
+
+                _context.SessieKalenders.Add(sessieKalender);
                 _context.SaveChanges();
 
                 organizer1.OpenTeZettenSessies = new List<Sessie>() { huidigeMaandSessie, sessie1, sessie2, sessie3, sessie5 };

@@ -23,8 +23,9 @@ namespace dotnet_g36.Data
             //var connectionString = @"Server=40.68.196.74;Database=ItLabTest;User Id=lucas.vanderhaegen;Password=57eC@2e81d57;Integrated Security=True;Trusted_Connection=False;";
             optionsBuilder.UseSqlServer(connectionString);
         }
-
+        
         public DbSet<Sessie> Sessies { get; set; }
+        public DbSet<SessieKalender> SessieKalenders { get; set; }
         public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<Gebruiker> Verantwoordelijken { get; set; }
         public DbSet<Gebruiker> Hoofdverantwoordelijke { get; set; }
@@ -35,6 +36,7 @@ namespace dotnet_g36.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new SessieConfiguration());
+            modelBuilder.ApplyConfiguration(new SessieKalenderConfiguration());
             modelBuilder.ApplyConfiguration(new GebruikerConfiguration());
             modelBuilder.ApplyConfiguration(new GebruikerSessieConfiguration());
             modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
