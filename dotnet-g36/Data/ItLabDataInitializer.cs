@@ -125,15 +125,15 @@ namespace dotnet_g36.Data
 
                 // Feb - gesloten admin
                 Sessie sessie7 = new Sessie(admin, "Infosessie Visual Studio", "B1.012",
-                    new DateTime(2019, 2, 12, 12, 30, 0), new DateTime(2019, 3, 12, 13, 30, 0), 150,
+                    new DateTime(2020, 2, 12, 12, 30, 0), new DateTime(2020, 2, 12, 13, 30, 0), 150,
                     StatusSessie.Gesloten, "Alle nodige info over Visual Studio voor dit semster", "Stefaan De Cock");
                 // Feb - gesloten admin
                 Sessie sessie8 = new Sessie(admin, "Infosessie Visual Studio Code", "B1.013",
-                  new DateTime(2019, 2, 19, 12, 30, 0), new DateTime(2019, 3, 19, 13, 30, 0), 30,
+                  new DateTime(2020, 2, 19, 12, 30, 0), new DateTime(2020, 2, 19, 13, 30, 0), 30,
                   StatusSessie.Gesloten, "Alle nodige info over Visual Studio Code voor dit semster", " ");
                 // Feb - niet open organizer2
                 Sessie sessie9 = new Sessie(organizer2, "Infosessie Eclipse", "B1.013",
-                 new DateTime(2019, 2, 26, 12, 30, 0), new DateTime(2019, 3, 26, 13, 30, 0), 25,
+                 new DateTime(2020, 2, 26, 12, 30, 0), new DateTime(2020, 2, 26, 13, 30, 0), 25,
                  StatusSessie.InschrijvingenOpen, "Alle nodige info om met Eclipe te werken", " ");
 
                 //Maart - gesloten Verleden organizer1
