@@ -6,9 +6,9 @@ namespace dotnet_g36.Models.Domain
 {
     public enum StatusSessie
     {
-        Open = 1,
-        Gesloten = 2,
-        InschrijvingenOpen = 3,
-        NietOpen = 4
+        Open = 0,
+        Gesloten = 1,
+        InschrijvingenOpen = 2,
+        NietOpen = 3
     }
 }
