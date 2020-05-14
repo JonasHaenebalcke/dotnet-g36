@@ -39,7 +39,7 @@ namespace dotnet_g36.Data
                 admin.SecurityStamp = Guid.NewGuid().ToString();
                 //verantwoordelijke
                 organizer1 = new Gebruiker("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "Audrey", "De SubAdmin1", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke);
-                organizer2 = new Gebruiker("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke);
+                organizer2 = new Gebruiker("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke) { AantalKeerAfwezig = 1 };
                 //organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.NietActief);
                 //organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Geblokkeerd);
                 organizer1.EmailConfirmed = true;
