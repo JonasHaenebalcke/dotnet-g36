@@ -31,6 +31,7 @@ namespace dotnet_g36.Data
         public DbSet<Gebruiker> Hoofdverantwoordelijke { get; set; }
         public DbSet<GebruikerSessie> GebruikerSessies { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Aankondiging> Aankondigingen { get; set; }
                
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +41,7 @@ namespace dotnet_g36.Data
             modelBuilder.ApplyConfiguration(new GebruikerConfiguration());
             modelBuilder.ApplyConfiguration(new GebruikerSessieConfiguration());
             modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
+            modelBuilder.ApplyConfiguration(new AankondigingConfiguration());
 /*            modelBuilder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
 */
         }

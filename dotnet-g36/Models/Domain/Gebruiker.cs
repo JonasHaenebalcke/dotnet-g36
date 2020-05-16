@@ -45,89 +45,90 @@ namespace dotnet_g36
         //java
         public TypeGebruiker TypeGebruiker { get; set; }
         public ICollection<Sessie> OpenTeZettenSessies { get; set; }
+        public ICollection<Aankondiging> Aankondigingen { get; set; }
 
-        public String PasswordHashJava { get; set; }
+    public String PasswordHashJava { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Constructors
+    #region Constructors
 
-        public Gebruiker() { }
+    public Gebruiker() { }
 
-        public Gebruiker(string barcode, string username, string email, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief, TypeGebruiker typeGebruiker = TypeGebruiker.Gebruiker)
-        {
-            Barcode = barcode;
-            Email = email;
-            NormalizedEmail = email;
-            AccessFailedCount = 0;
-            UserName = username;
-            NormalizedUserName = username;
-            Voornaam = voornaam;
-            Familienaam = familienaam;
-            StatusGebruiker = statusGebruiker;
-            GebruikerSessies = new List<GebruikerSessie>();
-            AantalKeerAfwezig = 0;
-            TypeGebruiker = typeGebruiker;
-            OpenTeZettenSessies = new List<Sessie>();
-        }
-        #endregion
-
-        #region methods
-        public void AddSessieLijst(List<Sessie> sessies)
-        {
-            OpenTeZettenSessies = sessies;
-        }
-
-        public void AddSessie(Sessie sessie)
-        {
-            OpenTeZettenSessies.Add(sessie);
-        }
-        /// <summary>
-        ///  Geeft de Volledige naam van de gebruiker
-        /// </summary>
-        /// <returns>string volledige naam</returns>
-        public string GeefVolledigeNaam()
-        {
-            return Voornaam + ' ' + Familienaam;
-        }
-
-        /// <summary>
-        /// Schrijft de gebruiker/user uit alle sessies
-        /// </summary>
-        public void SchrijfUitAlleSessies() //vb indien 3 keer niet aanwezig
-        {
-            bool succes = false;
-            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
-            {
-                if (gebruikerSessie.Sessie.StartDatum > DateTime.Now && gebruikerSessie.Sessie.StatusSessie == StatusSessie.Gesloten)
-                {
-                   // gebruikerSessie.Sessie.SchrijfUit(this);
-                    succes = true;
-                    break;
-                }
-            }
-          //  if (succes)
-              //  SchrijfUitAlleSessies();
-        }
-
-        /// <summary>
-        /// Controleert of de Gebruiker aanwezig was op een sessie
-        /// </summary>
-        /// <param name="sessie">Sessie Object</param>
-        /// <returns>bool aanwezig</returns>
-        public bool Aanwezig(Sessie sessie)
-        {
-            bool aanwezig = false;
-            foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
-            {
-                if (gebruikerSessie.Sessie.Equals(sessie) && gebruikerSessie.Aanwezig)
-                {
-                    aanwezig = true;
-                    break;
-                }
-            }
-            return aanwezig;
-        }
-        #endregion
+    public Gebruiker(string barcode, string username, string email, string voornaam, string familienaam, StatusGebruiker statusGebruiker = StatusGebruiker.Actief, TypeGebruiker typeGebruiker = TypeGebruiker.Gebruiker)
+    {
+        Barcode = barcode;
+        Email = email;
+        NormalizedEmail = email;
+        AccessFailedCount = 0;
+        UserName = username;
+        NormalizedUserName = username;
+        Voornaam = voornaam;
+        Familienaam = familienaam;
+        StatusGebruiker = statusGebruiker;
+        GebruikerSessies = new List<GebruikerSessie>();
+        AantalKeerAfwezig = 0;
+        TypeGebruiker = typeGebruiker;
+        OpenTeZettenSessies = new List<Sessie>();
     }
+    #endregion
+
+    #region methods
+    public void AddSessieLijst(List<Sessie> sessies)
+    {
+        OpenTeZettenSessies = sessies;
+    }
+
+    public void AddSessie(Sessie sessie)
+    {
+        OpenTeZettenSessies.Add(sessie);
+    }
+    /// <summary>
+    ///  Geeft de Volledige naam van de gebruiker
+    /// </summary>
+    /// <returns>string volledige naam</returns>
+    public string GeefVolledigeNaam()
+    {
+        return Voornaam + ' ' + Familienaam;
+    }
+
+    /// <summary>
+    /// Schrijft de gebruiker/user uit alle sessies
+    /// </summary>
+    public void SchrijfUitAlleSessies() //vb indien 3 keer niet aanwezig
+    {
+        bool succes = false;
+        foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
+        {
+            if (gebruikerSessie.Sessie.StartDatum > DateTime.Now && gebruikerSessie.Sessie.StatusSessie == StatusSessie.Gesloten)
+            {
+                // gebruikerSessie.Sessie.SchrijfUit(this);
+                succes = true;
+                break;
+            }
+        }
+        //  if (succes)
+        //  SchrijfUitAlleSessies();
+    }
+
+    /// <summary>
+    /// Controleert of de Gebruiker aanwezig was op een sessie
+    /// </summary>
+    /// <param name="sessie">Sessie Object</param>
+    /// <returns>bool aanwezig</returns>
+    public bool Aanwezig(Sessie sessie)
+    {
+        bool aanwezig = false;
+        foreach (GebruikerSessie gebruikerSessie in GebruikerSessies)
+        {
+            if (gebruikerSessie.Sessie.Equals(sessie) && gebruikerSessie.Aanwezig)
+            {
+                aanwezig = true;
+                break;
+            }
+        }
+        return aanwezig;
+    }
+    #endregion
+}
 }

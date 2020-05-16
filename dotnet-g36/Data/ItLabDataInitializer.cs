@@ -39,7 +39,7 @@ namespace dotnet_g36.Data
                 admin.SecurityStamp = Guid.NewGuid().ToString();
                 //verantwoordelijke
                 organizer1 = new Gebruiker("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "Audrey", "De SubAdmin1", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke);
-                organizer2 = new Gebruiker("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke) { AantalKeerAfwezig = 1 };
+                organizer2 = new Gebruiker("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", StatusGebruiker.Actief, TypeGebruiker.Verantwoordelijke) { AantalKeerAfwezig = 0 };
                 //organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.NietActief);
                 //organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Geblokkeerd);
                 organizer1.EmailConfirmed = true;
@@ -54,7 +54,7 @@ namespace dotnet_g36.Data
                 _context.Verantwoordelijken.Add(organizer1);
                 _context.Verantwoordelijken.Add(organizer2);
                 // Deelnemers
-                gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.Actief);
+                gebruiker = new Gebruiker("456", "752460rd", "rein.daelman@student.hogent.be", "Rein", "Daelman", StatusGebruiker.Actief) { AantalKeerAfwezig = 1 };
                 nietActieveGebruiker = new Gebruiker("1103720665999", "859523sb", "simon.bettens@student.hogent.be", "Simon", "Bettens", StatusGebruiker.NietActief);
                 geblokkeerdeGebruiker = new Gebruiker("119928724994", "859359cc", "chloë.cornelis@student.hogent.be", "Chloë", "Cornelis", StatusGebruiker.Geblokkeerd);
                 gebruiker.EmailConfirmed = true;
@@ -236,6 +236,9 @@ namespace dotnet_g36.Data
                 _context.SaveChanges();
 
                 sessie4.FeedbackGeven("Intressante sessie", gebruiker, 4);
+
+                Aankondiging a1 = new Aankondiging("DotNet", "Initializer", DateTime.Now, false, sessie4, admin);
+                _context.Aankondigingen.Add(a1);
 
                 _context.SaveChanges();
             }
