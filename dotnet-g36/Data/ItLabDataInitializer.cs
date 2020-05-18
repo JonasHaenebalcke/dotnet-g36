@@ -157,11 +157,11 @@ namespace dotnet_g36.Data
 
                 //Mei - 1e niet open organizer2
                 Sessie sessie10 = new Sessie(organizer2, "Sessie MySQL", "B4.013",
-                 DateTime.Now.AddMonths(1), DateTime.Now.AddMonths(1), 50,
+                 DateTime.Now.AddMonths(1), DateTime.Now.AddMonths(1).AddHours(1), 50,
                  StatusSessie.InschrijvingenOpen, "Sessie over MySQL", " ");
                 //Mei - 2e niet open organizer2
                 Sessie sessie11 = new Sessie(organizer2, "Sessie Databanken", "BCON",
-                    new DateTime(2020, 05, 10, 12, 30, 0), new DateTime(2020, 05, 10, 12, 45, 0), 50,
+                    new DateTime(2020, 05, 10, 12, 30, 0), new DateTime(2020, 05, 10, 13, 45, 0), 50,
                     StatusSessie.InschrijvingenOpen, "Databanken enzo", "De Data Expert");
 
                 _context.Sessies.AddRange(new Sessie[]
