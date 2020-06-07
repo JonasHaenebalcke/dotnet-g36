@@ -121,7 +121,7 @@ namespace dotnet_g36
                 endpoints.MapRazorPages();
             });
 
-            initializer.InitializeData().Wait();
+           // initializer.InitializeData().Wait();
         }
     }
 }

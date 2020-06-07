@@ -11,7 +11,7 @@ namespace dotnet_g36.Tests.Models.Domain
 {
     public class VerantwoordelijkeTest
     {
-        private readonly Verantwoordelijke _admin, _organizer1, _organizer2;
+        private readonly Gebruiker _admin, _organizer1, _organizer2;
         private readonly DummyDbContext _context;
         private Sessie hedenSessie, verledenSessie;
 
@@ -32,7 +32,7 @@ namespace dotnet_g36.Tests.Models.Domain
         [Fact]
         public void SessieOpenzetten_VerantwoordelijkeAngemaakt_geenSessieOmOpenTeZetten_melding()
         {
-            Verantwoordelijke verantwoordelijke = new Verantwoordelijke();
+            Gebruiker verantwoordelijke = new Gebruiker();
             Assert.Equal(new List<Sessie>(), verantwoordelijke.OpenTeZettenSessies);
         }
 

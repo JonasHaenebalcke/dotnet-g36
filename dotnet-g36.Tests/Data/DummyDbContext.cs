@@ -11,8 +11,8 @@ namespace dotnet_g36.Tests.Data
         public IEnumerable<Sessie> december;
         public IEnumerable<Sessie> januari;
         public IEnumerable<Sessie> huidigeMaand;
-        public Verantwoordelijke admin;
-        public Verantwoordelijke organizer1, organizer2, actieveVerantwoordelijke, nietActieveVerantwoordelijke, geblokkeerdeVerantwoordelijke;
+        public Gebruiker admin;
+        public Gebruiker organizer1, organizer2, actieveVerantwoordelijke, nietActieveVerantwoordelijke, geblokkeerdeVerantwoordelijke;
         public Sessie verledenSessie, hedenSessie, toekomstSessie;
         public Gebruiker actieveGebruiker, nietActieveGebruiker, geblokkeerdeGebruiker;
 
@@ -20,17 +20,14 @@ namespace dotnet_g36.Tests.Data
         {
         
             // Er is maar 1 hoofdverantwoordelijke
-            admin = new Verantwoordelijke("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "Lucas", "Van Der Haegen", new List<Sessie>(), StatusGebruiker.Actief)
-            {
-                IsHoofdverantwoordelijke = true
-            };
+            admin = new Gebruiker("1111783544717", "862159lv", "lucas.vanderhaegen@student.hogent.be", "Lucas", "Van Der Haegen", StatusGebruiker.Actief);
 
             // Er kunnen meerdere verantwoordelijke zijn
-            organizer1 = new Verantwoordelijke("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "Audrey", "De SubAdmin1", new List<Sessie>(), StatusGebruiker.Actief);
-            organizer2 = new Verantwoordelijke("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organizer2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
-            actieveVerantwoordelijke = new Verantwoordelijke("4", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Actief);
-            nietActieveVerantwoordelijke = new Verantwoordelijke("5", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.NietActief);
-            geblokkeerdeVerantwoordelijke = new Verantwoordelijke("6", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", new List<Sessie>(), StatusGebruiker.Geblokkeerd);
+            organizer1 = new Gebruiker("1138622502790", "860443ab", "audrey.behiels@student.hogent.be", "Audrey", "De SubAdmin1", StatusGebruiker.Actief);
+            organizer2 = new Gebruiker("123", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organizer2", "De SubAdmin2", StatusGebruiker.Actief);
+            actieveVerantwoordelijke = new Gebruiker("4", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2",  StatusGebruiker.Actief);
+            nietActieveVerantwoordelijke = new Gebruiker("5", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2",  StatusGebruiker.NietActief);
+            geblokkeerdeVerantwoordelijke = new Gebruiker("6", "860444jh", "jonas.haenebalcke@student.hogent.be", "Organiser2", "De SubAdmin2", StatusGebruiker.Geblokkeerd);
 
             // Deelnemers
             actieveGebruiker = new Gebruiker("769","45612pd","pieter.desnieter@student.hogent.be","Pieter", "De Snieter", StatusGebruiker.Actief);

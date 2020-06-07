@@ -31,9 +31,7 @@ namespace dotnet_g36.Controllers
             {
                 ICollection<Sessie> sessies = new List<Sessie>();
                 //Vult sessies op met gepaste sessies
-                if (gebruiker.TypeGebruiker == TypeGebruiker.Hoofdverantwoordelijke)
-                    sessies = _sessieRepository.GetToekomstige();
-                else
+                if (gebruiker.TypeGebruiker != TypeGebruiker.Hoofdverantwoordelijke)
                 {
                     foreach (Sessie s in gebruiker.OpenTeZettenSessies)
                     {
@@ -41,7 +39,10 @@ namespace dotnet_g36.Controllers
                             sessies.Add(s);
                     }
                 }
-                return View(new SessieOpenzettenViewModel(sessies));
+                else
+                    sessies = _sessieRepository.GetToekomstige();
+
+                    return View(new SessieOpenzettenViewModel(sessies));
             }
             catch (SessieException e)
             {
