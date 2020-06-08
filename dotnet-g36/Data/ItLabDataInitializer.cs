@@ -100,7 +100,7 @@ namespace dotnet_g36.Data
 
                 // huidigeMaand NietOpen Admin DirectSluiten
                 Sessie huidigeMaandSessieSluiten = new Sessie(admin, "Omgaan met frustratie problemen", "B1.027",
-                DateTime.Now.AddSeconds(90), DateTime.Now.AddHours(3),
+                DateTime.Now.AddHours(1), DateTime.Now.AddHours(3),
                 25, StatusSessie.InschrijvingenOpen, "Een sessie 3D printing met als gastspreker de geweldige leerkracht Stefaan De Cock", "Stefaan De Cock"
                 );
 
